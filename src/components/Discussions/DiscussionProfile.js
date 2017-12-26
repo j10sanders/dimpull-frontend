@@ -38,7 +38,14 @@ class DiscussionProfile extends React.Component {
 
   render() {
     console.log(this.props)
+     var cardStyle = {
+    display: 'block',
+    width: '30vw',
+    transitionDuration: '0.3s',
+    height: '45vw'
+}
     return (
+      <div  style={cardStyle}>
       <Card>
       <CardHeader
         title={this.state.host}
@@ -59,6 +66,7 @@ class DiscussionProfile extends React.Component {
         <FlatButton label="Save as favorite" />
       </CardActions>
     </Card>
+    </div>
   );
 }
 

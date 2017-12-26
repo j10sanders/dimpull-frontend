@@ -32,6 +32,7 @@ class Discussions extends React.Component {
   }
 
   componentDidMount(){
+    console.log("Mounted")
   	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
   	  .then((response) => 
   	    this.setState({dps: response.data}))
