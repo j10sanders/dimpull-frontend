@@ -42,34 +42,34 @@ class DiscussionProfile extends React.Component {
     display: 'block',
     width: '30vw',
     transitionDuration: '0.3s',
-    height: '45vw'
+    height: '45vw',
+    margin: 'auto',
 }
     return (
       <div  style={cardStyle}>
-      <Card>
-      <CardHeader
-        title={this.state.host}
-        subtitle={this.state.description}
-        avatar={this.state.image}
-      />
-      <CardMedia
-        overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
-      >
-        <img src={this.state.image} alt="" />
-      </CardMedia>
-      <CardTitle title={this.state.host} subtitle={this.state.anonymous_phone_number} />
-      <CardText>
-        {this.state.description}
-      </CardText>
-      <CardActions>
-        <FlatButton label="Contact" onClick={console.log("CLICK")} />
-        <FlatButton label="Save as favorite" />
-      </CardActions>
-    </Card>
+        <Card>
+        <CardHeader
+          title={this.state.host}
+          subtitle={this.state.description}
+          avatar={this.state.image}
+        />
+        <CardMedia
+          overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
+        >
+          <img src={this.state.image} alt="" />
+        </CardMedia>
+        <CardTitle title={this.state.host} subtitle={this.state.anonymous_phone_number} />
+        <CardText>
+          {this.state.description}
+        </CardText>
+        <CardActions>
+          <FlatButton label="Contact" onClick={console.log("CLICK")} />
+          <FlatButton label="Save as favorite" />
+        </CardActions>
+      </Card>
     </div>
   );
 }
-
 }
 
 export default DiscussionProfile;
