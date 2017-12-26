@@ -72,7 +72,7 @@ export class Header extends Component {
                     {
                         !this.props.isAuthenticated ?
                             <div>
-                            
+
                                 <MenuItem onClick={() => this.dispatchNewRoute('/login')}>
                                     Login
                                 </MenuItem>
@@ -95,7 +95,7 @@ export class Header extends Component {
                 </Drawer>
                 <AppBar
                   title="Dimpull"
-                  onLeftIconButtonTouchTap={() => this.openNav()}
+                  onLeftIconButtonClick={() => this.openNav()}
                   iconElementRight={
                       <FlatButton label="Home" onClick={() => this.dispatchNewRoute('/')} />
                     }
