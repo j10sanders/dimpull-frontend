@@ -1,0 +1,13 @@
+/* global styles */
+@import url(//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,cyrillic-ext);
+/*@import 'typography';*/
+/*@import 'links';*/
+
+:global(body) {
+  position: relative;
+  font-family: 'Roboto', sans-serif !important;
+  h1, h2, h3, h4 {
+    font-weight: 300;
+  }
+
+}
