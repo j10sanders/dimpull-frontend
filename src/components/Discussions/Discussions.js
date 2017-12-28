@@ -67,7 +67,6 @@ class Discussions extends React.Component {
 	          title={dp.description}
 	          subtitle={<span>by <b>{dp.host}</b></span>}
 	          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-            onClick={() => this.handleClick(dp.id)}
 	        >
 	          <img src={dp.image} alt={dp.id} />
 	        </GridTile>

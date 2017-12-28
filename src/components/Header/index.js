@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { browserHistory } from 'react-router';
+import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 // import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 import AppBar from 'material-ui/AppBar';
@@ -7,6 +7,8 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
+import { LoginPage } from '../../LoginPage';
+import { RegisterPage } from '../../RegisterPage';
 // import { withRouter } from 'react-router-dom'
 
 // import * as actionCreators from '../../actions/auth';
@@ -72,11 +74,14 @@ export class Header extends Component {
                     {
                         !this.props.isAuthenticated ?
                             <div>
-
-                                <MenuItem onClick={() => this.dispatchNewRoute('/login')}>
+                                <MenuItem 
+                                containerElement={<Link to="/login" />}
+                                >
                                     Login
                                 </MenuItem>
-                                <MenuItem onClick={() => this.dispatchNewRoute('/register')}>
+                                <MenuItem 
+                                containerElement={<Link to="/register" />}
+                                >
                                     Register
                                 </MenuItem>
                             </div>
@@ -93,15 +98,15 @@ export class Header extends Component {
                             </div>
                     }
                 </Drawer>
+                
                 <AppBar
                   title="Dimpull"
                   onLeftIconButtonClick={() => this.openNav()}
                   iconElementRight={
-                      <FlatButton label="Home" onClick={() => this.dispatchNewRoute('/')} />
+                    <Link to={'/'} >  <FlatButton label="Home" /> </Link>
                     }
                 />
             </header>
-
         );
     }
 }

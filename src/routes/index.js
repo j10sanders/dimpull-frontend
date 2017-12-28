@@ -7,6 +7,9 @@ import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { connect } from 'react-redux';
 import { LoginPage } from '../LoginPage';
+import { RegisterPage } from '../RegisterPage';
+import { Home } from '../components/Home';
+import { Header } from '../components/Header';
 
 class Routes extends React.Component {
 	constructor(props) {
@@ -22,12 +25,17 @@ class Routes extends React.Component {
 	render() {
 		const { alert } = this.props;
 		return (
-				<BrowserRouter >
+				<BrowserRouter>
+				<div>
+				<Header />
 					<Switch>
-						<Route path="/login" component={LoginPage} />
-					    <Route path="/discussions" component={Discussions} />
+						<Route exact path="/" component={Home} />
+						<Route exact path="/login" component={LoginPage} />
+						<Route exact path="/register" component={RegisterPage} />
+					    <Route exact path="/discussions" component={Discussions} />
 					    <PrivateRoute path="/discussionProfile" component={DiscussionProfile} />
 				    </Switch>
+				</div>
 				</BrowserRouter>
 		);
 	}

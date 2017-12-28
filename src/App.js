@@ -24,12 +24,20 @@ class App extends React.Component {
         });
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps, "NEXTPROPS")
+    }
+
+    shouldComponentUpdate(){
+        debugger;
+    }
+
     render() {
         const { alert } = this.props;
         return (
             <MuiThemeProvider muiTheme={darkBaseTheme()}>
                 <section>
-                    <Header />
+                    
                     <div
                       className="container"
                       style={{ marginTop: 10, paddingBottom: 250 }}
