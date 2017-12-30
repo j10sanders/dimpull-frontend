@@ -37,10 +37,9 @@ class App extends React.Component {
         return (
             <MuiThemeProvider muiTheme={darkBaseTheme()}>
                 <section>
-                    
                     <div
                       className="container"
-                      style={{ marginTop: 10, paddingBottom: 250 }}
+                      style={{ paddingBottom: 250 }}
                     >
                         <Routes />
                     </div>

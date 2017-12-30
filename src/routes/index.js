@@ -26,16 +26,16 @@ class Routes extends React.Component {
 		const { alert } = this.props;
 		return (
 				<BrowserRouter>
-				<div>
-				<Header />
-					<Switch>
-						<Route exact path="/" component={Home} />
-						<Route exact path="/login" component={LoginPage} />
-						<Route exact path="/register" component={RegisterPage} />
-					    <Route exact path="/discussions" component={Discussions} />
-					    <PrivateRoute path="/discussionProfile" component={DiscussionProfile} />
-				    </Switch>
-				</div>
+					<div>
+						<Header />
+							<Switch>
+								<Route exact path="/" component={Home} />
+								<Route exact path="/login" component={LoginPage} />
+								<Route exact path="/register" component={RegisterPage} />
+							    <Route exact path="/discussions" component={Discussions} />
+							    <PrivateRoute path="/discussionProfile" component={DiscussionProfile} />
+						    </Switch>
+					</div>
 				</BrowserRouter>
 		);
 	}
