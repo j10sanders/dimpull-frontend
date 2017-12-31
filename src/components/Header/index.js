@@ -7,7 +7,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
-import { LoginPage } from '../../LoginPage';
+// import { LoginPage } from '../../LoginPage';
 // import { RegisterPage } from '../../RegisterPage';
 // import { withRouter } from 'react-router-dom'
 

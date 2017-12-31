@@ -5,7 +5,7 @@ import DiscussionProfile from '../components/Discussions/DiscussionProfile';
 import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { Home } from '../components/Home';
@@ -23,7 +23,7 @@ class Routes extends React.Component {
     }
 
 	render() {
-		const { alert } = this.props;
+		// const { alert } = this.props;
 		return (
 				<BrowserRouter>
 					<div>
@@ -42,12 +42,12 @@ class Routes extends React.Component {
 }
 
 
-function mapStateToProps(state) {
-    const { alert } = state;
-    return {
-        alert
-    };
-}
+// function mapStateToProps(state) {
+//     const { alert } = state;
+//     return {
+//         alert
+//     };
+// }
 
-const connectedApp = connect(mapStateToProps)(Routes);
+// const connectedApp = connect(mapStateToProps)(Routes);
 export default Routes;
