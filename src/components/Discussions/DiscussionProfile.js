@@ -2,7 +2,6 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
-// import { browserHistory } from 'react-router';
 
 class DiscussionProfile extends React.Component {
   constructor(props) {
@@ -29,22 +28,16 @@ class DiscussionProfile extends React.Component {
         .catch(function (error) {
           console.log(error)
         })
-      // this.setState({host: this.props.location.search.host,
-      //       image: this.props.location.search.image,
-      //       description: this.props.location.search.description
-      //     })
     }
 
-
   render() {
-    console.log(this.props)
-     var cardStyle = {
+    var cardStyle = {
     display: 'block',
     width: '30vw',
     transitionDuration: '0.3s',
     height: '45vw',
     margin: 'auto',
-}
+    }
     return (
       <div  style={cardStyle}>
         <Card>
@@ -68,8 +61,8 @@ class DiscussionProfile extends React.Component {
         </CardActions>
       </Card>
     </div>
-  );
-}
+    );
+  }
 }
 
 export default DiscussionProfile;
