@@ -32,8 +32,11 @@ class Discussions extends React.Component {
   }
 
   componentDidMount(){
+    const { getAccessToken } = this.props.auth;
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    console.log(this.props, "PROPS")
     console.log("Mounted")
-  	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
+  	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
   	  .then((response) => 
   	    this.setState({dps: response.data}))
   	  .catch(function (error) {
@@ -52,8 +55,12 @@ class Discussions extends React.Component {
  * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
  */
  render() {
+  const { isAuthenticated } = this.props.auth;
     return (
 	  <div style={styles.root}>
+    {
+          isAuthenticated() && (
+
 	    <GridList
 	      cellHeight={180}
         id="GridlistID"
@@ -73,6 +80,11 @@ class Discussions extends React.Component {
           </Link>
 	      ))}
 	    </GridList>
+      )}
+
+          {
+          !isAuthenticated() && (
+            <h4> You aren't logged in</h4> )}
 	  </div>
 );
 }

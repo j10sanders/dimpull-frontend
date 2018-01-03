@@ -1,42 +1,46 @@
-import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import React, { Component } from 'react';
+import {Router, Route, Switch} from 'react-router-dom';
 import Discussions from '../components/Discussions/Discussions';
 import DiscussionProfile from '../components/Discussions/DiscussionProfile';
-// import { history } from '../_helpers';
-// import { alertActions } from '../_actions';
-// import { PrivateRoute } from '../_components';
-// import { connect } from 'react-redux';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { Home } from '../components/Home';
 import { Header } from '../components/Header';
+import Auth from '../Auth/Auth.js';
+import history from '../history';
+import Callback from '../Callback/Callback';
+const auth = new Auth();
 
-class Routes extends React.Component {
+const handleAuthentication = ({location}) => {
+  if (/access_token|id_token|error/.test(location.hash)) {
+    auth.handleAuthentication();
+  }
+}
+
+
+class Routes extends Component {
 	constructor(props) {
         super(props);
-
-        // const { dispatch } = this.props;
-        // history.listen((location, action) => {
-        //     // clear alert on location change
-        //     dispatch(alertActions.clear());
-        // });
     }
 
 	render() {
-		// const { alert } = this.props;
 		return (
-				<BrowserRouter>
+				<Router history={history}>
 					<div>
 						<Header />
-							<Switch>
-								<Route exact path="/" component={Home} />
-								<Route exact path="/login" component={LoginPage} />
-								<Route exact path="/register" component={RegisterPage} />
-							    <Route exact path="/discussions" component={Discussions} />
-							    <Route path="/discussionProfile" component={DiscussionProfile} />
-						    </Switch>
+						<Switch>
+							<Route exact path="/" component={Home} />
+							<Route exact path="/login" render={(props) => <LoginPage auth={auth} {...props} />} />
+							<Route exact path="/register" component={RegisterPage} />
+						    <Route exact path="/discussions" render={(props) => <Discussions auth={auth} {...props} />} />
+						    <Route path="/discussionProfile" render={(props) => <DiscussionProfile auth={auth} {...props} />} />
+						    <Route path="/callback" render={(props) => {
+					          handleAuthentication(props);
+					          return <Callback {...props} /> 
+					        }}/>
+					    </Switch>
 					</div>
-				</BrowserRouter>
+				</Router>
 		);
 	}
 }
