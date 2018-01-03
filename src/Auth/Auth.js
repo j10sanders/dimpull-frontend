@@ -4,23 +4,32 @@ import history from '../history';
 export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'jonsanders.auth0.com',
-    clientID: 'RQMzk24m-ODUm3ZBhY2xjHcRN33dmotI',
+    clientID: 'QBLBoATBNMLbdIIn4GOBQLsxcuXZR1EW',
     redirectUri: 'http://localhost:3000/callback',
-    audience: 'https://jonsanders.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile read:messages',
+    audience: 'https://jonsanders.auth0.com/api/v2/',
   });
 
   login() {
     this.auth0.authorize();
   }
 
-
   constructor() {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.getProfile = this.getProfile.bind(this);
+    this.getAccessToken = this.getAccessToken.bind(this);
+  }
+
+  getAccessToken() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+    return accessToken;
   }
 
   handleAuthentication() {
@@ -45,13 +54,23 @@ export default class Auth {
     history.replace('/home');
   }
 
+  getProfile(cb) {
+    let accessToken = this.getAccessToken();
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        this.userProfile = profile;
+      }
+      cb(err, profile);
+    });
+  }
+
   logout() {
     // Clear access token and ID token from local storage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // navigate to the home route
-    history.replace('/home');
+    history.replace('/');
   }
 
   isAuthenticated() {

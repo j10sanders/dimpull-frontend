@@ -4,7 +4,6 @@ import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import axios from 'axios';
-// import { browserHistory } from 'react-router';
 import {Link} from 'react-router-dom';
 
 const styles = {
@@ -31,29 +30,34 @@ class Discussions extends React.Component {
     };
   }
 
-  componentDidMount(){
-    const { getAccessToken } = this.props.auth;
-    const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-    console.log(this.props, "PROPS")
-    console.log("Mounted")
-  	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
-  	  .then((response) => 
-  	    this.setState({dps: response.data}))
-  	  .catch(function (error) {
-  	    console.log(error)
-  	  })
-    };
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps, "nextProps")
+  }
 
-    handleClick(id){
-      // browserHistory.push({
-      //   pathname: `/discussionProfile`,
-      //   search: `?id=${id}`
-      // });
+  componentDidMount(){
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    if ( isAuthenticated()) {
+      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    
+      console.log(headers, "HEADERS")
+    	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
+  	   .then((response) => 
+  	      this.setState({dps: response.data}))
+  	    .catch(function (error) {
+  	      console.log(error)
+  	  })
+    }else{
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
+       .then((response) => 
+          this.setState({dps: response.data}))
+        .catch(function (error) {
+          console.log(error)
+      })
     }
 
-/**
- * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
- */
+    };
+
  render() {
   const { isAuthenticated } = this.props.auth;
     return (

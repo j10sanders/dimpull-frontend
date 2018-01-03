@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Router, Route, Switch} from 'react-router-dom';
+import {Redirect, Router, Route, Switch} from 'react-router-dom';
 import Discussions from '../components/Discussions/Discussions';
 import DiscussionProfile from '../components/Discussions/DiscussionProfile';
 import { LoginPage } from '../LoginPage';
@@ -9,6 +9,7 @@ import { Header } from '../components/Header';
 import Auth from '../Auth/Auth.js';
 import history from '../history';
 import Callback from '../Callback/Callback';
+import Profile from '../Profile/Profile';
 const auth = new Auth();
 
 const handleAuthentication = ({location}) => {
@@ -17,12 +18,7 @@ const handleAuthentication = ({location}) => {
   }
 }
 
-
 class Routes extends Component {
-	constructor(props) {
-        super(props);
-    }
-
 	render() {
 		return (
 				<Router history={history}>
@@ -34,6 +30,13 @@ class Routes extends Component {
 							<Route exact path="/register" component={RegisterPage} />
 						    <Route exact path="/discussions" render={(props) => <Discussions auth={auth} {...props} />} />
 						    <Route path="/discussionProfile" render={(props) => <DiscussionProfile auth={auth} {...props} />} />
+						    <Route path="/profile" render={(props) => (
+				            !auth.isAuthenticated() ? (
+				              <Redirect to="/home"/>
+				            ) : (
+				              <Profile auth={auth} {...props} />
+				            )
+				          )} />
 						    <Route path="/callback" render={(props) => {
 					          handleAuthentication(props);
 					          return <Callback {...props} /> 
@@ -45,13 +48,4 @@ class Routes extends Component {
 	}
 }
 
-
-// function mapStateToProps(state) {
-//     const { alert } = state;
-//     return {
-//         alert
-//     };
-// }
-
-// const connectedApp = connect(mapStateToProps)(Routes);
 export default Routes;
