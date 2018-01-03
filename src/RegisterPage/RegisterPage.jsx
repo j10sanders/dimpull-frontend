@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 // import TextField from 'material-ui/TextField';
 // import RaisedButton from 'material-ui/RaisedButton';
 // import Paper from 'material-ui/Paper';
 
-import { userActions } from '../_actions';
+// import { userActions } from '../_actions';
 
 import axios from 'axios';
 
@@ -48,9 +48,9 @@ class RegisterPage extends React.Component {
         this.setState({ submitted: true });
         const { user } = this.state;
         const { dispatch } = this.props;
-        if (user.firstName && user.lastName && user.username && user.password) {
-            dispatch(userActions.register(user));
-        }
+        // if (user.firstName && user.lastName && user.username && user.password) {
+        //     dispatch(userActions.register(user));
+        // }
     }
 
     render() {
@@ -108,5 +108,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedRegisterPage = connect(mapStateToProps)(RegisterPage);
-export { connectedRegisterPage as RegisterPage };
+// const connectedRegisterPage = connect(mapStateToProps)(RegisterPage);
+export { RegisterPage };
