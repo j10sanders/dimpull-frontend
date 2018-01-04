@@ -3,7 +3,6 @@ import {Redirect, Router, Route, Switch} from 'react-router-dom';
 import Discussions from '../components/Discussions/Discussions';
 import DiscussionProfile from '../components/Discussions/DiscussionProfile';
 import { LoginPage } from '../LoginPage';
-import { RegisterPage } from '../RegisterPage';
 import { Home } from '../components/Home';
 import { Header } from '../components/Header';
 import Auth from '../Auth/Auth.js';
@@ -27,7 +26,6 @@ class Routes extends Component {
 						<Switch>
 							<Route exact path="/" component={Home} />
 							<Route exact path="/login" render={(props) => <LoginPage auth={auth} {...props} />} />
-							<Route exact path="/register" component={RegisterPage} />
 						    <Route exact path="/discussions" render={(props) => <Discussions auth={auth} {...props} />} />
 						    <Route path="/discussionProfile" render={(props) => <DiscussionProfile auth={auth} {...props} />} />
 						    <Route path="/profile" render={(props) => (

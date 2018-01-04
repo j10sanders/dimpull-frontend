@@ -38,13 +38,13 @@ export class Header extends Component {
                         containerElement={<Link to="/login" />}
                         onClick={() => this.setState({open: false})}
                         >
-                            Login
+                            Register/Login
                         </MenuItem>
                         <MenuItem 
-                        containerElement={<Link to="/register" />}
+                        containerElement={<Link to="/discussions" />}
                         onClick={() => this.setState({open: false})}
                         >
-                            Register
+                            View Discussion Profiles
                         </MenuItem>
                     </div>
                 </Drawer>
