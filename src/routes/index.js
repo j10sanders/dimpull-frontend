@@ -3,6 +3,7 @@ import {Redirect, Router, Route, Switch} from 'react-router-dom';
 import Discussions from '../components/Discussions/Discussions';
 import DiscussionProfile from '../components/Discussions/DiscussionProfile';
 import { LoginPage } from '../LoginPage';
+import { GetNumber } from '../LoginPage/GetNumber';
 import { Home } from '../components/Home';
 import { Header } from '../components/Header';
 import Auth from '../Auth/Auth.js';
@@ -26,15 +27,16 @@ class Routes extends Component {
 						<Switch>
 							<Route exact path="/" component={Home} />
 							<Route exact path="/login" render={(props) => <LoginPage auth={auth} {...props} />} />
+							<Route exact path="/getNumber" render={(props) => <GetNumber auth={auth} {...props} />} />
 						    <Route exact path="/discussions" render={(props) => <Discussions auth={auth} {...props} />} />
 						    <Route path="/discussionProfile" render={(props) => <DiscussionProfile auth={auth} {...props} />} />
 						    <Route path="/profile" render={(props) => (
-				            !auth.isAuthenticated() ? (
-				              <Redirect to="/home"/>
-				            ) : (
-				              <Profile auth={auth} {...props} />
-				            )
-				          )} />
+					            !auth.isAuthenticated() ? (
+					              <Redirect to="/home"/>
+					            ) : (
+					              <Profile auth={auth} {...props} />
+					            )
+					          )} />
 						    <Route path="/callback" render={(props) => {
 					          handleAuthentication(props);
 					          return <Callback {...props} /> 

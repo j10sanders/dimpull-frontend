@@ -1,5 +1,7 @@
+// import { Route, Redirect } from 'react-router'
 import auth0 from 'auth0-js';
 import history from '../history';
+import axios from 'axios';
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
@@ -36,7 +38,24 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.replace('/');
+        
+        //call server
+        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
+          user_id: authResult.idTokenPayload.sub
+        })
+       .then((response) => {
+          console.log(response)
+          if (response.data === "register phone"){
+            history.replace('/getNumber');
+          }
+          else{
+            console.log(response, "response")
+            history.replace('/');
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+      })
       } else if (err) {
         history.replace('/');
         console.log(err);

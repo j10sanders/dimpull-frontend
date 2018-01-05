@@ -28,7 +28,7 @@ class LoginPage extends React.Component {
         {
           !isAuthenticated() && (
               <h4>
-                You are not logged in! Please{' '}
+                {process.env.REACT_APP_USERS_SERVICE_URL}
                 <a
                   style={{ cursor: 'pointer' }}
                   onClick={this.login.bind(this)}
