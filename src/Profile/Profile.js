@@ -16,6 +16,7 @@ class Profile extends Component {
   }
   render() {
     const { profile } = this.state;
+    debugger;
     console.log(profile, "profile")
     return (
       <div className="container">

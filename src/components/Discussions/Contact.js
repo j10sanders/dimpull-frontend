@@ -14,10 +14,11 @@ const style = {
 };
 
 
-class GetNumber extends React.Component {
+class Contact extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      message: '',
       tel: '',
       tel_error_text: null,
       disabled: true,
@@ -65,31 +66,13 @@ class GetNumber extends React.Component {
       }
     }
   }
-
-  componentWillMount() {
-    this.setState({ profile: {} });
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
-      });
-    } else {
-      this.setState({ profile: userProfile });
-    }
-  }
-
-  componentDidMount(){
-
-  }
+  
   submit(e) {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
         {
-        user_id: this.state.profile.sub,
         phone_number: this.state.tel,
-        first_name: this.state.profile.given_name,
-        last_name: this.state.profile.family_name,
-        auth_pic: this.state.profile.picture,
+        message: this.state.message,
     }
     ).then(function (response) {
         console.log(response)
@@ -105,7 +88,7 @@ class GetNumber extends React.Component {
         <Paper style={style}>
           <div className="text-center">
             <h2>Please provide your phone number.</h2>
-            <p> Don't worry, we aren't sharing this with anyone.  You will get a "masked number" that can be shared. </p>
+            <p> Don't worry, we aren't sharing this.  We can't even see it, and a different number will show up in caller ID.</p>
             <div className="col-md-12">
               <TextField
                 hintText="Phone number"
@@ -114,6 +97,15 @@ class GetNumber extends React.Component {
                 errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'tel')}
                 defaultValue="+1"
+              />
+              <TextField
+                hintText="Message for Expert"
+                floatingLabelText="Message"
+                type="text"
+                // errorText={this.state.tel_error_text}
+                onChange={(e) => this.changeValue(e, 'tel')}
+                defaultValue="Hi, "
+                fullWidth={true}
               />
             </div>
             <RaisedButton
@@ -130,4 +122,4 @@ class GetNumber extends React.Component {
   }
 
 }
-export { GetNumber }; 
+export default Contact; 

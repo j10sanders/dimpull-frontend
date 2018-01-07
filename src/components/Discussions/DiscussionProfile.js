@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 class DiscussionProfile extends React.Component {
   constructor(props) {
@@ -16,11 +17,12 @@ class DiscussionProfile extends React.Component {
 
     componentDidMount(){
       console.log(this.props.location.search, "MOUNTED")
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations${this.props.location.search}`)
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`)
         .then((response) => 
           // console.log("GOT A RESPONSE", response)
-          this.setState({host: response.data.host,
+          this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
             image: response.data.image,
+            auth_image: response.data.auth_image,
             description: response.data.description,
             anonymous_phone_number: response.data.anonymous_phone_number,
           }
@@ -38,13 +40,14 @@ class DiscussionProfile extends React.Component {
     height: '45vw',
     margin: 'auto',
     }
+    debugger;
     return (
       <div  style={cardStyle}>
         <Card>
         <CardHeader
           title={this.state.host}
           subtitle={this.state.description}
-          avatar={this.state.image}
+          avatar={this.state.auth_image}
         />
         <CardMedia
           overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
@@ -56,7 +59,7 @@ class DiscussionProfile extends React.Component {
           {this.state.description}
         </CardText>
         <CardActions>
-          <FlatButton label="Contact" onClick={console.log("CLICK")} />
+          <Link to={`/requestConversation${this.props.location.search}`}> <FlatButton label="Contact" /> </Link>
           <FlatButton label="Save as favorite" />
         </CardActions>
       </Card>

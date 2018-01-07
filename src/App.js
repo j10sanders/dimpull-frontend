@@ -5,6 +5,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Routes from './routes';
 import { Footer } from './components/Footer';
 
+require('bootstrap-webpack');
+
 class App extends React.Component {
     
     componentWillReceiveProps(nextProps){
@@ -14,16 +16,9 @@ class App extends React.Component {
     render() {
         return (
             <MuiThemeProvider muiTheme={darkBaseTheme()}>
-                <section>
-                    <div
-                      className="container"
-                      style={{ paddingBottom: 250 }}
-                    >
-                        <Routes />
-                    </div>
-                    <div>
-                        <Footer />
-                    </div>
+                <section id='section'>
+                    <Routes />
+                    <Footer />
                 </section>
             </MuiThemeProvider>
         );

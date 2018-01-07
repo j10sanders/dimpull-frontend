@@ -76,7 +76,7 @@ class Discussions extends React.Component {
 	        <GridTile
 	          key={dp.id}
 	          title={dp.description}
-	          subtitle={<span>by <b>{dp.host}</b></span>}
+	          subtitle={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
 	          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
 	        >
 	          <img src={dp.image} alt={dp.id} />

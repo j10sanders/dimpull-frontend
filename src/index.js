@@ -6,9 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 // import { Provider } from 'react-redux';
 
 // import { store } from './_helpers';
+// require('bootstrap-webpack');
 
-ReactDOM.render(
-	
-		<App />
-, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

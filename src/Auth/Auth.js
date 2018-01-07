@@ -38,10 +38,10 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        
+        debugger;
         //call server
         axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
-          user_id: authResult.idTokenPayload.sub
+          user_id: authResult.idTokenPayload.sub,
         })
        .then((response) => {
           console.log(response)

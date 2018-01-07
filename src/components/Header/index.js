@@ -5,6 +5,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 // import Divider from 'material-ui/Divider';
+import './header.css';
 
 export class Header extends Component {
     constructor(props) {
@@ -53,7 +54,7 @@ export class Header extends Component {
                   title="Dimpull"
                   onLeftIconButtonClick={() => this.openNav()}
                   iconElementRight={
-                    <Link to={'/'} >  <FlatButton label="Home" /> </Link>
+                    <Link to={'/'} >  <FlatButton label="Home" id="home"/> </Link>
                     }
                 />
             </header>
