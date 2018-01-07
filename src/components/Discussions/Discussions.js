@@ -5,6 +5,7 @@ import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const styles = {
   root: {
@@ -21,12 +22,7 @@ const styles = {
 class Discussions extends React.Component {
 	constructor(props) {
     super(props);
-    this.state = {dps: [{
-        image: 'images/grid-list/hats-829509_640.jpg',
-        host: 'Hats',
-        description: 'Hans',
-        id:0,
-      },]
+    this.state = {dps: null,
     };
   }
 
@@ -60,10 +56,11 @@ class Discussions extends React.Component {
 
  render() {
   const { isAuthenticated } = this.props.auth;
+  console.log(this.state.dps, "length", !this.state.dps)
     return (
 	  <div style={styles.root}>
     {
-          isAuthenticated() && (
+          this.state.dps && (
 
 	    <GridList
 	      cellHeight={180}
@@ -87,8 +84,8 @@ class Discussions extends React.Component {
       )}
 
           {
-          !isAuthenticated() && (
-            <h4> You aren't logged in</h4> )}
+          !this.state.dps && (
+             <CircularProgress size={80} thickness={5} /> )}
 	  </div>
 );
 }
