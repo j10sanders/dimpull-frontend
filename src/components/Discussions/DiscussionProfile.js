@@ -19,14 +19,13 @@ class DiscussionProfile extends React.Component {
       console.log(this.props.location.search, "MOUNTED")
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`)
         .then((response) => 
-          // console.log("GOT A RESPONSE", response)
           this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
             image: response.data.image,
-            auth_image: response.data.auth_image,
+            auth_image: response.data.auth_pic,
             description: response.data.description,
             anonymous_phone_number: response.data.anonymous_phone_number,
-          }
-          ))
+          })
+          )
         .catch(function (error) {
           console.log(error)
         })

@@ -103,7 +103,7 @@ class Contact extends React.Component {
                 floatingLabelText="Message"
                 type="text"
                 // errorText={this.state.tel_error_text}
-                onChange={(e) => this.changeValue(e, 'tel')}
+                onChange={(e) => this.changeValue(e, 'message')}
                 defaultValue="Hi, "
                 fullWidth={true}
               />
