@@ -55,13 +55,10 @@ class Discussions extends React.Component {
     };
 
  render() {
-  const { isAuthenticated } = this.props.auth;
-  console.log(this.state.dps, "length", !this.state.dps)
+  // const { isAuthenticated } = this.props.auth;
     return (
 	  <div style={styles.root}>
-    {
-          this.state.dps && (
-
+    {this.state.dps && (
 	    <GridList
 	      cellHeight={180}
         id="GridlistID"
@@ -82,13 +79,12 @@ class Discussions extends React.Component {
 	      ))}
 	    </GridList>
       )}
-
-          {
-          !this.state.dps && (
-             <CircularProgress size={80} thickness={5} /> )}
+        {!this.state.dps && (
+          <CircularProgress size={80} thickness={5} /> 
+        )}
 	  </div>
-);
-}
+    );
+  }
 }
 
 export default Discussions;

@@ -75,9 +75,9 @@ class newProfile extends React.Component {
     this.setState({ profile: {} });
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
-      });
+      // getProfile((err, profile) => {
+      //   this.setState({ profile });
+      // });
     } else {
       this.setState({ profile: userProfile });
     }
@@ -106,8 +106,12 @@ class newProfile extends React.Component {
   }
 
   render() {
-    console.log(this.state, "state")
+    const { isAuthenticated } = this.props.auth;
   return (
+    <div>
+    {
+          isAuthenticated() && (
+
       <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
         <Paper style={style}>
           <div className="text-center">
@@ -157,6 +161,12 @@ class newProfile extends React.Component {
           </div>
         </Paper>
       </div>
+      )}
+
+          {
+          !isAuthenticated() && (
+            <h4> You aren't logged in</h4> )}
+    </div>
   );
 
   }

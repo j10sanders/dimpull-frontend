@@ -3,15 +3,13 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import CircularProgress from 'material-ui/CircularProgress';
+
 
 class DiscussionProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      host: 'waiting...', 
-      image: 'http://support.cashbackcloud.co/wp-content/uploads/2017/01/add-on-force-pending-referrals.png',
-      description: 'waiting...',
-      anonymous_phone_number: '+1-000-000-0000',
       }
     }
 
@@ -41,7 +39,9 @@ class DiscussionProfile extends React.Component {
     }
     debugger;
     return (
-      <div  style={cardStyle}>
+      
+      <div style={cardStyle}>
+      {this.state.host && (
         <Card>
         <CardHeader
           title={this.state.host}
@@ -62,6 +62,10 @@ class DiscussionProfile extends React.Component {
           <FlatButton label="Save as favorite" />
         </CardActions>
       </Card>
+      )}
+      {!this.state.host && (
+          <CircularProgress size={80} thickness={5} /> 
+      )}
     </div>
     );
   }
