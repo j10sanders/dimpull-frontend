@@ -75,9 +75,9 @@ class newProfile extends React.Component {
     this.setState({ profile: {} });
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
-      // getProfile((err, profile) => {
-      //   this.setState({ profile });
-      // });
+      getProfile((err, profile) => {
+        this.setState({ profile });
+      });
     } else {
       this.setState({ profile: userProfile });
     }
