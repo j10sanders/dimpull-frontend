@@ -13,12 +13,14 @@ class App extends React.Component {
         console.log(nextProps, "NEXTPROPS")
     }
 
+    // <Footer />
+
     render() {
         return (
             <MuiThemeProvider muiTheme={darkBaseTheme()}>
                 <section id='section'>
                     <Routes />
-                    <Footer />
+                    
                 </section>
             </MuiThemeProvider>
         );

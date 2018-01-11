@@ -3,7 +3,8 @@ import {Redirect, Router, Route, Switch} from 'react-router-dom';
 import Discussions from '../components/Discussions/Discussions';
 import Contact from '../components/Discussions/Contact';
 import DiscussionProfile from '../components/Discussions/DiscussionProfile';
-import NewProfile from '../components/Discussions/newProfile';
+import NewProfile from '../components/Discussions/NewProfile';
+import Calendar from '../Profile/Calendar';
 import { LoginPage } from '../LoginPage';
 import { GetNumber } from '../LoginPage/GetNumber';
 import { Home } from '../components/Home';
@@ -42,6 +43,7 @@ class Routes extends Component {
 							    <Route path="/discussionProfile" render={(props) => <DiscussionProfile auth={auth} {...props} />} />
 							    <Route path="/requestConversation" render={(props) => <Contact auth={auth} {...props} />} />
 							    <Route path="/newProfile" render={(props) => <NewProfile auth={auth} {...props} />} />
+							    <Route path="/calendar" render={(props) => <Calendar auth={auth} {...props} />} />
 							    <Route path="/profile" render={(props) => (
 						            !auth.isAuthenticated() ? (
 						              <Redirect to="/home"/>

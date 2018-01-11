@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
-import './profile.css';
+import history from '../../history';
 
 const style = {
     marginTop: 50,
@@ -97,11 +97,10 @@ class newProfile extends React.Component {
         image_url: this.state.image,
         otherProfile: this.state.otherProfile,
         price: this.state.price,
-        // phone_number: this.state.tel,
     }
     ).then(function (response) {
         console.log(response)
-        //redirect to create profile
+        history.replace('/calendar');
     })
   }
 
