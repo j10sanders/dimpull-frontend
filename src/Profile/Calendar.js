@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import ReactTimeslotCalendar from 'react-timeslot-calendar';
+const _ = require("lodash");
 
 class Calendar extends React.Component {
 	constructor(props) {
@@ -18,9 +19,12 @@ class Calendar extends React.Component {
    * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
    * the desired information.
    */
-   let prevSelected = this.state.times
-   prevSelected.push(lastSelectedTimeslot)
-   this.setState({times: prevSelected})
+    let prevSelected = this.state.times
+	if (!_.some(prevSelected, lastSelectedTimeslot)){
+		prevSelected.push(lastSelectedTimeslot)
+   		this.setState({times: prevSelected})
+	}
+
    console.log(lastSelectedTimeslot.startDate); // MomentJS object.
    console.log(moment()._d < lastSelectedTimeslot.startDate)
    console.log(moment()._d, lastSelectedTimeslot.startDate._d)
@@ -30,10 +34,9 @@ class Calendar extends React.Component {
 		const { isAuthenticated } = this.props.auth;
 		console.log(this.state.times)
 		let timeslots = [
-		    ['1', '5'], 
-		    ['6', '8'],
-		    ['8', '10'],
-		    ['10', '11'],
+		    ['1', '6'], 
+		    ['7', '9'],
+		    ['9', '11'],
 		    ['11', '12'],
 		    ['12', '13'],
 		    ['13', '14'],
@@ -48,11 +51,24 @@ class Calendar extends React.Component {
 		    ['24', '1'],
 		];
 	  return (
-	    <ReactTimeslotCalendar
-	      initialDate={moment().format()}
-	      timeslots={timeslots}
-	      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
-	    />
+	  	<div>
+	  	{
+          isAuthenticated() && (
+		    <ReactTimeslotCalendar
+		      initialDate={moment().format()}
+		      timeslots={timeslots}
+		      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
+		    />
+		    )}
+
+          {
+          !isAuthenticated() && (
+            <ReactTimeslotCalendar
+		      initialDate={moment().format()}
+		      timeslots={timeslots}
+		      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
+		    /> )}
+        </div>
 	  );
 	}
 }
