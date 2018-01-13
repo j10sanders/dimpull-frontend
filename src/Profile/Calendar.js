@@ -1,38 +1,73 @@
+import './calendar.css'
 import React from 'react';
 import moment from 'moment';
 import ReactTimeslotCalendar from 'react-timeslot-calendar';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+import axios from 'axios';
 const _ = require("lodash");
+
 
 class Calendar extends React.Component {
 	constructor(props) {
-    super(props);
-    this.state = {
-      times:[]
-    };
-  }
+	    super(props);
+	    this.state = {
+	      times:[]
+	    };
+  	}
 
-  onSelectTimeslot(allTimeslots, lastSelectedTimeslot){
+	onSelectTimeslot(allTimeslots, lastSelectedTimeslot){
+		console.log(allTimeslots, "all",lastSelectedTimeslot)
   /**
    * All timeslot objects include `startDate` and `endDate`.
-
    * It is important to note that if timelots provided contain a single
    * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
    * the desired information.
    */
-    let prevSelected = this.state.times
-	if (!_.some(prevSelected, lastSelectedTimeslot)){
-		prevSelected.push(lastSelectedTimeslot)
-   		this.setState({times: prevSelected})
+
+
+   //I THINK I CAN JUST SAVE ALLTIMESLOTS TO STATE
+	    let prevSelected = this.state.times
+		if (!_.some(prevSelected, lastSelectedTimeslot)){
+			prevSelected.push(lastSelectedTimeslot)
+	   		this.setState({times: prevSelected})
+		}else{
+			let minusNew = prevSelected.filter((el) => el.startDate._d.getTime() !== lastSelectedTimeslot.startDate._d.getTime())
+			this.setState({times: minusNew})
+		}
 	}
 
-   console.log(lastSelectedTimeslot.startDate); // MomentJS object.
-   console.log(moment()._d < lastSelectedTimeslot.startDate)
-   console.log(moment()._d, lastSelectedTimeslot.startDate._d)
-}
+	componentWillMount() {
+	    this.setState({ profile: {} });
+	    const { userProfile, getProfile } = this.props.auth;
+	    if (!userProfile) {
+	      getProfile((err, profile) => {
+	        this.setState({ profile });
+	      });
+	    } else {
+	      this.setState({ profile: userProfile });
+	    }
+	  }
+
+	 componentDidMount(){
+	 	let endDate = moment('2018-01-13T17:00:00-05:00')
+	 	let startDate = moment('2018-01-13T16:00:00-05:00')
+	 	this.onSelectTimeslot([{endDate: {endDate}, startDate: startDate}], {endDate: endDate, startDate: startDate})
+	 }
+
+	submit(){
+		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
+        {
+        user_id: this.state.profile.sub,
+        times: this.state.times,
+    	})
+	}
+
+
 
 	render() {
+		// console.log(this.state)
 		const { isAuthenticated } = this.props.auth;
-		console.log(this.state.times)
 		let timeslots = [
 		    ['1', '6'], 
 		    ['7', '9'],
@@ -54,20 +89,38 @@ class Calendar extends React.Component {
 	  	<div>
 	  	{
           isAuthenticated() && (
+          	<div>
+          	<Paper zDepth={2} >
 		    <ReactTimeslotCalendar
 		      initialDate={moment().format()}
 		      timeslots={timeslots}
 		      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
+		      maxTimeslots={200}
 		    />
+		    </Paper>
+		    <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
+		    	onClick={() => this.submit()}
+		    />
+		    </div>
 		    )}
 
           {
           !isAuthenticated() && (
-            <ReactTimeslotCalendar
+            <div>
+          	<Paper zDepth={2} id='paperCal'>
+		    <ReactTimeslotCalendar
 		      initialDate={moment().format()}
 		      timeslots={timeslots}
 		      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
-		    /> )}
+		      maxTimeslots={200}
+		    />
+		    <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
+		    	onClick={() => this.submit()}
+		    />
+		    </Paper>
+		    </div>
+		     )}
+          
         </div>
 	  );
 	}

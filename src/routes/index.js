@@ -4,6 +4,7 @@ import Discussions from '../components/Discussions/Discussions';
 import Contact from '../components/Discussions/Contact';
 import DiscussionProfile from '../components/Discussions/DiscussionProfile';
 import NewProfile from '../components/Discussions/NewProfile';
+import Availability from '../components/Discussions/Availability';
 import Calendar from '../Profile/Calendar';
 import { LoginPage } from '../LoginPage';
 import { GetNumber } from '../LoginPage/GetNumber';
@@ -43,6 +44,7 @@ class Routes extends Component {
 							    <Route path="/discussionProfile" render={(props) => <DiscussionProfile auth={auth} {...props} />} />
 							    <Route path="/requestConversation" render={(props) => <Contact auth={auth} {...props} />} />
 							    <Route path="/newProfile" render={(props) => <NewProfile auth={auth} {...props} />} />
+							    <Route path="/availability" render={(props) => <Availability auth={auth} {...props} />} />
 							    <Route path="/calendar" render={(props) => <Calendar auth={auth} {...props} />} />
 							    <Route path="/profile" render={(props) => (
 						            !auth.isAuthenticated() ? (

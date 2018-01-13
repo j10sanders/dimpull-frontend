@@ -11,11 +11,11 @@ class LoginPage extends React.Component {
   }
 
   componentDidMount(){
-    debugger;
     const { isAuthenticated } = this.props.auth;
-    if(!isAuthenticated() && process.env.REACT_APP_USERS_SERVICE_URL){
+    debugger;
+    // if(!isAuthenticated() && process.env.REACT_APP_USERS_SERVICE_URL){
       this.login();
-    }
+    // }
   }
   render() {
     const { isAuthenticated } = this.props.auth;
