@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+
 // import Divider from 'material-ui/Divider';
 import './header.css';
 
@@ -51,10 +52,10 @@ export class Header extends Component {
                 </Drawer>
                 
                 <AppBar
-                  title="Dimpull"
+                  title='Dimpull'
                   onLeftIconButtonClick={() => this.openNav()}
                   iconElementRight={
-                    <Link to={'/'} >  <FlatButton label="Home" id="home"/> </Link>
+                    <Link to={'/'} >  <FlatButton label={<img src='https://image.ibb.co/bSKkj6/orange_magnet_48.png' style={{zoom: '.3'}}/>} id="home"/> </Link>
                     }
                 />
             </header>

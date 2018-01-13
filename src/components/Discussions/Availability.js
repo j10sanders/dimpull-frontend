@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 
 
-class DiscussionProfile extends React.Component {
+class Availability extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,15 +14,10 @@ class DiscussionProfile extends React.Component {
     }
 
     componentDidMount(){
-      console.log(this.props.location.search, "MOUNTED")
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`)
-        .then((response) => 
-          this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
-            image: response.data.image,
-            auth_image: response.data.auth_pic,
-            description: response.data.description,
-            anonymous_phone_number: response.data.anonymous_phone_number,
-          })
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
+        .then((response) => {
+          console.log(response)
+          }
           )
         .catch(function (error) {
           console.log(error)
@@ -37,7 +32,7 @@ class DiscussionProfile extends React.Component {
     height: '45vw',
     margin: 'auto',
     }
-    console.log(this.props)
+    debugger;
     return (
       
       <div style={cardStyle}>
@@ -58,7 +53,7 @@ class DiscussionProfile extends React.Component {
           {this.state.description}
         </CardText>
         <CardActions>
-          <Link to={`/availability${this.props.location.search}`}> <FlatButton label="Contact" /> </Link>
+          <Link to={`/requestConversation${this.props.location.search}`}> <FlatButton label="Contact" /> </Link>
           <FlatButton label="Save as favorite" />
         </CardActions>
       </Card>
@@ -71,4 +66,4 @@ class DiscussionProfile extends React.Component {
   }
 }
 
-export default DiscussionProfile;
+export default Availability;
