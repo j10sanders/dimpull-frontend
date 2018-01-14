@@ -55,7 +55,7 @@ export class Header extends Component {
                   title='Dimpull'
                   onLeftIconButtonClick={() => this.openNav()}
                   iconElementRight={
-                    <Link to={'/'} >  <FlatButton label={<img src='https://image.ibb.co/bSKkj6/orange_magnet_48.png' style={{zoom: '.3'}}/>} id="home"/> </Link>
+                    <Link to={'/'} >  <FlatButton label={<img src='https://image.ibb.co/bSKkj6/orange_magnet_48.png' style={{zoom: '.3'}} alt="logo"/>} id="home"/> </Link>
                     }
                 />
             </header>

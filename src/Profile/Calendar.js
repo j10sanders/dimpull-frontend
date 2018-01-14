@@ -50,9 +50,14 @@ class Calendar extends React.Component {
 	  }
 
 	 componentDidMount(){
-	 	let endDate = moment('2018-01-13T17:00:00-05:00')
-	 	let startDate = moment('2018-01-13T16:00:00-05:00')
-	 	this.onSelectTimeslot([{endDate: {endDate}, startDate: startDate}], {endDate: endDate, startDate: startDate})
+	 	let defaultEnabled = document.querySelectorAll('.tsc-timeslot:not(.tsc-timeslot--disabled)')
+	 	for (let i of defaultEnabled){
+	 		console.log(moment(i.outerText))
+	 	}
+
+	 	// let endDate = moment('2018-01-13T17:00:00-05:00')
+	 	// let startDate = moment('2018-01-13T16:00:00-05:00')
+	 	// this.onSelectTimeslot([{endDate: {endDate}, startDate: startDate}], {endDate: endDate, startDate: startDate})
 	 }
 
 	submit(){
@@ -65,7 +70,9 @@ class Calendar extends React.Component {
 
 
 
+
 	render() {
+		// debugger;
 		// console.log(this.state)
 		const { isAuthenticated } = this.props.auth;
 		let timeslots = [
