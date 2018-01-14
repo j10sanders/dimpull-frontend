@@ -12,7 +12,7 @@
  }
 
  #section {
-	height: -webkit-fill-available;
+	/*height: -webkit-fill-available;*/
 	height: -moz-available;
  }
 

@@ -13,9 +13,13 @@ class LoginPage extends React.Component {
   componentDidMount(){
     const { isAuthenticated } = this.props.auth;
     debugger;
-    // if(!isAuthenticated() && process.env.REACT_APP_USERS_SERVICE_URL){
+    if(!isAuthenticated() && process.env.REACT_APP_USERS_SERVICE_URL){
       this.login();
-    // }
+    }else{
+      if (!process.env.REACT_APP_USERS_SERVICE_URL){
+        console.log('REACT_APP_USERS_SERVICE_URL env variable not set')
+      }
+    }
   }
   render() {
     const { isAuthenticated } = this.props.auth;
