@@ -1,11 +1,11 @@
 pragma solidity ^0.4.17;
 
-contract Escrow{
+contract Escrow {
   address owner;
   uint fee;
   mapping (address =>  mapping (address => uint)) balances;
 
-  function escrow{
+  function escrow() public {
     owner = msg.sender;
   }
 
@@ -16,10 +16,10 @@ contract Escrow{
 
   //Fee should be set in PPM
   function setFee(uint fee) onlyOwner external {
-    this.fee = fee;
+    Escrow.fee = fee;
   }
 
-  funtion start(address payee) external {
+  function start(address payee) external {
     balances[msg.sender][payee] += msg.value;
   }
 
@@ -27,10 +27,14 @@ contract Escrow{
   function end(address payer, address payee, uint portion) onlyOwner external returns(bool) {
     uint value = balances[payer][payee];
     uint payment = value * (portion / 1000000);
-    payee.transfer(payment * (1 - (fee / 1000000));
-    payer.transger(value * (1 - (portion / 1000000));
-    owner.transfer(payment * (fee / 1000000);
+    payee.transfer(payment * (1 - (fee / 1000000)));
+    payer.transfer(value * (1 - (portion / 1000000)));
+    owner.transfer(payment * (fee / 1000000));
     return true;
+  }
+
+  function getFee() public view returns (uint) {
+    return fee;
   }
 
 }

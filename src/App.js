@@ -22,7 +22,7 @@ const styles = {
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: "#1976d2",
+    primary1Color: "#268bd2",
     accent1Color: "#ff6235"
   },
 });
