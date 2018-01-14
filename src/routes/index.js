@@ -14,6 +14,7 @@ import Auth from '../Auth/Auth.js';
 import history from '../history';
 import Callback from '../Callback/Callback';
 import Profile from '../Profile/Profile';
+import Pay from '../components/Discussions/Pay';
 const auth = new Auth();
 
 const handleAuthentication = ({location}) => {
@@ -46,6 +47,7 @@ class Routes extends Component {
 							    <Route path="/newProfile" render={(props) => <NewProfile auth={auth} {...props} />} />
 							    <Route path="/availability" render={(props) => <Availability auth={auth} {...props} />} />
 							    <Route path="/calendar" render={(props) => <Calendar auth={auth} {...props} />} />
+							    <Route path="/pay" render={(props) => <Pay auth={auth} {...props} />} />
 							    <Route path="/profile" render={(props) => (
 						            !auth.isAuthenticated() ? (
 						              <Redirect to="/home"/>
