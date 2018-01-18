@@ -75,10 +75,15 @@ class Contact extends React.Component {
         message: this.state.message,
     }
     ).then(function (response) {
-        console.log(response)
+      debugger;
+        if (response.data !== 'done'){
+          this.setState({tel_error_text: response.data});
+        }
         //redirect to create profile
-    })
+    }).catch(function (error) {
+      this.setState({tel_error_text: error});
     // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
+  });
   }
 
   render() {

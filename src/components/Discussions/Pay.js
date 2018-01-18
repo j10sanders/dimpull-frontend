@@ -23,7 +23,8 @@ class Pay extends React.Component {
     getWeb3
     .then(results => {
       this.setState({
-        web3: results.web3
+        web3: results.web3,
+        Fee: 0
       })
       // debugger;
       // Instantiate contract once web3 provided.
@@ -55,10 +56,10 @@ class Pay extends React.Component {
         escrowInstance = instance
 
         // Stores a given value, 5 by default.
-        return escrowInstance.setFee(69, {from: accounts[0]})
+        return escrowInstance.setFee(60, {from: accounts[0]})
       }).then((result) => {
         // Get the value from the contract to prove it worked.
-        return escrowInstance.getFee.call(accounts[0])
+        return escrowInstance.getFee.call()
       }).then((result) => {
         // Update state with the result.
         return this.setState({ Fee: result.c[0] })

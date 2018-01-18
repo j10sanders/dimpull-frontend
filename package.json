@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "auth0-js": "^9.0.2",
+    "auth0-lock": "^11.1.0",
     "axios": "^0.17.1",
     "bootstrap": "^3.3.7",
     "bootstrap-loader": "^2.2.0",
@@ -24,7 +25,9 @@
     "react-timeslot-calendar": "^0.2.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "truffle-contract": "^3.0.1",
+    "truffle-solidity-loader": "0.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
