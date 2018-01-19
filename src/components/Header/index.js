@@ -52,7 +52,7 @@ export class Header extends Component {
                 </Drawer>
                 
                 <AppBar
-                  title='Dimpull'
+                  title={<img src='https://image.ibb.co/hgomGw/whiteblue.png' style={{zoom: '.1'}} alt="logo"/>}
                   onLeftIconButtonClick={() => this.openNav()}
                   iconElementRight={
                     <Link to={'/'} >  <FlatButton label={<img src='https://image.ibb.co/bSKkj6/orange_magnet_48.png' style={{zoom: '.3'}} alt="logo"/>} id="home"/> </Link>
