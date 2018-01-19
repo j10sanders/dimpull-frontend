@@ -32,9 +32,8 @@ class Availability extends React.Component {
     height: '45vw',
     margin: 'auto',
     }
-    debugger;
+
     return (
-      
       <div style={cardStyle}>
       {this.state.host && (
         <Card>

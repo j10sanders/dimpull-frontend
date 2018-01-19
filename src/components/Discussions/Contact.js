@@ -75,7 +75,6 @@ class Contact extends React.Component {
         message: this.state.message,
     }
     ).then(function (response) {
-      debugger;
         if (response.data !== 'done'){
           this.setState({tel_error_text: response.data});
         }

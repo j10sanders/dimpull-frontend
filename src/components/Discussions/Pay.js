@@ -26,7 +26,6 @@ class Pay extends React.Component {
         web3: results.web3,
         Fee: 0
       })
-      // debugger;
       // Instantiate contract once web3 provided.
       this.instantiateContract()
     })
