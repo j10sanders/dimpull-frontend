@@ -35,7 +35,7 @@ class MyDiscussions extends React.Component {
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {
       const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-    	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/mydiscussions`, { headers })
+    	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/mydiscussions`, {headers})
         .then((response) => 
           this.setState({dps: response.data}))
         .catch(function (error) {
