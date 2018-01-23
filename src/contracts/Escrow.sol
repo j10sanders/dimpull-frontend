@@ -9,13 +9,13 @@ contract Escrow {
     owner = msg.sender;
   }
 
-  modifier onlyOwner {
-    require(msg.sender == owner);
+  modifier onlyOwner() {
+    if (msg.sender != owner) throw;
     _;
   }
 
   //Fee should be set in PPM
-  function setFee(uint price) external {
+  function setFee(uint price) payable external {
     fee = price;
   }
 

@@ -30,39 +30,18 @@ class MyDiscussions extends React.Component {
     console.log(nextProps, "nextProps")
   }
 
-  componentWillMount() {
-    this.setState({ profile: {} });
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile }, () => this.getDPs());
-      });
-    } else {
-      this.setState({ profile: userProfile }, () => this.getDPs());
-    }
-	}
-
-	getDPs() {
-		const { isAuthenticated } = this.props.auth;
-	    const { getAccessToken } = this.props.auth;
-	    
-	    if ( isAuthenticated()) {
-	      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-	      console.log(headers, "HEADERS", this.state.profile.sub)
-	    	axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/mydiscussions`, {user_id: this.state.profile.sub})
-	  	   .then((response) => 
-	  	      this.setState({dps: response.data}))
-	  	    .catch(function (error) {
-	  	      console.log(error)
-	  	  })
-	    } else {
-	      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/mydiscussions`)
-	       .then((response) => 
-	          this.setState({dps: response.data}))
-	        .catch(function (error) {
-	          console.log(error)
-	      })
-	    }
+	componentDidMount() {
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    if ( isAuthenticated()) {
+      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/mydiscussions`, { headers })
+        .then((response) => 
+          this.setState({dps: response.data}))
+        .catch(function (error) {
+          console.log(error)
+      })
+    } 
 	}
 
  render() {

@@ -31,9 +31,11 @@ class Discussions extends React.Component {
   }
 
   componentDidMount(){
+    console.log("mounted")
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {
+      console.log("authenticated")
       const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
     
       console.log(headers, "HEADERS")
@@ -44,6 +46,7 @@ class Discussions extends React.Component {
   	      console.log(error)
   	  })
     }else{
+      console.log("not authenticated")
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
        .then((response) => 
           this.setState({dps: response.data}))
