@@ -45,6 +45,7 @@ class DiscussionProfile extends React.Component {
     margin: 'auto',
     }
     console.log(this.state)
+    console.log(this.props.location)
     return (
       <div style={cardStyle}>
       {this.state.host && (
