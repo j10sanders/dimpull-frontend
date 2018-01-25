@@ -15,7 +15,7 @@ const style = {
 };
 
 
-class editProfile extends React.Component {
+class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,9 +28,32 @@ class editProfile extends React.Component {
     };
   }
 
+  componentDidMount(){
+      const { isAuthenticated } = this.props.auth;
+      const { getAccessToken } = this.props.auth;
+      let headers = {}
+      if ( isAuthenticated()) {
+        headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+      }
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/editdiscussion${this.props.location.search}`, {headers})
+        .then((response) => {
+        	console.log(response.data)
+        	this.setState({
+          	price: response.data.price,
+            image: response.data.image_url,
+            description: response.data.description,
+            otherProfile: response.data.otherProfile
+          })
+        }
+          
+        )
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+
   isDisabled() {
     let price_is_valid = false;
-
     
     if (this.state.price.length === 0) {
         this.setState({
@@ -83,11 +106,6 @@ class editProfile extends React.Component {
     }
   }
 
-  componentDidMount(){
-
-  }
-
-
   submit(e) {
     e.preventDefault();
     axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
@@ -106,6 +124,7 @@ class editProfile extends React.Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
+    console.log(this.state)
   return (
     <div>
     {
@@ -125,6 +144,7 @@ class editProfile extends React.Component {
                 hintText="Area of expertise"
                 floatingLabelText="Discussion Topic"
                 type="description"
+                value={this.state.description}
                 // errorText={this.state.description_error_text}
                 onChange={(e) => this.changeValue(e, 'description')}
                 // fullWidth={true}
@@ -133,6 +153,7 @@ class editProfile extends React.Component {
                 hintText="URLs only (accepting uploads soon)"
                 floatingLabelText="Image URL"
                 type="text"
+                value={this.state.image}
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'image')}
               />
@@ -140,6 +161,7 @@ class editProfile extends React.Component {
                 hintText="Link to another site's profile"
                 floatingLabelText="Your profile, blog, twitter, etc..."
                 type="otherProfile"
+                value={this.state.otherProfile}
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'otherProfile')}
               />
@@ -147,6 +169,7 @@ class editProfile extends React.Component {
                 hintText=""
                 floatingLabelText="Price Per Minute (in Ether)"
                 type="price"
+                value={this.state.price}
                 errorText={this.state.price_error_text}
                 onChange={(e) => this.changeValue(e, 'price')}
               />
@@ -171,4 +194,4 @@ class editProfile extends React.Component {
   }
 
 }
-export default editProfile; 
+export default EditProfile; 

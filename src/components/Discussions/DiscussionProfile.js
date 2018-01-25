@@ -20,20 +20,19 @@ class DiscussionProfile extends React.Component {
       if ( isAuthenticated()) {
         headers = { 'Authorization': `Bearer ${getAccessToken()}`}
       }
-        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`, {headers})
-          .then((response) => 
-            this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
-              image: response.data.image,
-              auth_image: response.data.auth_pic,
-              description: response.data.description,
-              anonymous_phone_number: response.data.anonymous_phone_number,
-              is_users: response.data.is_users,
-            })
-            )
-          .catch(function (error) {
-            console.log(error)
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`, {headers})
+        .then((response) => 
+          this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
+            image: response.data.image,
+            auth_image: response.data.auth_pic,
+            description: response.data.description,
+            anonymous_phone_number: response.data.anonymous_phone_number,
+            is_users: response.data.is_users,
+          })
+        )
+        .catch(function (error) {
+          console.log(error)
         })
-
     }
 
   render() {
@@ -66,7 +65,7 @@ class DiscussionProfile extends React.Component {
         </CardText>
         <CardActions>
           {this.state.is_users && (
-            <FlatButton label="Edit Profile" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
+            <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile${this.props.location.search}`} />} />
           )}
           {!this.state.is_users && (
             <div>
