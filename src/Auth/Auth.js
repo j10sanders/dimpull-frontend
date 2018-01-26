@@ -49,7 +49,7 @@ export default class Auth {
           }
           else{
             console.log(response, "response")
-            history.replace('/');
+            history.replace('/discussions');
           }
         })
         .catch(function (error) {

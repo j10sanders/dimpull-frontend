@@ -57,7 +57,7 @@ class MyDiscussions extends React.Component {
         id="GridlistID"
         style={styles.gridList}
       >
-        <Subheader>Discussion Profiles</Subheader>
+        <Subheader>My Discussion Profiles</Subheader>
         {this.state.dps.map((dp) => (
           <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
           <GridTile

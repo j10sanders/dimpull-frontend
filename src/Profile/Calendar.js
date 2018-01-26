@@ -17,7 +17,7 @@ class Calendar extends React.Component {
   	}
 
 	onSelectTimeslot(allTimeslots, lastSelectedTimeslot){
-		console.log(allTimeslots, "all",lastSelectedTimeslot)
+		// console.log(allTimeslots, "all",lastSelectedTimeslot)
   /**
    * All timeslot objects include `startDate` and `endDate`.
    * It is important to note that if timelots provided contain a single
@@ -72,16 +72,22 @@ class Calendar extends React.Component {
 
 
 	render() {
-		// debugger;
-		// console.log(this.state)
 		const { isAuthenticated } = this.props.auth;
 		let timeslots = [
-		    ['1', '6'], 
-		    ['7', '9'],
-		    ['9', '11'],
+		    ['1', '2'],
+		    ['2', '3'],
+		    ['3', '4'],
+		    ['4', '5'],
+		    ['5', '6'],
+		    ['6', '7'],
+		    ['7', '8'],
+		    ['8', '9'],
+		    ['9', '10'],
+		    ['10', '11'],
 		    ['11', '12'],
 		    ['12', '13'],
 		    ['13', '14'],
+		    ['14', '15'],
 		    ['15', '16'],
 		    ['16', '17'],
 		    ['17', '18'],
@@ -94,25 +100,24 @@ class Calendar extends React.Component {
 		];
 	  return (
 	  	<div>
-	  	{
-          isAuthenticated() && (
+	  	{isAuthenticated() && (
           	<div>
-          	<Paper zDepth={2} >
+          	<Paper zDepth={2} style={{marginTop: '10px'}} >
 		    <ReactTimeslotCalendar
 		      initialDate={moment().format()}
 		      timeslots={timeslots}
 		      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
 		      maxTimeslots={200}
 		    />
-		    </Paper>
 		    <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
 		    	onClick={() => this.submit()}
 		    />
+		    </Paper>
+		    
 		    </div>
 		    )}
 
-          {
-          !isAuthenticated() && (
+          { !isAuthenticated() && (
             <div>
           	<Paper zDepth={2} id='paperCal'>
 		    <ReactTimeslotCalendar
