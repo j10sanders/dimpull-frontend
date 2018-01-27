@@ -112,11 +112,20 @@ class newProfile extends React.Component {
           <div className="text-center">
             <h2>Create a Discussion Profile</h2>
             <div className="col-md-12">
-            <TextField
+            {this.state.profile.given_name && (
+              <TextField
                 hintText= {`${this.state.profile.given_name} ${this.state.profile.family_name}`}
                 type="name"
                 disabled={true}
               />
+              )}
+            {(!this.state.profile.given_name && this.state.profile['https://jonsanders:auth0:com/user_metadata']) && (
+              <TextField
+                hintText= {`${this.state.profile['https://jonsanders:auth0:com/user_metadata'].given_name} ${this.state.profile['https://jonsanders:auth0:com/user_metadata'].family_name}`}
+                type="name"
+                disabled={true}
+              />
+              )}
               <TextField
                 hintText="Area of expertise"
                 floatingLabelText="Discussion Topic"

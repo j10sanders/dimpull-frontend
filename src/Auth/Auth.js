@@ -35,12 +35,20 @@ export default class Auth {
   }
 
   handleAuthentication() {
+
+    
     this.auth0.parseHash((err, authResult) => {
+
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        //call server
-        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
-          user_id: authResult.idTokenPayload.sub,
+        let headers = {}
+        if ( this.isAuthenticated()) {
+          headers = { 'Authorization': `Bearer ${this.getAccessToken()}`}
+        }
+        console.log("Headers", headers)
+        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
+          headers
+          // user_id: authResult.idTokenPayload.sub,
         })
        .then((response) => {
           console.log(response)

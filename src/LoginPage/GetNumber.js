@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
+import history from '../history';
 
 const style = {
     marginTop: 50,
@@ -80,6 +81,11 @@ class GetNumber extends React.Component {
             first_name: profile.given_name,
             last_name: profile.family_name,
           })
+        } else if (profile['https://jonsanders:auth0:com/user_metadata'].given_name){
+          this.setState({hasName: true, 
+            first_name: profile['https://jonsanders:auth0:com/user_metadata'].given_name,
+            last_name: profile['https://jonsanders:auth0:com/user_metadata'].family_name,
+          })
         }
       });
     } else {
@@ -88,6 +94,11 @@ class GetNumber extends React.Component {
           this.setState({hasName: true, 
             first_name: userProfile.given_name,
             last_name: userProfile.family_name,
+          })
+        } else if (userProfile['https://jonsanders:auth0:com/user_metadata'].given_name){
+          this.setState({hasName: true, 
+            first_name: userProfile['https://jonsanders:auth0:com/user_metadata'].given_name,
+            last_name: userProfile['https://jonsanders:auth0:com/user_metadata'].family_name,
           })
         }
     }
@@ -106,9 +117,8 @@ class GetNumber extends React.Component {
     }
     ).then(function (response) {
         console.log(response)
-        //redirect to create profile
+        history.replace('/discussions');
     })
-    // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
   }
 
   render() {
