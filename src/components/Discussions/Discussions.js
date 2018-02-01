@@ -31,7 +31,7 @@ class Discussions extends React.Component {
   }
 
   componentDidMount(){
-    console.log("mounted")
+    console.log("mounted", process.env.REACT_APP_USERS_SERVICE_URL)
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {

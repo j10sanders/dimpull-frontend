@@ -1,40 +1,107 @@
 import './calendar.css'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.less'
 import React from 'react';
 import moment from 'moment';
-import ReactTimeslotCalendar from 'react-timeslot-calendar';
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
+import BigCalendar from 'react-big-calendar'
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
-const _ = require("lodash");
+import history from '../history';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
+BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
+const DragAndDropCalendar = withDragAndDrop(BigCalendar)
 
 class Calendar extends React.Component {
-	constructor(props) {
-	    super(props);
+	    constructor(props) {
+	    super(props)
 	    this.state = {
-	      times:[]
-	    };
+	      events: [], 
+	      open: false,
+	      event: ''
+	    }
+
+    this.moveEvent = this.moveEvent.bind(this)
+  }
+
+  moveEvent({ event, start, end }) {
+    const { events } = this.state
+
+    const idx = events.indexOf(event)
+    const updatedEvent = { ...event, start, end }
+
+    const nextEvents = [...events]
+    nextEvents.splice(idx, 1, updatedEvent)
+
+    this.setState({
+      events: nextEvents,
+    })
+
+    alert(`${event.title} was dropped onto ${event.start}`)
+  }
+
+  resizeEvent = (resizeType, { event, start, end }) => {
+    const { events } = this.state
+
+    const nextEvents = events.map(existingEvent => {
+      return existingEvent.id === event.id
+        ? { ...existingEvent, start, end }
+        : existingEvent
+    })
+
+    this.setState({
+      events: nextEvents,
+    })
+  }
+  
+  	addEvent(start, end) {
+  		// debugger;
+  		let events = this.state.events;
+  		let id = 0
+  		if (events.length > 0){
+	  		id = events[events.length - 1].id + 1
+  		} 
+  		let newEvent = {id: id, title: "available for call", allDay: false, start: start, end: end}
+  		events.push(newEvent)
+  		this.setState({events: events})
   	}
 
-	onSelectTimeslot(allTimeslots, lastSelectedTimeslot){
-		// console.log(allTimeslots, "all",lastSelectedTimeslot)
-  /**
-   * All timeslot objects include `startDate` and `endDate`.
-   * It is important to note that if timelots provided contain a single
-   * value (e.g: timeslots = [['8'], ['9', '10']) then only `startDate` is filled up with
-   * the desired information.
-   */
 
+  	handleOpen(evt) {
+	    console.log(evt)
+	    this.setState({open: true, event: evt});
+  	}
+  	
+  	handleClose() {
+    	this.setState({open: false});
+  	}
 
-   //I THINK I CAN JUST SAVE ALLTIMESLOTS TO STATE
-	    let prevSelected = this.state.times
-		if (!_.some(prevSelected, lastSelectedTimeslot)){
-			prevSelected.push(lastSelectedTimeslot)
-	   		this.setState({times: prevSelected})
-		}else{
-			let minusNew = prevSelected.filter((el) => el.startDate._d.getTime() !== lastSelectedTimeslot.startDate._d.getTime())
-			this.setState({times: minusNew})
-		}
+  	// 	alert(
+		//   `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+		//     `\nend: ${slotInfo.end.toLocaleString()}` +
+		//     `\naction: ${slotInfo.action}`
+		// )}
+
+	removeTimeslot(){
+		let events = this.state.events
+		let event = this.state.event
+		var filtered = events.filter(function(el) { return el.id != event.id });
+		this.setState({events: filtered})
+		this.setState({open: false})
+	}
+
+	submit(){
+		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
+        {
+        user_id: this.state.profile.sub,
+        times: this.state.times,
+    	})
+    	history.replace('/discussions');
 	}
 
 	componentWillMount() {
@@ -49,93 +116,53 @@ class Calendar extends React.Component {
 	    }
 	  }
 
-	 componentDidMount(){
-	 	let defaultEnabled = document.querySelectorAll('.tsc-timeslot:not(.tsc-timeslot--disabled)')
-	 	for (let i of defaultEnabled){
-	 		console.log(moment(i.outerText))
-	 	}
 
-	 	// let endDate = moment('2018-01-13T17:00:00-05:00')
-	 	// let startDate = moment('2018-01-13T16:00:00-05:00')
-	 	// this.onSelectTimeslot([{endDate: {endDate}, startDate: startDate}], {endDate: endDate, startDate: startDate})
-	 }
+  	render() {
 
-	submit(){
-		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
-        {
-        user_id: this.state.profile.sub,
-        times: this.state.times,
-    	})
-	}
-
-
-
-
-	render() {
-		const { isAuthenticated } = this.props.auth;
-		let timeslots = [
-		    ['1', '2'],
-		    ['2', '3'],
-		    ['3', '4'],
-		    ['4', '5'],
-		    ['5', '6'],
-		    ['6', '7'],
-		    ['7', '8'],
-		    ['8', '9'],
-		    ['9', '10'],
-		    ['10', '11'],
-		    ['11', '12'],
-		    ['12', '13'],
-		    ['13', '14'],
-		    ['14', '15'],
-		    ['15', '16'],
-		    ['16', '17'],
-		    ['17', '18'],
-		    ['18', '19'],
-		    ['19', '20'],
-		    ['20', '21'],
-		    ['21', '22'],
-		    ['22', '23'],
-		    ['24', '1'],
+		const actions = [
+			<FlatButton
+				label="Cancel"
+				primary={true}
+				onClick={() => this.handleClose()}
+			/>,
+			<FlatButton
+				label="Remove"
+				primary={true}
+				onClick={() => this.removeTimeslot()}
+			/>,
 		];
-	  return (
-	  	<div>
-	  	{isAuthenticated() && (
-          	<div>
-          	<Paper zDepth={2} style={{marginTop: '10px'}} >
-		    <ReactTimeslotCalendar
-		      initialDate={moment().format()}
-		      timeslots={timeslots}
-		      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
-		      maxTimeslots={200}
-		    />
-		    <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
-		    	onClick={() => this.submit()}
-		    />
-		    </Paper>
-		    
-		    </div>
-		    )}
 
-          { !isAuthenticated() && (
-            <div>
-          	<Paper zDepth={2} id='paperCal'>
-		    <ReactTimeslotCalendar
-		      initialDate={moment().format()}
-		      timeslots={timeslots}
-		      onSelectTimeslot={this.onSelectTimeslot.bind(this)}
-		      maxTimeslots={200}
+
+	    return (
+	      <div style={{height: '1000px'}}>
+	      <Paper style={{marginTop: '10px'}}>
+	      <DragAndDropCalendar
+	        selectable
+	        events={this.state.events}
+	        onEventDrop={this.moveEvent}
+	        resizable
+	        onEventResize={this.resizeEvent}
+	        defaultView="week"
+	        defaultDate={new Date()}
+	        onSelectEvent={event => this.handleOpen(event)}
+			onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
+	      />
+	      <Dialog
+              title="Remove this timeslot?"
+              actions={actions}
+              modal={false}
+              open={this.state.open}
+              onRequestClose={() => this.handleClose.bind(this)}
+            >
+                 
+                </Dialog>
+           <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
+		    onClick={() => this.submit()}
 		    />
-		    <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
-		    	onClick={() => this.submit()}
-		    />
-		    </Paper>
-		    </div>
-		     )}
-          
-        </div>
-	  );
-	}
+	      </Paper>
+	      </div>
+	    )
+	  }
+
 }
-
 export default Calendar;

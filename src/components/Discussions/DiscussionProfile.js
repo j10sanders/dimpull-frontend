@@ -121,27 +121,23 @@ class DiscussionProfile extends React.Component {
         <CardActions>
           {this.state.is_users && (
             <div>
-            <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile${this.props.location.search}`} />} />
-            <FlatButton label="Delete Profile" onClick={() => this.handleOpen()} containerElement={"Hi"}/>
-            <Dialog
-              title="Delete Discussion Profile"
-              actions={actions}
-              modal={false}
-              open={this.state.open}
-              onRequestClose={() => this.handleClose()}
-            >
-             Are you sure you want to delete this discussion profile?
-            </Dialog>
-            <FlatButton id="otherProfile" target="_blank" href="http://www.google.com/">Google</FlatButton>
+              <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile${this.props.location.search}`} />} />
+              <FlatButton label="Delete Profile" onClick={() => this.handleOpen()} containerElement={"Hi"}/>
+                <Dialog
+                  title="Delete Discussion Profile"
+                  actions={actions}
+                  modal={false}
+                  open={this.state.open}
+                  onRequestClose={() => this.handleClose()}
+                >
+                 Are you sure you want to delete this discussion profile?
+                </Dialog>
             </div>
-
           )}
           {!this.state.is_users && (
             <div>
-            <FlatButton label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
-            <FlatButton label="Save as favorite" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
-            <FlatButton target="_blank" href="http://www.google.com/">Google</FlatButton>
-            
+              <FlatButton label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
+              <FlatButton label="Save as favorite" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
             </div>
           )}
         </CardActions>

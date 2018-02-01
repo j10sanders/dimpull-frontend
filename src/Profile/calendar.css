@@ -1,8 +1,8 @@
-.tsc-timeslot {
+/*.tsc-timeslot {
 	margin: .1em !important;
 	padding: .7em !important;
 }
-/*
+
 .tsc-day__title, .tsc-timeslot {
 
 }*/
@@ -10,4 +10,17 @@
 #paperCal {
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+
+/* Gets rid of "all day" row*/
+.rbc-time-view .rbc-row {
+    min-height: 0px !important;
+}
+
+.rbc-time-view .rbc-row div:nth-child(1) {
+    height: 0px !important;
+}
+
+.rbc-time-header > .rbc-row:nth-of-type(2) {
+    display: none !important;
 }

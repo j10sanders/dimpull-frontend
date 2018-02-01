@@ -10,12 +10,12 @@ contract Escrow {
   }
 
   modifier onlyOwner() {
-    if (msg.sender != owner) throw;
+    require(msg.sender == owner);
     _;
   }
 
   //Fee should be set in PPM
-  function setFee(uint price) payable external {
+  function setFee(uint price) onlyOwner external {
     fee = price;
   }
 
@@ -24,17 +24,13 @@ contract Escrow {
   }
 
   //Portion should be percentage of value to pay in PPM
-  function end(address payer, address payee, uint portion) onlyOwner external returns(bool) {
+  function end(address payer, address payee, uint portion) onlyOwner payable external returns(bool) {
     uint value = balances[payer][payee];
     uint payment = value * (portion / 1000000);
     payee.transfer(payment * (1 - (fee / 1000000)));
     payer.transfer(value * (1 - (portion / 1000000)));
     owner.transfer(payment * (fee / 1000000));
     return true;
-  }
-
-  function getFee() public view returns (uint) {
-    return fee;
   }
 
 }
