@@ -13,6 +13,7 @@ import axios from 'axios';
 import history from '../history';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Snackbar from 'material-ui/Snackbar';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
@@ -23,7 +24,8 @@ class Calendar extends React.Component {
 	    this.state = {
 	      events: [], 
 	      open: false,
-	      event: ''
+	      event: '',
+	      snackOpen: false,
 	    }
 
     this.moveEvent = this.moveEvent.bind(this)
@@ -59,17 +61,26 @@ class Calendar extends React.Component {
     })
   }
   
-  	addEvent(start, end) {
-  		// debugger;
-  		let events = this.state.events;
-  		let id = 0
-  		if (events.length > 0){
-	  		id = events[events.length - 1].id + 1
-  		} 
-  		let newEvent = {id: id, title: "available for call", allDay: false, start: start, end: end}
-  		events.push(newEvent)
-  		this.setState({events: events})
+  	addEvent(start, end) { console.log(start)
+  		if (start < new Date()){
+  			this.setState({snackOpen: true})
+  		} else {
+  			let events = this.state.events;
+	  		let id = 0
+	  		if (events.length > 0){
+		  		id = events[events.length - 1].id + 1
+	  		} 
+	  		let newEvent = {id: id, title: "available for call", allDay: false, start: start, end: end}
+	  		events.push(newEvent)
+	  		this.setState({events: events})
+  		}
   	}
+
+  	handleRequestClose = () => {
+    this.setState({
+      snackOpen: false,
+    });
+  };
 
 
   	handleOpen(evt) {
@@ -99,7 +110,7 @@ class Calendar extends React.Component {
 		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
         {
         user_id: this.state.profile.sub,
-        times: this.state.times,
+        times: this.state.events,
     	})
     	history.replace('/discussions');
 	}
@@ -135,6 +146,12 @@ class Calendar extends React.Component {
 
 	    return (
 	      <div style={{height: '1000px'}}>
+	      <Snackbar
+          open={this.state.snackOpen}
+          message="You can't set past availability."
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
 	      <Paper style={{marginTop: '10px'}}>
 	      <DragAndDropCalendar
 	        selectable

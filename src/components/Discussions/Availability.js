@@ -24,6 +24,27 @@ class Availability extends React.Component {
     this.moveEvent = this.moveEvent.bind(this)
   }
 
+      componentDidMount(){
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
+        .then((response) => {
+          console.log(response)
+          let events = []
+          let index = 0
+          for (let e of response.data) {
+            console.log(e, new Date(e.start))
+            debugger;
+            let event = {id: index, title: "Available to talk", allDay: false, start: new Date(e.start), end: new Date(e.end)}
+            events.push(event)
+            index += 1
+          }
+          console.log(events)
+          this.setState({events: events})})
+        .catch(function (error) {
+          console.log(error)
+        })
+ 
+    }
+
   moveEvent({ event, start, end }) {
     const { events } = this.state
 
