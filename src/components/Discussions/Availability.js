@@ -46,9 +46,23 @@ class Availability extends React.Component {
  
     }
 
+    formatTime(time){
+      let NumTime = Number(time)
+      if (NumTime < 10) {
+        time = "0" + time
+      }
+      return time
+    }
+
     handleOpen(evt) {
       console.log(evt)
       this.setState({open: true, event: evt});
+      let startHour = this.formatTime(evt.start.getHours().toString())
+      let startMin = this.formatTime(evt.start.getMinutes().toString())
+      let endHour = this.formatTime(evt.end.getHours().toString())
+      let endMin = this.formatTime(evt.end.getMinutes().toString())
+      this.setState({startTime: startHour + ':' + startMin + ":00"})
+      this.setState({endTime: endHour + ':' + endMin + ":00"})
     }
 
   moveEvent({ event, start, end }) {
@@ -80,18 +94,64 @@ class Availability extends React.Component {
       events: nextEvents,
     })
   }
-  bookTimeslot(){
 
+  bookTimeslot(){
+    // this.state.event date with time this.state.checked is not in past -- then 
+    let checked = this.state.checked
+    let start = this.state.event.start
+    if ((start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0) < new Date()){
+      console.log("TOO EARLT FOO")
+    } else{
+      // save go to next step to save anon number and will need to associate with this time.
+    }
   }
 
-  handleRadio(evt){
+  handleRadio(evt){ console.log(evt.target.value, "EVT.TARGET")
     this.setState({checked: evt.target.value})
   }
+
   handleClose() {
-      this.setState({open: false});
+    this.setState({open: false});
+  }
+
+  getTimeDate(time) {
+    var timeParts = time.split(':');
+    var d = new Date();
+
+    d.setHours(timeParts[0]);
+    d.setMinutes(timeParts[1]);
+    d.setSeconds(timeParts[2]);
+
+    return d;
+}
+
+  getTimeSlots(startDate, endDate, interval) {
+    var slots = [];
+
+    var intervalMillis = interval * 60 * 1000;
+
+    while (startDate < endDate) {
+        // So that you get "00" if we're on the hour.
+        var mins = (startDate.getMinutes() + '0').slice(0, 2);
+        slots.push(startDate.getHours() + ':' + mins);
+        startDate.setTime(startDate.getTime() + intervalMillis);
     }
 
+    return slots;
+  }
+
   render() {
+    const settings = {
+      timeSlotGap: 30,
+      minTime: this.state.startTime,
+      maxTime: this.state.endTime,
+    };
+
+    let slots = []
+    if (this.state.startTime){
+      slots = this.getTimeSlots(this.getTimeDate(settings.minTime), this.getTimeDate(settings.maxTime), settings.timeSlotGap);
+    }
+
     const actions = [
       <FlatButton
         label="Cancel"
@@ -106,20 +166,26 @@ class Availability extends React.Component {
     ];
 
     const radios = [];
-    //need half hour timeslots here
-    for (let i = 0; i < 10; i++) {
+    for (let i of slots) {
+      let ampm = ''
+      let hour = i.substring(0, 2);
+      if (Number(hour) < 12) {
+        ampm = i + ' am'
+      } else if (Number(hour) === 12) {
+        ampm = i + ' pm'
+      } else {
+        ampm = Number(hour - 12).toString() + i.substring(2, i.length) + ' pm'
+      }
       radios.push(
         <RadioButton
           key={i}
-          value={`value${i + 1}`}
-          label={`Option ${i + 1}`}
+          value={i}
+          label={ampm}
           onClick={(evt) => this.handleRadio(evt)}
         />
       );
     }
-    console.log(this.state.checked)
     return (
-
       <div style={{height: '1000px'}}>
       <Paper style={{marginTop: '10px'}}>
       <DragAndDropCalendar
@@ -134,13 +200,13 @@ class Availability extends React.Component {
       />
       </Paper>
        <Dialog
-              title="Pick a 30min window"
+              title="Pick your start time for a 30 minute window"
               actions={actions}
               modal={false}
               open={this.state.open}
               onRequestClose={() => this.handleClose.bind(this)}
             >   
-            <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+            <RadioButtonGroup name="timeslots" defaultSelected="not_light">
             {radios}
           </RadioButtonGroup>
       </Dialog>
