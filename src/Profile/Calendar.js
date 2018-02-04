@@ -143,6 +143,7 @@ class Calendar extends React.Component {
 			/>,
 		];
 
+		console.log(this.state.events)
 
 	    return (
 	      <div style={{height: '1000px'}}>

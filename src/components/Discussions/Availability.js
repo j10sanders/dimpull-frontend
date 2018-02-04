@@ -13,6 +13,7 @@ import Paper from 'material-ui/Paper';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
+import history from '../../history';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
@@ -31,11 +32,14 @@ class Availability extends React.Component {
       componentDidMount(){
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
         .then((response) => {
-          console.log(response)
           let events = []
           let index = 0
           for (let e of response.data) {
-            let event = {id: index, title: "Available to talk", allDay: false, start: new Date(e.start), end: new Date(e.end)}
+            let start = new Date(e.start)
+            let end = new Date(e.end)
+            let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
+            let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
+            let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
             events.push(event)
             index += 1
           }
@@ -103,6 +107,11 @@ class Availability extends React.Component {
       console.log("TOO EARLT FOO")
     } else{
       // save go to next step to save anon number and will need to associate with this time.
+      history.push({
+  pathname: '/requestConversation',
+  search: this.props.location.search,
+  state: { startTime: start }
+})
     }
   }
 
@@ -141,6 +150,7 @@ class Availability extends React.Component {
   }
 
   render() {
+    console.log("STATE:", this.state)
     const settings = {
       timeSlotGap: 30,
       minTime: this.state.startTime,

@@ -4,6 +4,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import history from '../../history';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import {timezones} from '../../timezones/timezones';
 
 const style = {
     marginTop: 50,
@@ -25,6 +28,7 @@ class newProfile extends React.Component {
       otherProfile: '',
       price: '',
       disabled: true,
+      timezone: 'America/New_York',
     };
   }
 
@@ -51,6 +55,10 @@ class newProfile extends React.Component {
                 disabled: false,
             });
         }
+  }
+
+  selectTimezone(event, index, value) {
+    this.setState({timezone: value})
   }
 
   changeValue(e, type) {
@@ -93,6 +101,7 @@ class newProfile extends React.Component {
         image_url: this.state.image,
         otherProfile: this.state.otherProfile,
         price: this.state.price,
+        timezone: this.state.timezone,
     }
     ).then(function (response) {
         console.log(response)
@@ -155,6 +164,15 @@ class newProfile extends React.Component {
                 errorText={this.state.price_error_text}
                 onChange={(e) => this.changeValue(e, 'price')}
               />
+              <SelectField
+                floatingLabelText="Timezone"
+                value={this.state.timezone}
+                onChange={(event, index, value) => this.selectTimezone(event, index, value, "id")}
+                maxHeight={200}
+                style={{textAlign: 'start'}}
+              >
+                {timezones.map((timezone) => <MenuItem value={timezone.value} key={timezone.value} primaryText={timezone.name} />)}
+              </SelectField>
             </div>
             <RaisedButton
               disabled={this.state.disabled}

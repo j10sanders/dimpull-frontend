@@ -4,6 +4,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import history from '../../history';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import {timezones} from '../../timezones/timezones';
 
 const style = {
     marginTop: 50,
@@ -24,6 +27,7 @@ class EditProfile extends React.Component {
       otherProfile: '',
       price: '',
       disabled: true,
+      timezone: 'America/New_York',
     };
   }
 
@@ -41,7 +45,8 @@ class EditProfile extends React.Component {
 			  	price: response.data.price,
 			    image: response.data.image_url,
 			    description: response.data.description,
-			    otherProfile: response.data.otherProfile
+			    otherProfile: response.data.otherProfile,
+			    timezone: response.data.timezone,
 			})
 		})
 		.catch(function (error) {
@@ -111,6 +116,7 @@ class EditProfile extends React.Component {
 		        image_url: this.state.image,
 		        otherProfile: this.state.otherProfile,
 		        price: this.state.price,
+		        timezone: this.state.timezone,
 		    }
 		    ).then(function (response) {
 		        console.log(response)
@@ -119,7 +125,18 @@ class EditProfile extends React.Component {
 		}
 	}
 
+	selectTimezone(event, index, value) {
+		this.setState({timezone: value})
+	}
+
   	render() {
+
+  // 		const zones = [];
+		// for (let i in timezones) {
+		//   zones.push();
+		// }
+
+
 	    const { isAuthenticated } = this.props.auth;
 	    console.log(this.state)
 	  	return (
@@ -130,6 +147,7 @@ class EditProfile extends React.Component {
 	          <div className="text-center">
 	            <h2>Create a Discussion Profile</h2>
 	            <div className="col-md-12">
+
 	            <TextField
 	                hintText= {`${this.state.profile.given_name} ${this.state.profile.family_name}`}
 	                type="name"
@@ -168,7 +186,17 @@ class EditProfile extends React.Component {
 	                errorText={this.state.price_error_text}
 	                onChange={(e) => this.changeValue(e, 'price')}
 	              />
+	              <SelectField
+	            	floatingLabelText="Timezone"
+			        value={this.state.timezone}
+			        onChange={(event, index, value) => this.selectTimezone(event, index, value, "id")}
+			        maxHeight={200}
+			        style={{textAlign: 'start'}}
+			      >
+			        {timezones.map((timezone) => <MenuItem value={timezone.value} key={timezone.value} primaryText={timezone.name} />)}
+			      </SelectField>
 	            </div>
+
 	            <RaisedButton
 	              disabled={this.state.disabled}
 	              style={{ marginTop: 50 }}

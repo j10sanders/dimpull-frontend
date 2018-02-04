@@ -3,6 +3,9 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import history from '../../history';
 
 const style = {
     marginTop: 50,
@@ -22,6 +25,7 @@ class Contact extends React.Component {
       tel: '',
       tel_error_text: null,
       disabled: true,
+      startTime: null,
     };
   }
 
@@ -66,17 +70,37 @@ class Contact extends React.Component {
       }
     }
   }
+
+  handleOpen(){
+    this.setState({open: true});
+  };
+
+  handleClose(){
+    this.setState({open: false});
+    history.push({
+      pathname: '/discussions',
+    })
+  };
   
   submit(e) {
     e.preventDefault();
+    const start = this.props.location.state.startTime
+    //TODO add real error handling if time is now in the past.
+    if (start < new Date()){
+      console.log("TOO EARLT FOO")
+    } else{
     axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
         {
         phone_number: this.state.tel,
         message: this.state.message,
+        start_time: start,
     }
     ).then(function (response) {
-        if (response.data !== 'done'){
-          this.setState({tel_error_text: response.data});
+        if (response.data !== 'whitelisted'){
+          console.log("ERROR, not whitelisted")
+        }
+        else{
+          this.handleOpen()
         }
         //redirect to create profile
     }).catch(function (error) {
@@ -84,15 +108,25 @@ class Contact extends React.Component {
     // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
   });
   }
+}
+
+
 
   render() {
-    console.log(this.state, "state")
-  return (
+    const actions = [
+      <FlatButton
+        label="Okay"
+        primary={true}
+        keyboardFocused={true}
+        onClick={this.handleClose}
+      />,
+    ];
+    return (
       <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
         <Paper style={style}>
           <div className="text-center">
             <h2>Please provide your phone number.</h2>
-            <p> Don't worry, we aren't sharing this.  We can't even see it, and a different number will show up in caller ID.</p>
+            <p> Don't worry, we aren't sharing this, and a different number will show up in caller ID.</p>
             <div className="col-md-12">
               <TextField
                 hintText="Phone number"
@@ -119,6 +153,15 @@ class Contact extends React.Component {
               onClick={(e) => this.submit(e)}
             />
           </div>
+          <Dialog
+          title="A notification was sent to the expert."
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          You will be notified by SMS if/when they accept.
+        </Dialog>
         </Paper>
       </div>
   );
