@@ -127,6 +127,33 @@ class Calendar extends React.Component {
 	    }
 	  }
 
+	componentDidMount(){
+	const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    let headers = {}
+    if ( isAuthenticated()) {
+      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    }
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/getmytimeslots`, {headers})
+        .then((response) => {
+        console.log(response)
+          let events = []
+          let index = 0
+          for (let e of response.data) {
+            let start = new Date(e.start)
+            let end = new Date(e.end)
+            let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
+            let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
+            let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
+            events.push(event)
+            index += 1
+          }
+          this.setState({events: events})})
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+
 
   	render() {
 

@@ -60,7 +60,7 @@ class Availability extends React.Component {
 
     handleOpen(evt) {
       console.log(evt)
-      this.setState({open: true, event: evt});
+      this.setState({open: true, event: evt });
       let startHour = this.formatTime(evt.start.getHours().toString())
       let startMin = this.formatTime(evt.start.getMinutes().toString())
       let endHour = this.formatTime(evt.end.getHours().toString())
@@ -103,15 +103,25 @@ class Availability extends React.Component {
     // this.state.event date with time this.state.checked is not in past -- then 
     let checked = this.state.checked
     let start = this.state.event.start
-    if ((start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0) < new Date()){
-      console.log("TOO EARLT FOO")
+    let startTime = start
+    if (!checked) {
+      if (start < new Date()){
+        console.log("TOO EARLY FOO")
+        return
+      }
+    } else {
+      startTime = (start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0)
+    }
+    if (startTime < new Date()){
+      console.log("TOO EARLY FOO")
     } else{
+      console.log(startTime, "STARTTIME")
       // save go to next step to save anon number and will need to associate with this time.
       history.push({
-  pathname: '/requestConversation',
-  search: this.props.location.search,
-  state: { startTime: start }
-})
+        pathname: '/requestConversation',
+        search: this.props.location.search,
+        state: { startTime: startTime }
+      })
     }
   }
 
@@ -150,7 +160,6 @@ class Availability extends React.Component {
   }
 
   render() {
-    console.log("STATE:", this.state)
     const settings = {
       timeSlotGap: 30,
       minTime: this.state.startTime,
@@ -179,6 +188,9 @@ class Availability extends React.Component {
     for (let i of slots) {
       let ampm = ''
       let hour = i.substring(0, 2);
+      if (i.substring(0,1) != 1){
+        hour = i.substring(0,1)
+      }
       if (Number(hour) < 12) {
         ampm = i + ' am'
       } else if (Number(hour) === 12) {
@@ -195,6 +207,12 @@ class Availability extends React.Component {
         />
       );
     }
+
+    let formats = {
+      dayFormat: (date, culture, localizer) =>
+        localizer.format(date, 'M/D', culture)
+    }
+    
     return (
       <div style={{height: '1000px'}}>
       <Paper style={{marginTop: '10px'}}>
@@ -207,6 +225,7 @@ class Availability extends React.Component {
         onEventResize={this.resizeEvent}
         defaultView="week"
         defaultDate={new Date()}
+        formats={formats}
       />
       </Paper>
        <Dialog
@@ -216,7 +235,7 @@ class Availability extends React.Component {
               open={this.state.open}
               onRequestClose={() => this.handleClose.bind(this)}
             >   
-            <RadioButtonGroup name="timeslots" defaultSelected="not_light">
+            <RadioButtonGroup name="timeslots" defaultSelected={radios.length > 0 ? radios[0].props.value : ""}>
             {radios}
           </RadioButtonGroup>
       </Dialog>

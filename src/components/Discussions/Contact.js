@@ -26,6 +26,7 @@ class Contact extends React.Component {
       tel_error_text: null,
       disabled: true,
       startTime: null,
+      open: false,
     };
   }
 
@@ -93,7 +94,7 @@ class Contact extends React.Component {
         {
         phone_number: this.state.tel,
         message: this.state.message,
-        start_time: start,
+        start_time: new Date(start),
     }
     ).then(function (response) {
         if (response.data !== 'whitelisted'){
@@ -113,6 +114,7 @@ class Contact extends React.Component {
 
 
   render() {
+    console.log(this.props.location.state.startTime)
     const actions = [
       <FlatButton
         label="Okay"

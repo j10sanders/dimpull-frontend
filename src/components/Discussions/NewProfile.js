@@ -28,7 +28,7 @@ class newProfile extends React.Component {
       otherProfile: '',
       price: '',
       disabled: true,
-      timezone: 'America/New_York',
+      timezone: '',
     };
   }
 
@@ -89,6 +89,11 @@ class newProfile extends React.Component {
     } else {
       this.setState({ profile: userProfile });
     }
+  }
+
+  componentDidMount() {
+    debugger;
+    this.setState({timezone: Intl.DateTimeFormat().resolvedOptions().timeZone})
   }
 
   
