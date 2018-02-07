@@ -188,7 +188,7 @@ class Availability extends React.Component {
     for (let i of slots) {
       let ampm = ''
       let hour = i.substring(0, 2);
-      if (i.substring(0,1) != 1){
+      if (i.substring(0,1) !== '1' && i.substring(0,1) !=='2'){
         hour = i.substring(0,1)
       }
       if (Number(hour) < 12) {

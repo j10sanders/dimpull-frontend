@@ -29,6 +29,7 @@ class newProfile extends React.Component {
       price: '',
       disabled: true,
       timezone: '',
+      etherPrice: '',
     };
   }
 
@@ -62,7 +63,9 @@ class newProfile extends React.Component {
   }
 
   changeValue(e, type) {
-    // console.log(process.env.REACT_APP_USERS_SERVICE_URL, "undefined?")
+    if (type === "price"){
+      this.etherPrice();
+    }
     const value = e.target.value;
     const next_state = {};
     next_state[type] = value;
@@ -91,8 +94,16 @@ class newProfile extends React.Component {
     }
   }
 
+  etherPrice(){
+    axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+      .then(res => {
+        // const ether = res.data;
+        this.setState({etherPrice: res.data.USD})
+      })
+  }
+
   componentDidMount() {
-    debugger;
+    this.etherPrice();
     this.setState({timezone: Intl.DateTimeFormat().resolvedOptions().timeZone})
   }
 
@@ -162,13 +173,6 @@ class newProfile extends React.Component {
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'otherProfile')}
               />
-              <TextField
-                hintText=""
-                floatingLabelText="Price Per Minute (in Ether)"
-                type="price"
-                errorText={this.state.price_error_text}
-                onChange={(e) => this.changeValue(e, 'price')}
-              />
               <SelectField
                 floatingLabelText="Timezone"
                 value={this.state.timezone}
@@ -178,6 +182,16 @@ class newProfile extends React.Component {
               >
                 {timezones.map((timezone) => <MenuItem value={timezone.value} key={timezone.value} primaryText={timezone.name} />)}
               </SelectField>
+              <TextField
+                  // hintText="To combat volatility, the price is tied to the dollar. So the amount of Ether charged will be determined at the beginning of each call."
+                  floatingLabelText="Price Per Minute (in dollars)"
+                  type="price"
+                  value={this.state.price}
+                  errorText={this.state.price_error_text}
+                  onChange={(e) => this.changeValue(e, 'price')}
+                />
+                <p> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} Ether/minute.  
+                It will be set at the beginning of each call. We do this to combat volatility.</p>
             </div>
             <RaisedButton
               disabled={this.state.disabled}

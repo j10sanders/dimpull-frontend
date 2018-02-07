@@ -101,7 +101,7 @@ class Calendar extends React.Component {
 	removeTimeslot(){
 		let events = this.state.events
 		let event = this.state.event
-		var filtered = events.filter(function(el) { return el.id != event.id });
+		var filtered = events.filter(function(el) { return el.id !== event.id });
 		this.setState({events: filtered})
 		this.setState({open: false})
 	}
