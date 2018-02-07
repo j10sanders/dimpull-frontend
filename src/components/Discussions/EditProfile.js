@@ -39,7 +39,7 @@ class EditProfile extends React.Component {
 				this.setState({etherPrice: res.data.USD})
 			})
   	}
-  	
+
 	componentDidMount(){
 		this.etherPrice();
 		const { isAuthenticated } = this.props.auth;
@@ -89,8 +89,7 @@ class EditProfile extends React.Component {
     }
 
 	changeValue(e, type) {
-		if (type === "price"){
-			console.log("price")
+		if (type == "price"){
 			this.etherPrice();
 		}
 	    const value = e.target.value;
