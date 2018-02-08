@@ -11,11 +11,20 @@ class DiscussionProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      etherPrice: '',
       }
     }
 
+    etherPrice(){
+      axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+      .then(res => {
+        this.setState({etherPrice: res.data.USD})
+      })
+    }
+
   componentDidMount(){
+    this.etherPrice();
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {}
@@ -58,7 +67,6 @@ class DiscussionProfile extends React.Component {
   }
 
   handleOpen() {
-    console.log("sup")
     this.setState({open: true});
   }
 
@@ -67,7 +75,6 @@ class DiscussionProfile extends React.Component {
   }
 
   linkToProfile(profile){
-    console.log("HLINKK")
     window.open(
       profile,
       '_blank' // <- This is what makes it open in a new window.
@@ -96,8 +103,8 @@ class DiscussionProfile extends React.Component {
       />,
     ];
 
-    console.log(this.state)
-    console.log(this.props.location)
+    const subtitle = `($${this.state.price}/min)`
+    const title = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e8')+'e-8')} Ether/min`
     return (
       <div style={cardStyle}>
       {this.state.host && (
@@ -109,7 +116,7 @@ class DiscussionProfile extends React.Component {
         />
         <CardMedia
         style={{cursor:'pointer'}}
-          overlay={<CardTitle title={this.state.price} subtitle="Ether per min" />}
+          overlay={<CardTitle title={title} subtitle={subtitle} />}
           onClick={() => this.linkToProfile(this.state.other_profile)}
         >
           <img src={this.state.image} alt=""  />

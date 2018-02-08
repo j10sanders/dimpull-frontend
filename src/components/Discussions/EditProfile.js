@@ -35,7 +35,6 @@ class EditProfile extends React.Component {
   	etherPrice(){
   		axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
 			.then(res => {
-				// const ether = res.data;
 				this.setState({etherPrice: res.data.USD})
 			})
   	}
@@ -89,7 +88,7 @@ class EditProfile extends React.Component {
     }
 
 	changeValue(e, type) {
-		if (type == "price"){
+		if (type === "price"){
 			this.etherPrice();
 		}
 	    const value = e.target.value;
