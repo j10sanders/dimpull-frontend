@@ -9,7 +9,7 @@ export default class Auth {
     clientID: 'QBLBoATBNMLbdIIn4GOBQLsxcuXZR1EW',
     redirectUri: 'http://localhost:3000/callback',
     responseType: 'token id_token',
-    scope: 'openid profile read:messages',
+    scope: 'openid email profile',
     audience: 'https://jonsanders.auth0.com/api/v2/',
   });
 
@@ -35,8 +35,6 @@ export default class Auth {
   }
 
   handleAuthentication() {
-
-    
     this.auth0.parseHash((err, authResult) => {
 
       if (authResult && authResult.accessToken && authResult.idToken) {
