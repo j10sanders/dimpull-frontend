@@ -16,6 +16,10 @@ const style = {
     display: 'inline-block',
 };
 
+// Check if logged in, and if user has number saved (they should, but it is possible they decided against providing it when promted after registration).
+// If logged in and no number, history.push to getNumber, and have something in history object that lets getNumber know to submit to `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}
+
+// If not logged in, tell user that if they login they get some benifits, but they are welcome to continue anonymously and can do that here.
 
 class Contact extends React.Component {
   constructor(props) {
@@ -37,14 +41,14 @@ class Contact extends React.Component {
         this.setState({
             tel_error_text: null,
         });
-    } else if (this.state.tel.length >=14  && this.state.tel.length <16) {
+    } else if (this.state.tel.length >=15  && this.state.tel.length <17) {
         this.setState({
             tel_error_text: null,
         });
         tel_is_valid = true;
     }else {
         this.setState({
-            tel_error_text: 'Enter a valid phone number (+1917-555-7777)',
+            tel_error_text: 'Enter a valid phone number (+1-917-555-7777)',
         });
     }
     if (tel_is_valid) {
