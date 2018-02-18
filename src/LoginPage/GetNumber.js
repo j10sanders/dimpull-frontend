@@ -24,6 +24,7 @@ class GetNumber extends React.Component {
       lname_error_text: null,
       disabled: true,
       hasName: false,
+      needNames: false,
     };
   }
 
@@ -34,14 +35,14 @@ class GetNumber extends React.Component {
         this.setState({
             tel_error_text: null,
         });
-    } else if (this.state.tel.length >=14  && this.state.tel.length <16) {
+    } else if (this.state.tel.length >=15  && this.state.tel.length <17) {
         this.setState({
             tel_error_text: null,
         });
         tel_is_valid = true;
     }else {
         this.setState({
-            tel_error_text: 'Enter a valid phone number (+1917-555-7777)',
+            tel_error_text: 'Enter a valid phone number (+1-917-555-7777)',
         });
     }
 
@@ -76,12 +77,13 @@ class GetNumber extends React.Component {
     if (!userProfile) {
       getProfile((err, profile) => {
         this.setState({ profile });
+        console.log(profile)
         if (profile.given_name) {
           this.setState({hasName: true, 
             first_name: profile.given_name,
             last_name: profile.family_name,
           })
-        } else if (profile['https://jonsanders:auth0:com/user_metadata'].given_name){
+        } else if (profile['https://jonsanders:auth0:com/user_metadata']){
           this.setState({hasName: true, 
             first_name: profile['https://jonsanders:auth0:com/user_metadata'].given_name,
             last_name: profile['https://jonsanders:auth0:com/user_metadata'].family_name,
@@ -95,7 +97,7 @@ class GetNumber extends React.Component {
             first_name: userProfile.given_name,
             last_name: userProfile.family_name,
           })
-        } else if (userProfile['https://jonsanders:auth0:com/user_metadata'].given_name){
+        } else if (userProfile['https://jonsanders:auth0:com/user_metadata']){
           this.setState({hasName: true, 
             first_name: userProfile['https://jonsanders:auth0:com/user_metadata'].given_name,
             last_name: userProfile['https://jonsanders:auth0:com/user_metadata'].family_name,
@@ -166,7 +168,7 @@ class GetNumber extends React.Component {
                   type="tel"
                   errorText={this.state.tel_error_text}
                   onChange={(e) => this.changeValue(e, 'tel')}
-                  defaultValue="+1"
+                  defaultValue="+1-"
                 />
               </div>
               <RaisedButton

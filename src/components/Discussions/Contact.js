@@ -34,10 +34,37 @@ class Contact extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    if ( isAuthenticated()) {
+      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, {headers})
+        .then((response) => {
+          if (response.data.phone_number){
+            this.setState({tel: response.data.phone_number, telReceived: true})
+          } else{
+            history.push({
+              pathname: '/getNumber',
+              state: { contactDiscussion: this.props.location.search }
+            })
+          }
+          })
+        .catch(function (error) {
+          console.log(error)
+      })
+    } 
+  }
+
+
+
   isDisabled() {
     let tel_is_valid = false;
-
-    if (this.state.tel === '' || !this.state.tel) {
+    if (this.state.telReceived) {
+      this.setState({
+                disabled: false,
+            });
+    }else if (this.state.tel === '' || !this.state.tel) {
         this.setState({
             tel_error_text: null,
         });
@@ -105,10 +132,11 @@ class Contact extends React.Component {
           console.log("ERROR, not whitelisted")
         }
         else{
-          this.handleOpen()
+          return "number is whitelisted"
         }
         //redirect to create profile
     }).catch(function (error) {
+      console.log(error, "ERROR")
       this.setState({tel_error_text: error});
     // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
   });
@@ -118,7 +146,6 @@ class Contact extends React.Component {
 
 
   render() {
-    console.log(this.props.location.state.startTime)
     const actions = [
       <FlatButton
         label="Okay"
@@ -134,14 +161,28 @@ class Contact extends React.Component {
             <h2>Please provide your phone number.</h2>
             <p> Don't worry, we aren't sharing this, and a different number will show up in caller ID.</p>
             <div className="col-md-12">
-              <TextField
-                hintText="Phone number"
-                floatingLabelText="Phone number"
-                type="tel"
-                errorText={this.state.tel_error_text}
-                onChange={(e) => this.changeValue(e, 'tel')}
-                defaultValue="+1"
-              />
+              {this.state.telReceived && 
+                <TextField
+                  hintText="Phone number"
+                  floatingLabelText="Phone number"
+                  type="tel"
+                  errorText={this.state.tel_error_text}
+                  // onChange={(e) => this.changeValue(e, 'tel')}
+                  defaultValue={this.state.tel}
+                  disabled={true}
+                />
+              }
+              {!this.state.telReceived &&
+                <TextField
+                  hintText="Phone number"
+                  floatingLabelText="Phone number"
+                  type="tel"
+                  errorText={this.state.tel_error_text}
+                  onChange={(e) => this.changeValue(e, 'tel')}
+                  defaultValue="+1-"
+                />
+              }
+              
               <TextField
                 hintText="Message for Expert"
                 floatingLabelText="Message"

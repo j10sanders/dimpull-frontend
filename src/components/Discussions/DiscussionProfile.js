@@ -24,26 +24,44 @@ class DiscussionProfile extends React.Component {
     }
 
   componentDidMount(){
-    this.etherPrice();
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {}
     if ( isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
+        headers
+      })
+     .then((response) => {
+        if (response.data === "register phone"){
+          history.push('/getNumber');
+        }
+        else{
+          this.getDiscussion(headers);
+        }
+      }).catch(function (error) {
+            console.log(error)
+          })
+    } else {
+      this.getDiscussion(headers);
     }
+  }
+
+  getDiscussion(headers){
+    this.etherPrice()
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`, {headers})
-      .then((response) => 
-        this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
-          image: response.data.image,
-          auth_image: response.data.auth_pic,
-          description: response.data.description,
-          anonymous_phone_number: response.data.anonymous_phone_number,
-          is_users: response.data.is_users,
-          price: response.data.price,
-          other_profile: response.data.otherProfile,
-        })
-      )
-      .catch(function (error) {
+          .then((response) => {
+            this.etherPrice();
+            this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
+              image: response.data.image,
+              auth_image: response.data.auth_pic,
+              description: response.data.description,
+              anonymous_phone_number: response.data.anonymous_phone_number,
+              is_users: response.data.is_users,
+              price: response.data.price,
+              other_profile: response.data.otherProfile,
+            })
+          }).catch(function (error) {
         console.log(error)
       })
   }
@@ -84,7 +102,7 @@ class DiscussionProfile extends React.Component {
   render() {
     var cardStyle = {
     display: 'block',
-    width: '30vw',
+    width: '60vw',
     transitionDuration: '0.3s',
     height: '45vw',
     margin: 'auto',

@@ -12,9 +12,10 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    width: '100%',
   },
   gridList: {
-    width: 500,
+    width: 600,
     overflowY: 'hidden',
   },
 };
@@ -62,6 +63,7 @@ class Discussions extends React.Component {
 	      cellHeight={180}
         id="GridlistID"
 	      style={styles.gridList}
+        cols={3}
 	    >
 	      <Subheader>Discussion Profiles</Subheader>
 	      {this.state.dps.map((dp) => (
