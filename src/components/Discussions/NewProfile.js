@@ -201,7 +201,7 @@ class newProfile extends React.Component {
                 onChange={(e) => this.changeValue(e, 'image')}
               />
               {this.state.image && (
-                <img src={this.state.image} style={{width: '50%'}}/>
+                <img src={this.state.image} style={{width: '50%'}} alt={this.state.image} />
               )
               }
               <TextField

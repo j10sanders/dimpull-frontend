@@ -8,7 +8,6 @@ import NewProfile from '../components/Discussions/NewProfile';
 import EditProfile from '../components/Discussions/EditProfile';
 import Availability from '../components/Discussions/Availability';
 import Calendar from '../Profile/Calendar';
-import RequestExpert from '../Profile/RequestExpert';
 import { LoginPage } from '../LoginPage';
 import { GetNumber } from '../LoginPage/GetNumber';
 import { Home } from '../components/Home';
@@ -53,7 +52,6 @@ class Routes extends Component {
 							    <Route path="/availability" render={(props) => <Availability auth={auth} {...props} />} />
 							    <Route path="/calendar" render={(props) => <Calendar auth={auth} {...props} />} />
 							    <Route path="/pay" render={(props) => <Pay auth={auth} {...props} />} />
-							    <Route path="/requestExpert" render={(props) => <RequestExpert auth={auth} {...props} />} />
 							    <Route path="/profile" render={(props) => (
 						            !auth.isAuthenticated() ? (
 						              <Redirect to="/home"/>
