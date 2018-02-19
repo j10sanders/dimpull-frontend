@@ -107,6 +107,7 @@ class Calendar extends React.Component {
 	}
 
 	submit(){
+		debugger;
 		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
         {
         user_id: this.state.profile.sub,

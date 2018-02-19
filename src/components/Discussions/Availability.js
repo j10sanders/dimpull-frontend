@@ -59,7 +59,6 @@ class Availability extends React.Component {
     }
 
     handleOpen(evt) {
-      console.log(evt)
       this.setState({open: true, event: evt });
       let startHour = this.formatTime(evt.start.getHours().toString())
       let startMin = this.formatTime(evt.start.getMinutes().toString())

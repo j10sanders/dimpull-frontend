@@ -16,11 +16,6 @@ const style = {
     display: 'inline-block',
 };
 
-// Check if logged in, and if user has number saved (they should, but it is possible they decided against providing it when promted after registration).
-// If logged in and no number, history.push to getNumber, and have something in history object that lets getNumber know to submit to `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}
-
-// If not logged in, tell user that if they login they get some benifits, but they are welcome to continue anonymously and can do that here.
-
 class Contact extends React.Component {
   constructor(props) {
     super(props);
@@ -43,12 +38,7 @@ class Contact extends React.Component {
         .then((response) => {
           if (response.data.phone_number){
             this.setState({tel: response.data.phone_number, telReceived: true})
-          } else{
-            history.push({
-              pathname: '/getNumber',
-              state: { contactDiscussion: this.props.location.search }
-            })
-          }
+          } 
           })
         .catch(function (error) {
           console.log(error)
@@ -86,7 +76,6 @@ class Contact extends React.Component {
   }
 
   changeValue(e, type) {
-    // console.log(process.env.REACT_APP_USERS_SERVICE_URL, "undefined?")
     const value = e.target.value;
     const next_state = {};
     next_state[type] = value;
@@ -121,13 +110,17 @@ class Contact extends React.Component {
     if (start < new Date()){
       console.log("TOO EARLT FOO")
     } else{
-    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
-        {
-        phone_number: this.state.tel,
-        message: this.state.message,
-        start_time: new Date(start),
-    }
-    ).then(function (response) {
+      const { isAuthenticated } = this.props.auth;
+      const { getAccessToken } = this.props.auth;
+      if ( isAuthenticated()) {
+        const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
+          {
+          phone_number: this.state.tel,
+          message: this.state.message,
+          start_time: new Date(start),
+          }, {headers}
+        ).then(function (response) {
         if (response.data !== 'whitelisted'){
           console.log("ERROR, not whitelisted")
         }
@@ -135,11 +128,33 @@ class Contact extends React.Component {
           return "number is whitelisted"
         }
         //redirect to create profile
-    }).catch(function (error) {
-      console.log(error, "ERROR")
-      this.setState({tel_error_text: error});
-    // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
-  });
+        }).catch(function (error) {
+          console.log(error, "ERROR")
+          this.setState({tel_error_text: error});
+        // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
+      })
+      } else {
+        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
+          {
+          phone_number: this.state.tel,
+          message: this.state.message,
+          start_time: new Date(start),
+          }
+        ).then(function (response) {
+        if (response.data !== 'whitelisted'){
+          console.log("ERROR, not whitelisted")
+        }
+        else{
+          return "number is whitelisted"
+        }
+        //redirect to create profile
+        }).catch(function (error) {
+          console.log(error, "ERROR")
+          this.setState({tel_error_text: error});
+        // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
+      })
+      }
+      ;
   }
 }
 

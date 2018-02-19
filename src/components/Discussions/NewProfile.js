@@ -7,6 +7,7 @@ import history from '../../history';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {timezones} from '../../timezones/timezones';
+import Divider from 'material-ui/Divider';
 
 const style = {
     marginTop: 50,
@@ -16,6 +17,15 @@ const style = {
     textAlign: 'center',
     display: 'inline-block',
 };
+
+const innerStyle = {
+  paddingBottom: 50,
+  width: '100%',
+}
+
+const textStyle ={
+  textAlign: 'start'
+}
 
 
 class newProfile extends React.Component {
@@ -30,6 +40,8 @@ class newProfile extends React.Component {
       disabled: true,
       timezone: '',
       etherPrice: '',
+      email: '',
+      message: '',
     };
   }
 
@@ -76,9 +88,9 @@ class newProfile extends React.Component {
 
   _handleKeyPress(e) {
     if (e.key === 'Enter') {
-      if (!this.state.disabled) {
-          this.login(e);
-      }
+      // if (!this.state.disabled) {
+      //     this.login(e);
+      // }
     }
   }
 
@@ -87,10 +99,16 @@ class newProfile extends React.Component {
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
-        this.setState({ profile });
+        if (profile){
+          this.setState({ profile, email: profile.email });
+        }
+        else{
+          history.push('/login')
+        }
+        
       });
     } else {
-      this.setState({ profile: userProfile });
+      this.setState({ profile: userProfile, email: userProfile.email });
     }
   }
 
@@ -105,7 +123,21 @@ class newProfile extends React.Component {
   componentDidMount() {
     this.etherPrice();
     this.setState({timezone: Intl.DateTimeFormat().resolvedOptions().timeZone})
-  }
+
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    let headers = {}
+    if ( isAuthenticated()) {
+      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    }
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, {headers})
+        .then((response) => {
+          this.setState({expert: response.data.expert})
+          })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
 
   
   submit(e) {
@@ -118,6 +150,8 @@ class newProfile extends React.Component {
         otherProfile: this.state.otherProfile,
         price: this.state.price,
         timezone: this.state.timezone,
+        email: this.state.email,
+        message: this.state.message
     }
     ).then(function (response) {
         console.log(response)
@@ -127,11 +161,9 @@ class newProfile extends React.Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
-  return (
+    return (
     <div>
-    {
-          isAuthenticated() && (
-
+    {isAuthenticated() && (
       <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
         <Paper style={style}>
           <div className="text-center">
@@ -149,6 +181,7 @@ class newProfile extends React.Component {
                 hintText= {`${this.state.profile['https://jonsanders:auth0:com/user_metadata'].given_name} ${this.state.profile['https://jonsanders:auth0:com/user_metadata'].family_name}`}
                 type="name"
                 disabled={true}
+                fullWidth={true}
               />
               )}
               <TextField
@@ -157,19 +190,25 @@ class newProfile extends React.Component {
                 type="description"
                 // errorText={this.state.description_error_text}
                 onChange={(e) => this.changeValue(e, 'description')}
-                // fullWidth={true}
+                fullWidth={true}
               />
               <TextField
                 hintText="URLs only (accepting uploads soon)"
                 floatingLabelText="Image URL"
                 type="text"
+                fullWidth={true}
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'image')}
               />
+              {this.state.image && (
+                <img src={this.state.image} style={{width: '50%'}}/>
+              )
+              }
               <TextField
                 hintText="Link to another site's profile"
                 floatingLabelText="Your profile, blog, twitter, etc..."
                 type="otherProfile"
+                fullWidth={true}
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'otherProfile')}
               />
@@ -178,7 +217,8 @@ class newProfile extends React.Component {
                 value={this.state.timezone}
                 onChange={(event, index, value) => this.selectTimezone(event, index, value, "id")}
                 maxHeight={200}
-                style={{textAlign: 'start'}}
+                fullWidth={true}
+                style={textStyle}
               >
                 {timezones.map((timezone) => <MenuItem value={timezone.value} key={timezone.value} primaryText={timezone.name} />)}
               </SelectField>
@@ -189,9 +229,41 @@ class newProfile extends React.Component {
                   value={this.state.price}
                   errorText={this.state.price_error_text}
                   onChange={(e) => this.changeValue(e, 'price')}
+                  style={{textAlign: 'start'}}
+                  fullWidth={true}
                 />
-                <p> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} Ether/minute.  
+                <p style={{marginBottom: '20px'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} Ether/minute.  
                 It will be set at the beginning of each call. We do this to combat volatility.</p>
+              {!this.state.expert && 
+                <div style={{paddingTop: '20px'}}>
+                <Paper style={innerStyle}>
+                <Divider />
+                <h3 style={{marginTop: '30px'}}> Before your profile is public, the Dimpull admins will check to be sure you're a good fit. </h3>
+                <TextField
+                  hintText="Message for Dimpull admins"
+                  floatingLabelText="Message for Dimpull Admins"
+                  type="message"
+                  value={this.state.message}
+                  onChange={(e) => this.changeValue(e, 'message')}
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={6}
+                  style={{textAlign: 'start', width: '95%'}}
+                  fullWidth={true}
+                />
+                <TextField
+                  hintText="Email"
+                  floatingLabelText="Email"
+                  type="email"
+                  defaultValue={this.state.profile.email}
+                  value={this.state.email}
+                  style={{textAlign: 'start', width: '95%'}}
+                  onChange={(e) => this.changeValue(e, 'email')}
+                  fullWidth={true}
+                />
+                </Paper>
+                </div>
+              }
             </div>
             <RaisedButton
               disabled={this.state.disabled}

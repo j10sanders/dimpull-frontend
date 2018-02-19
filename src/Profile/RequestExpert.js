@@ -16,6 +16,7 @@ const style = {
     display: 'inline-block',
 };
 
+
 class RequestExpert extends React.Component {
   constructor(props) {
     super(props);
@@ -34,12 +35,6 @@ class RequestExpert extends React.Component {
 		if ( isAuthenticated()) {
 			headers = { 'Authorization': `Bearer ${getAccessToken()}`}
 		}
-    }
-
-    _handleKeyPress(e) {
-      if (e.key === 'Enter') {
-            this.login(e);
-      }
     }
 
 
