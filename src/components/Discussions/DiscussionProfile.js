@@ -218,7 +218,7 @@ class DiscussionProfile extends React.Component {
 
     var cardStyle = {
       display: 'block',
-      width: '60vw',
+      width: '40vw',
       transitionDuration: '0.3s',
       height: 'auto',
       margin: 'auto',
@@ -237,7 +237,6 @@ class DiscussionProfile extends React.Component {
       />,
     ];
 
-    console.log(this.state)
     const subtitle = `($${this.state.price}/min)`
     const title = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e8')+'e-8')} Ether/min`
     return (
