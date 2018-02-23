@@ -121,12 +121,33 @@ class newProfile extends React.Component {
   }
 
   componentDidMount() {
-    this.etherPrice();
-    this.setState({timezone: Intl.DateTimeFormat().resolvedOptions().timeZone})
-
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {}
+    if ( isAuthenticated()) {
+      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
+        headers
+      })
+     .then((response) => {
+      console.log(response)
+        if (response.data === "register phone"){
+          history.push('/getNumber');
+        }
+        else if (response.data.dp) {
+          history.push(`/discussionProfile?id=${response.data.dp}`)
+        }
+        else{
+          this.getDiscussion(headers);
+        }
+      }).catch(function (error) {
+            console.log(error)
+          })
+    }
+
+    this.etherPrice();
+    this.setState({timezone: Intl.DateTimeFormat().resolvedOptions().timeZone})
+
     if ( isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}`}
     }

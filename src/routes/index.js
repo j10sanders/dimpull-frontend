@@ -36,9 +36,11 @@ class Routes extends Component {
 					<div>
 						<Header />
 						<div
-						className="container"
-                        style={{ 
-                        	}}
+							className="container"
+	                        style={{ paddingBottom: '45px',
+		                        height: '100%',
+		                        minHeight: '88vh'
+	                        }}
                       	>
 							<Switch>
 								<Route exact path="/" render={(props) => <Home auth={auth} {...props} />} />
@@ -67,7 +69,7 @@ class Routes extends Component {
 						    </Switch>
 
 					    </div>
-					    
+
 					</div>
 
 				</Router>

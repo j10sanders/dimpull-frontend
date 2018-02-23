@@ -8,7 +8,7 @@ import './App.css';
 // import {deepOrange500} from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Routes from './routes';
-// import { Footer } from './components/Footer';
+import { Footer } from './components/Footer';
 
 require('bootstrap-webpack');
 
@@ -41,7 +41,7 @@ class App extends React.Component {
             <MuiThemeProvider muiTheme={muiTheme} style={styles}>
                 <section id='section'>
                     <Routes />
-                    
+                    <Footer />
                 </section>
             </MuiThemeProvider>
         );

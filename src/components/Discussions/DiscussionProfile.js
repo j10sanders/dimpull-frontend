@@ -70,6 +70,9 @@ class DiscussionProfile extends React.Component {
     this.etherPrice()
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`, {headers})
           .then((response) => {
+            if (response.data === "not an expert yet"){
+              this.setState({notExpert: true})
+            }
             this.etherPrice();
             this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
               image: response.data.image,
@@ -239,6 +242,12 @@ class DiscussionProfile extends React.Component {
 
     const subtitle = `($${this.state.price}/min)`
     const title = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e8')+'e-8')} Ether/min`
+    if (this.state.notExpert){
+      return(
+      <div><h1>This user isn't a confimed expert yet</h1></div>
+      )
+    }
+
     return (
       <div style={{paddingBottom: '10px'}}>
       {this.state.thanks && (
