@@ -30,7 +30,8 @@ class Availability extends React.Component {
   }
 
       componentDidMount(){
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
+      axios.get(`
+        ${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
         .then((response) => {
           let events = []
           let index = 0
