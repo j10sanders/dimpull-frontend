@@ -5,12 +5,12 @@ import axios from 'axios';
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
-    domain: {process.env.REACT_APP_AUTH0_DOMAIN},
-    clientID: {process.env.REACT_APP__clientID},
+    domain: `${process.env.REACT_APP_AUTH0_DOMAIN}`,
+    clientID: `${process.env.REACT_APP_AUTH0_clientID}`,
     redirectUri: 'http://localhost:3000/callback',
     responseType: 'token id_token',
     scope: 'openid email profile',
-    audience: {process.env.REACT_APP_AUTH0_AUDIENCE},
+    audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`,
   });
 
   login() {
