@@ -240,8 +240,8 @@ class DiscussionProfile extends React.Component {
       />,
     ];
 
-    const subtitle = `($${this.state.price}/min)`
-    const title = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e8')+'e-8')} Ether/min`
+    const title = `$${this.state.price} per half hour`
+    const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e8')+'e-8')} Ether`
     if (this.state.notExpert){
       return(
       <div><h1>This user isn't a confimed expert yet</h1></div>

@@ -159,7 +159,7 @@ class GetNumber extends React.Component {
             )}
             <div className="text-center">
               <h2>Please provide your phone number.</h2>
-              <p> Don't worry, we aren't sharing this, and we won't use it for anything aside from facilitating calls on Dimpull.  
+              <p> Don't worry, we aren't sharing this, and we won't use it for anything aside from facilitating calls on dimpull.  
                 Experts get a "masked number" that will be shared, and they won't see users' numbers in caller-id.</p>
               <div className="col-md-12">
                 <TextField

@@ -12,7 +12,7 @@ import FontIcon from 'material-ui/FontIcon';
 import SvgIcon from 'material-ui/SvgIcon';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
-import './landingpage.css';
+// import './landingpage.css';
 
 // const HomeIcon = (props) => (
 //   <SvgIcon {...props}>
@@ -28,7 +28,7 @@ const styles = {
     width: '100%',
   },
   gridList: {
-    width: 600,
+    width: 800,
     overflowY: 'hidden',
   },
 };
@@ -37,7 +37,7 @@ class Discussions extends React.Component {
 	constructor(props) {
     super(props);
     this.state = {dps: null,
-    };
+                  };
   }
 
   componentWillReceiveProps(nextProps){
@@ -64,81 +64,37 @@ class Discussions extends React.Component {
           console.log(error)
       })
     }
-
-    };
+  };
 
  render() {
-  //<Subheader>Discussion Profiles</Subheader>
-  // const { isAuthenticated } = this.props.auth;\
-  // let Header = [<h1> Discussion Profiles </h1>]
-  // const { isAuthenticated } = this.props.auth;
-  //   const { getAccessToken } = this.props.auth;
-  //   if ( isAuthenticated()) {
-  //     Header = <Home />
-  //   }
     return (
       <div style={{textAlign: 'center'}}>
-      <Home />
-	  <div style={styles.root}>
-    
-    {this.state.dps && (
-	    <GridList
-	      cellHeight={180}
-        id="GridlistID"
-	      style={styles.gridList}
-        cols={3}
-	    >
-	      
-	      {this.state.dps.map((dp) => (
-          <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
-	        <GridTile
-	          key={dp.id}
-	          title={dp.description}
-	          subtitle={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
-	          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-	        >
-	          <img src={dp.image} alt={dp.id} />
-	        </GridTile>
-          </Link>
-	      ))}
-	    </GridList>
-       
+        <h1> Discussion Profiles </h1>
+        <div style={styles.root}>
+        {this.state.dps && (
+    	    <GridList
+    	      cellHeight={180}
+            id="GridlistID"
+    	      style={styles.gridList}
+            cols={3}
+    	    >
+  	      {this.state.dps.map((dp) => (
+            <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
+  	        <GridTile
+  	          key={dp.id}
+  	          title={dp.description}
+  	          subtitle={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
+  	          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+  	        >
+  	          <img src={dp.image} alt={dp.id} />
+  	        </GridTile>
+            </Link>
+  	      ))}
+        </GridList>
       )}
-    
-        {!this.state.dps && (
-          <CircularProgress size={80} thickness={5} /> 
-        )}
-	  </div>
-    <RaisedButton
-      href="https://github.com/callemall/material-ui"
-      
-      label="See More Expert Profiles"
-      secondary={true}
-      style={{marginTop: '20px'}}
-      />
-          <Divider style={{marginTop: '30px', marginBottom: '30px'}}/>
-            <h2> How it Works</h2>
-            <p> Dimpull is a platform for crypto traders of all backgrounds to have phone conversations with the best experts in the community.  </p>
-            <p>You can expect to learn more about the space, and refine your trading/investment strategies though phone calls with the Experts.
-              Experts set their own price-per-minute for phone calls. 
-            </p>
-            <p>Nobody's phone number gets shared with the other party (we mask phone calls), and you can even choose to remain anonymous if that's important to you! </p>
-            <p>Because payments are done exclusively in Ether, experts don't have to trust us -- the smart contract is public information on the Ethereum blockchain.
-              If your call doesn't last as long as the amount you pay for, your remaining balance will be automatically sent back to your Wallet.
-            </p>
-          <Divider style={{marginTop: '30px', marginBottom: '30px'}}/>
-          <h2> Are You an Expert? </h2>
-          <RaisedButton linkbutton ={true}
-            containerElement={<Link to="/newProfile"  />}
-            label="Create a Discussion Profile"
-            secondary={true}
-            style={{marginTop: '10px', marginBottom: '10px'}}
-            />
-          <p style={{paddingTop: '15px'}}> If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
+      </div>
     </div>
-
     );
-
   }
 }
 

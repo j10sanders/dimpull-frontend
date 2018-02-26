@@ -245,7 +245,7 @@ class newProfile extends React.Component {
               </SelectField>
               <TextField
                   // hintText="To combat volatility, the price is tied to the dollar. So the amount of Ether charged will be determined at the beginning of each call."
-                  floatingLabelText="Price Per Minute (in dollars)"
+                  floatingLabelText="Price for 30min call"
                   type="price"
                   value={this.state.price}
                   errorText={this.state.price_error_text}
@@ -253,16 +253,16 @@ class newProfile extends React.Component {
                   style={{textAlign: 'start'}}
                   fullWidth={true}
                 />
-                <p style={{marginBottom: '20px'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} Ether/minute.  
-                It will be set at the beginning of each call. We do this to combat volatility.</p>
+                <p style={{marginBottom: '20px'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} per 30 minute call.  The price will be locked in when a user books your time.  
+                We do this to combat volatility.</p>
               {!this.state.expert && 
                 <div style={{paddingTop: '20px'}}>
                 <Paper style={innerStyle}>
                 <Divider />
-                <h3 style={{marginTop: '30px'}}> Before your profile is public, the Dimpull admins will check to be sure you're a good fit. </h3>
+                <h3 style={{marginTop: '30px'}}> Before your profile is public, the dimpull admins will check to be sure you're a good fit. </h3>
                 <TextField
-                  hintText="Message for Dimpull admins"
-                  floatingLabelText="Message for Dimpull Admins"
+                  hintText="Message for dimpull admins"
+                  floatingLabelText="Message for dimpull Admins"
                   type="message"
                   value={this.state.message}
                   onChange={(e) => this.changeValue(e, 'message')}

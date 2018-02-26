@@ -149,7 +149,7 @@ class EditProfile extends React.Component {
 	      <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
 	        <Paper style={style}>
 	          <div className="text-center">
-	            <h2>Create a Discussion Profile</h2>
+	            <h2>Edit your Discussion Profile</h2>
 	            <div className="col-md-12">
 	            {this.state.profile.given_name && (
 	              <TextField

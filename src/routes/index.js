@@ -10,7 +10,7 @@ import Availability from '../components/Discussions/Availability';
 import Calendar from '../Profile/Calendar';
 import { LoginPage } from '../LoginPage';
 import { GetNumber } from '../LoginPage/GetNumber';
-import { Home } from '../components/Home';
+import Home from '../components/Home';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer'
 import Auth from '../Auth/Auth.js';
@@ -37,9 +37,9 @@ class Routes extends Component {
 						<Header />
 						<div
 							className="container"
-	                        style={{ paddingBottom: '45px',
+	                        style={{ paddingBottom: '100px',
 		                        height: '100%',
-		                        minHeight: '88vh'
+		                        // minHeight: '88vh'
 	                        }}
                       	>
 							<Switch>
@@ -69,7 +69,6 @@ class Routes extends Component {
 						    </Switch>
 
 					    </div>
-
 					</div>
 
 				</Router>

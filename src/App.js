@@ -38,12 +38,15 @@ class App extends React.Component {
 
     render() {
         return (
+            <div id="othersection">
             <MuiThemeProvider muiTheme={muiTheme} style={styles}>
                 <section id='section'>
                     <Routes />
-                    <Footer />
+                   
                 </section>
             </MuiThemeProvider>
+            <Footer />
+            </div>
         );
     }
 }
