@@ -77,10 +77,10 @@ class Home extends React.Component {
   //   }
     return (
       <div style={{textAlign: 'center'}}>
-      <section style={{paddingBottom: '35px', paddingTop: '70px'}}>
+      <section style={{paddingBottom: '35px'}} id="headerTop">
         <div className="row">
           <div className="col-sm-6">
-          <div style={{width: '500px', margin: '0 auto'}}>
+          <div style={{maxWidth: '500px', margin: '0 auto', paddingBottom: '30px'}}>
             <h1 style={{fontSize: '55px', paddingTop: '20px'}}>Exchange your Crypto knowledge for ETH</h1>
       		  <h3 style={{fontSize: '20px', color:'black'}}>Connect with those who are new to the crypto scene, and get paid for your time. </h3><h3 style={{fontSize: '20px', color:'black'}}>Guarenteed by the Ethereum blockchain.</h3>
           </div>
@@ -125,13 +125,13 @@ class Home extends React.Component {
       />
       <div style={{backgroundColor: '#f2faff', marginTop: '100px', marginBottom: '100px'}}>
         <Divider style={{marginTop: '30px', marginBottom: '30px'}}/>
-        <Paper style={{marginLeft: '140px', marginRight: '140px', marginTop: '50px', marginBottom: '50px', paddingTop: '30px', paddingBottom: '30px', paddingLeft: '90px', paddingRight: '90px'}} zDepth={1}>
+        <Paper id="help" zDepth={1}>
           <div className="row">
             <div className="col-sm-4">
               <h2 style={{paddingBottom: '10px', paddingTop: '10px'}}> How it Works</h2>
               <img src='https://image.ibb.co/bSKkj6/orange_magnet_48.png' />
             </div>
-            <div className="col-sm-6" style={{width: '66%'}}>
+            <div className="col-sm-6" id="sixtysix">
               <p id="leftalign">Dimpull is a platform for crypto traders of all backgrounds to have 30 minute phone calls with experts in the community.</p>
               <p id="leftalign">Traders should expect to learn more about the space, and refine trading/investment strategies through conversations.</p>
               <p id="leftalign">Nobody's phone number gets shared with the other party, and you can choose to remain anonymous if that's important to you.</p>

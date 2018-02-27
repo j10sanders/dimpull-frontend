@@ -18,3 +18,28 @@ h3 {
 	text-align: left !important;
 	font-size: 17px !important;
 }
+
+@media (min-width: 1000px){ 
+	#sixtysix {
+		width: 66% !important;
+	}
+}
+
+@media (min-width: 1000px){ 
+	#sixtysix {
+		width: 66% !important;
+	}
+	#help{
+		margin-left: 140px;
+		margin-right: 140px;
+		margin-top: 50px;
+		margin-bottom: 50px;
+		padding-top: 30px;
+		padding-bottom: 30px;
+		padding-left: 90px; 
+		padding-right: 90px;
+	}
+	#headerTop {
+		padding-top: 70px;
+	}
+}
