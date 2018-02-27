@@ -27,7 +27,7 @@ const styles = {
     width: '100%',
   },
   gridList: {
-    width: 800,
+    // width: 600,
     overflowY: 'hidden',
   },
 };
@@ -51,14 +51,14 @@ class Home extends React.Component {
       const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
     	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
   	   .then((response) => 
-  	      this.setState({dps: response.data}))
+  	      this.setState({dps: response.data.slice(0,4)}))
   	    .catch(function (error) {
   	      console.log(error)
   	  })
     }else{
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
        .then((response) => 
-          this.setState({dps: response.data}))
+          this.setState({dps: response.data.slice(0,4)}))
         .catch(function (error) {
           console.log(error)
       })
@@ -77,68 +77,78 @@ class Home extends React.Component {
   //   }
     return (
       <div style={{textAlign: 'center'}}>
-      <section style={{paddingBottom: '35px'}}>
-        <div className="container text-center"  >
-            <h1 style={{fontSize: '55px', paddingTop: '20px'}}>Share your crypto knowledge in return for ETH
-      		</h1>
-      		<h3 style={{fontSize: '20px', color:'black'}}>Connect with those who are new to the crypto scene, and get paid for your time. Guarenteed by the Ethereum blockchain.</h3>
+      <section style={{paddingBottom: '35px', paddingTop: '70px'}}>
+        <div className="row">
+          <div className="col-sm-6">
+          <div style={{width: '500px', margin: '0 auto'}}>
+            <h1 style={{fontSize: '55px', paddingTop: '20px'}}>Exchange your Crypto knowledge for ETH</h1>
+      		  <h3 style={{fontSize: '20px', color:'black'}}>Connect with those who are new to the crypto scene, and get paid for your time. </h3><h3 style={{fontSize: '20px', color:'black'}}>Guarenteed by the Ethereum blockchain.</h3>
+          </div>
+          </div>
+          <div className="col-sm-6">
+          {this.state.dps && (
+            <GridList
+              cellHeight={180}
+              id="GridlistID"
+              style={styles.gridList}
+              cols={2}
+            >
+              
+              {this.state.dps.map((dp) => (
+                <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
+                <GridTile
+                  key={dp.id}
+                  title={dp.description}
+                  subtitle={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
+                  actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                >
+                  <img src={dp.image} alt={dp.id} />
+                </GridTile>
+                </Link>
+              ))}
+            </GridList>
+             
+            )}
+          
+              {!this.state.dps && (
+                <CircularProgress size={80} thickness={5} /> 
+              )}
+          </div>
         </div>
     </section>
-	  <div style={styles.root}>
-    
-    {this.state.dps && (
-	    <GridList
-	      cellHeight={180}
-        id="GridlistID"
-	      style={styles.gridList}
-        cols={3}
-	    >
-	      <Subheader>These are placeholder profiles, while we vet our first experts!</Subheader>
-	      {this.state.dps.map((dp) => (
-          <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
-	        <GridTile
-	          key={dp.id}
-	          title={dp.description}
-	          subtitle={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
-	          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-	        >
-	          <img src={dp.image} alt={dp.id} />
-	        </GridTile>
-          </Link>
-	      ))}
-	    </GridList>
-       
-      )}
-    
-        {!this.state.dps && (
-          <CircularProgress size={80} thickness={5} /> 
-        )}
-	  </div>
+	  
     <RaisedButton
       containerElement={<Link to="/discussions"  />}
       label="See More Expert Profiles"
       secondary={true}
       style={{marginTop: '40px'}}
       />
-      <div style={{backgroundColor: '#56a2d8', marginTop: '70px', marginBottom: '50px'}}>
-          <Divider style={{marginTop: '30px', marginBottom: '30px'}}/>
-          <Paper style={{marginLeft: '140px', marginRight: '140px', marginTop: '50px', marginBottom: '50px', paddingTop: '30px', paddingBottom: '30px', paddingLeft: '80px', paddingRight: '80px'}} zDepth={2}>
-            <h2 style={{paddingBottom: '10px'}}> How it Works</h2>
-            <p> Dimpull is a platform for crypto traders of all backgrounds to have phone conversations with the experts in the community.  </p>
-            <p>You can expect to learn more about the space, and refine your trading/investment strategies though 30 minute phone calls with the Experts.</p>
-            <p>Nobody's phone number gets shared with the other party (we mask phone calls), and you can even choose to remain anonymous if that's important to you! </p>
-            <p>Because payments are done exclusively in Ether, experts don't have to trust us -- the smart contract is public information on the Ethereum blockchain.</p>
-            </Paper>
-          <Divider style={{marginTop: '30px', marginBottom: '30px'}}/>
+      <div style={{backgroundColor: '#f2faff', marginTop: '100px', marginBottom: '100px'}}>
+        <Divider style={{marginTop: '30px', marginBottom: '30px'}}/>
+        <Paper style={{marginLeft: '140px', marginRight: '140px', marginTop: '50px', marginBottom: '50px', paddingTop: '30px', paddingBottom: '30px', paddingLeft: '90px', paddingRight: '90px'}} zDepth={1}>
+          <div className="row">
+            <div className="col-sm-4">
+              <h2 style={{paddingBottom: '10px', paddingTop: '10px'}}> How it Works</h2>
+              <img src='https://image.ibb.co/bSKkj6/orange_magnet_48.png' />
+            </div>
+            <div className="col-sm-6" style={{width: '66%'}}>
+              <p id="leftalign">Dimpull is a platform for crypto traders of all backgrounds to have 30 minute phone calls with experts in the community.</p>
+              <p id="leftalign">Traders should expect to learn more about the space, and refine trading/investment strategies through conversations.</p>
+              <p id="leftalign">Nobody's phone number gets shared with the other party, and you can choose to remain anonymous if that's important to you.</p>
+              <p id="leftalign">Because payments are in Ether, experts don't have to trust anyone. Our smart contract initiates payment at the close of a call.</p>
+            </div>
           </div>
-          <h2 style={{marginBottom: '20px'}}> Are You an Expert? </h2>
-          <RaisedButton
-            containerElement={<Link to="/newProfile"  />}
-            label="Create a Discussion Profile"
-            secondary={true}
-            style={{marginTop: '10px', marginBottom: '10px'}}
-            />
-          <p style={{paddingTop: '15px'}}> If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
+        </Paper>
+        <Divider style={{marginTop: '30px', marginBottom: '30px'}}/>
+      </div>
+      <h2 style={{marginBottom: '20px'}}> Are You an Expert? </h2>
+      <RaisedButton
+        containerElement={<Link to="/newProfile"  />}
+        label="Create a Discussion Profile"
+        secondary={true}
+        style={{marginTop: '10px', marginBottom: '10px'}}
+        />
+      <p style={{paddingTop: '25px', fontSize:'17px'}}> If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
     </div>
 
     );

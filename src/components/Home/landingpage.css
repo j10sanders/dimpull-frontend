@@ -9,6 +9,12 @@ h3 {
 	font-size: 100px;
 }
 
+.row {
+	margin-left: 23px !important;
+	margin-right: 23px !important;
+}
+
 #leftalign {
-	text-align: left;
+	text-align: left !important;
+	font-size: 17px !important;
 }
