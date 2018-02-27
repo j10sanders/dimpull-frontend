@@ -8,6 +8,9 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {timezones} from '../../timezones/timezones';
 import Divider from 'material-ui/Divider';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const style = {
     marginTop: 50,
@@ -42,6 +45,8 @@ class newProfile extends React.Component {
       etherPrice: '',
       email: '',
       message: '',
+      open: false,
+      waiting: false,
     };
   }
 
@@ -96,6 +101,11 @@ class newProfile extends React.Component {
 
   componentWillMount() {
     this.setState({ profile: {} });
+    const { isAuthenticated } = this.props.auth;
+    if ( !isAuthenticated()) {
+      this.props.auth.login('newProfile');
+    }
+
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
@@ -103,7 +113,7 @@ class newProfile extends React.Component {
           this.setState({ profile, email: profile.email });
         }
         else{
-          history.push('/login')
+          debugger;
         }
         
       });
@@ -161,9 +171,10 @@ class newProfile extends React.Component {
     }
 
   
-  submit(e) {
+  async submit(e) {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
+    this.setState({waiting: true})
+    const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
         {
         user_id: this.state.profile.sub,
         description: this.state.description,
@@ -174,18 +185,37 @@ class newProfile extends React.Component {
         email: this.state.email,
         message: this.state.message
     }
-    ).then(function (response) {
-        console.log(response)
-        history.replace('/calendar');
-    })
+    )
+    this.setState({waiting: false})
+    console.log(res)
+    this.setState({open: true});
+  }
+
+  handleOpen(evt) {
+    this.setState({open: true, event: evt});
+  }
+  
+  handleClose() {
+    this.setState({open: false});
+    history.replace('/')
   }
 
   render() {
     const { isAuthenticated } = this.props.auth;
+    const actions = [
+      <FlatButton
+        label="Sounds good"
+        primary={true}
+        onClick={() => this.handleClose()}
+      />,
+    ];
+    let display = this.state.waiting ? 'none': 'inherit'
+    let waiting = this.state.waiting ? 'inherit': 'none'
     return (
     <div>
+    <CircularProgress style={{display: waiting}} size={80} thickness={5} />
     {isAuthenticated() && (
-      <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
+      <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)} style={{display: display}}>
         <Paper style={style}>
           <div className="text-center">
             <h2>Create a Discussion Profile</h2>
@@ -293,6 +323,14 @@ class newProfile extends React.Component {
               onClick={(e) => this.submit(e)}
             />
           </div>
+          <Dialog
+            title="Thanks for your application.  The dimpull admins will get back to you shortly."
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={() => this.handleClose.bind(this)}
+          >
+          </Dialog>
         </Paper>
       </div>
       )}

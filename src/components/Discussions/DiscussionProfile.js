@@ -121,10 +121,11 @@ class DiscussionProfile extends React.Component {
   }
 
   linkToProfile(profile){
-    window.open(
-      profile,
-      '_blank' // <- This is what makes it open in a new window.
-    );
+    // window.open(
+    //   profile,
+    //   '_blank' // <- This is what makes it open in a new window.
+    // );
+    //commented out because we don't need to link in seed profiles.
   }
 
   // componentWillMount() {

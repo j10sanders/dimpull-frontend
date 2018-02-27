@@ -13,8 +13,45 @@ export default class Auth {
     audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`,
   });
 
-  login() {
-    this.auth0.authorize();
+  async login(redirectUrl) {
+    debugger;
+    let url = redirectUrl ? redirectUrl : ''
+    const auth = await this.auth0.authorize();
+    let headers = {}
+    debugger;
+    if (auth){
+      debugger;
+    }
+    
+    if ( this.isAuthenticated()) {
+      headers = { 'Authorization': `Bearer ${this.getAccessToken()}`}
+    }
+    console.log("Headers", headers)
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
+      headers
+      // user_id: authResult.idTokenPayload.sub,
+    })
+   .then((response) => {
+      debugger;
+      console.log(response)
+      if (response.data === "register phone"){
+        history.replace({
+          pathname: '/getNumber',
+          search: url
+        })
+      }
+      else{
+        console.log(response, "response")
+        history.replace("/" + url);
+      }
+    })
+    .catch(function (error) {
+      console.log(error)
+  })
+
+    // if (redirectUrl){
+    //   history.replace('/'+redirectUrl)
+    // }
   }
 
   constructor() {
@@ -36,36 +73,9 @@ export default class Auth {
 
   handleAuthentication() {
     this.auth0.parseHash((err, authResult) => {
-
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        let headers = {}
-        if ( this.isAuthenticated()) {
-          headers = { 'Authorization': `Bearer ${this.getAccessToken()}`}
-        }
-        console.log("Headers", headers)
-        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
-          headers
-          // user_id: authResult.idTokenPayload.sub,
-        })
-       .then((response) => {
-          console.log(response)
-          if (response.data === "register phone"){
-            history.replace('/getNumber');
-          }
-          else{
-            console.log(response, "response")
-            history.replace('/discussions');
-          }
-        })
-        .catch(function (error) {
-          console.log(error)
-      })
-      } else if (err) {
-        history.replace('/');
-        console.log(err);
-      }
-    });
+    }});
   }
 
   setSession(authResult) {

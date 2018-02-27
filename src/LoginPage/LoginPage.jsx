@@ -37,11 +37,7 @@ class LoginPage extends React.Component {
               </h4>
             )
         }
-        {
-          (!isAuthenticated() && process.env.REACT_APP_USERS_SERVICE_URL) && (
-                <RaisedButton label="Login" primary={true} onClick={() => this.login.bind(this)} />
-            )
-        }
+        
       </div>
     );
   }

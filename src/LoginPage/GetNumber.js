@@ -107,9 +107,9 @@ class GetNumber extends React.Component {
 
   }
 
-  submit(e) {
+  async submit(e) {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+    const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
         {
         user_id: this.state.profile.sub,
         phone_number: this.state.tel,
@@ -117,10 +117,12 @@ class GetNumber extends React.Component {
         last_name: this.state.last_name,
         auth_pic: this.state.profile.picture,
     }
-    ).then(function (response) {
-        console.log(response)
-        history.replace('/discussions');
-    })
+    )
+    if (this.props.location.search){
+      history.replace('/'+ this.props.location.search)
+    } else {
+      history.replace('/discussions');
+    }
   }
 
   render() {

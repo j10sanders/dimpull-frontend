@@ -107,7 +107,6 @@ class Calendar extends React.Component {
 	}
 
 	submit(){
-		debugger;
 		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
         {
         user_id: this.state.profile.sub,
@@ -191,17 +190,16 @@ class Calendar extends React.Component {
 	        defaultView="week"
 	        defaultDate={new Date()}
 	        onSelectEvent={event => this.handleOpen(event)}
-			onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
+			    onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
 	      />
 	      <Dialog
-              title="Remove this timeslot?"
-              actions={actions}
-              modal={false}
-              open={this.state.open}
-              onRequestClose={() => this.handleClose.bind(this)}
-            >
-                 
-                </Dialog>
+          title="Remove this timeslot?"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={() => this.handleClose.bind(this)}
+        >
+        </Dialog>
            <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
 		    onClick={() => this.submit()}
 		    />
