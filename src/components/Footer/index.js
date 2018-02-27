@@ -6,7 +6,7 @@ import './styles.css';
 
 export const Footer = () =>
     <div className='footer'>
-        <p><a href="mailto:admin@dimpull.com">Contact dimpull</a></p>
+        <p><a href="mailto:admin@dimpull.com">contact dimpull</a></p>
     </div>
 
 // <a href="mailto:admin@dimpull.com">Contact</a>

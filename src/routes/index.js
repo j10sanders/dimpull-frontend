@@ -38,7 +38,7 @@ class Routes extends Component {
 						<div
 							className="container"
 	                        style={{ paddingBottom: '100px',
-		                        height: '100%',
+		                        // height: '100%',
 		                        // minHeight: '88vh'
 	                        }}
                       	>
