@@ -97,7 +97,7 @@ class Home extends React.Component {
                   key={dp.id}
                   title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
                   subtitle={dp.description}
-                  actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                  actionIcon={<IconButton></IconButton>}
                   
                 >
                   <img src={dp.image} alt={dp.id} />
