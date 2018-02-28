@@ -249,8 +249,8 @@ class newProfile extends React.Component {
               />
               )}
               <TextField
-                hintText="Area of expertise"
-                floatingLabelText="Discussion Topic"
+                hintText="Full Time Trader, ICO investor, etc..."
+                floatingLabelText="Your title"
                 type="description"
                 style={textStyle}
                 // errorText={this.state.description_error_text}
