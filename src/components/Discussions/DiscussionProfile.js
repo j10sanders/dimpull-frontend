@@ -273,7 +273,7 @@ class DiscussionProfile extends React.Component {
         <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
         <RaisedButton
             containerElement={<Link to="/newProfile"  />}
-            label="Create a Discussion Profile"
+            label="Become a Dimpull Expert"
             secondary={true}
             style={{marginTop: '10px', marginBottom: "20px"}}
             />
@@ -332,7 +332,7 @@ class DiscussionProfile extends React.Component {
           <h2 style={{paddingTop: '20px'}}> Are You an Expert? </h2>
           <RaisedButton
             containerElement={<Link to="/newProfile"  />}
-            label="Create a Discussion Profile"
+            label="Become a Dimpull Expert"
             secondary={true}
             style={{marginTop: '10px', marginBottom: '10px'}}
             />

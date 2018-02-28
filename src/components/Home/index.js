@@ -72,9 +72,10 @@ class Home extends React.Component {
             <h1 id='exchange'>Exchange your Crypto knowledge for ETH</h1>
       		  <h3 id='h3exchange' >Connect with those who are new to the crypto space, and get paid for your time. </h3>
             <h3 id='h3exchange'>Guarenteed by the Ethereum blockchain.</h3>
+            
             <RaisedButton
-              containerElement={<Link to="/discussions"  />}
-              label="Meet the Experts"
+             containerElement={<Link to="/newProfile"  />}
+              label="Become a Dimpull Expert"
               secondary={true}
               style={{marginTop: '60px', height: 'auto', lineHeight: '45px', display: 'flex', maxWidth:'230px', minWidth: '175px'}}
             />
@@ -152,7 +153,7 @@ class Home extends React.Component {
       so you can start connecting with Crypto enthusiasts.</p>
       <RaisedButton
         containerElement={<Link to="/newProfile"  />}
-        label="Create My Discussion Profile"
+        label="Become a Dimpull Expert"
         secondary={true}
         style={{marginTop: '30px', marginBottom: '30px',height: 'auto', lineHeight: '45px', }}
         />
