@@ -47,6 +47,7 @@ class newProfile extends React.Component {
     super(props);
     this.state = {
       price_error_text: null,
+      tel_error_text: null,
       description: '',
       image: '',
       otherProfile: '',
@@ -59,13 +60,30 @@ class newProfile extends React.Component {
       open: false,
       waiting: false,
       who: '',
+      tel: '',
     };
   }
 
+
+
   isDisabled() {
     let price_is_valid = false;
+    let tel_is_valid = false;
 
-    
+    if (this.state.tel === '' || !this.state.tel) {
+        this.setState({
+            tel_error_text: null,
+        });
+    } else if (this.state.tel.length >=15  && this.state.tel.length <17) {
+        this.setState({
+            tel_error_text: null,
+        });
+        tel_is_valid = true;
+    }else {
+        this.setState({
+            tel_error_text: 'Enter a valid phone number (+1-917-555-7777)',
+        });
+    }
     if (this.state.price.length === 0) {
         this.setState({
             price_error_text: null,
@@ -80,7 +98,7 @@ class newProfile extends React.Component {
             price_error_text: 'Enter a valid number, greater than 0',
         });
     }
-    if (this.state.description.length !== 0 && this.state.image.length !== 0 && price_is_valid) {
+    if (this.state.description.length !== 0 && this.state.image.length !== 0 && price_is_valid && tel_is_valid && this.state.who.length !== 0) {
             this.setState({
                 disabled: false,
             });
@@ -112,25 +130,41 @@ class newProfile extends React.Component {
   }
 
   componentWillMount() {
+    let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
+    let fullUrl = almostUrl.replace(/\./g, ":")
     this.setState({ profile: {} });
-    const { isAuthenticated } = this.props.auth;
-    if ( !isAuthenticated()) {
-      this.props.auth.login('newProfile');
-    }
-
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
-        if (profile){
-          this.setState({ profile, email: profile.email });
-        }
-        else{
-          this.setState({ profile: userProfile, email: userProfile.email });
+        this.setState({ profile });
+        console.log(profile)
+        if (profile.given_name) {
+          this.setState({hasName: true, 
+            first_name: profile.given_name,
+            last_name: profile.family_name,
+          })
+        } else if (profile[fullUrl]){
+          this.setState({hasName: true, 
+            first_name: profile[fullUrl].given_name,
+            last_name: profile[fullUrl].family_name,
+          })
         }
       });
     } else {
-      this.setState({profile:userProfile})
+        this.setState({ profile: userProfile });
+        if (userProfile.given_name) {
+          this.setState({hasName: true, 
+            first_name: userProfile.given_name,
+            last_name: userProfile.family_name,
+          })
+        } else if (userProfile[fullUrl]){
+          this.setState({hasName: true, 
+            first_name: userProfile[fullUrl].given_name,
+            last_name: userProfile[fullUrl].family_name,
+          })
+        }
     }
+
   }
 
   etherPrice(){
@@ -152,15 +186,12 @@ class newProfile extends React.Component {
       })
      .then((response) => {
       console.log(response)
-        if (response.data === "register phone"){
-          // history.push('/getNumber');
-        }
-        else if (response.data.dp) {
+        if (response.data.dp) {
           history.push(`/discussionProfile?id=${response.data.dp}`)
         }
-        else{
-          this.getDiscussion(headers);
-        }
+        // else{
+        //   this.getDiscussion(headers);
+        // }
       }).catch(function (error) {
             console.log(error)
           })
@@ -174,7 +205,9 @@ class newProfile extends React.Component {
     }
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, {headers})
         .then((response) => {
-          this.setState({expert: response.data.expert})
+          this.setState({expert: response.data.expert,
+                        tel: response.data.phone_number
+                          })
           })
         .catch(function (error) {
           console.log(error)
@@ -185,7 +218,16 @@ class newProfile extends React.Component {
   async submit(e) {
     e.preventDefault();
     this.setState({waiting: true})
-    const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
+    await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+         {
+         user_id: this.state.profile.sub,
+         phone_number: this.state.tel,
+         first_name: this.state.first_name,
+         last_name: this.state.last_name,
+         auth_pic: this.state.profile.picture,
+     })
+
+    await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
         {
         user_id: this.state.profile.sub,
         description: this.state.description,
@@ -199,7 +241,7 @@ class newProfile extends React.Component {
     }
     )
     this.setState({waiting: false})
-    console.log(res)
+    // console.log(res, user)
     this.setState({open: true});
   }
 
@@ -213,6 +255,8 @@ class newProfile extends React.Component {
   }
 
   render() {
+    let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
+    let fullUrl = almostUrl.replace(/\./g, ":")
     const { isAuthenticated } = this.props.auth;
     const actions = [
       <FlatButton
@@ -239,9 +283,9 @@ class newProfile extends React.Component {
                 disabled={true}
               />
               )}
-            {(!this.state.profile.given_name && this.state.profile['https://jonsanders:auth0:com/user_metadata']) && (
+            {(!this.state.profile.given_name && this.state.profile[fullUrl]) && (
               <TextField
-                hintText= {`${this.state.profile['https://jonsanders:auth0:com/user_metadata'].given_name} ${this.state.profile['https://jonsanders:auth0:com/user_metadata'].family_name}`}
+                hintText= {`${this.state.profile[fullUrl].given_name} ${this.state.profile[fullUrl].family_name}`}
                 type="name"
                 disabled={true}
                 style={textStyle}
@@ -309,7 +353,7 @@ class newProfile extends React.Component {
                   rowsMax={6}
                   onChange={(e) => this.changeValue(e, 'who')}
                 />
-                <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
+                <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>This is a good place to brag of your success, and convince users that it is worth their ETH to speak to you.</Subheader>
                 </div>
 
                 
@@ -321,16 +365,15 @@ class newProfile extends React.Component {
               <div className="text-center">
               <div className="col-md-12">
               <TextField
-                  // hintText="To combat volatility, the price is tied to the dollar. So the amount of Ether charged will be determined at the beginning of each call."
                   floatingLabelText="Price for 30min call (in dollars)"
                   type="price"
                   value={this.state.price}
                   errorText={this.state.price_error_text}
                   onChange={(e) => this.changeValue(e, 'price')}
-                  style={{textAlign: 'start', width:"80%"}}
+                  style={{textAlign: 'start', width:"95%"}}
                   fullWidth={true}
                 />
-                <p style={{marginBottom: '20px'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} per 30 minute call.  <b>You can always change this later.</b></p>
+                <Subheader style={{paddingLeft: "24px", marginTop: "-8px", marginBottom: '15px', lineHeight: '19px', textAlign: 'left'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} ETH per 30 minute call. You can always change this later.</Subheader>
                </div>
                </div>
                </Paper>
@@ -355,8 +398,21 @@ class newProfile extends React.Component {
                   style={{textAlign: 'start', width: '95%'}}
                   fullWidth={true}
                 />
+
                 <TextField
-                  hintText="Email"
+                  hintText="Phone number"
+                  floatingLabelText="Phone number"
+                  type="tel"
+                  errorText={this.state.tel_error_text}
+                  onChange={(e) => this.changeValue(e, 'tel')}
+                  style={{textAlign: 'start', width: '95%'}}
+                  defaultValue="+1-"
+                />
+                <Subheader style={{paddingLeft: "24px", marginTop: "-8px", marginBottom: '15px', lineHeight: '19px', textAlign: 'left'}}>Don't worry, we won't use it for anything but facilitating calls on dimpull!  
+                You will get a masked-number for users to call during scheduled times.</Subheader>
+
+                <TextField
+                  hintText="Email (so we can notify you if you get accepted)"
                   floatingLabelText="Email"
                   type="email"
                   defaultValue={this.state.profile.email}

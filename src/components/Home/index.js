@@ -1,7 +1,7 @@
 import React from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+// import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -123,22 +123,22 @@ class Home extends React.Component {
         <h2 id="howItWorks"> HOW IT WORKS </h2>
           <div className="row" id="helpRow">
             <div className="col-sm-3">
-            <img src="http://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Expert_Icon.png" alt={'expert'} id="imgWorks" />
+            <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Expert_Icon.png" alt={'expert'} id="imgWorks" />
               <h3 id='hHelp'>Find an Expert</h3>
               <p id="pHelp">Browse our roster to find a Crypto expert who matches your intrests and pricepoint.</p>
             </div>
             <div className="col-sm-3">
-            <img src="http://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Calendar_Icon.png" alt={'schedule'} id="imgWorks" />
+            <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Calendar_Icon.png" alt={'schedule'} id="imgWorks" />
               <h3 id='hHelp'>Schedule</h3>
               <p id="pHelp">Schedule your 30 minute call for a time that works for both parties</p>
             </div>
             <div className="col-sm-3">
-            <img src="http://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Phone_Icon.png" alt={'phone'} id="imgWorks" />
+            <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Phone_Icon.png" alt={'phone'} id="imgWorks" />
               <h3 id='hHelp'>Have a Conversation</h3>
               <p id="pHelp">Discuss your questions and seek advice during your one-on-one call.  Your privacy is protected: phone numbers are never shared.</p>
             </div>
             <div className="col-sm-3">
-            <img src="http://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/ETHExhange_Icon.png" alt={'ether'} id="imgWorks" />
+            <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/ETHExhange_Icon.png" alt={'ether'} id="imgWorks" />
               <h3 id='hHelp'>Use the Blockchain</h3>
               <p id="pHelp">Payments are done exclusively in Ether.  Our smart-contract automatically initiates payment at the end of the call.</p>
             </div>
