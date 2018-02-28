@@ -7,9 +7,19 @@ import history from '../../history';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {timezones} from '../../timezones/timezones';
+import Subheader from 'material-ui/Subheader';
 
 const style = {
     marginTop: 50,
+    paddingBottom: 50,
+    paddingTop: 25,
+    width: '100%',
+    textAlign: 'center',
+    display: 'inline-block',
+};
+
+const underStyle = {
+    marginTop: 10,
     paddingBottom: 50,
     paddingTop: 25,
     width: '100%',
@@ -29,6 +39,9 @@ class EditProfile extends React.Component {
       disabled: true,
       timezone: 'America/New_York',
       etherPrice: '',
+	  origin: '',
+	  excites: '',
+	  help: '',
     };
   }
 
@@ -56,6 +69,10 @@ class EditProfile extends React.Component {
 			    description: response.data.description,
 			    otherProfile: response.data.otherProfile,
 			    timezone: response.data.timezone,
+			    origin: response.data.origin,
+			    excites: response.data.excites,
+			    helps: response.data.helps,
+
 			}, () => this.isDisabled())
 		})
 		.catch(function (error) {
@@ -129,6 +146,9 @@ class EditProfile extends React.Component {
 		        otherProfile: this.state.otherProfile,
 		        price: this.state.price,
 		        timezone: this.state.timezone,
+		        origin: this.state.origin,
+		        excites: this.state.excites,
+		        helps: this.state.helps,
 		    }
 		    ).then(function (response) {
 		        console.log(response)
@@ -159,9 +179,9 @@ class EditProfile extends React.Component {
 	                fullWidth={true}
 	              />
 	              )}
-	            {(!this.state.profile.given_name && this.state.profile['https://jonsanders:auth0:com/user_metadata']) && (
+	            {(!this.state.profile.given_name && this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`]) && (
 	              <TextField
-	                hintText= {`${this.state.profile['https://jonsanders:auth0:com/user_metadata'].given_name} ${this.state.profile['https://jonsanders:auth0:com/user_metadata'].family_name}`}
+	                hintText= {`${this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`].given_name} ${this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`].family_name}`}
 	                type="name"
 	                disabled={true}
 	                fullWidth={true}
@@ -219,6 +239,74 @@ class EditProfile extends React.Component {
 	              <p> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} Ether/minute.  
 	              It will be set at the beginning of each call. We do this to combat volatility.</p>
 	            </div>
+	            </div>
+	        	</Paper>
+
+
+	           <Paper style={underStyle}>
+              <div className="text-center">
+              <h3>Don't be shy...</h3>
+              <div className="col-md-12">
+
+              <div style={{textAlign: 'left'}}>
+                <TextField
+                  hintText="Who are you?"
+                  floatingLabelText="Who are you?"
+                  type="who"
+                  fullWidth={true}
+                  // errorText={this.state.tel_error_text}
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={6}
+                  onChange={(e) => this.changeValue(e, 'who')}
+                />
+                <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
+                </div>
+                <div style={{textAlign: 'left', paddingTop: '30px'}}>
+
+                <TextField
+                  hintText="What is your crypto origin story?"
+                  floatingLabelText="What is your crypto origin story?"
+                  type="origin"
+                  fullWidth={true}
+                  // errorText={this.state.tel_error_text}
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={6}
+                  onChange={(e) => this.changeValue(e, 'origin')}
+                />
+                <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>Let newer crypto enthusiasts know what got you started.</Subheader>
+                </div>
+
+                 <div style={{textAlign: 'left', paddingTop: '30px'}}>
+                <TextField
+                  hintText="What excites you about blockchain technology?"
+                  floatingLabelText="What excites you about blockchain technology?"
+                  type="excites"
+                  fullWidth={true}
+                  // errorText={this.state.tel_error_text}
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={6}
+                  onChange={(e) => this.changeValue(e, 'excites')}
+                />
+                <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
+                </div>
+
+                 <div style={{textAlign: 'left', paddingTop: '30px'}}>
+                <TextField
+                  hintText="What can you help callers with?"
+                  floatingLabelText="What can you help callers with?"
+                  type="helps"
+                  fullWidth={true}
+                  // errorText={this.state.tel_error_text}
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={6}
+                  onChange={(e) => this.changeValue(e, 'helps')}
+                />
+                <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
+                </div>
 
 	            <RaisedButton
 	              disabled={this.state.disabled}
@@ -226,7 +314,8 @@ class EditProfile extends React.Component {
 	              label="Submit"
 	              onClick={(e) => this.submit(e)}
 	            />
-	          </div>
+	            </div>
+	            </div>
 	        </Paper>
 	      </div>
 	     )}

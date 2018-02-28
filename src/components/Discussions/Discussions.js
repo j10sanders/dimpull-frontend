@@ -80,8 +80,8 @@ class Discussions extends React.Component {
             <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
   	        <GridTile
   	          key={dp.id}
-  	          title={dp.description}
-  	          subtitle={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
+  	          title={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
+  	          subtitle={dp.description}
   	          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
   	        >
   	          <img src={dp.image} alt={dp.id} />

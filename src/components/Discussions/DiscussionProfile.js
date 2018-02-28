@@ -13,6 +13,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactStars from 'react-stars';
 import Avatar from 'material-ui/Avatar';
+import Divider from 'material-ui/Divider';
 
 const style = {
     marginTop: 50,
@@ -22,6 +23,11 @@ const style = {
     textAlign: 'center',
     display: 'inline-block',
 };
+
+// const subQuestions = { 
+//   paddingLeft: "0px", 
+//   marginTop: "24px"
+// }
 
 const colors = ['FF9A57', '01B48F', 'D0D2D3', 'C879B2', '44C7F4']
 
@@ -69,6 +75,10 @@ class DiscussionProfile extends React.Component {
               price: response.data.price,
               other_profile: response.data.otherProfile,
               needReview: response.data.needReview,
+              origin: response.data.origin,
+              who: response.data.who,
+              excites: response.data.excites,
+              helps: response.data.help,
             })
             if (response.data.reviewlist) {
               this.setState({reviews: response.data.reviewlist,
@@ -113,19 +123,6 @@ class DiscussionProfile extends React.Component {
     // );
     //commented out because we don't need to link in seed profiles.
   }
-
-  // componentWillMount() {
-  //     this.setState({ profile: {} });
-  //     const { userProfile, getProfile } = this.props.auth;
-  //     if (!userProfile) {
-  //         getProfile((err, profile) => {
-  //         this.setState({ profile });
-  //       });
-  //     } else {
-  //       this.setState({ profile: userProfile });
-  //     }
-  // }
-
 
   submit(e) {
     const { isAuthenticated } = this.props.auth;
@@ -272,7 +269,16 @@ class DiscussionProfile extends React.Component {
         </Paper>
       }
         <div style={cardStyle}>
-        <Subheader style={{color: '#ff6235'}}>This is a placeholder/fake profile, while we prepare to launch our first group of experts.</Subheader>
+        <Subheader style={{color: 'rgb(59, 55, 54)', lineHeight: '17px', paddingLeft: '0px'}}>This is a placeholder profile, while we prepare our first group of experts.  Please signup if you're an expert:</Subheader>
+        <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
+        <RaisedButton
+            containerElement={<Link to="/newProfile"  />}
+            label="Create a Discussion Profile"
+            secondary={true}
+            style={{marginTop: '10px', marginBottom: "20px"}}
+            />
+          </div>
+        
         {this.state.host && (
           <Card>
           <CardHeader
@@ -289,7 +295,9 @@ class DiscussionProfile extends React.Component {
           </CardMedia>
           <CardTitle title={this.state.host} subtitle={this.state.anonymous_phone_number} />
           <CardText>
+
             {this.state.description}
+
           </CardText>
           <CardActions>
             {this.state.is_users && (
@@ -319,18 +327,30 @@ class DiscussionProfile extends React.Component {
         {!this.state.host && (
             <CircularProgress size={80} thickness={5} /> 
         )}
+        <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
+      <Divider style={{marginTop: '80px'}}/>
+          <h2 style={{paddingTop: '20px'}}> Are You an Expert? </h2>
+          <RaisedButton
+            containerElement={<Link to="/newProfile"  />}
+            label="Create a Discussion Profile"
+            secondary={true}
+            style={{marginTop: '10px', marginBottom: '10px'}}
+            />
+          <p style={{paddingTop: '15px'}}> If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
+        </div>
+
       </div>
 
       {this.state.reviews && 
         <div id="Reviews" style={{paddingTop: '30px'}}>
           <h1> Reviews </h1>
           <List>
-          <Subheader>You can leave a review once you have a conversation with {this.state.host}.</Subheader>
+          <Subheader >You can leave a review once you have a conversation with {this.state.host}.</Subheader>
           {reviews}
           </List>
         </div>
       }
-      </div>
+            </div>
     );
   }
 }

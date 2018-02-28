@@ -7,10 +7,11 @@ import history from '../../history';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {timezones} from '../../timezones/timezones';
-import Divider from 'material-ui/Divider';
+// import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import Subheader from 'material-ui/Subheader';
 
 const style = {
     marginTop: 50,
@@ -21,13 +22,23 @@ const style = {
     display: 'inline-block',
 };
 
-const innerStyle = {
-  paddingBottom: 50,
-  width: '100%',
-}
+const underStyle = {
+    marginTop: 10,
+    paddingBottom: 50,
+    paddingTop: 25,
+    width: '100%',
+    textAlign: 'center',
+    display: 'inline-block',
+};
+
+// const innerStyle = {
+//   paddingBottom: 50,
+//   width: '100%',
+// }
 
 const textStyle ={
-  textAlign: 'start'
+  textAlign: 'start',
+  width: '80%'
 }
 
 
@@ -47,6 +58,7 @@ class newProfile extends React.Component {
       message: '',
       open: false,
       waiting: false,
+      who: '',
     };
   }
 
@@ -141,7 +153,7 @@ class newProfile extends React.Component {
      .then((response) => {
       console.log(response)
         if (response.data === "register phone"){
-          history.push('/getNumber');
+          // history.push('/getNumber');
         }
         else if (response.data.dp) {
           history.push(`/discussionProfile?id=${response.data.dp}`)
@@ -182,7 +194,8 @@ class newProfile extends React.Component {
         price: this.state.price,
         timezone: this.state.timezone,
         email: this.state.email,
-        message: this.state.message
+        message: this.state.message,
+        who: this.state.who,
     }
     )
     this.setState({waiting: false})
@@ -231,6 +244,7 @@ class newProfile extends React.Component {
                 hintText= {`${this.state.profile['https://jonsanders:auth0:com/user_metadata'].given_name} ${this.state.profile['https://jonsanders:auth0:com/user_metadata'].family_name}`}
                 type="name"
                 disabled={true}
+                style={textStyle}
                 fullWidth={true}
               />
               )}
@@ -238,6 +252,7 @@ class newProfile extends React.Component {
                 hintText="Area of expertise"
                 floatingLabelText="Discussion Topic"
                 type="description"
+                style={textStyle}
                 // errorText={this.state.description_error_text}
                 onChange={(e) => this.changeValue(e, 'description')}
                 fullWidth={true}
@@ -247,6 +262,7 @@ class newProfile extends React.Component {
                 floatingLabelText="Image URL"
                 type="text"
                 fullWidth={true}
+                style={textStyle}
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'image')}
               />
@@ -258,6 +274,7 @@ class newProfile extends React.Component {
                 floatingLabelText="Your profile, blog, twitter, etc..."
                 type="otherProfile"
                 fullWidth={true}
+                style={textStyle}
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'otherProfile')}
               />
@@ -271,23 +288,61 @@ class newProfile extends React.Component {
               >
                 {timezones.map((timezone) => <MenuItem value={timezone.value} key={timezone.value} primaryText={timezone.name} />)}
               </SelectField>
+              </div>
+              </div>
+              </Paper>
+
+
+              <Paper style={underStyle}>
+              <div className="text-center">
+              <h3>Don't be shy...</h3>
+              <div className="col-md-12">
+                <div style={{textAlign: 'left'}}>
+                <TextField
+                  hintText="Who are you?"
+                  floatingLabelText="Who are you?"
+                  type="who"
+                  fullWidth={true}
+                  // errorText={this.state.tel_error_text}
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={6}
+                  onChange={(e) => this.changeValue(e, 'who')}
+                />
+                <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
+                </div>
+
+                
+                </div>
+                </div>
+                </Paper>
+              
+              <Paper style={underStyle}>
+              <div className="text-center">
+              <div className="col-md-12">
               <TextField
                   // hintText="To combat volatility, the price is tied to the dollar. So the amount of Ether charged will be determined at the beginning of each call."
-                  floatingLabelText="Price for 30min call"
+                  floatingLabelText="Price for 30min call (in dollars)"
                   type="price"
                   value={this.state.price}
                   errorText={this.state.price_error_text}
                   onChange={(e) => this.changeValue(e, 'price')}
-                  style={{textAlign: 'start'}}
+                  style={{textAlign: 'start', width:"80%"}}
                   fullWidth={true}
                 />
-                <p style={{marginBottom: '20px'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} per 30 minute call.  The price will be locked in when a user books your time.  
-                We do this to combat volatility.</p>
+                <p style={{marginBottom: '20px'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} per 30 minute call.  <b>You can always change this later.</b></p>
+               </div>
+               </div>
+               </Paper>
+
+               <Paper style={underStyle}>
+          <div className="text-center">
+          <h3 style={{marginTop: '30px', paddingLeft: "4%", paddingRight: "4%"}}> Before your profile is public, the dimpull admins will check to be sure you're a good fit. </h3>
+            <div className="col-md-12">
+
               {!this.state.expert && 
                 <div style={{paddingTop: '20px'}}>
-                <Paper style={innerStyle}>
-                <Divider />
-                <h3 style={{marginTop: '30px'}}> Before your profile is public, the dimpull admins will check to be sure you're a good fit. </h3>
+                
                 <TextField
                   hintText="Message for dimpull admins"
                   floatingLabelText="Message for dimpull Admins"
@@ -310,7 +365,6 @@ class newProfile extends React.Component {
                   onChange={(e) => this.changeValue(e, 'email')}
                   fullWidth={true}
                 />
-                </Paper>
                 </div>
               }
             </div>
