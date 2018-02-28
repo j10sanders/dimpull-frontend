@@ -269,10 +269,10 @@ class DiscussionProfile extends React.Component {
         </Paper>
       }
         <div style={cardStyle}>
-        <Subheader style={{color: 'rgb(59, 55, 54)', lineHeight: '17px', paddingLeft: '0px'}}>This is a placeholder profile, while we prepare our first group of experts.  Please signup if you're an expert:</Subheader>
+        <Subheader inset={true} style={{color: 'rgb(59, 55, 54)', lineHeight: '17px', paddingLeft: '0px'}}>This is a placeholder profile, while we prepare our first group of experts.  Please signup if you're an expert:</Subheader>
         <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
         <RaisedButton
-            containerElement={<Link to="/newProfile"  />}
+            containerElement={<Link to="/newProfile" />}
             label="Become a Dimpull Expert"
             secondary={true}
             style={{marginTop: '10px', marginBottom: "20px"}}
@@ -336,7 +336,7 @@ class DiscussionProfile extends React.Component {
             secondary={true}
             style={{marginTop: '10px', marginBottom: '10px'}}
             />
-          <p style={{paddingTop: '15px'}}> If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
+          <p style={{paddingTop: '15px'}}>If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
         </div>
 
       </div>
