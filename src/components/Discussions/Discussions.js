@@ -6,12 +6,12 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
-import { Home } from '../../components/Home';
+// import { Home } from '../../components/Home';
 import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
-import SvgIcon from 'material-ui/SvgIcon';
+// import FontIcon from 'material-ui/FontIcon';
+// import SvgIcon from 'material-ui/SvgIcon';
 import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
+// import Paper from 'material-ui/Paper';
 // import './landingpage.css';
 
 // const HomeIcon = (props) => (
@@ -37,39 +37,35 @@ class Discussions extends React.Component {
 	constructor(props) {
     super(props);
     this.state = {dps: null,
+      waiting: true
                   };
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps, "nextProps")
-  }
-
-  componentDidMount(){
-    console.log("mounted", process.env.REACT_APP_USERS_SERVICE_URL)
+  async getDiscussions(){
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {
       const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-    	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
-  	   .then((response) => 
-  	      this.setState({dps: response.data}))
-  	    .catch(function (error) {
-  	      console.log(error)
-  	  })
-    }else{
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
-       .then((response) => 
-          this.setState({dps: response.data}))
-        .catch(function (error) {
-          console.log(error)
-      })
+      let discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
+      this.setState({dps: discussions.data})
+    } else {
+      let discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
+      this.setState({dps: discussions.data})
     }
-  };
+    this.setState({waiting: false})
+  }
+
+  componentDidMount(){
+    this.getDiscussions();
+  }
 
  render() {
+  let waiting = this.state.waiting ? 'inherit': 'none'
     return (
       <div style={{textAlign: 'center'}}>
+      <CircularProgress style={{display: waiting, width: '100%'}} size={80} thickness={5} />
         <h1> Discussion Profiles </h1>
+        
         <div style={styles.root}>
         {this.state.dps && (
     	    <GridList
@@ -79,6 +75,7 @@ class Discussions extends React.Component {
             cols={3}
     	    >
           <Subheader>These are placeholder profiles, while we vet our first experts!</Subheader>
+          
   	      {this.state.dps.map((dp) => (
             <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
   	        <GridTile

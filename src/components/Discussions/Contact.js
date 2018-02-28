@@ -104,10 +104,55 @@ class Contact extends React.Component {
       pathname: '/discussions',
     })
   };
+
+  addProfile(){
+    const { userProfile, getProfile } = this.props.auth;
+    if (!userProfile) {
+      getProfile((err, profile) => {
+        this.setState({ profile });
+        console.log(profile)
+        if (profile.given_name) {
+          this.setState({hasName: true, 
+            first_name: profile.given_name,
+            last_name: profile.family_name,
+          })
+        } else if (profile['https://jonsanders:auth0:com/user_metadata']){
+          this.setState({hasName: true, 
+            first_name: profile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].given_name,
+            last_name: profile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].family_name,
+          })
+        }
+      });
+    } else {
+        this.setState({ profile: userProfile });
+        if (userProfile.given_name) {
+          this.setState({hasName: true, 
+            first_name: userProfile.given_name,
+            last_name: userProfile.family_name,
+          })
+        } else if (userProfile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`]){
+          this.setState({hasName: true, 
+            first_name: userProfile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].given_name,
+            last_name: userProfile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].family_name,
+          })
+        }
+    }
+  }
+
+  async register(){
+    const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+        {
+        user_id: this.state.profile.sub,
+        phone_number: this.state.tel,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        auth_pic: this.state.profile.picture,
+    }
+    )
+    return res
+  }
   
   submit(e) {
-    const { userProfile, getProfile } = this.props.auth;
-
     e.preventDefault();
     const start = this.props.location.state.startTime
     //TODO add real error handling if time is now in the past.
@@ -117,18 +162,7 @@ class Contact extends React.Component {
       const { isAuthenticated } = this.props.auth;
       const { getAccessToken } = this.props.auth;
       if ( isAuthenticated()) {
-        if (!userProfile) {
-          getProfile((err, profile) => {
-            if (profile){
-              this.setState({ profile, email: profile.email });
-            }
-            else{
-              this.setState({ profile: userProfile, email: userProfile.email });
-            }
-          });
-        } else {
-          this.setState({profile:userProfile})
-        }
+        this.addProfile();
         const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
         axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
           {
@@ -141,11 +175,7 @@ class Contact extends React.Component {
           console.log("ERROR, not whitelisted")
         }
         else{
-          axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,{
-            user_id: this.state.profile.sub,
-            justNumber: true,
-            phone_number: this.state.tel, 
-          }).then(function (response){
+          this.register().then(function (response){
             if (response.data !== 'updated phone_number'){
             console.log("ERROR, phone number not updated")
           } else{

@@ -1,7 +1,7 @@
 // import { Route, Redirect } from 'react-router'
 import auth0 from 'auth0-js';
 import history from '../history';
-import axios from 'axios';
+// import axios from 'axios';
 
 const paths = ["newProfile"]
 
@@ -17,7 +17,7 @@ export default class Auth {
 
   async login(redirectUrl) {
     let url = redirectUrl ? redirectUrl : ''
-    const auth = await this.auth0.authorize({
+    this.auth0.authorize({
       state:url
     });
   //   let headers = {}

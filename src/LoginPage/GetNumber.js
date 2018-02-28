@@ -2,8 +2,8 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-import axios from 'axios';
-import history from '../history';
+// import axios from 'axios';
+// import history from '../history';
 
 const style = {
     marginTop: 50,
@@ -108,21 +108,21 @@ class GetNumber extends React.Component {
   }
 
   async submit(e) {
-    e.preventDefault();
-    const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
-        {
-        user_id: this.state.profile.sub,
-        phone_number: this.state.tel,
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
-        auth_pic: this.state.profile.picture,
-    }
-    )
-    if (this.props.location.search){
-      history.replace('/'+ this.props.location.search)
-    } else {
-      history.replace('/discussions');
-    }
+    // e.preventDefault();
+    // // const res = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+    //     {
+    //     user_id: this.state.profile.sub,
+    //     phone_number: this.state.tel,
+    //     first_name: this.state.first_name,
+    //     last_name: this.state.last_name,
+    //     auth_pic: this.state.profile.picture,
+    // }
+    // )
+    // if (this.props.location.search){
+    //   history.replace('/'+ this.props.location.search)
+    // } else {
+    //   history.replace('/discussions');
+    // }
   }
 
   render() {

@@ -12,7 +12,7 @@ import { LoginPage } from '../LoginPage';
 import { GetNumber } from '../LoginPage/GetNumber';
 import Home from '../components/Home';
 import { Header } from '../components/Header';
-import { Footer } from '../components/Footer'
+// import { Footer } from '../components/Footer'
 import Auth from '../Auth/Auth.js';
 import history from '../history';
 import Callback from '../Callback/Callback';

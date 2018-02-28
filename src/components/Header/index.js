@@ -52,10 +52,10 @@ export class Header extends Component {
                 </Drawer>
                 
                 <AppBar
-                    title={<img src='https://image.ibb.co/iOXdkx/180124_Dimpull_Logo_Final2_Outlined_Old_School_Magnet_White.png' style={{ width: "120px", height: "auto"}} alt="logo"/>}
+                    title={<img src='http://res.cloudinary.com/dtvc9q04c/image/upload/v1519823472/180124_DimpullLogo_Final2_Outlined_OldSchoolMagnet_White.png' style={{ width: "120px", height: "auto"}} alt="logo"/>}
                         onLeftIconButtonClick={() => this.openNav()}
                     iconElementRight={
-                        <Link to={'/'} >  <FlatButton label={<img src='https://image.ibb.co/bSKkj6/orange_magnet_48.png' style={{width: "40px",height: "auto"}} 
+                        <Link to={'/'} >  <FlatButton label={<img src='http://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png' style={{width: "40px",height: "auto"}} 
                             alt="logo"/>} id="home"/> 
                         </Link>
                     }
