@@ -48,22 +48,8 @@ class DiscussionProfile extends React.Component {
     let headers = {}
     if ( isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
-        headers
-      })
-     .then((response) => {
-        if (response.data === "register phone"){
-          history.push('/getNumber');
-        }
-        else{
-          this.getDiscussion(headers);
-        }
-      }).catch(function (error) {
-            console.log(error)
-          })
-    } else {
-      this.getDiscussion(headers);
     }
+    this.getDiscussion(headers);
   }
 
   getDiscussion(headers){
@@ -176,7 +162,6 @@ class DiscussionProfile extends React.Component {
   }
 
   ratingChanged(newRating){
-    debugger;
     this.setState({stars: newRating})
   }
 
@@ -278,8 +263,6 @@ class DiscussionProfile extends React.Component {
             style={{textAlign: 'start', width: '95%'}}
             fullWidth={true}
           />
-
-          
           <RaisedButton
               disabled={this.state.disabled}
               style={{ marginTop: 50 }}
@@ -289,6 +272,7 @@ class DiscussionProfile extends React.Component {
         </Paper>
       }
         <div style={cardStyle}>
+        <Subheader style={{color: '#ff6235'}}>This is a placeholder/fake profile, while we prepare to launch our first group of experts.</Subheader>
         {this.state.host && (
           <Card>
           <CardHeader

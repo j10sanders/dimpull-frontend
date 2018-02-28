@@ -3,6 +3,8 @@ import auth0 from 'auth0-js';
 import history from '../history';
 import axios from 'axios';
 
+const paths = ["newProfile"]
+
 export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: `${process.env.REACT_APP_AUTH0_DOMAIN}`,
@@ -14,40 +16,41 @@ export default class Auth {
   });
 
   async login(redirectUrl) {
-    debugger;
     let url = redirectUrl ? redirectUrl : ''
-    const auth = await this.auth0.authorize();
-    let headers = {}
-    debugger;
-    if (auth){
-      debugger;
-    }
+    const auth = await this.auth0.authorize({
+      state:url
+    });
+  //   let headers = {}
+  //   debugger;
+  //   if (auth){
+  //     debugger;
+  //   }
     
-    if ( this.isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${this.getAccessToken()}`}
-    }
-    console.log("Headers", headers)
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
-      headers
-      // user_id: authResult.idTokenPayload.sub,
-    })
-   .then((response) => {
-      debugger;
-      console.log(response)
-      if (response.data === "register phone"){
-        history.replace({
-          pathname: '/getNumber',
-          search: url
-        })
-      }
-      else{
-        console.log(response, "response")
-        history.replace("/" + url);
-      }
-    })
-    .catch(function (error) {
-      console.log(error)
-  })
+  //   if ( this.isAuthenticated()) {
+  //     headers = { 'Authorization': `Bearer ${this.getAccessToken()}`}
+  //   }
+  //   console.log("Headers", headers)
+  //   axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
+  //     headers
+  //     // user_id: authResult.idTokenPayload.sub,
+  //   })
+  //  .then((response) => {
+  //     debugger;
+  //     console.log(response)
+  //     if (response.data === "register phone"){
+  //       history.replace({
+  //         pathname: '/getNumber',
+  //         search: url
+  //       })
+  //     }
+  //     else{
+  //       console.log(response, "response")
+  //       history.replace("/" + url);
+  //     }
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error)
+  // })
 
     // if (redirectUrl){
     //   history.replace('/'+redirectUrl)
@@ -84,8 +87,11 @@ export default class Auth {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    // navigate to the home route
-    history.replace('/');
+    if (paths.includes(authResult.state)){
+      history.replace('/'+authResult.state)
+    } else{
+      history.replace('/');
+    }
   }
 
   getProfile(cb) {

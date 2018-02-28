@@ -56,7 +56,7 @@ class EditProfile extends React.Component {
 			    description: response.data.description,
 			    otherProfile: response.data.otherProfile,
 			    timezone: response.data.timezone,
-			})
+			}, () => this.isDisabled())
 		})
 		.catch(function (error) {
 		  console.log(error)
@@ -156,6 +156,7 @@ class EditProfile extends React.Component {
 	                hintText= {`${this.state.profile.given_name} ${this.state.profile.family_name}`}
 	                type="name"
 	                disabled={true}
+	                fullWidth={true}
 	              />
 	              )}
 	            {(!this.state.profile.given_name && this.state.profile['https://jonsanders:auth0:com/user_metadata']) && (
@@ -163,6 +164,7 @@ class EditProfile extends React.Component {
 	                hintText= {`${this.state.profile['https://jonsanders:auth0:com/user_metadata'].given_name} ${this.state.profile['https://jonsanders:auth0:com/user_metadata'].family_name}`}
 	                type="name"
 	                disabled={true}
+	                fullWidth={true}
 	              />
 	              )}
 	              <TextField
@@ -172,21 +174,26 @@ class EditProfile extends React.Component {
 	                value={this.state.description}
 	                // errorText={this.state.description_error_text}
 	                onChange={(e) => this.changeValue(e, 'description')}
-	                // fullWidth={true}
+	                fullWidth={true}
 	              />
 	              <TextField
 	                hintText="URLs only (accepting uploads soon)"
 	                floatingLabelText="Image URL"
 	                type="text"
 	                value={this.state.image}
+	                fullWidth={true}
 	                // errorText={this.state.tel_error_text}
 	                onChange={(e) => this.changeValue(e, 'image')}
 	              />
+	              {this.state.image && (
+	                <img src={this.state.image} style={{width: '50%'}} alt={this.state.image} />
+	              )}
 	              <TextField
 	                hintText="Link to another site's profile"
 	                floatingLabelText="Your profile, blog, twitter, etc..."
 	                type="otherProfile"
 	                value={this.state.otherProfile}
+	                fullWidth={true}
 	                // errorText={this.state.tel_error_text}
 	                onChange={(e) => this.changeValue(e, 'otherProfile')}
 	              />
@@ -195,6 +202,7 @@ class EditProfile extends React.Component {
 			        value={this.state.timezone}
 			        onChange={(event, index, value) => this.selectTimezone(event, index, value, "id")}
 			        maxHeight={200}
+			        fullWidth={true}
 			        style={{textAlign: 'start'}}
 			      >
 			        {timezones.map((timezone) => <MenuItem value={timezone.value} key={timezone.value} primaryText={timezone.name} />)}
@@ -205,6 +213,7 @@ class EditProfile extends React.Component {
 	                type="price"
 	                value={this.state.price}
 	                errorText={this.state.price_error_text}
+	                fullWidth={true}
 	                onChange={(e) => this.changeValue(e, 'price')}
 	              />
 	              <p> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} Ether/minute.  

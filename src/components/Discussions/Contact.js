@@ -38,8 +38,10 @@ class Contact extends React.Component {
         .then((response) => {
           if (response.data.phone_number){
             this.setState({tel: response.data.phone_number, telReceived: true})
-          } 
-          })
+          } else {
+            this.setState({hasProfile: true}) //do I need this?
+          }
+        })
         .catch(function (error) {
           console.log(error)
       })
@@ -104,6 +106,8 @@ class Contact extends React.Component {
   };
   
   submit(e) {
+    const { userProfile, getProfile } = this.props.auth;
+
     e.preventDefault();
     const start = this.props.location.state.startTime
     //TODO add real error handling if time is now in the past.
@@ -113,6 +117,18 @@ class Contact extends React.Component {
       const { isAuthenticated } = this.props.auth;
       const { getAccessToken } = this.props.auth;
       if ( isAuthenticated()) {
+        if (!userProfile) {
+          getProfile((err, profile) => {
+            if (profile){
+              this.setState({ profile, email: profile.email });
+            }
+            else{
+              this.setState({ profile: userProfile, email: userProfile.email });
+            }
+          });
+        } else {
+          this.setState({profile:userProfile})
+        }
         const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
         axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
           {
@@ -125,13 +141,22 @@ class Contact extends React.Component {
           console.log("ERROR, not whitelisted")
         }
         else{
+          axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,{
+            user_id: this.state.profile.sub,
+            justNumber: true,
+            phone_number: this.state.tel, 
+          }).then(function (response){
+            if (response.data !== 'updated phone_number'){
+            console.log("ERROR, phone number not updated")
+          } else{
+            console.log("Updated the phone number")
+          }
+          })
           return "number is whitelisted"
         }
-        //redirect to create profile
         }).catch(function (error) {
           console.log(error, "ERROR")
           this.setState({tel_error_text: error});
-        // this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
       })
       } else {
         axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
@@ -157,8 +182,6 @@ class Contact extends React.Component {
       ;
   }
 }
-
-
 
   render() {
     const actions = [
@@ -190,7 +213,7 @@ class Contact extends React.Component {
               {!this.state.telReceived &&
                 <TextField
                   hintText="Phone number"
-                  floatingLabelText="Phone number"
+                  floatingLabelText="Your phone number"
                   type="tel"
                   errorText={this.state.tel_error_text}
                   onChange={(e) => this.changeValue(e, 'tel')}
@@ -199,8 +222,8 @@ class Contact extends React.Component {
               }
               
               <TextField
-                hintText="Message for Expert"
-                floatingLabelText="Message"
+                hintText="Short message for expert"
+                floatingLabelText="Short message for expert"
                 type="text"
                 // errorText={this.state.tel_error_text}
                 onChange={(e) => this.changeValue(e, 'message')}

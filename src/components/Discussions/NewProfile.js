@@ -113,12 +113,11 @@ class newProfile extends React.Component {
           this.setState({ profile, email: profile.email });
         }
         else{
-          debugger;
+          this.setState({ profile: userProfile, email: userProfile.email });
         }
-        
       });
     } else {
-      this.setState({ profile: userProfile, email: userProfile.email });
+      this.setState({profile:userProfile})
     }
   }
 
@@ -253,8 +252,7 @@ class newProfile extends React.Component {
               />
               {this.state.image && (
                 <img src={this.state.image} style={{width: '50%'}} alt={this.state.image} />
-              )
-              }
+              )}
               <TextField
                 hintText="Link to another site's profile"
                 floatingLabelText="Your profile, blog, twitter, etc..."
