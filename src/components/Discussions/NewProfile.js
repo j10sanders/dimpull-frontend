@@ -379,7 +379,7 @@ class newProfile extends React.Component {
                   style={{textAlign: 'start', width:"95%"}}
                   fullWidth={true}
                 />
-                <Subheader style={{paddingLeft: "24px", marginTop: "-8px", marginBottom: '15px', lineHeight: '19px', textAlign: 'left'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} ETH per 30 minute call. You can always change this later.</Subheader>
+                <Subheader style={{paddingLeft: "24px", marginTop: "-1px", marginBottom: '15px', lineHeight: '19px', textAlign: 'left'}}> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} ETH per 30 minute call. You can always change this later.</Subheader>
                </div>
                </div>
                </Paper>
