@@ -3,8 +3,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.less'
 import React from 'react';
 import moment from 'moment';
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
+// import HTML5Backend from 'react-dnd-html5-backend'
+// import { DragDropContext } from 'react-dnd'
 import BigCalendar from 'react-big-calendar'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import RaisedButton from 'material-ui/RaisedButton';
@@ -60,19 +60,57 @@ class Calendar extends React.Component {
       events: nextEvents,
     })
   }
+
+
+getTimeSlots(startDate, endDate, interval) {
+    let slots = [];
+    let intervalMillis = interval * 60 * 1000;
+    while (startDate < endDate) {
+        // So that you get "00" if we're on the hour.
+        var mins = (startDate.getMinutes() + '0').slice(0, 2);
+        slots.push(startDate.getHours() + ':' + mins);
+        startDate.setTime(startDate.getTime() + intervalMillis);
+    }
+    return slots;
+  }
+
+  getTimeDate(time) {
+    var timeParts = time;
+    var d = new Date();
+    d.setHours(timeParts.getHours());
+    d.setMinutes(timeParts.getMinutes());
+    d.setSeconds(timeParts.getSeconds());
+    return d;
+  }
+
+
+
   
   	addEvent(start, end) { console.log(start)
   		if (start < new Date()){
   			this.setState({snackOpen: true})
   		} else {
   			let events = this.state.events;
-	  		let id = 0
+        const settings = {
+          timeSlotGap: 30,
+          minTime: start,
+          maxTime: end,
+        };
+        let slots = this.getTimeSlots(this.getTimeDate(settings.minTime), this.getTimeDate(settings.maxTime), settings.timeSlotGap);
+        let id = 0
 	  		if (events.length > 0){
-		  		id = events[events.length - 1].id + 1
-	  		} 
-	  		let newEvent = {id: id, title: "available for call", allDay: false, start: start, end: end}
-	  		events.push(newEvent)
-	  		this.setState({events: events})
+          id = events[events.length - 1].id + 1
+        }
+        for (let i of slots) {
+          const split = i.split(":")
+          let star = new Date(start.valueOf())
+          star.setHours(split[0]);
+          star.setMinutes(split[1]);
+          const newEnd = moment(star).add(30, 'm').toDate();
+          let newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
+          events.push(newEvent)
+          this.setState({events: events})
+        }
   		}
   	}
 
@@ -111,6 +149,7 @@ class Calendar extends React.Component {
         {
         user_id: this.state.profile.sub,
         times: this.state.events,
+
     	})
     	history.replace('/discussions');
 	}
@@ -152,8 +191,6 @@ class Calendar extends React.Component {
           console.log(error)
         })
     }
-
-
   	render() {
 
 		const actions = [
@@ -170,14 +207,14 @@ class Calendar extends React.Component {
 		];
 
 	    return (
-	      <div style={{height: '1000px'}}>
+	      <div id="calendarDiv">
 	      <Snackbar
           open={this.state.snackOpen}
           message="You can't set past availability."
           autoHideDuration={4000}
           onRequestClose={this.handleRequestClose}
         />
-	      <Paper style={{marginTop: '10px'}}>
+	      <Paper style={{marginTop: '10px'}} >
 	      <DragAndDropCalendar
 	        selectable
 	        events={this.state.events}

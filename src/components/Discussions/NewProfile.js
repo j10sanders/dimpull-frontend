@@ -113,6 +113,9 @@ class newProfile extends React.Component {
     if (type === "price"){
       this.etherPrice();
     }
+    if (type === "name"){
+      this.getNames(e.target.value)
+    }
     const value = e.target.value;
     const next_state = {};
     next_state[type] = value;
@@ -129,10 +132,38 @@ class newProfile extends React.Component {
     }
   }
 
+  async checkRegistered(){
+    const { getAccessToken } = this.props.auth;
+    let headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, 
+      {headers})
+      if (response.data.dp) {
+        history.replace(`/discussionProfile?id=${response.data.dp}`)
+      } else {
+        return
+      }
+    } catch (err) {
+      return
+    }
+  }
+
   componentWillMount() {
     const { isAuthenticated } = this.props.auth;
     if (! isAuthenticated()) {
       this.props.auth.login("newProfile")
+    }
+    this.checkRegistered();
+  }
+
+  getNames(name){
+    debugger;
+    if (name){
+      this.setState({hasName: true, 
+              first_name: name.split(' ').slice(0, -1).join(' '),
+              last_name: name.split(' ').slice(-1).join(' ')
+              })
+      return
     }
     let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
     let fullUrl = almostUrl.replace(/\./g, ":")
@@ -181,7 +212,6 @@ class newProfile extends React.Component {
             })
           }
     }
-
   }
 
   etherPrice(){
@@ -195,27 +225,10 @@ class newProfile extends React.Component {
   componentDidMount() {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
-    let headers = {}
-    if ( isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, {
-        headers
-      })
-     .then((response) => {
-      console.log(response)
-        if (response.data.dp) {
-          history.push(`/discussionProfile?id=${response.data.dp}`)
-        }
-      }).catch(function (error) {
-            console.log(error)
-          })
-    } else {
-      this.props.auth.login("newProfile")
-    }
-
     this.etherPrice();
+    this.getNames();
     this.setState({timezone: Intl.DateTimeFormat().resolvedOptions().timeZone})
-
+    let headers = {}
     if ( isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}`}
     }
@@ -309,11 +322,12 @@ class newProfile extends React.Component {
             <div className="col-md-12">
             {(this.state.first_name && this.state.last_name) && (
               <TextField
-                hintText= {`${this.state.first_name} ${this.state.last_name}`}
+                defaultValue={`${this.state.first_name} ${this.state.last_name}`}
                 type="name"
-                disabled={true}
                 style={textStyle}
                 fullWidth={true}
+                floatingLabelText="First and last name"
+                onChange={(e) => this.changeValue(e, 'name')}
               />
               )}
               <TextField
@@ -379,8 +393,6 @@ class newProfile extends React.Component {
                 />
                 <Subheader style={{paddingLeft: "0px", marginTop: "-14px"}}>This is a good place to brag of your success, and convince users that it is worth their ETH to speak to you.</Subheader>
                 </div>
-
-                
                 </div>
                 </div>
                 </Paper>
@@ -439,7 +451,7 @@ class newProfile extends React.Component {
                   hintText="Email (so we can notify you if you get accepted)"
                   floatingLabelText="Email"
                   type="email"
-                  defaultValue={this.state.profile.email}
+                  // defaultValue={this.state.email}
                   value={this.state.email}
                   style={{textAlign: 'start', width: '95%'}}
                   onChange={(e) => this.changeValue(e, 'email')}

@@ -24,3 +24,14 @@
 .rbc-time-header > .rbc-row:nth-of-type(2) {
     display: none !important;
 }
+
+@media (max-width: 1060px){ 
+}
+
+@media (min-width: 1060px){ 
+	#calendarDiv {
+		margin-left: 10%;
+	    margin-right: 10%;
+	}
+}
+

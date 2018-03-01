@@ -39,6 +39,7 @@ class EditProfile extends React.Component {
       disabled: true,
       timezone: 'America/New_York',
       etherPrice: '',
+      who: '',
 	  origin: '',
 	  excites: '',
 	  help: '',
@@ -71,8 +72,9 @@ class EditProfile extends React.Component {
 			    origin: response.data.origin,
 			    excites: response.data.excites,
 			    helps: response.data.helps,
+			    who: response.data.who,
 
-			}, () => this.isDisabled())
+			}, () => {this.isDisabled(); console.log(response)})
 		})
 		.catch(function (error) {
 		  console.log(error)
@@ -148,6 +150,7 @@ class EditProfile extends React.Component {
 		        origin: this.state.origin,
 		        excites: this.state.excites,
 		        helps: this.state.helps,
+		        who: this.state.who,
 		    }
 		    ).then(function (response) {
 		        console.log(response)
@@ -253,6 +256,7 @@ class EditProfile extends React.Component {
                   floatingLabelText="Who are you?"
                   type="who"
                   fullWidth={true}
+                  value={this.state.who}
                   // errorText={this.state.tel_error_text}
                   multiLine={true}
                   rows={2}
@@ -268,6 +272,7 @@ class EditProfile extends React.Component {
                   floatingLabelText="What is your crypto origin story?"
                   type="origin"
                   fullWidth={true}
+                  value={this.state.origin}
                   // errorText={this.state.tel_error_text}
                   multiLine={true}
                   rows={2}
@@ -282,6 +287,7 @@ class EditProfile extends React.Component {
                   hintText="What excites you about blockchain technology?"
                   floatingLabelText="What excites you about blockchain technology?"
                   type="excites"
+                  value={this.state.excites}
                   fullWidth={true}
                   // errorText={this.state.tel_error_text}
                   multiLine={true}
@@ -297,6 +303,7 @@ class EditProfile extends React.Component {
                   hintText="What can you help callers with?"
                   floatingLabelText="What can you help callers with?"
                   type="helps"
+                  value={this.state.helps}
                   fullWidth={true}
                   // errorText={this.state.tel_error_text}
                   multiLine={true}

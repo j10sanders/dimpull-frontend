@@ -106,14 +106,14 @@ class Availability extends React.Component {
     let startTime = start
     if (!checked) {
       if (start < new Date()){
-        console.log("TOO EARLY FOO")
+        console.log("TOO EARLY")
         return
       }
     } else {
       startTime = (start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0)
     }
     if (startTime < new Date()){
-      console.log("TOO EARLY FOO")
+      console.log("TOO EARLY")
     } else{
       console.log(startTime, "STARTTIME")
       // save go to next step to save anon number and will need to associate with this time.

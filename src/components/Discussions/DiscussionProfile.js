@@ -287,11 +287,13 @@ class DiscussionProfile extends React.Component {
             avatar={this.state.auth_image}
           />
           <CardMedia
-          style={{cursor:'pointer'}}
+            style={{cursor:'pointer', }}
             overlay={<CardTitle title={title} subtitle={subtitle} />}
             onClick={() => this.linkToProfile(this.state.other_profile)}
           >
-            <img src={this.state.image} alt=""  />
+          <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit'}}>
+            <img src={this.state.image} alt={this.state.image}  style={{maxWidth: '100%'}} />
+          </div>
           </CardMedia>
           <CardTitle title={this.state.host} subtitle={this.state.anonymous_phone_number} />
           <CardText>
