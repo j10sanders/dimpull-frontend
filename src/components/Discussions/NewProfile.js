@@ -130,6 +130,10 @@ class newProfile extends React.Component {
   }
 
   componentWillMount() {
+    const { isAuthenticated } = this.props.auth;
+    if (! isAuthenticated()) {
+      this.props.auth.login("newProfile")
+    }
     let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
     let fullUrl = almostUrl.replace(/\./g, ":")
     this.setState({ profile: {} });
@@ -195,6 +199,8 @@ class newProfile extends React.Component {
       }).catch(function (error) {
             console.log(error)
           })
+    } else {
+      this.props.auth.login("newProfile")
     }
 
     this.etherPrice();
