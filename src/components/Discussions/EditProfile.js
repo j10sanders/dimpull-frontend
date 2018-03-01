@@ -62,7 +62,6 @@ class EditProfile extends React.Component {
 		}
 		axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/editdiscussion${this.props.location.search}`, {headers})
 		.then((response) => {
-			console.log(response.data)
 			this.setState({
 			  	price: response.data.price,
 			    image: response.data.image_url,

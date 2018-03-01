@@ -136,7 +136,6 @@ class Calendar extends React.Component {
     }
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/getmytimeslots`, {headers})
         .then((response) => {
-        console.log(response)
           let events = []
           let index = 0
           for (let e of response.data) {
@@ -169,8 +168,6 @@ class Calendar extends React.Component {
 				onClick={() => this.removeTimeslot()}
 			/>,
 		];
-
-		console.log(this.state.events)
 
 	    return (
 	      <div style={{height: '1000px'}}>

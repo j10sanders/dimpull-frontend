@@ -206,9 +206,6 @@ class newProfile extends React.Component {
         if (response.data.dp) {
           history.push(`/discussionProfile?id=${response.data.dp}`)
         }
-        // else{
-        //   this.getDiscussion(headers);
-        // }
       }).catch(function (error) {
             console.log(error)
           })
@@ -237,39 +234,46 @@ class newProfile extends React.Component {
   async submit(e) {
     e.preventDefault();
     this.setState({waiting: true})
-    try{
-      await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
-         {
-         user_id: this.state.profile.sub,
-         phone_number: this.state.tel,
-         first_name: this.state.first_name,
-         last_name: this.state.last_name,
-         auth_pic: this.state.profile.picture,
-     })
-    } catch(err) {
-      history.push("/")
-    }
-    
-    try{
-    await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
-      {
-        user_id: this.state.profile.sub,
-        description: this.state.description,
-        image_url: this.state.image,
-        otherProfile: this.state.otherProfile,
-        price: this.state.price,
-        timezone: this.state.timezone,
-        email: this.state.email,
-        message: this.state.message,
-        who: this.state.who,
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    if ( isAuthenticated()) {
+      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+      try{
+        await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+          {
+          // user_id: this.state.profile.sub,
+          phone_number: this.state.tel,
+          first_name: this.state.first_name,
+          last_name: this.state.last_name,
+          auth_pic: this.state.profile.picture,
+          }, {headers}
+       )
+      } catch(err) {
+        history.push("/")
       }
-    )
-    } catch(err) {
-      history.push("/")
+
+      try{
+        await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
+          {
+            // user_id: this.state.profile.sub,
+            description: this.state.description,
+            image_url: this.state.image,
+            otherProfile: this.state.otherProfile,
+            price: this.state.price,
+            timezone: this.state.timezone,
+            email: this.state.email,
+            message: this.state.message,
+            who: this.state.who,
+          }, {headers}
+        )
+      } catch(err) {
+        history.push("/")
+      }
+      this.setState({waiting: false})
+      this.setState({open: true});
+    } else {
+      this.props.auth.login("newProfile")
     }
-    this.setState({waiting: false})
-    // console.log(res, user)
-    this.setState({open: true});
   }
 
   handleOpen(evt) {
@@ -282,7 +286,6 @@ class newProfile extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
     let fullUrl = almostUrl.replace(/\./g, ":")
     const { isAuthenticated } = this.props.auth;
@@ -304,22 +307,6 @@ class newProfile extends React.Component {
           <div className="text-center">
             <h2>Create a Discussion Profile</h2>
             <div className="col-md-12">
-            {this.state.profile.given_name && (
-              <TextField
-                hintText= {`${this.state.profile.given_name} ${this.state.profile.family_name}`}
-                type="name"
-                disabled={true}
-              />
-              )}
-            {(!this.state.profile.given_name && this.state.profile[fullUrl]) && (
-              <TextField
-                hintText= {`${this.state.profile[fullUrl].given_name} ${this.state.profile[fullUrl].family_name}`}
-                type="name"
-                disabled={true}
-                style={textStyle}
-                fullWidth={true}
-              />
-              )}
             {(this.state.first_name && this.state.last_name) && (
               <TextField
                 hintText= {`${this.state.first_name} ${this.state.last_name}`}

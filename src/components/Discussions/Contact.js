@@ -157,7 +157,7 @@ class Contact extends React.Component {
     const start = this.props.location.state.startTime
     //TODO add real error handling if time is now in the past.
     if (start < new Date()){
-      console.log("TOO EARLT FOO")
+      console.log("TOO EARLY")
     } else{
       const { isAuthenticated } = this.props.auth;
       const { getAccessToken } = this.props.auth;

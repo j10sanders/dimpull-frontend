@@ -126,7 +126,6 @@ class GetNumber extends React.Component {
   }
 
   render() {
-    console.log(this.state)
       return (
         <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
           <Paper style={style}>
