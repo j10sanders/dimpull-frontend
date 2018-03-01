@@ -71,7 +71,7 @@ class Home extends React.Component {
           <div style={{maxWidth: '500px', margin: '0 auto', paddingBottom: '30px'}}>
             <h1 id='exchange'>Exchange your Crypto knowledge for ETH</h1>
       		  <h3 id='h3exchange' >Connect with those who are new to the crypto space, and get paid for your time. </h3>
-            <h3 id='h3exchange'>Guarenteed by the Ethereum blockchain.</h3>
+            <h3 id='h3exchange'>Guaranteed by the Ethereum blockchain.</h3>
             
             <RaisedButton
              containerElement={<Link to="/newProfile"  />}
@@ -125,7 +125,7 @@ class Home extends React.Component {
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Expert_Icon.png" alt={'expert'} id="imgWorks" />
               <h3 id='hHelp'>Find an Expert</h3>
-              <p id="pHelp">Browse our roster to find a Crypto expert who matches your intrests and pricepoint.</p>
+              <p id="pHelp">Browse our roster to find a Crypto expert who matches your interests and pricepoint.</p>
             </div>
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Calendar_Icon.png" alt={'schedule'} id="imgWorks" />
