@@ -141,8 +141,6 @@ class newProfile extends React.Component {
     if (!userProfile) {
       getProfile((err, profile) => {
         this.setState({ profile });
-        console.log(profile)
-        debugger;
         if (profile.given_name) {
           this.setState({hasName: true, 
             first_name: profile.given_name,
