@@ -142,17 +142,25 @@ class newProfile extends React.Component {
       getProfile((err, profile) => {
         this.setState({ profile });
         console.log(profile)
+        debugger;
         if (profile.given_name) {
           this.setState({hasName: true, 
             first_name: profile.given_name,
             last_name: profile.family_name,
           })
         } else if (profile[fullUrl]){
-          this.setState({hasName: true, 
-            first_name: profile[fullUrl].given_name,
-            last_name: profile[fullUrl].family_name,
-          })
-        }
+          if (profile[fullUrl].given_name) {
+            this.setState({hasName: true, 
+              first_name: profile[fullUrl].given_name,
+              last_name: profile[fullUrl].family_name,
+            })
+          } 
+        } else if (profile.name) {
+            this.setState({hasName: true, 
+              first_name: profile.name.split(' ').slice(0, -1).join(' '),
+              last_name: profile.name.split(' ').slice(-1).join(' ')
+            })
+          }
       });
     } else {
         this.setState({ profile: userProfile });
@@ -162,11 +170,18 @@ class newProfile extends React.Component {
             last_name: userProfile.family_name,
           })
         } else if (userProfile[fullUrl]){
-          this.setState({hasName: true, 
-            first_name: userProfile[fullUrl].given_name,
-            last_name: userProfile[fullUrl].family_name,
-          })
-        }
+          if (userProfile[fullUrl].given_name){
+            this.setState({hasName: true, 
+              first_name: userProfile[fullUrl].given_name,
+              last_name: userProfile[fullUrl].family_name,
+            })
+          } 
+        } else if (userProfile.name) {
+            this.setState({hasName: true, 
+              first_name: userProfile.name.split(' ').slice(0, -1).join(' '),
+              last_name: userProfile.name.split(' ').slice(-1).join(' ')
+            })
+          }
     }
 
   }
@@ -239,7 +254,7 @@ class newProfile extends React.Component {
     
     try{
     await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
-        {
+      {
         user_id: this.state.profile.sub,
         description: this.state.description,
         image_url: this.state.image,
@@ -249,7 +264,7 @@ class newProfile extends React.Component {
         email: this.state.email,
         message: this.state.message,
         who: this.state.who,
-    }
+      }
     )
     } catch(err) {
       history.push("/")
@@ -269,6 +284,7 @@ class newProfile extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
     let fullUrl = almostUrl.replace(/\./g, ":")
     const { isAuthenticated } = this.props.auth;
@@ -300,6 +316,15 @@ class newProfile extends React.Component {
             {(!this.state.profile.given_name && this.state.profile[fullUrl]) && (
               <TextField
                 hintText= {`${this.state.profile[fullUrl].given_name} ${this.state.profile[fullUrl].family_name}`}
+                type="name"
+                disabled={true}
+                style={textStyle}
+                fullWidth={true}
+              />
+              )}
+            {(this.state.first_name && this.state.last_name) && (
+              <TextField
+                hintText= {`${this.state.first_name} ${this.state.last_name}`}
                 type="name"
                 disabled={true}
                 style={textStyle}
