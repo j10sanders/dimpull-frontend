@@ -27,7 +27,6 @@ class Calendar extends React.Component {
 	      event: '',
 	      snackOpen: false,
 	    }
-
     this.moveEvent = this.moveEvent.bind(this)
   }
 
@@ -62,7 +61,7 @@ class Calendar extends React.Component {
   }
 
 
-getTimeSlots(startDate, endDate, interval) {
+  getTimeSlots(startDate, endDate, interval) {
     let slots = [];
     let intervalMillis = interval * 60 * 1000;
     while (startDate < endDate) {
@@ -83,58 +82,49 @@ getTimeSlots(startDate, endDate, interval) {
     return d;
   }
 
+  addEvent(start, end) { console.log(start)
+		if (start < new Date()){
+			this.setState({snackOpen: true})
+		} else {
+			let events = this.state.events;
+      const settings = {
+        timeSlotGap: 30,
+        minTime: start,
+        maxTime: end,
+      };
+      let slots = this.getTimeSlots(this.getTimeDate(settings.minTime), this.getTimeDate(settings.maxTime), settings.timeSlotGap);
+    //   let id = 0
+  		// if (events.length > 0){
+    //     id = events[events.length - 1].id + 1
+    //   }
+      for (let i of slots) {
+        const split = i.split(":")
+        let star = new Date(start.valueOf())
+        star.setHours(split[0]);
+        star.setMinutes(split[1]);
+        const newEnd = moment(star).add(30, 'm').toDate();
+        let newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
+        events.push(newEvent)
+        this.setState({events: events})
+      }
+		}
+	}
 
-
-  
-  	addEvent(start, end) { console.log(start)
-  		if (start < new Date()){
-  			this.setState({snackOpen: true})
-  		} else {
-  			let events = this.state.events;
-        const settings = {
-          timeSlotGap: 30,
-          minTime: start,
-          maxTime: end,
-        };
-        let slots = this.getTimeSlots(this.getTimeDate(settings.minTime), this.getTimeDate(settings.maxTime), settings.timeSlotGap);
-        let id = 0
-	  		if (events.length > 0){
-          id = events[events.length - 1].id + 1
-        }
-        for (let i of slots) {
-          const split = i.split(":")
-          let star = new Date(start.valueOf())
-          star.setHours(split[0]);
-          star.setMinutes(split[1]);
-          const newEnd = moment(star).add(30, 'm').toDate();
-          let newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
-          events.push(newEvent)
-          this.setState({events: events})
-        }
-  		}
-  	}
-
-  	handleRequestClose = () => {
+  handleRequestClose = () => {
     this.setState({
       snackOpen: false,
     });
   };
 
 
-  	handleOpen(evt) {
-	    console.log(evt)
-	    this.setState({open: true, event: evt});
-  	}
-  	
-  	handleClose() {
-    	this.setState({open: false});
-  	}
-
-  	// 	alert(
-		//   `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-		//     `\nend: ${slotInfo.end.toLocaleString()}` +
-		//     `\naction: ${slotInfo.action}`
-		// )}
+	handleOpen(evt) {
+    console.log(evt)
+    this.setState({open: true, event: evt});
+	}
+	
+	handleClose() {
+  	this.setState({open: false});
+	}
 
 	removeTimeslot(){
 		let events = this.state.events
@@ -167,7 +157,7 @@ getTimeSlots(startDate, endDate, interval) {
 	  }
 
 	componentDidMount(){
-	const { isAuthenticated } = this.props.auth;
+	  const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {}
     if ( isAuthenticated()) {
@@ -191,8 +181,8 @@ getTimeSlots(startDate, endDate, interval) {
           console.log(error)
         })
     }
-  	render() {
-
+  	
+  render() {
 		const actions = [
 			<FlatButton
 				label="Cancel"
@@ -206,41 +196,41 @@ getTimeSlots(startDate, endDate, interval) {
 			/>,
 		];
 
-	    return (
-	      <div id="calendarDiv">
+    return (
+      <div id="calendarDiv">
 	      <Snackbar
           open={this.state.snackOpen}
           message="You can't set past availability."
           autoHideDuration={4000}
           onRequestClose={this.handleRequestClose}
         />
-	      <Paper style={{marginTop: '10px'}} >
-	      <DragAndDropCalendar
-	        selectable
-	        events={this.state.events}
-	        onEventDrop={this.moveEvent}
-	        resizable
-	        onEventResize={this.resizeEvent}
-	        defaultView="week"
-	        defaultDate={new Date()}
-	        onSelectEvent={event => this.handleOpen(event)}
-			    onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
-	      />
-	      <Dialog
-          title="Remove this timeslot?"
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={() => this.handleClose.bind(this)}
-        >
-        </Dialog>
-           <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
-		    onClick={() => this.submit()}
-		    />
-	      </Paper>
-	      </div>
-	    )
-	  }
-
+        <Paper style={{marginTop: '10px'}} >
+  	      <DragAndDropCalendar
+  	        selectable
+  	        events={this.state.events}
+  	        onEventDrop={this.moveEvent}
+  	        resizable
+  	        onEventResize={this.resizeEvent}
+  	        defaultView="week"
+  	        defaultDate={new Date()}
+  	        onSelectEvent={event => this.handleOpen(event)}
+  			    onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
+  	      />
+  	      <Dialog
+            title="Remove this timeslot?"
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={() => this.handleClose.bind(this)}
+          >
+          </Dialog>
+             <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
+  		    onClick={() => this.submit()}
+  		    />
+        </Paper>
+      </div>
+    )
+  }
 }
+
 export default Calendar;

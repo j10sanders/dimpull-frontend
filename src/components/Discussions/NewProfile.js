@@ -299,8 +299,8 @@ class newProfile extends React.Component {
   }
 
   render() {
-    let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
-    let fullUrl = almostUrl.replace(/\./g, ":")
+    // let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
+    // let fullUrl = almostUrl.replace(/\./g, ":")
     const { isAuthenticated } = this.props.auth;
     const actions = [
       <FlatButton

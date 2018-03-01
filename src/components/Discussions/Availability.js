@@ -14,6 +14,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import history from '../../history';
+import '../../Profile/calendar.css'
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
@@ -29,45 +30,45 @@ class Availability extends React.Component {
     this.moveEvent = this.moveEvent.bind(this)
   }
 
-      componentDidMount(){
-      axios.get(`
-        ${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
-        .then((response) => {
-          let events = []
-          let index = 0
-          for (let e of response.data) {
-            let start = new Date(e.start)
-            let end = new Date(e.end)
-            let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
-            let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
-            let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
-            events.push(event)
-            index += 1
-          }
-          this.setState({events: events})})
-        .catch(function (error) {
-          console.log(error)
-        })
- 
-    }
-
-    formatTime(time){
-      let NumTime = Number(time)
-      if (NumTime < 10) {
-        time = "0" + time
+  componentDidMount(){
+  axios.get(`
+    ${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
+    .then((response) => {
+      let events = []
+      let index = 0
+      for (let e of response.data) {
+        let start = new Date(e.start)
+        let end = new Date(e.end)
+        let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
+        let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
+        let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
+        events.push(event)
+        index += 1
       }
-      return time
-    }
+      this.setState({events: events})})
+    .catch(function (error) {
+      console.log(error)
+    })
 
-    handleOpen(evt) {
-      this.setState({open: true, event: evt });
-      let startHour = this.formatTime(evt.start.getHours().toString())
-      let startMin = this.formatTime(evt.start.getMinutes().toString())
-      let endHour = this.formatTime(evt.end.getHours().toString())
-      let endMin = this.formatTime(evt.end.getMinutes().toString())
-      this.setState({startTime: startHour + ':' + startMin + ":00"})
-      this.setState({endTime: endHour + ':' + endMin + ":00"})
+  }
+
+  formatTime(time){
+    let NumTime = Number(time)
+    if (NumTime < 10) {
+      time = "0" + time
     }
+    return time
+  }
+
+  handleOpen(evt) {
+    this.setState({open: true, event: evt });
+    let startHour = this.formatTime(evt.start.getHours().toString())
+    let startMin = this.formatTime(evt.start.getMinutes().toString())
+    let endHour = this.formatTime(evt.end.getHours().toString())
+    let endMin = this.formatTime(evt.end.getMinutes().toString())
+    this.setState({startTime: startHour + ':' + startMin + ":00"})
+    this.setState({endTime: endHour + ':' + endMin + ":00"})
+  }
 
   moveEvent({ event, start, end }) {
     const { events } = this.state
@@ -214,7 +215,7 @@ class Availability extends React.Component {
     }
     
     return (
-      <div style={{height: '1000px'}}>
+      <div id="calendarDiv">
       <Paper style={{marginTop: '10px'}}>
       <DragAndDropCalendar
         selectable
