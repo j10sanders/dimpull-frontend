@@ -224,7 +224,8 @@ class newProfile extends React.Component {
   async submit(e) {
     e.preventDefault();
     this.setState({waiting: true})
-    await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+    try{
+      await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
          {
          user_id: this.state.profile.sub,
          phone_number: this.state.tel,
@@ -232,7 +233,11 @@ class newProfile extends React.Component {
          last_name: this.state.last_name,
          auth_pic: this.state.profile.picture,
      })
-
+    } catch(err) {
+      history.push("/")
+    }
+    
+    try{
     await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
         {
         user_id: this.state.profile.sub,
@@ -246,6 +251,9 @@ class newProfile extends React.Component {
         who: this.state.who,
     }
     )
+    } catch(err) {
+      history.push("/")
+    }
     this.setState({waiting: false})
     // console.log(res, user)
     this.setState({open: true});
