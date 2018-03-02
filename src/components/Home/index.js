@@ -35,12 +35,7 @@ class Home extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps, "nextProps")
-  }
-
   componentDidMount(){
-    console.log("mounted", process.env.REACT_APP_USERS_SERVICE_URL)
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {

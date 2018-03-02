@@ -4,7 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-
+import history from '../../history';
 // import Divider from 'material-ui/Divider';
 import './header.css';
 
@@ -27,6 +27,10 @@ export class Header extends Component {
         this.setState({
             open: true,
         });
+    }
+
+    goHome(){
+        history.push('/')
     }
 
     render() {
@@ -52,8 +56,9 @@ export class Header extends Component {
                 </Drawer>
                 
                 <AppBar
-                    title={<img src='http://res.cloudinary.com/dtvc9q04c/image/upload/v1519823472/180124_DimpullLogo_Final2_Outlined_OldSchoolMagnet_White.png' style={{ width: "120px", height: "auto"}} alt="logo"/>}
-                        onLeftIconButtonClick={() => this.openNav()}
+                    title={<img src='http://res.cloudinary.com/dtvc9q04c/image/upload/v1519823472/180124_DimpullLogo_Final2_Outlined_OldSchoolMagnet_White.png' style={{cursor:'pointer', width: "120px", height: "auto"}} alt="logo"/>}
+                    onTitleClick={() => this.goHome()}
+                    onLeftIconButtonClick={() => this.openNav()}
                     iconElementRight={
                         <Link to={'/'} >  <FlatButton label={<img src='http://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png' style={{width: "40px",height: "auto"}} 
                             alt="logo"/>} id="home"/> 
