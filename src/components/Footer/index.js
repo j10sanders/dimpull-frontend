@@ -4,7 +4,7 @@ import './styles.css';
 export const Footer = () =>
 		<div>
 		    <div className='footer'>
-				<p style={{float:'left', position:'absolute', bottom:'0'}}>
+				<p style={{float:'left', position:'absolute', bottom:'0', fontSize: '13px'}}>
 					<a style={{color: '#464545' }} href="https://sites.google.com/view/dimpull/home">Privacy Policy</a>
 				</p>
 		        <a href="mailto:admin@dimpull.com">

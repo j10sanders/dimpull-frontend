@@ -42,7 +42,7 @@ class EditProfile extends React.Component {
       who: '',
 	  origin: '',
 	  excites: '',
-	  help: '',
+	  helps: '',
     };
   }
 

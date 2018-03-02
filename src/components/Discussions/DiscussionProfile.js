@@ -14,6 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ReactStars from 'react-stars';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
+import './discussionprofile.css';
 
 const style = {
     marginTop: 50,
@@ -78,7 +79,7 @@ class DiscussionProfile extends React.Component {
               origin: response.data.origin,
               who: response.data.who,
               excites: response.data.excites,
-              helps: response.data.help,
+              helps: response.data.helps,
             })
             if (response.data.reviewlist) {
               this.setState({reviews: response.data.reviewlist,
@@ -134,9 +135,12 @@ class DiscussionProfile extends React.Component {
         otherProfile: this.state.otherProfile,
         price: this.state.price,
         timezone: this.state.timezone,
+        origin: this.state.origin,
+        who: this.state.who,
+        excites: this.state.excites,
+        helps: this.state.help,
       }
       ).then(function (response) {
-        console.log(response)
         history.replace('/calendar');
       })
     }
@@ -269,15 +273,6 @@ class DiscussionProfile extends React.Component {
         </Paper>
       }
         <div style={cardStyle}>
-        <Subheader inset={true} style={{color: 'rgb(59, 55, 54)', lineHeight: '17px', paddingLeft: '0px'}}>This is a placeholder profile, while we prepare our first group of experts.  Please signup if you're an expert:</Subheader>
-        <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
-        <RaisedButton
-            containerElement={<Link to="/newProfile" />}
-            label="Become a Dimpull Expert"
-            secondary={true}
-            style={{marginTop: '10px', marginBottom: "20px"}}
-            />
-          </div>
         
         {this.state.host && (
           <Card>
@@ -297,9 +292,30 @@ class DiscussionProfile extends React.Component {
           </CardMedia>
           <CardTitle title={this.state.host} subtitle={this.state.anonymous_phone_number} />
           <CardText>
-
-            {this.state.description}
-
+            {this.state.who && (
+              <div>
+              <h3> Who are you? </h3>
+              <p id="answer">{this.state.who}</p>
+              </div>
+            )}
+            {this.state.origin && (
+              <div>
+              <h3> What is your crypto origin story? </h3>
+              <p id="answer">{this.state.origin}</p>
+              </div>
+            )}
+            {this.state.excites && (
+              <div>
+              <h3>What excites you? </h3>
+              <p id="answer">{this.state.excites}</p>
+              </div>
+            )}
+            {this.state.helps && (
+              <div>
+              <h3>What can you help callers with? </h3>
+              <p id="answer">{this.state.helps}</p>
+              </div>
+            )}
           </CardText>
           <CardActions>
             {this.state.is_users && (
@@ -325,10 +341,12 @@ class DiscussionProfile extends React.Component {
             )}
           </CardActions>
         </Card>
+
         )}
         {!this.state.host && (
             <CircularProgress size={80} thickness={5} /> 
         )}
+        <Subheader inset={true} style={{color: 'rgb(59, 55, 54)', lineHeight: '42px', paddingLeft: '0px'}}>*This is a fake/placeholder profile, while we prepare our first group of experts.</Subheader>
         <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
       <Divider style={{marginTop: '80px'}}/>
           <h2 style={{paddingTop: '20px'}}> Are You an Expert? </h2>
