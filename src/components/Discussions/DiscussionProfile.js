@@ -206,14 +206,6 @@ class DiscussionProfile extends React.Component {
       }
     }
 
-    var cardStyle = {
-      display: 'block',
-      width: '40vw',
-      transitionDuration: '0.3s',
-      height: 'auto',
-      margin: 'auto',
-      paddingTop: '10px',
-    }
     const actions = [
       <FlatButton
         label="Cancel"
@@ -272,7 +264,7 @@ class DiscussionProfile extends React.Component {
             />
         </Paper>
       }
-        <div style={cardStyle}>
+        <div id="cardStyle">
         
         {this.state.host && (
           <Card>
@@ -346,7 +338,7 @@ class DiscussionProfile extends React.Component {
         {!this.state.host && (
             <CircularProgress size={80} thickness={5} /> 
         )}
-        <Subheader inset={true} style={{color: 'rgb(59, 55, 54)', lineHeight: '42px', paddingLeft: '0px'}}>*This is a fake/placeholder profile, while we prepare our first group of experts.</Subheader>
+        <Subheader inset={true} style={{color: 'rgb(59, 55, 54)', paddingTop: '10px', lineHeight: 'inherit',paddingLeft: '0px'}}>*This is a fake/placeholder profile, while we prepare our first group of experts.</Subheader>
         <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
       <Divider style={{marginTop: '80px'}}/>
           <h2 style={{paddingTop: '20px'}}> Are You an Expert? </h2>

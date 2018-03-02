@@ -2,3 +2,24 @@
 	    margin-left: 5px;
     margin-bottom: 40px;
 }
+
+#cardStyle {
+  display: block;
+ 
+  transition-duration: 0.3s;
+  height: auto;
+  margin: auto;
+  padding-top: 10px;
+}
+
+@media (max-width: 1060px){ 
+	#cardStyle {
+		width: 90vw;
+	}
+}
+
+@media (min-width: 1060px){ 
+	#cardStyle {
+		width: 40vw;
+	}
+}
