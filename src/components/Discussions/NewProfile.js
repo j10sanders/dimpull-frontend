@@ -279,6 +279,9 @@ class newProfile extends React.Component {
   }
 
   render() {
+    let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
+    let fullUrl = almostUrl.replace(/\./g, ":")
+    console.log(this.state, fullUrl)
     const { isAuthenticated } = this.props.auth;
     const actions = [
       <FlatButton
@@ -298,20 +301,10 @@ class newProfile extends React.Component {
               <div className="text-center">
                 <h2>Are you an Expert?</h2>
                 <div className="col-md-12">
+                  
                   {(this.state.first_name && this.state.last_name) && (
                   <TextField
                     defaultValue={`${this.state.first_name} ${this.state.last_name}`}
-                    type="name"
-                    style={textStyle}
-                    fullWidth={true}
-                    floatingLabelText="First and last name"
-                    onChange={(e) => this.changeValue(e, 'name')}
-                  />
-                  )}
-                  {(!this.state.first_name) && (
-                  <TextField
-                    // defaultValue={`${this.state.first_name} ${this.state.last_name}`}
-                    // value
                     type="name"
                     style={textStyle}
                     fullWidth={true}
