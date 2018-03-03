@@ -1,8 +1,8 @@
 import React from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
+// import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+// import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -82,7 +82,6 @@ class Discussions extends React.Component {
   	          key={dp.id}
   	          title={<span>by <b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
   	          subtitle={dp.description}
-  	          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
   	        >
   	          <img src={dp.image} alt={dp.id} />
   	        </GridTile>

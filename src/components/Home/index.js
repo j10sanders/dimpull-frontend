@@ -64,9 +64,9 @@ class Home extends React.Component {
         <div className="row" id='headerRow'>
           <div className="col-sm-6">
           <div style={{maxWidth: '500px', margin: '0 auto', paddingBottom: '30px'}}>
-            <h1 id='exchange'>Exchange your Crypto knowledge for ETH</h1>
-      		  <h3 id='h3exchange' >Connect with those who are new to the crypto space, and get paid for your time. </h3>
-            <h3 id='h3exchange'>Guaranteed by the Ethereum blockchain.</h3>
+            <h1 id='exchange'>Exchange your crypto knowledge for ETH</h1>
+      		  <h3 id='h3exchange' >Connect with those who are new to the crypto space, and get paid for your time</h3>
+            <h3 id='h3exchange'>Guaranteed by the Ethereum blockchain</h3>
             
             <RaisedButton
              containerElement={<Link to="/newProfile"  />}
@@ -120,22 +120,22 @@ class Home extends React.Component {
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Expert_Icon.png" alt={'expert'} id="imgWorks" />
               <h3 id='hHelp'>Find an Expert</h3>
-              <p id="pHelp">Browse our roster to find a Crypto expert who matches your interests and pricepoint.</p>
+              <p id="pHelp">Browse our roster to find a crypto expert who matches your interests</p>
             </div>
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Calendar_Icon.png" alt={'schedule'} id="imgWorks" />
               <h3 id='hHelp'>Schedule</h3>
-              <p id="pHelp">Schedule your 30 minute call for a time that works for both parties</p>
+              <p id="pHelp">Schedule your 30 minute call with an expert</p>
             </div>
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Phone_Icon.png" alt={'phone'} id="imgWorks" />
               <h3 id='hHelp'>Have a Conversation</h3>
-              <p id="pHelp">Discuss your questions and seek advice during your one-on-one call.  Your privacy is protected: phone numbers are never shared.</p>
+              <p id="pHelp">Get personalized trading advice in a one-on-one call</p>
             </div>
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/ETHExhange_Icon.png" alt={'ether'} id="imgWorks" />
               <h3 id='hHelp'>Use the Blockchain</h3>
-              <p id="pHelp">Payments are done exclusively in Ether.  Our smart-contract automatically initiates payment at the end of the call.</p>
+              <p id="pHelp">Our smart-contract holds Ether payments until the end of the call</p>
             </div>
 
             

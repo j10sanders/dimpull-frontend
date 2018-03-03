@@ -292,19 +292,19 @@ class DiscussionProfile extends React.Component {
             )}
             {this.state.origin && (
               <div>
-              <h3> What is your crypto origin story? </h3>
+              <h3> What is your crypto origin story?</h3>
               <p id="answer">{this.state.origin}</p>
               </div>
             )}
             {this.state.excites && (
               <div>
-              <h3>What excites you? </h3>
+              <h3>What excites you about blockchain technology?</h3>
               <p id="answer">{this.state.excites}</p>
               </div>
             )}
             {this.state.helps && (
               <div>
-              <h3>What can you help callers with? </h3>
+              <h3>What can you help callers with?</h3>
               <p id="answer">{this.state.helps}</p>
               </div>
             )}
@@ -328,7 +328,6 @@ class DiscussionProfile extends React.Component {
             {!this.state.is_users && (
               <div>
                 <FlatButton label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
-                <FlatButton label="Save as favorite" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
               </div>
             )}
           </CardActions>
@@ -338,10 +337,10 @@ class DiscussionProfile extends React.Component {
         {!this.state.host && (
             <CircularProgress size={80} thickness={5} /> 
         )}
-        <Subheader inset={true} style={{color: 'rgb(59, 55, 54)', paddingTop: '10px', lineHeight: 'inherit',paddingLeft: '0px'}}>*This is a fake/placeholder profile, while we prepare our first group of experts.</Subheader>
+        <Subheader inset={true} style={{paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px'}}>This is an example profile while we prepare our first group of experts</Subheader>
         <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
       <Divider style={{marginTop: '80px'}}/>
-          <h2 style={{paddingTop: '20px'}}> Are You an Expert? </h2>
+          <h2 style={{paddingTop: '20px'}}>Are You an Expert?</h2>
           <RaisedButton
             containerElement={<Link to="/newProfile"  />}
             label="Become a Dimpull Expert"
@@ -357,7 +356,7 @@ class DiscussionProfile extends React.Component {
         <div id="Reviews" style={{paddingTop: '30px'}}>
           <h1> Reviews </h1>
           <List>
-          <Subheader >You can leave a review once you have a conversation with {this.state.host}.</Subheader>
+          <Subheader>You can leave a review once you have a conversation with {this.state.host}.</Subheader>
           {reviews}
           </List>
         </div>

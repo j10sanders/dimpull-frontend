@@ -308,6 +308,17 @@ class newProfile extends React.Component {
                     onChange={(e) => this.changeValue(e, 'name')}
                   />
                   )}
+                  {(!this.state.first_name) && (
+                  <TextField
+                    // defaultValue={`${this.state.first_name} ${this.state.last_name}`}
+                    // value
+                    type="name"
+                    style={textStyle}
+                    fullWidth={true}
+                    floatingLabelText="First and last name"
+                    onChange={(e) => this.changeValue(e, 'name')}
+                  />
+                  )}
                   <TextField
                     hintText="Email (so we can notify you if you get accepted)"
                     floatingLabelText="Email"
