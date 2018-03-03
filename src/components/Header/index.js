@@ -56,7 +56,7 @@ export class Header extends Component {
                 </Drawer>
                 
                 <AppBar
-                    title={<img src='https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823472/180124_DimpullLogo_Final2_Outlined_OldSchoolMagnet_White.png' style={{cursor:'pointer', width: "120px", height: "auto"}} alt="logo"/>}
+                    title={<img src='https://res.cloudinary.com/dtvc9q04c/image/upload/q_100/v1520094416/dimpullLogo_120w.png' style={{cursor:'pointer', }} alt="logo"/>}
                     onTitleClick={() => this.goHome()}
                     onLeftIconButtonClick={() => this.openNav()}
                     iconElementRight={

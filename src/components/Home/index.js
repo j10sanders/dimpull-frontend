@@ -65,7 +65,7 @@ class Home extends React.Component {
           <div className="col-sm-6">
           <div style={{maxWidth: '500px', margin: '0 auto', paddingBottom: '30px'}}>
             <h1 id='exchange'>Exchange your crypto knowledge for ETH</h1>
-      		  <h3 id='h3exchange' >Connect with new crypto traders and get paid for your time</h3>
+      		  <h3 id='h3exchange'>Connect with new crypto traders and get paid for your time</h3>
             <h3 id='h3exchange'>Guaranteed by the Ethereum blockchain</h3>
             
             <RaisedButton
