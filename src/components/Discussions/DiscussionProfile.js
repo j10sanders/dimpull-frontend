@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
@@ -17,9 +17,9 @@ import Divider from 'material-ui/Divider';
 import './discussionprofile.css';
 
 const style = {
-    marginTop: 50,
+    marginTop: '50px',
     paddingBottom: 50,
-    paddingTop: 25,
+    paddingTop: '30px',
     width: '100%',
     textAlign: 'center',
     display: 'inline-block',
@@ -179,7 +179,7 @@ class DiscussionProfile extends React.Component {
     const reviews = []
     if (this.state.reviews){
       for (let i of this.state.reviews){
-        let image = "http://www.clker.com/cliparts/Z/j/o/Z/g/T/turquoise-anonymous-man-md.png"
+        let image = "https://www.clker.com/cliparts/Z/j/o/Z/g/T/turquoise-anonymous-man-md.png"
         if (i.guest_initials){
           image = `https://ui-avatars.com/api/?name=${i.guest_initials.charAt(0)}+${i.guest_initials.charAt(1)}&rounded=true&background=${colors[Math.floor(Math.random() * colors.length)]}`
           console.log(image)
@@ -220,7 +220,7 @@ class DiscussionProfile extends React.Component {
     ];
 
     const title = `$${this.state.price} per half hour`
-    const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e8')+'e-8')} Ether`
+    const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')} Ether`
     if (this.state.notExpert){
       return(
       <div><h1>This user isn't a confimed expert yet</h1></div>
@@ -268,48 +268,49 @@ class DiscussionProfile extends React.Component {
         
         {this.state.host && (
           <Card>
-          <CardHeader
-            title={this.state.host}
-            subtitle={this.state.description}
-            avatar={this.state.auth_image}
-          />
+          
+          
+
           <CardMedia
             style={{cursor:'pointer', }}
-            overlay={<CardTitle title={title} subtitle={subtitle} />}
+            overlay={<CardTitle title={this.state.host} subtitle={this.state.description} />}
             onClick={() => this.linkToProfile(this.state.other_profile)}
           >
           <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit'}}>
             <img src={this.state.image} alt={this.state.image}  style={{maxWidth: '100%'}} />
           </div>
           </CardMedia>
-          <CardTitle title={this.state.host} subtitle={this.state.anonymous_phone_number} />
+          
+          
+
           <CardText>
             {this.state.who && (
               <div>
-              <h3> Who are you? </h3>
+              <h3 id='q'> Who are you? </h3>
               <p id="answer">{this.state.who}</p>
               </div>
             )}
             {this.state.origin && (
               <div>
-              <h3> What is your crypto origin story?</h3>
+              <h3 id='q'> What is your crypto origin story?</h3>
               <p id="answer">{this.state.origin}</p>
               </div>
             )}
             {this.state.excites && (
               <div>
-              <h3>What excites you about blockchain technology?</h3>
+              <h3 id='q'> What excites you about blockchain technology?</h3>
               <p id="answer">{this.state.excites}</p>
               </div>
             )}
             {this.state.helps && (
               <div>
-              <h3>What can you help callers with?</h3>
+              <h3 id='q'> What can you help callers with?</h3>
               <p id="answer">{this.state.helps}</p>
               </div>
             )}
           </CardText>
-          <CardActions>
+          <CardTitle title={title} subtitle={subtitle} />
+          <CardActions  style={{padding: '0px', marginRight: '-9px'}} >
             {this.state.is_users && (
               <div>
                 <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile${this.props.location.search}`} />} />
@@ -327,7 +328,8 @@ class DiscussionProfile extends React.Component {
             )}
             {!this.state.is_users && (
               <div>
-                <FlatButton label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
+                <RaisedButton fullWidth={true} primary={true} label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
+
               </div>
             )}
           </CardActions>

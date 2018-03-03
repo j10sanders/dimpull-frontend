@@ -1,15 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Lora');
+
 #answer{
-	    margin-left: 5px;
+	/*margin-left: 5px;*/
     margin-bottom: 40px;
+    font-family: 'Lora', serif;
+    line-height: 1.8;
+    font-size: 18px;
 }
 
 #cardStyle {
   display: block;
- 
   transition-duration: 0.3s;
   height: auto;
   margin: auto;
-  padding-top: 10px;
+  padding-top: 30px;
 }
 
 @media (max-width: 1060px){ 
@@ -20,6 +24,11 @@
 
 @media (min-width: 1060px){ 
 	#cardStyle {
-		width: 40vw;
+		width: 45vw;
 	}
 }
+
+#q {
+	margin-left: -2px;
+}
+
