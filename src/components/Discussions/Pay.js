@@ -14,6 +14,16 @@ class Pay extends React.Component {
   }
 
   submit() {
+    var escrowInstance
+
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      this.state.escrow.deployed().then((instance) => {
+        escrowInstance = instance;
+        escrowInstance.start('0xa40dDf63944E24ea6b667e8A1Ea247319C96820C', {from: accounts[0], value: 1000000000000000000})
+      })
+    })
+    
+    
   }
 
   componentWillMount() {
@@ -45,25 +55,8 @@ class Pay extends React.Component {
     const contract = require('truffle-contract')
     const escrow = contract(EscrowContract)
     escrow.setProvider(this.state.web3.currentProvider)
-
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    var escrowInstance
-
-    // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      escrow.deployed().then((instance) => {
-        escrowInstance = instance
-
-        // Stores a given value, 5 by default.
-        return escrowInstance.setFee(60, {from: accounts[0]})
-      }).then((result) => {
-        // Get the value from the contract to prove it worked.
-        return escrowInstance.getFee.call()
-      }).then((result) => {
-        // Update state with the result.
-        return this.setState({ Fee: result.c[0] })
-      })
-    })
+    
+    this.setState({escrow: escrow})
   }
 
   render() {

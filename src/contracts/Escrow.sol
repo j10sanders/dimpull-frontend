@@ -1,9 +1,14 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.13;
 
 contract Escrow {
   address public owner;
   uint public fee;
-  mapping (address =>  mapping (address => uint)) balances;
+
+  //Balances temporarily made public for testing; to be removed
+  mapping (address =>  mapping (address => uint)) public balances;
+
+  //Events for debugging
+  event Print(string message, uint value);
 
   function escrow() public {
     owner = msg.sender;
@@ -19,18 +24,28 @@ contract Escrow {
     fee = price;
   }
 
-  function start(address payee) external {
-    balances[msg.sender][payee] += msg.value;
+  function start(address payee) payable external {
+    balances[msg.sender][payee] = balances[msg.sender][payee] + msg.value;
   }
 
   //Portion should be percentage of value to pay in PPM
-  function end(address payer, address payee, uint portion) onlyOwner payable external returns(bool) {
+  function end(address payer, address payee, uint portion) onlyOwner external returns(bool) {
     uint value = balances[payer][payee];
-    uint payment = value * (portion / 1000000);
-    payee.transfer(payment * (1 - (fee / 1000000)));
-    payer.transfer(value * (1 - (portion / 1000000)));
-    owner.transfer(payment * (fee / 1000000));
+    Print("value", value);
+
+    uint invoice = value / (1000000 / portion);
+    uint paidFee = invoice / (1000000 / fee);
+    uint payment = invoice - paidFee;
+    uint returned = value - invoice;
+    Print("invoice", invoice);
+    Print("paidFee", paidFee);
+    Print("payment", payment);
+    Print("returned", returned);
+
+    payee.transfer(payment);
+    payer.transfer(returned);
+    owner.transfer(paidFee);
+    
     return true;
   }
-
 }
