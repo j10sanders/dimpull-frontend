@@ -91,7 +91,6 @@ class Home extends React.Component {
           {this.state.dps && (
             <GridList
               id="GridlistID"
-              style={styles.gridList}
               cols={2}
               padding={20}
               cellHeight={200}
