@@ -65,7 +65,7 @@ class Home extends React.Component {
           <div className="col-sm-6">
           <div style={{maxWidth: '500px', margin: '0 auto', paddingBottom: '30px'}}>
             <h1 id='exchange'>Exchange your crypto knowledge for ETH</h1>
-      		  <h3 id='h3exchange' >Connect with those who are new to the crypto space, and get paid for your time</h3>
+      		  <h3 id='h3exchange' >Connect with new crypto traders and get paid for your time</h3>
             <h3 id='h3exchange'>Guaranteed by the Ethereum blockchain</h3>
             
             <RaisedButton
@@ -125,12 +125,12 @@ class Home extends React.Component {
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Calendar_Icon.png" alt={'schedule'} id="imgWorks" />
               <h3 id='hHelp'>Schedule</h3>
-              <p id="pHelp">Schedule your 30 minute call with an expert</p>
+              <p id="pHelp">Schedule a 30 minute call with an expert</p>
             </div>
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Phone_Icon.png" alt={'phone'} id="imgWorks" />
               <h3 id='hHelp'>Have a Conversation</h3>
-              <p id="pHelp">Get personalized trading advice in a one-on-one call</p>
+              <p id="pHelp">Get one-on-one personalized trading advice</p>
             </div>
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/ETHExhange_Icon.png" alt={'ether'} id="imgWorks" />

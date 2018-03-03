@@ -74,7 +74,7 @@ class Discussions extends React.Component {
     	      style={styles.gridList}
             cols={3}
     	    >
-          <Subheader>These are placeholder profiles, while we vet our first experts!</Subheader>
+          <Subheader>These are example profiles while we prepare our first group of experts</Subheader>
           
   	      {this.state.dps.map((dp) => (
             <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
@@ -96,9 +96,9 @@ class Discussions extends React.Component {
             containerElement={<Link to="/newProfile"  />}
             label="Become a Dimpull Expert"
             secondary={true}
-            style={{marginTop: '10px', marginBottom: '10px'}}
+            style={{marginTop: '20px', marginBottom: '20px'}}
             />
-          <p style={{paddingTop: '15px'}}> If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
+          
     </div>
     );
   }

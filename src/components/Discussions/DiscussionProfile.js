@@ -219,7 +219,8 @@ class DiscussionProfile extends React.Component {
       />,
     ];
 
-    const title = `$${this.state.price} per half hour`
+    // `${Number(Math.round((this.state.price/this.state.etherPrice)+'e2')+'e-2')} Ether`
+    const title = `$${Number(this.state.price).toFixed(0)} per half hour`
     const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')} Ether`
     if (this.state.notExpert){
       return(
@@ -310,7 +311,7 @@ class DiscussionProfile extends React.Component {
             )}
           </CardText>
           <CardTitle title={title} subtitle={subtitle} />
-          <CardActions  style={{padding: '0px', marginRight: '-9px'}} >
+          <CardActions  style={{padding: '0px', marginRight: '-9px', marginTop: '6px'}} >
             {this.state.is_users && (
               <div>
                 <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile${this.props.location.search}`} />} />
@@ -327,8 +328,8 @@ class DiscussionProfile extends React.Component {
               </div>
             )}
             {!this.state.is_users && (
-              <div>
-                <RaisedButton fullWidth={true} primary={true} label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
+              <div >
+                <RaisedButton style={{lineHeight: '48px', height: '48px', }} labelStyle={{ fontSize: '16px'}} fullWidth={true} primary={true} label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
 
               </div>
             )}
@@ -342,14 +343,13 @@ class DiscussionProfile extends React.Component {
         <Subheader inset={true} style={{paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px'}}>This is an example profile while we prepare our first group of experts</Subheader>
         <div style ={{width: '100%', margin: "0 auto", textAlign: "center"}} >
       <Divider style={{marginTop: '80px'}}/>
-          <h2 style={{paddingTop: '20px'}}>Are You an Expert?</h2>
+          <h2 style={{paddingTop: '40px'}}>Are You an Expert?</h2>
           <RaisedButton
             containerElement={<Link to="/newProfile"  />}
             label="Become a Dimpull Expert"
             secondary={true}
-            style={{marginTop: '10px', marginBottom: '10px'}}
+            style={{marginTop: '20px', marginBottom: '20px'}}
             />
-          <p style={{paddingTop: '15px'}}>If we think you're a good fit, we'll add you as a verified expert, so you can start connecting with crypto enthusiasts.</p>
         </div>
 
       </div>
