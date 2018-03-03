@@ -67,8 +67,8 @@ h3 {
 		margin-bottom: 50px;
 		padding-top: 30px;
 		padding-bottom: 30px;
-		padding-left: 90px; 
-		padding-right: 90px;
+		padding-left: 3%;
+    	padding-right: 3%;
 	}
 	#hHelp{
 		padding-bottom: 10px;
@@ -94,6 +94,15 @@ h3 {
 		margin-left: 20%;
 	}
 
+	#GridlistID {
+	    padding-right: 10%;
+	    padding-top: 28px;
+	}
+
+	#head{
+		padding-left: 10%;
+	}
+
 }
 
 @media (max-width: 1060px){
@@ -108,11 +117,13 @@ h3 {
 		margin:0 auto !important;
 	
 	}
+	#head{
+		padding-left: 10px;
+	}
 }
 
 #exchange {
 	font-size: 55px;
-	
 	text-align: left;
 }
 
@@ -120,6 +131,7 @@ h3 {
 	font-size: 23px;
 	color: #374147fc !important;
 	text-align: left;
+	max-width: 300px;
 }
 
 
@@ -136,6 +148,19 @@ p{
 	font-size: 17px;
 }
 
+#GridlistID {
+    max-width: 700px;
+    max-height: 266px;
+    height: 200px;
+    text-align: left;
+    margin: 0 auto !important;
+  }
+
+#head{
+	max-width: 700px;
+	margin: 0 auto;
+	padding-bottom: 30px;
+}
 
 /*#helpRow {
 	margin-left: 

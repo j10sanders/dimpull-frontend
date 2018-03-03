@@ -294,7 +294,7 @@ class newProfile extends React.Component {
           <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)} style={{display: display}}>
             <Paper style={style}>
               <div className="text-center">
-                <h2>Are you an Expert?</h2>
+                <h2>Become a Dimpull Expert</h2>
                 <div className="col-md-12">
                   
                   {(this.state.first_name && this.state.last_name) && (
@@ -347,7 +347,7 @@ class newProfile extends React.Component {
                       style={textStyle}
                       defaultValue="+1-"
                     />
-                    <Subheader style={{marginTop: "-8px", }} >Mind if we give you a call?  Don't worry, we won't share your number with anyone.</Subheader>
+                    <Subheader style={{marginTop: "-8px", }} >We may give you a call as part of our vetting process</Subheader>
                 </div>
                 <RaisedButton
                   disabled={this.state.disabled}
@@ -357,7 +357,7 @@ class newProfile extends React.Component {
                 />
               </div>
               <Dialog
-                title="Thanks for your application.  The dimpull admins will get back to you shortly."
+                title="Thanks for your application.  We will get back to you shortly!"
                 actions={actions}
                 modal={false}
                 open={this.state.open}

@@ -17,15 +17,15 @@ const styles = {
     justifyContent: 'space-around',
     width: '100%',
   },
-  gridList: {
-    // width: 600,
-    maxWidth: '700px',
-    maxHeight: '466px',
-    height: 'inherit',
-    textAlign: 'left',
-    margin: '0 auto'
-    // overflowY: 'hidden',
-  },
+  // gridList: {
+  //   // width: 600,
+  //   maxWidth: '700px',
+  //   maxHeight: '466px',
+  //   height: '235px',
+  //   textAlign: 'left',
+  //   // margin: '0 auto'
+  //   // overflowY: 'hidden',
+  // },
 };
 
 class Home extends React.Component {
@@ -58,22 +58,32 @@ class Home extends React.Component {
     };
 
  render() {
+    const { isAuthenticated } = this.props.auth;
     return (
       <div style={{textAlign: 'center'}}>
       <section style={{paddingBottom: '35px'}} id="headerTop">
         <div className="row" id='headerRow'>
           <div className="col-sm-6">
-          <div style={{maxWidth: '500px', margin: '0 auto', paddingBottom: '30px'}}>
+          <div id="head">
             <h1 id='exchange'>Exchange your crypto knowledge for ETH</h1>
       		  <h3 id='h3exchange'>Connect with new crypto traders and get paid for your time</h3>
             <h3 id='h3exchange'>Guaranteed by the Ethereum blockchain</h3>
-            
-            <RaisedButton
-             containerElement={<Link to="/newProfile"  />}
-              label="Become a Dimpull Expert"
-              secondary={true}
-              style={{marginTop: '60px', height: 'auto', lineHeight: '45px', display: 'flex', maxWidth:'230px', minWidth: '175px'}}
-            />
+            {!isAuthenticated() &&(
+              <RaisedButton
+                onClick={() => this.props.auth.login("newProfile")}
+                label="Become a Dimpull Expert"
+                secondary={true}
+                style={{marginTop: '60px', height: 'auto', lineHeight: '45px', display: 'flex', maxWidth:'230px', minWidth: '175px'}}
+              />
+            )}
+            {isAuthenticated() &&(
+              <RaisedButton
+                containerElement={<Link to="/newProfile"  />}
+                label="Become a Dimpull Expert"
+                secondary={true}
+                style={{marginTop: '60px', height: 'auto', lineHeight: '45px', display: 'flex', maxWidth:'230px', minWidth: '175px'}}
+              />
+            )}
           </div>
           
           </div>
@@ -84,7 +94,7 @@ class Home extends React.Component {
               style={styles.gridList}
               cols={2}
               padding={20}
-              cellHeight={233}
+              cellHeight={200}
             >
               
               {this.state.dps.map((dp) => (
@@ -146,12 +156,23 @@ class Home extends React.Component {
       <h2 style={{marginBottom: '20px'}}> Are You an Expert? </h2>
       <p id='pRegister'> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
       so you can start connecting with Crypto enthusiasts.</p>
+      
+      {!isAuthenticated() &&(
+      <RaisedButton
+        onClick={() => this.props.auth.login("newProfile")}
+        label="Become a Dimpull Expert"
+        secondary={true}
+        style={{marginTop: '30px', marginBottom: '30px',height: 'auto', lineHeight: '45px', }}
+        />
+      )}
+       {isAuthenticated() &&(
       <RaisedButton
         containerElement={<Link to="/newProfile"  />}
         label="Become a Dimpull Expert"
         secondary={true}
         style={{marginTop: '30px', marginBottom: '30px',height: 'auto', lineHeight: '45px', }}
         />
+        )}
       
     </div>
 
