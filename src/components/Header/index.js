@@ -50,7 +50,7 @@ export class Header extends Component {
                         containerElement={<Link to="/discussions" />}
                         onClick={() => this.setState({open: false})}
                         >
-                            View Discussion Profiles
+                            Meet the Experts
                         </MenuItem>
                     </div>
                 </Drawer>

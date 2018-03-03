@@ -240,6 +240,7 @@ class EditProfile extends React.Component {
 	              />
 	              <p> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price/this.state.etherPrice} Ether/minute.  
 	              It will be set at the beginning of each call. We do this to combat volatility.</p>
+	              <p>Note that your price will appear 18.5% higher to callers, since dimpull collects that percent.</p>
 	            </div>
 	            </div>
 	        	</Paper>

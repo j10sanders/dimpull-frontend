@@ -64,7 +64,7 @@ class Discussions extends React.Component {
     return (
       <div style={{textAlign: 'center'}}>
       <CircularProgress style={{display: waiting, width: '100%'}} size={80} thickness={5} />
-        <h1> Discussion Profiles </h1>
+        <h1>Meet the Experts</h1>
         
         <div style={styles.root}>
         {this.state.dps && (
