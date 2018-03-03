@@ -121,8 +121,7 @@ class newProfile extends React.Component {
   }
 
   getEmail(){
-    let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
-    let fullUrl = almostUrl.replace(/\./g, ":")
+    let fullUrl = `https://jonsanders:auth0:com/user_metadata`
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
@@ -153,8 +152,7 @@ class newProfile extends React.Component {
               })
       return
     }
-    let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
-    let fullUrl = almostUrl.replace(/\./g, ":")
+    let fullUrl = `https://jonsanders:auth0:com/user_metadata`
     this.setState({ profile: {} });
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
@@ -279,9 +277,6 @@ class newProfile extends React.Component {
   }
 
   render() {
-    let almostUrl = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`
-    let fullUrl = almostUrl.replace(/\./g, ":")
-    console.log(this.state, fullUrl)
     const { isAuthenticated } = this.props.auth;
     const actions = [
       <FlatButton
