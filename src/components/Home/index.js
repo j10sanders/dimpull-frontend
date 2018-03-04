@@ -61,7 +61,7 @@ class Home extends React.Component {
     const { isAuthenticated } = this.props.auth;
     return (
       <div style={{textAlign: 'center'}}>
-      <section style={{paddingBottom: '35px'}} id="headerTop">
+      <section id="headerTop">
         <div className="row" id='headerRow'>
           <div className="col-sm-6">
           <div id="head">
