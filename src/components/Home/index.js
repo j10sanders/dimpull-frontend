@@ -10,23 +10,6 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import './landingpage.css';
 
-const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    width: '100%',
-  },
-  // gridList: {
-  //   // width: 600,
-  //   maxWidth: '700px',
-  //   maxHeight: '466px',
-  //   height: '235px',
-  //   textAlign: 'left',
-  //   // margin: '0 auto'
-  //   // overflowY: 'hidden',
-  // },
-};
 
 class Home extends React.Component {
 	constructor(props) {
