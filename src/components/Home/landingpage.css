@@ -77,6 +77,9 @@ h3 {
 	    /*padding-right: 10%;*/
 	    padding-top: 28px;
 	}
+	#exchange {
+		font-size: 58px;
+	}
 }
 
 @media (min-width: 955px){ 
@@ -125,6 +128,9 @@ h3 {
 
 	#head{
 		padding-left: 10%;
+	}
+	#exchange {
+		font-size: 64px;
 	}
 }
 
