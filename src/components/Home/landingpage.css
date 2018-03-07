@@ -23,13 +23,6 @@ h3 {
 	font-size: 17px !important;
 }
 
-@media (max-width: 954px){
-	
-}
-
-@media (min-width: 955px){
-	
-}
 
 @media (max-width: 954px){ 
 	#howItWorks {
@@ -65,6 +58,24 @@ h3 {
 	#headerTop {
 		padding-bottom: 208px;
 		padding-top: 17px;
+	}
+	.col-sm-3 {
+		width: auto !important;
+		float: inherit !important;
+
+	}
+	.col-sm-6 {
+		width: auto !important;
+		float: inherit !important;
+		margin:0 auto !important;
+	
+	}
+	#head{
+		padding-left: 10px;
+	}
+	#GridlistID {
+	    /*padding-right: 10%;*/
+	    padding-top: 28px;
 	}
 }
 
@@ -115,30 +126,8 @@ h3 {
 	#head{
 		padding-left: 10%;
 	}
-
 }
 
-@media (max-width: 954px){
-	.col-sm-3 {
-		width: auto !important;
-		float: inherit !important;
-
-	}
-	.col-sm-6 {
-		width: auto !important;
-		float: inherit !important;
-		margin:0 auto !important;
-	
-	}
-	#head{
-		padding-left: 10px;
-	}
-	#GridlistID {
-	    padding-right: 10%;
-	    padding-top: 28px;
-	}
-
-}
 
 #exchange {
 	font-size: 64px;
