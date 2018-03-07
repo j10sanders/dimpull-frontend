@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "all-countries": "^2.0.2",
     "auth0-js": "^9.0.2",
     "auth0-lock": "^11.1.0",
     "axios": "^0.17.1",
@@ -10,6 +11,7 @@
     "bootstrap-loader": "^2.2.0",
     "bootstrap-sass": "^3.3.7",
     "bootstrap-webpack": "0.0.6",
+    "google-libphonenumber": "^3.1.0",
     "history": "^4.7.2",
     "imports-loader": "^0.7.1",
     "jquery": "^3.2.1",

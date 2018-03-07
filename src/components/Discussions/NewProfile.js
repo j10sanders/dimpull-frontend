@@ -4,14 +4,17 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import history from '../../history';
-// import SelectField from 'material-ui/SelectField';
-// import MenuItem from 'material-ui/MenuItem';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 // import {timezones} from '../../timezones/timezones';
 // import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import Subheader from 'material-ui/Subheader';
+const PNF = require('google-libphonenumber').PhoneNumberFormat;
+const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+var allCountries = require('all-countries');
 
 const style = {
     marginTop: 50,
@@ -50,23 +53,42 @@ class newProfile extends React.Component {
     };
   }
 
-
+  noExcepetion(number) {
+    console.log(number, "NO noExcepetion")
+    let ret;
+    try {
+      ret = phoneUtil.isValidNumber(number)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      console.log(ret, "RET")
+      return ret;
+    }
+  }
 
   isDisabled() {
     let tel_is_valid = false;
-
+    let number = ''
+    let country = allCountries.getCountryCodeByCountryName(this.state.country)
+    console.log(country)
+    try {
+      number = phoneUtil.parse(this.state.tel, country)
+    } catch(error){
+      console.log(error)
+    }
+    console.log("STATE", this.state.tel)
     if (this.state.tel === '' || !this.state.tel) {
         this.setState({
             tel_error_text: null,
         });
-    } else if (this.state.tel.length >=15  && this.state.tel.length <17) {
+    } else if (this.noExcepetion(number)) {
         this.setState({
             tel_error_text: null,
         });
         tel_is_valid = true;
     }else {
         this.setState({
-            tel_error_text: 'Enter a valid phone number (+1-917-555-7777)',
+            tel_error_text: 'Enter a valid phone number',
         });
     }
     if (tel_is_valid && this.state.message.length !== 0 && this.state.otherProfile.length !== 0) {
@@ -208,6 +230,7 @@ class newProfile extends React.Component {
     const { getAccessToken } = this.props.auth;
     this.getNames();
     this.getEmail();
+    this.setState({country: "United States"})
     let headers = {}
     if ( isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}`}
@@ -233,7 +256,7 @@ class newProfile extends React.Component {
         await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
           {
           // user_id: this.state.profile.sub,
-          phone_number: this.state.tel,
+          phone_number: phoneUtil.format(this.state.tel, PNF.E164),
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           auth_pic: this.state.profile.picture,
@@ -276,6 +299,12 @@ class newProfile extends React.Component {
     history.replace('/')
   }
 
+  selectCountry(event, index, value) {
+    this.setState({country: value})
+  }
+
+
+
   render() {
     const { isAuthenticated } = this.props.auth;
     const actions = [
@@ -317,6 +346,16 @@ class newProfile extends React.Component {
                     onChange={(e) => this.changeValue(e, 'email')}
                     fullWidth={true}
                   />
+                  <SelectField
+                      floatingLabelText="Country"
+                      value={this.state.country}
+                      onChange={(event, index, value) => this.selectCountry(event, index, value, "id")}
+                      maxHeight={200}
+                      fullWidth={true}
+                      style={textStyle}
+                    >
+                      {allCountries.all.sort().map((country) => <MenuItem value={country} key={country} primaryText={country} />)}
+                  </SelectField>
                   <TextField
                     hintText="Comma separated if you want to show multiple links"
                     floatingLabelText="Post a link that best showcases your expertise"
@@ -327,7 +366,6 @@ class newProfile extends React.Component {
                     onChange={(e) => this.changeValue(e, 'otherProfile')}
                   />
                     <TextField
-                      hintText="Message for the dimpull admins"
                       floatingLabelText="Message for the dimpull admins (optional)"
                       type="message"
                       value={this.state.message}
@@ -339,13 +377,12 @@ class newProfile extends React.Component {
                       fullWidth={true}
                     />
                     <TextField
-                      hintText="Phone number"
                       floatingLabelText="Phone number"
                       type="tel"
                       errorText={this.state.tel_error_text}
                       onChange={(e) => this.changeValue(e, 'tel')}
                       style={textStyle}
-                      defaultValue="+1-"
+                      value={this.state.tel}
                     />
                     <Subheader style={{marginTop: "-8px", }} >We may give you a call as part of our vetting process</Subheader>
                 </div>
