@@ -56,7 +56,8 @@ class Home extends React.Component {
                 onClick={() => this.props.auth.login("newProfile")}
                 label="Become a Dimpull Expert"
                 secondary={true}
-                style={{marginTop: '60px', height: 'auto', lineHeight: '45px', display: 'flex', maxWidth:'230px', minWidth: '175px'}}
+                labelStyle={{fontSize: '18px'}}
+                style={{marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth:'300px', minWidth: '255px'}}
               />
             )}
             {isAuthenticated() &&(
@@ -64,7 +65,7 @@ class Home extends React.Component {
                 containerElement={<Link to="/newProfile"  />}
                 label="Become a Dimpull Expert"
                 secondary={true}
-                style={{marginTop: '60px', height: 'auto', lineHeight: '45px', display: 'flex', maxWidth:'230px', minWidth: '175px'}}
+                style={{marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth:'230px', minWidth: '175px'}}
               />
             )}
           </div>
@@ -76,7 +77,7 @@ class Home extends React.Component {
               id="GridlistID"
               cols={2}
               padding={20}
-              cellHeight={200}
+              cellHeight={240}
             >
               
               {this.state.dps.map((dp) => (
