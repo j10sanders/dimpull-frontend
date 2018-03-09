@@ -224,7 +224,7 @@ class DiscussionProfile extends React.Component {
     const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')} Ether`
     if (this.state.notExpert){
       return(
-      <div><h1>This user isn't a confimed expert yet</h1></div>
+      <div id="unconfirmed"><h1>This user isn't a confimed expert yet...</h1></div>
       )
     }
 

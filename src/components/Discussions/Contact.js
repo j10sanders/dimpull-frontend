@@ -269,14 +269,14 @@ class Contact extends React.Component {
             />
           </div>
           <Dialog
-          title="A notification was sent to the expert."
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
-          You will be notified by SMS if/when they accept.
-        </Dialog>
+            title="A notification was sent to the expert."
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={this.handleClose}
+          >
+            You will be notified by SMS if/when they accept.
+          </Dialog>
         </Paper>
       </div>
   );
