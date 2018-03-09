@@ -123,7 +123,7 @@ class Home extends React.Component {
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Phone_Icon.png" alt={'phone'} id="imgWorks" />
               <h3 id='hHelp'>Have a Conversation</h3>
-              <p id="pHelp">Get one-on-one personalized trading advice</p>
+              <p id="pHelp">Get one-on-one personalized advice</p>
             </div>
             <div className="col-sm-3">
             <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/ETHExhange_Icon.png" alt={'ether'} id="imgWorks" />
