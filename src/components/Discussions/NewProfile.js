@@ -35,6 +35,7 @@ class newProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: "Thanks for your application.  We will get back to you shortly!",
       price_error_text: null,
       tel_error_text: null,
       description: '',
@@ -50,18 +51,17 @@ class newProfile extends React.Component {
       waiting: false,
       who: '',
       tel: '',
+      pnf: '',
     };
   }
 
   noExcepetion(number) {
-    console.log(number, "NO noExcepetion")
     let ret;
     try {
       ret = phoneUtil.isValidNumber(number)
     } catch (err) {
       console.log(err)
     } finally {
-      console.log(ret, "RET")
       return ret;
     }
   }
@@ -70,13 +70,10 @@ class newProfile extends React.Component {
     let tel_is_valid = false;
     let number = ''
     let country = allCountries.getCountryCodeByCountryName(this.state.country)
-    console.log(country)
     try {
       number = phoneUtil.parse(this.state.tel, country)
     } catch(error){
-      console.log(error)
     }
-    console.log("STATE", this.state.tel)
     if (this.state.tel === '' || !this.state.tel) {
         this.setState({
             tel_error_text: null,
@@ -84,6 +81,7 @@ class newProfile extends React.Component {
     } else if (this.noExcepetion(number)) {
         this.setState({
             tel_error_text: null,
+            pnf: number,
         });
         tel_is_valid = true;
     }else {
@@ -245,43 +243,47 @@ class newProfile extends React.Component {
     }
 
   
-  async submit(e) {
-    e.preventDefault();
+  async submit() {
+    // e.preventDefault();
     this.setState({waiting: true})
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {
       const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-      try{
-        await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+      let user;
+      user = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
           {
           // user_id: this.state.profile.sub,
-          phone_number: phoneUtil.format(this.state.tel, PNF.E164),
+          phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           auth_pic: this.state.profile.picture,
           }, {headers}
        )
-      } catch(err) {
-        history.push("/")
-      }
-      try{
-        await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
-          {
-            // user_id: this.state.profile.sub,
-            // description: this.state.description,
-            // image_url: this.state.image,
-            otherProfile: this.state.otherProfile,
-            // price: this.state.price,
-            // timezone: this.state.timezone,
-            email: this.state.email,
-            message: this.state.message,
-            // who: this.state.who,
-          }, {headers}
-        )
-      } catch(err) {
-        history.push("/")
-      }
+      if (user) {
+        if (user.data === "Phone number already in use."){
+          this.setState({title: `The phone number ${this.state.tel} is already in use. Please log into that profile or contact admin@dimpull.com`})
+        } else {
+            try{
+              await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
+                {
+                  // user_id: this.state.profile.sub,
+                  // description: this.state.description,
+                  // image_url: this.state.image,
+                  otherProfile: this.state.otherProfile,
+                  // price: this.state.price,
+                  // timezone: this.state.timezone,
+                  email: this.state.email,
+                  message: this.state.message,
+                  // who: this.state.who,
+                }, {headers}
+              )
+            } catch(err) {
+              history.push("/")
+            }
+          }
+        }
+        
 
       this.setState({waiting: false})
       this.setState({open: true});
@@ -394,7 +396,7 @@ class newProfile extends React.Component {
                 />
               </div>
               <Dialog
-                title="Thanks for your application.  We will get back to you shortly!"
+                title={this.state.title}
                 actions={actions}
                 modal={false}
                 open={this.state.open}
