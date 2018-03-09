@@ -13,10 +13,10 @@ h3 {
 	margin-left: 23px !important;
 	margin-right: 23px !important;
 }
-/*.row {
-	margin-left: 23px !important;
-	margin-right: 23px !important;
-}*/
+.row {
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
 
 #leftalign {
 	text-align: left !important;
