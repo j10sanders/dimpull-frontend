@@ -26,10 +26,11 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     width: '100%',
+    height: '500px',
   },
   gridList: {
     width: 800,
-    overflowY: 'hidden',
+    // overflowY: 'hidden',
   },
 };
 
