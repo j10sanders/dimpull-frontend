@@ -339,7 +339,7 @@ class newProfile extends React.Component {
                   />
                   )}
                   <TextField
-                    hintText="Email (so we can notify you if you get accepted)"
+                    // hintText="Email (so we can notify you if you get accepted)"
                     floatingLabelText="Email"
                     type="email"
                     // defaultValue={this.state.email}
