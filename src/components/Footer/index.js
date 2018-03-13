@@ -9,9 +9,9 @@ export const Footer = () =>
 					<a style={{color: '#464545' }} href="https://sites.google.com/view/dimpull/home">Privacy Policy</a>
 				</p>
 			        <img src='https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png' 
-			        style={{width: "40px",height: "auto", paddingBottom: '13px'}} alt="logo" />
+			        id="logo" alt="logo" />
 		        
-		        <div style={{float:'right', position:'absolute', bottom:'0', fontSize: '14px', right: '7px', textAlign: 'right'}}>
+		        <div style={{float:'right', position:'absolute', bottom:'0', fontSize: '14px', right: '109px', textAlign: 'right'}}>
 		        <div style={{paddingBottom: "4px", paddingLeft: "19px"}}>
 		        
 		        <a href="mailto:admin@dimpull.com" >

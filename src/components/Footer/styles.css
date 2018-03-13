@@ -1,0 +1,19 @@
+@media (min-width: 623px){ 
+	#logo {
+
+	}
+}
+	
+
+@media (max-width: 622px){ 
+	#logo {
+		float: left;
+	}
+}
+
+
+#logo {
+	width: 40px;
+	height: auto;
+	padding-bottom: 13px;
+}
