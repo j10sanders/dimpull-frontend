@@ -11,7 +11,7 @@ export const Footer = () =>
 			        <img src='https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png' 
 			        id="logo" alt="logo" />
 		        
-		        <div style={{float:'right', position:'absolute', bottom:'0', fontSize: '14px', right: '109px', textAlign: 'right'}}>
+		        <div id="links" >
 		        <div style={{paddingBottom: "4px", paddingLeft: "19px"}}>
 		        
 		        <a href="mailto:admin@dimpull.com" >
@@ -23,7 +23,7 @@ export const Footer = () =>
 		        		<img src='http://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,w_77/v1520797682/mediumcropped.png' alt="medium"/>
 		        	</a>
 		        </div>
-		        <div style={{display: 'inline-block', paddingLeft: '24px', paddingBottom: '4px'}}>
+		        <div id="twitter">
 		        <Follow username='dimpull'  options={{showCount:false, size: 'large'}} />	
 		        </div>
 		        </div>			
