@@ -20,7 +20,7 @@ export const Footer = () =>
 		        </div>
 		        <div style={{paddingBottom: "12px", paddingLeft: "19px"}}>
 		        	<a href="https://medium.com/@dimpull" >
-		        		<img src='http://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,w_77/v1520797682/mediumcropped.png' alt="medium"/>
+		        		<img src='https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,w_77/v1520797682/mediumcropped.png' alt="medium"/>
 		        	</a>
 		        </div>
 		        <div id="twitter">
