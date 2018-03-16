@@ -1,11 +1,11 @@
 {
   "name": "dimpull-frontend",
-  "homepage" : "https://dimpull.com/",
+  "homepage": "https://dimpull.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "all-countries": "^2.0.2",
-    "auth0-js": "^9.0.2",
+    "auth0-js": "^9.3.3",
     "auth0-lock": "^11.1.0",
     "axios": "^0.17.1",
     "bootstrap": "^3.3.7",
