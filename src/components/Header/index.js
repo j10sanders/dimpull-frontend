@@ -55,7 +55,7 @@ export class Header extends Component {
                     </div>
                 </Drawer>
                 
-                <AppBar
+                <AppBar style={{position: "fixed" }}
                     title={<img src='https://res.cloudinary.com/dtvc9q04c/image/upload/v1520111213/dimpullgif.gif' style={{cursor:'pointer', width: "120px", height: "auto", imageRendering: 'crisp-edges'}} alt="logo"/>}
                     onTitleClick={() => this.goHome()}
                     onLeftIconButtonClick={() => this.openNav()}
