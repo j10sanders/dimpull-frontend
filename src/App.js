@@ -30,10 +30,6 @@ const muiTheme = getMuiTheme({
 
 class App extends React.Component {
     
-    componentWillReceiveProps(nextProps){
-        console.log(nextProps, "NEXTPROPS")
-    }
-
     // <Footer />
 
     render() {
@@ -42,7 +38,6 @@ class App extends React.Component {
             <MuiThemeProvider muiTheme={muiTheme} style={styles}>
                 <section id='section'>
                     <Routes />
-                   
                 </section>
             </MuiThemeProvider>
             <Footer />
