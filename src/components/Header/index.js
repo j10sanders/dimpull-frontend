@@ -14,7 +14,6 @@ export class Header extends Component {
         this.state = {
             open: false,
         };
-
     }
 
     handleClickOutside() {
