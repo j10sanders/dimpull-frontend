@@ -75,6 +75,14 @@ h3 {
 	}
 }
 
+@media (min-height: 622px) and (min-width: 955px) {
+	#headerTop {
+		/*padding-bottom: 35px;*/
+		padding-top: 13vh;
+		height: 83vh;
+	}
+}
+
 @media (min-width: 955px){ 
 	#sixtysix {
 		width: 66% !important;
@@ -95,8 +103,9 @@ h3 {
 		font-size: 19px;
 	}
 	#headerTop {
-		padding-bottom: 35px;
-		padding-top: 70px;
+		/*padding-bottom: 35px;*/
+		/*padding-top: 13vh;*/
+		/*height: 83vh;*/
 	}
 	#howItWorks {
 		margin-top: 20px;
