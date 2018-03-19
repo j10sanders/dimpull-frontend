@@ -66,6 +66,10 @@ class DiscussionProfile extends React.Component {
             if (response.data === "not an expert yet"){
               this.setState({notExpert: true})
             }
+            else if (response.data === "does not exist"){
+              this.setState({nonExistant: true})
+              return
+            }
             this.etherPrice();
             this.setState({host: `${response.data.first_name} ${response.data.last_name}`,
               image: response.data.image,
@@ -176,6 +180,10 @@ class DiscussionProfile extends React.Component {
   // var rand = myArray[Math.floor(Math.random() * myArray.length)];
 
   render() {
+    if (this.state.nonExistant){
+      return ( <div> That profile doesn't exist </div>
+        )
+    }
     const reviews = []
     if (this.state.reviews){
       for (let i of this.state.reviews){
