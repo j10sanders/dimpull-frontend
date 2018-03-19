@@ -329,7 +329,7 @@ class DiscussionProfile extends React.Component {
             )}
             {!this.state.is_users && (
               <div >
-                <RaisedButton style={{lineHeight: '48px', height: '48px', }} labelStyle={{ fontSize: '16px'}} fullWidth={true} primary={true} label="Contact" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
+                <RaisedButton style={{lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px'}} labelStyle={{ fontSize: '20px'}} fullWidth={true} primary={true} label="Schedule a Call" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
 
               </div>
             )}
