@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import {Redirect, Router, Route, Switch} from 'react-router-dom';
-import Discussions from '../components/Discussions/Discussions';
-import MyDiscussions from '../components/Discussions/MyDiscussions';
-import Contact from '../components/Discussions/Contact';
-import DiscussionProfile from '../components/Discussions/DiscussionProfile';
-import NewProfile from '../components/Discussions/NewProfile';
-import EditProfile from '../components/Discussions/EditProfile';
-import Availability from '../components/Discussions/Availability';
-import Calendar from '../Profile/Calendar';
-import { LoginPage } from '../LoginPage';
-import { GetNumber } from '../LoginPage/GetNumber';
-import Home from '../components/Home';
-import { Header } from '../components/Header';
+import asyncComponent from "../components/AsyncComponent";
 import Auth from '../Auth/Auth.js';
 import history from '../history';
 import Callback from '../Callback/Callback';
-import Profile from '../Profile/Profile';
-import Pay from '../components/Discussions/Pay';
 const auth = new Auth();
+const AsyncHome = asyncComponent(() => import("../components/Home"));
+const AsyncNewProfile = asyncComponent(() => import("../components/Discussions/NewProfile"));
+const AsyncEditProfile = asyncComponent(() => import("../components/Discussions/EditProfile"));
+const AsyncAvailability = asyncComponent(() => import("../components/Discussions/Availability"));
+const AsyncCalendar = asyncComponent(() => import("../Profile/Calendar"));
+const AsyncPay = asyncComponent(() => import("../components/Discussions/Pay"));
+const AsyncDiscussionProfile = asyncComponent(() => import("../components/Discussions/DiscussionProfile"));
+const AsyncContact = asyncComponent(() => import("../components/Discussions/Contact"));
+const AsyncMyDiscussions = asyncComponent(() => import("../components/Discussions/MyDiscussions"));
+const AsyncDiscussions = asyncComponent(() => import("../components/Discussions/Discussions"));
+const AsyncLoginPage = asyncComponent(() => import("../LoginPage/LoginPage"));
+const AsyncGetNumber = asyncComponent(() => import("../LoginPage/GetNumber"));
+const AsyncHeader = asyncComponent(() => import("../components/Header"));
+const AsyncProfile = asyncComponent(() => import("../Profile/Profile"));
 
 const handleAuthentication = ({location}) => {
   if (/access_token|id_token|error/.test(location.hash)) {
@@ -30,33 +31,33 @@ class Routes extends Component {
 		return (
 			<Router history={history}>
 				<div>
-					<Header />
+					<AsyncHeader />
 					<div
 						className="container"
                         style={{ paddingBottom: '100px',
-                        marginTop: '64px',
+                        		marginTop: '64px',
 	                        // height: '100%',
 	                        // minHeight: '88vh'
                         }}
                   	>
 						<Switch>
-							<Route exact path="/" render={(props) => <Home auth={auth} {...props} />} />
-							<Route exact path="/login" render={(props) => <LoginPage auth={auth} {...props} />} />
-							<Route exact path="/getNumber" render={(props) => <GetNumber auth={auth} {...props} />} />
-						    <Route exact path="/discussions" render={(props) => <Discussions auth={auth} {...props} />} />
-						    <Route exact path="/mydiscussions" render={(props) => <MyDiscussions auth={auth} {...props} />} />
-						    <Route path="/discussionProfile" render={(props) => <DiscussionProfile auth={auth} {...props} />} />
-						    <Route path="/requestConversation" render={(props) => <Contact auth={auth} {...props} />} />
-						    <Route path="/newProfile" render={(props) => <NewProfile auth={auth} {...props} />} />
-						    <Route path="/editProfile" render={(props) => <EditProfile auth={auth} {...props} />} />
-						    <Route path="/availability" render={(props) => <Availability auth={auth} {...props} />} />
-						    <Route path="/calendar" render={(props) => <Calendar auth={auth} {...props} />} />
-						    <Route path="/pay" render={(props) => <Pay auth={auth} {...props} />} />
+							<Route exact path="/" render={(props) => <AsyncHome auth={auth} {...props} />} />
+							<Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
+							<Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
+						    <Route exact path="/discussions" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
+						    <Route exact path="/mydiscussions" render={(props) => <AsyncMyDiscussions auth={auth} {...props} />} />
+						    <Route path="/discussionProfile" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
+						    <Route path="/requestConversation" render={(props) => <AsyncContact auth={auth} {...props} />} />
+						    <Route path="/newProfile" render={(props) => <AsyncNewProfile auth={auth} {...props} />} />
+						    <Route path="/editProfile" render={(props) => <AsyncEditProfile auth={auth} {...props} />} />
+						    <Route path="/availability" render={(props) => <AsyncAvailability auth={auth} {...props} />} />
+						    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
+						    <Route path="/pay" render={(props) => <AsyncPay auth={auth} {...props} />} />
 						    <Route path="/profile" render={(props) => (
 					            !auth.isAuthenticated() ? (
 					              <Redirect to="/home"/>
 					            ) : (
-					              <Profile auth={auth} {...props} />
+					              <AsyncProfile auth={auth} {...props} />
 					            )
 					          )} />
 						    <Route path="/callback" render={(props) => {
@@ -64,10 +65,8 @@ class Routes extends Component {
 					          return <Callback {...props} /> 
 					        }}/>
 					    </Switch>
-
 				    </div>
 				</div>
-
 			</Router>
 		);
 	}

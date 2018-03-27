@@ -8,7 +8,7 @@ import history from '../../history';
 // import Divider from 'material-ui/Divider';
 import './header.css';
 
-export class Header extends Component {
+class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -68,3 +68,5 @@ export class Header extends Component {
         );
     }
 }
+
+export default Header;

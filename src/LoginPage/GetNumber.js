@@ -186,4 +186,5 @@ class GetNumber extends React.Component {
   }
 
 }
-export { GetNumber }; 
+
+export default GetNumber; 
