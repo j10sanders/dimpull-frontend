@@ -25,9 +25,6 @@ const handleAuthentication = ({location}) => {
   }
 }
 
-
-require('bootstrap-webpack');
-
 class Routes extends Component {
 	render() {
 		return (

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Panel, ControlLabel, Glyphicon } from 'react-bootstrap';
+import Panel from 'react-bootstrap/lib/Panel';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import './Profile.css';
 
 class Profile extends Component {
