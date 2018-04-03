@@ -14,11 +14,11 @@ import './landingpage.css';
 class Home extends React.Component {
 	constructor(props) {
     super(props);
-    this.state = {dps: null,
+    this.state = {dps: null
     };
   }
 
-  componentDidMount(){
+  componentDidMount () {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {
@@ -81,7 +81,7 @@ class Home extends React.Component {
             >
               
               {this.state.dps.map((dp) => (
-                <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
+                <Link to={`/expert/${dp.url}`} key={dp.url}>
                 <GridTile
                   key={dp.id}
                   title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}

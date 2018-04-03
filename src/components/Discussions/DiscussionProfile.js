@@ -36,7 +36,7 @@ class DiscussionProfile extends React.Component {
 
   getDiscussion (headers) {
     this.etherPrice();
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`, { headers })
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, { headers })
       .then((response) => {
         if (response.data === 'not an expert yet') {
           this.setState({ notExpert: true });
@@ -218,6 +218,7 @@ class DiscussionProfile extends React.Component {
           otherProfile={this.state.otherProfile}
           linkToProfile={() => this.linkToProfile()}
           actions={actions}
+          is_users={this.state.is_users}
         />
         {this.state.reviews &&
           <div id="Reviews" style={{ paddingTop: '30px' }}>

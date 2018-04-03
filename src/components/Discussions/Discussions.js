@@ -78,7 +78,7 @@ class Discussions extends React.Component {
           <Subheader>These are example profiles while we prepare our first group of experts</Subheader>
           
   	      {this.state.dps.map((dp) => (
-            <Link to={`/discussionProfile?id=${dp.id}`} key={dp.id}>
+            <Link to={`/discussionProfile?id=${dp.url}`} key={dp.id}>
   	        <GridTile
   	          key={dp.id}
   	          title={<b>{`${dp.first_name} ${dp.last_name}`}</b>}

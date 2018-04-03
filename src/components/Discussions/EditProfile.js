@@ -23,15 +23,6 @@ const style = {
   display: 'inline-block'
 };
 
-const underStyle = {
-  marginTop: 10,
-  paddingBottom: 50,
-  paddingTop: 25,
-  width: '100%',
-  textAlign: 'center',
-  display: 'inline-block'
-};
-
 const dropzoneStyle = {
   width: '100%',
   height: '80px',
@@ -81,7 +72,7 @@ class EditProfile extends React.Component {
     const { getAccessToken } = this.props.auth;
     let headers = {}
     if (isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+      headers = { 'Authorization': `Bearer ${getAccessToken()}` };
     } else {
       history.push('/');
     }
@@ -89,20 +80,20 @@ class EditProfile extends React.Component {
       .then((response) => {
         this.setState({
           price: response.data.price ? response.data.price : 50,
-          image: response.data.image_url,
-          description: response.data.description,
-          otherProfile: response.data.otherProfile,
+          image: response.data.image_url ? response.data.image_url : '',
+          description: response.data.description ? response.data.description : '',
+          otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
           // timezone: response.data.timezone ,
-          origin: response.data.origin,
-          excites: response.data.excites,
-          helps: response.data.helps,
-          who: response.data.who
+          origin: response.data.origin ? response.data.origin : '',
+          excites: response.data.excites ? response.data.excites : '',
+          helps: response.data.helps ? response.data.helps : '',
+          who: response.data.who ? response.data.who : ''
         }, () => this.isDisabled());
       })
       .catch(error => console.log(error));
   }
 
-  onImageDrop(files) {
+  onImageDrop (files) {
     this.setState({
       uploadedFile: files[0]
     });
@@ -148,7 +139,7 @@ class EditProfile extends React.Component {
         priceErrorText: 'Enter a valid number, greater than 0'
       });
     }
-    if (this.state.descriptions && this.state.image) {
+    if (this.state.description && this.state.image) {
       if (this.state.description.length !== 0 && this.state.image.length !== 0 && priceIsValid) {
         this.setState({
           disabled: false
@@ -201,13 +192,6 @@ class EditProfile extends React.Component {
 
   render () {
     const { isAuthenticated } = this.props.auth;
-    // const title = `$${Number(this.state.price).toFixed(0)} per half hour`;
-    // const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')} Ether`;
-    // if (this.state.waiting) {
-    //   return (
-    //     <CircularProgress size={80} thickness={5} />
-    //   );
-    // }
     return (
       <div className="container">
         <div className="row">
@@ -217,7 +201,7 @@ class EditProfile extends React.Component {
                 <div className="" onKeyPress={e => this._handleKeyPress(e)}>
                   <Paper style={style}>
                     <div className="text-center">
-                      <h2>Your Expert Profile</h2>
+                      <h2>Fill Out Your Expert Profile:</h2>
                       {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
                         <div className="col-md-12">
                           {this.state.profile.given_name && (
@@ -236,7 +220,7 @@ class EditProfile extends React.Component {
                               fullWidth
                             />
                           )}
-                          <div style={{ color: this.state.image ? 'black' : 'red' }}>
+                          <div style={{ color: this.state.image ? 'black' : 'red', paddingTop: '20px' }}>
                             <Dropzone
                               multiple={false}
                               accept="image/*"
@@ -253,6 +237,7 @@ class EditProfile extends React.Component {
                             floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Researcher, etc...)"
                             type="description"
                             value={this.state.description}
+                            style={{marginTop: '8px'}}
                             // errorText={this.state.description_error_text}
                             onChange={e => this.changeValue(e, 'description')}
                             fullWidth
@@ -291,17 +276,16 @@ class EditProfile extends React.Component {
                             onChange={e => this.changeValue(e, 'price')}
                           />
                           <p> Currently one Ether is {this.state.etherPrice} dollars,
-                            so your price would be {this.state.price / this.state.etherPrice}
-                            ETH/half-hour.  It will be set when someone books one of your timeslots.
+                            so your price would be {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
+                            {' '}ETH/half-hour.  It will be set when someone books one of your timeslots.
                           </p>
                         </div>
                       )}
                     </div>
-                  </Paper>
-                  <Paper style={underStyle}>
+
                     <div className="text-center">
                       <div className="col-md-12">
-                        <div style={{ textAlign: 'left' }}>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
                             // hintText="Who are you?"
                             floatingLabelText="Who are you?"
@@ -317,7 +301,6 @@ class EditProfile extends React.Component {
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
                         </div>
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
-
                           <TextField
                             // hintText="What is your crypto origin story?"
                             floatingLabelText="What is your crypto origin story?"
@@ -375,7 +358,6 @@ class EditProfile extends React.Component {
                   </Paper>
                 </div>
               )}
-              
             </div>
           </div>
           <div className="col-md-6 col-md-offset-0">
@@ -398,7 +380,7 @@ class EditProfile extends React.Component {
                 // title={title}
                 // subtitle={subtitle}
                 otherProfile={this.state.otherProfile}
-                edit={true}
+                edit
                 // linkToProfile={() => this.linkToProfile()}
               />
             </div>
