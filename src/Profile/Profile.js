@@ -5,7 +5,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import './Profile.css';
 
 class Profile extends Component {
-  componentWillMount() {
+  componentWillMount () {
     this.setState({ profile: {} });
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
@@ -16,9 +16,8 @@ class Profile extends Component {
       this.setState({ profile: userProfile });
     }
   }
-  render() {
+  render () {
     const { profile } = this.state;
-    console.log(profile, "profile")
     return (
       <div className="container">
         <div className="profile-area">

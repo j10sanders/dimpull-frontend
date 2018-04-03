@@ -11,7 +11,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
-import Subheader from 'material-ui/Subheader';
+// import Subheader from 'material-ui/Subheader';
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 var allCountries = require('all-countries');
@@ -30,13 +30,12 @@ const textStyle ={
   width: '80%'
 }
 
-
 class newProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "Thanks for your application.  We will get back to you shortly!",
-      price_error_text: null,
+      // price_error_text: null,
       tel_error_text: null,
       description: '',
       image: '',
@@ -292,10 +291,10 @@ class newProfile extends React.Component {
     }
   }
 
-  handleOpen(evt) {
-    this.setState({open: true, event: evt});
+  handleOpen (evt) {
+    this.setState({ open: true, event: evt });
   }
-  
+
   handleClose() {
     this.setState({open: false});
     history.replace('/')
@@ -386,7 +385,6 @@ class newProfile extends React.Component {
                       style={textStyle}
                       value={this.state.tel}
                     />
-                    <Subheader style={{marginTop: "-8px", }} >We may give you a call as part of our vetting process</Subheader>
                 </div>
                 <RaisedButton
                   disabled={this.state.disabled}
