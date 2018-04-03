@@ -1,18 +1,16 @@
 import React from 'react';
 import Subheader from 'material-ui/Subheader';
-import RaisedButton from 'material-ui/RaisedButton';
 import ReactStars from 'react-stars';
 import Avatar from 'material-ui/Avatar';
-import Divider from 'material-ui/Divider';
 import { List, ListItem } from 'material-ui/List';
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import axios from 'axios';
+import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom';
-import CircularProgress from 'material-ui/CircularProgress';
-import Dialog from 'material-ui/Dialog';
+import axios from 'axios';
 import history from '../../history';
 import NeedReview from './needReview';
+import ProfileCard from './ProfileCard';
 import './discussionprofile.css';
 
 const colors = ['FF9A57', '01B48F', 'D0D2D3', 'C879B2', '44C7F4'];
@@ -203,89 +201,24 @@ class DiscussionProfile extends React.Component {
             auth={this.props.auth}
           />
         }
-        <div id="cardStyle">
-          {this.state.host && (
-            <Card>
-              <CardMedia
-                style={{ cursor: 'pointer' }}
-                overlay={<CardTitle title={this.state.host} subtitle={this.state.description} />}
-                onClick={() => this.linkToProfile(this.state.other_profile)}
-              >
-                <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
-                  <img src={this.state.image} alt={this.state.image} style={{ maxWidth: '100%' }} />
-                </div>
-              </CardMedia>
-              <CardText>
-                {this.state.who && (
-                  <div>
-                    <h3 id="q"> Who are you? </h3>
-                    <p id="answer">{this.state.who}</p>
-                  </div>
-                )}
-                {this.state.origin && (
-                  <div>
-                    <h3 id="q"> What is your crypto origin story?</h3>
-                    <p id="answer">{this.state.origin}</p>
-                  </div>
-                )}
-                {this.state.excites && (
-                  <div>
-                    <h3 id="q"> What excites you about blockchain technology?</h3>
-                    <p id="answer">{this.state.excites}</p>
-                  </div>
-                )}
-                {this.state.helps && (
-                  <div>
-                    <h3 id="q"> What can you help callers with?</h3>
-                    <p id="answer">{this.state.helps}</p>
-                  </div>
-                )}
-              </CardText>
-              <CardTitle title={title} subtitle={subtitle} />
-              <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
-                {this.state.is_users && (
-                  <div>
-                    <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile${this.props.location.search}`} />} />
-                    <FlatButton label="Delete Profile" onClick={() => this.handleOpen()} containerElement={"Hi"}/>
-                    <Dialog
-                      title="Delete Discussion Profile"
-                      actions={actions}
-                      modal={false}
-                      open={this.state.open}
-                      onRequestClose={() => this.handleClose()}
-                    >
-                     Are you sure you want to delete this discussion profile?
-                    </Dialog>
-                  </div>
-                )}
-                {!this.state.is_users && (
-                  <div >
-                    <RaisedButton
-                      style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
-                      labelStyle={{ fontSize: '20px' }} fullWidth={true} primary={true} label="Schedule a Call"
-                      containerElement={<Link to={`/availability${this.props.location.search}`} />} 
-                    />
-                  </div>
-                )}
-              </CardActions>
-            </Card>
-          )}
-          {!this.state.host && (
-            <CircularProgress size={80} thickness={5} /> 
-          )}
-          <Subheader inset style={{ paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px' }}>This is an example profile while we prepare our first group of experts</Subheader>
-          <div style={{ width: '100%', margin: '0 auto', textAlign: 'center' }} >
-            <Divider style={{ marginTop: '80px' }} />
-            <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
-            <RaisedButton
-              containerElement={<Link to="/newProfile" />}
-              label="Become a Dimpull Expert"
-              secondary
-              style={{ marginTop: '20px', marginBottom: '20px' }}
-            />
-          </div>
-        </div>
-
+        <ProfileCard
+          host={this.state.host}
+          description={this.state.description}
+          image={this.state.image}
+          who={this.state.who}
+          origin={this.state.origin}
+          excites={this.state.excites}
+          helps={this.state.helps}
+          open={this.state.open}
+          search={this.props.location.search}
+          handleClose={() => this.handleClose()}
+          deleteProfile={() => this.deleteProfile()}
+          title={title}
+          subtitle={subtitle}
+          otherProfile={this.state.otherProfile}
+          linkToProfile={() => this.linkToProfile()}
+          actions={actions}
+        />
         {this.state.reviews &&
           <div id="Reviews" style={{ paddingTop: '30px' }}>
             <h1> Reviews </h1>
@@ -297,6 +230,16 @@ class DiscussionProfile extends React.Component {
             </List>
           </div>
         }
+        <div style={{ width: '100%', margin: '0 auto', textAlign: 'center' }} >
+          <Divider style={{ marginTop: '80px' }} />
+          <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
+          <RaisedButton
+            containerElement={<Link to="/newProfile" />}
+            label="Become a Dimpull Expert"
+            secondary
+            style={{ marginTop: '20px', marginBottom: '20px' }}
+          />
+        </div>
       </div>
     );
   }
