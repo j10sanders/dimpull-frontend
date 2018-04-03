@@ -1,7 +1,5 @@
 import React from 'react';
 import Subheader from 'material-ui/Subheader';
-import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactStars from 'react-stars';
 import Avatar from 'material-ui/Avatar';
@@ -14,16 +12,8 @@ import { Link } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
 import history from '../../history';
+import NeedReview from './needReview';
 import './discussionprofile.css';
-
-const style = {
-  marginTop: '50px',
-  paddingBottom: 50,
-  paddingTop: '30px',
-  width: '100%',
-  textAlign: 'center',
-  display: 'inline-block'
-};
 
 const colors = ['FF9A57', '01B48F', 'D0D2D3', 'C879B2', '44C7F4'];
 
@@ -32,8 +22,7 @@ class DiscussionProfile extends React.Component {
     super(props);
     this.state = {
       open: false,
-      etherPrice: '',
-      stars: 5
+      etherPrice: ''
     };
   }
 
@@ -51,12 +40,12 @@ class DiscussionProfile extends React.Component {
     this.etherPrice();
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/discussion${this.props.location.search}`, { headers })
       .then((response) => {
-        if (response.data === 'not an expert yet') {this.setState({ notExpert: true });}
-        else if (response.data === 'does not exist') {
+        if (response.data === 'not an expert yet') {
+          this.setState({ notExpert: true });
+        } else if (response.data === 'does not exist') {
           this.setState({ nonExistant: true });
           return;
-        }
-        else if (response.data === 'editProfile') {
+        } else if (response.data === 'editProfile') {
           history.push(`/editProfile${this.props.location.search}`);
         }
         this.etherPrice();
@@ -98,7 +87,7 @@ class DiscussionProfile extends React.Component {
     if (isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}` };
     }
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/deleteDiscussion${this.props.location.search}`, {headers})
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/deleteDiscussion${this.props.location.search}`, { headers })
       .then((response) => {
         this.handleClose();
         history.replace('/discussions');
@@ -141,28 +130,8 @@ class DiscussionProfile extends React.Component {
     }
   }
 
-  submitReview (e) {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    if (isAuthenticated()) {
-      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/submitreview`, {
-        stars: this.state.stars,
-        comment: this.state.comment,
-        discussion_id: this.props.location.search.slice(4)
-      }, { headers })
-        .then(response => this.setState({ needReview: false, thanks: true }));
-    }
-  }
-
-  ratingChanged (newRating) {
-    this.setState({ stars: newRating });
-  }
-
-  changeValue (e, type) {
-    const nextState = {};
-    nextState[type] = e.target.value;
-    this.setState(nextState);
+  reviewed () {
+    this.setState({ needReview: false, thanks: true });
   }
 
   render () {
@@ -201,12 +170,12 @@ class DiscussionProfile extends React.Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onClick={() => this.handleClose()}
       />,
       <FlatButton
         label="Confirm: Delete this profile"
-        primary={true}
+        primary
         onClick={() => this.deleteProfile()}
       />
     ];
@@ -228,36 +197,11 @@ class DiscussionProfile extends React.Component {
           <h2>Thanks for your review!</h2>
         )}
         {this.state.needReview &&
-          <Paper style={style}>
-            <h2>Please leave a review!</h2>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ReactStars
-                count={5}
-                onChange={e => this.ratingChanged(e)}
-                size={24}
-                color2={'#ffd700'}
-                value={this.state.stars}
-                half={false}
-                style={{ marginLeft: 'auto', marginRight: 'auto' }}
-              />
-            </div>
-            <TextField
-              floatingLabelText="Review"
-              type="comment"
-              onChange={e => this.changeValue(e, 'comment')}
-              multiLine={true}
-              rows={2}
-              rowsMax={6}
-              style={{ textAlign: 'start', width: '95%' }}
-              fullWidth={true}
-            />
-            <RaisedButton
-              disabled={this.state.disabled}
-              style={{ marginTop: 50 }}
-              label="Submit"
-              onClick={e => this.submitReview(e)}
-            />
-          </Paper>
+          <NeedReview
+            reviewed={() => this.reviewed()}
+            discussion_id={this.props.location.search.slice(4)}
+            auth={this.props.auth}
+          />
         }
         <div id="cardStyle">
           {this.state.host && (
@@ -316,7 +260,11 @@ class DiscussionProfile extends React.Component {
                 )}
                 {!this.state.is_users && (
                   <div >
-                    <RaisedButton style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }} labelStyle={{ fontSize: '20px' }} fullWidth={true} primary={true} label="Schedule a Call" containerElement={<Link to={`/availability${this.props.location.search}`} />} />
+                    <RaisedButton
+                      style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
+                      labelStyle={{ fontSize: '20px' }} fullWidth={true} primary={true} label="Schedule a Call"
+                      containerElement={<Link to={`/availability${this.props.location.search}`} />} 
+                    />
                   </div>
                 )}
               </CardActions>
@@ -325,14 +273,14 @@ class DiscussionProfile extends React.Component {
           {!this.state.host && (
             <CircularProgress size={80} thickness={5} /> 
           )}
-          <Subheader inset={true} style={{ paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px' }}>This is an example profile while we prepare our first group of experts</Subheader>
+          <Subheader inset style={{ paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px' }}>This is an example profile while we prepare our first group of experts</Subheader>
           <div style={{ width: '100%', margin: '0 auto', textAlign: 'center' }} >
             <Divider style={{ marginTop: '80px' }} />
             <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
             <RaisedButton
               containerElement={<Link to="/newProfile" />}
               label="Become a Dimpull Expert"
-              secondary={true}
+              secondary
               style={{ marginTop: '20px', marginBottom: '20px' }}
             />
           </div>
@@ -342,7 +290,9 @@ class DiscussionProfile extends React.Component {
           <div id="Reviews" style={{ paddingTop: '30px' }}>
             <h1> Reviews </h1>
             <List>
-              <Subheader>You can leave a review once you have a conversation with {this.state.host}.</Subheader>
+              <Subheader>
+                You can leave a review once you have a conversation with {this.state.host}.
+              </Subheader>
               {reviews}
             </List>
           </div>

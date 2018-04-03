@@ -50,7 +50,7 @@ class newProfile extends React.Component {
       waiting: false,
       who: '',
       tel: '',
-      pnf: '',
+      pnf: ''
     };
   }
 
@@ -332,7 +332,7 @@ class newProfile extends React.Component {
                     defaultValue={`${this.state.first_name} ${this.state.last_name}`}
                     type="name"
                     style={textStyle}
-                    fullWidth={true}
+                    // fullWidth={true}
                     floatingLabelText="First and last name"
                     onChange={(e) => this.changeValue(e, 'name')}
                   />
@@ -345,14 +345,14 @@ class newProfile extends React.Component {
                     value={this.state.email}
                     style={textStyle}
                     onChange={(e) => this.changeValue(e, 'email')}
-                    fullWidth={true}
+                    // fullWidth={true}
                   />
                   <SelectField
                       floatingLabelText="Country"
                       value={this.state.country}
                       onChange={(event, index, value) => this.selectCountry(event, index, value, "id")}
                       maxHeight={200}
-                      fullWidth={true}
+                      // fullWidth={true}
                       style={textStyle}
                     >
                       {allCountries.all.sort().map((country) => <MenuItem value={country} key={country} primaryText={country} />)}
@@ -361,7 +361,7 @@ class newProfile extends React.Component {
                     hintText="Comma separated if you want to show multiple links"
                     floatingLabelText="Post a link that best showcases your expertise"
                     type="otherProfile"
-                    fullWidth={true}
+                    // fullWidth={true}
                     style={textStyle}
                     // errorText={this.state.tel_error_text}
                     onChange={(e) => this.changeValue(e, 'otherProfile')}
@@ -375,7 +375,7 @@ class newProfile extends React.Component {
                       rows={1}
                       rowsMax={6}
                       style={textStyle}
-                      fullWidth={true}
+                      // fullWidth={true}
                     />
                     <TextField
                       floatingLabelText="Phone number"

@@ -3,28 +3,28 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
-import history from '../../history';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import {timezones} from '../../timezones/timezones';
 import Subheader from 'material-ui/Subheader';
+import { timezones } from '../../timezones/timezones';
+import history from '../../history';
 
 const style = {
-marginTop: 50,
-paddingBottom: 50,
-paddingTop: 25,
-width: '100%',
-textAlign: 'center',
-display: 'inline-block',
+  marginTop: 50,
+  paddingBottom: 50,
+  paddingTop: 25,
+  width: '100%',
+  textAlign: 'center',
+  display: 'inline-block'
 };
 
 const underStyle = {
-marginTop: 10,
-paddingBottom: 50,
-paddingTop: 25,
-width: '100%',
-textAlign: 'center',
-display: 'inline-block',
+  marginTop: 10,
+  paddingBottom: 50,
+  paddingTop: 25,
+  width: '100%',
+  textAlign: 'center',
+  display: 'inline-block'
 };
 
 class EditProfile extends React.Component {
@@ -167,16 +167,16 @@ class EditProfile extends React.Component {
                     <TextField
                       hintText= {`${this.state.profile.given_name} ${this.state.profile.family_name}`}
                       type="name"
-                      disabled={true}
-                      fullWidth={true}
+                      disabled
+                      fullWidth
                     />
                   )}
                   {(!this.state.profile.given_name && this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`]) && (
                     <TextField
                       hintText={`${this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`].given_name} ${this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`].family_name}`}
                       type="name"
-                      disabled={true}
-                      fullWidth={true}
+                      disabled
+                      fullWidth
                     />
                   )}
                   <TextField
@@ -186,14 +186,14 @@ class EditProfile extends React.Component {
                     value={this.state.description}
                     // errorText={this.state.description_error_text}
                     onChange={e => this.changeValue(e, 'description')}
-                    fullWidth={true}
+                    fullWidth
                   />
                   <TextField
                     // hintText="URLs only (accepting uploads soon)"
                     floatingLabelText="Image URL"
                     type="text"
                     value={this.state.image}
-                    fullWidth={true}
+                    fullWidth
                     // errorText={this.state.tel_error_text}
                     onChange={e => this.changeValue(e, 'image')}
                   />
@@ -205,7 +205,7 @@ class EditProfile extends React.Component {
                     floatingLabelText="Your profile, blog, twitter, etc..."
                     type="otherProfile"
                     value={this.state.otherProfile}
-                    fullWidth={true}
+                    fullWidth
                     // errorText={this.state.tel_error_text}
                     onChange={e => this.changeValue(e, 'otherProfile')}
                   />
@@ -214,22 +214,29 @@ class EditProfile extends React.Component {
                     value={this.state.timezone}
                     onChange={(event, index, value) => this.selectTimezone(event, index, value, 'id')}
                     maxHeight={200}
-                    fullWidth={true}
+                    fullWidth
                     style={{ textAlign: 'start' }}
                   >
-                    {timezones.map((timezone) => <MenuItem value={timezone.value} key={timezone.value} primaryText={timezone.name} />)}
+                    {timezones.map(timezone => (
+                      <MenuItem
+                        value={timezone.value}
+                        key={timezone.value}
+                        primaryText={timezone.name}
+                      />
+                    ))}
                   </SelectField>
                   <TextField
-                    // hintText="To combat volatility, the price is tied to the dollar. So the amount of Ether charged will be determined at the beginning of each call."
                     floatingLabelText="Price Per 30 Minutes (in dollars)"
                     type="price"
                     value={this.state.price}
                     errorText={this.state.priceErrorText}
-                    fullWidth={true}
+                    fullWidth
                     onChange={(e) => this.changeValue(e, 'price')}
                   />
-                  <p> Currently one Ether is {this.state.etherPrice} dollars, so your price would be {this.state.price / this.state.etherPrice} ETH/half-hour.
-                  It will be set at the beginning of each call. We do this to combat volatility.</p>
+                  <p> Currently one Ether is {this.state.etherPrice} dollars,
+                    so your price would be {this.state.price / this.state.etherPrice} ETH/half-hour.
+                    It will be set at the beginning of each call. We do this to combat volatility.
+                  </p>
                 </div>
               </div>
             </Paper>
@@ -242,10 +249,10 @@ class EditProfile extends React.Component {
                       // hintText="Who are you?"
                       floatingLabelText="Who are you?"
                       type="who"
-                      fullWidth={true}
+                      fullWidth
                       value={this.state.who}
                       // errorText={this.state.tel_error_text}
-                      multiLine={true}
+                      multiLine
                       rows={2}
                       rowsMax={6}
                       onChange={(e) => this.changeValue(e, 'who')}
@@ -258,10 +265,10 @@ class EditProfile extends React.Component {
                       // hintText="What is your crypto origin story?"
                       floatingLabelText="What is your crypto origin story?"
                       type="origin"
-                      fullWidth={true}
+                      fullWidth
                       value={this.state.origin}
                       // errorText={this.state.tel_error_text}
-                      multiLine={true}
+                      multiLine
                       rows={2}
                       rowsMax={6}
                       onChange={(e) => this.changeValue(e, 'origin')}
@@ -275,9 +282,9 @@ class EditProfile extends React.Component {
                       floatingLabelText="What excites you about blockchain technology?"
                       type="excites"
                       value={this.state.excites}
-                      fullWidth={true}
+                      fullWidth
                       // errorText={this.state.tel_error_text}
-                      multiLine={true}
+                      multiLine
                       rows={2}
                       rowsMax={6}
                       onChange={(e) => this.changeValue(e, 'excites')}
@@ -291,9 +298,9 @@ class EditProfile extends React.Component {
                   floatingLabelText="What can you help callers with?"
                   type="helps"
                   value={this.state.helps}
-                  fullWidth={true}
+                  fullWidth
                   // errorText={this.state.tel_error_text}
-                  multiLine={true}
+                  multiLine
                   rows={2}
                   rowsMax={6}
                   onChange={(e) => this.changeValue(e, 'helps')}
