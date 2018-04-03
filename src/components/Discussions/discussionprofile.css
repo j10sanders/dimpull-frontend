@@ -36,3 +36,8 @@
 #unconfirmed {
   text-align: center;
 }
+
+.dropzone {
+  margin: 0 auto;
+  padding-top: 30px;
+}

@@ -3,144 +3,156 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
-import history from '../../history';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-// import {timezones} from '../../timezones/timezones';
 // import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 // import Subheader from 'material-ui/Subheader';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+// import { timezones } from '../../timezones/timezones';
+import history from '../../history';
+
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 var allCountries = require('all-countries');
 
 const style = {
-    marginTop: 50,
-    paddingBottom: 50,
-    paddingTop: 25,
-    width: '100%',
-    textAlign: 'center',
-    display: 'inline-block',
+  marginTop: 50,
+  paddingBottom: 50,
+  paddingTop: 25,
+  width: '100%',
+  textAlign: 'center',
+  display: 'inline-block'
 };
 
-const textStyle ={
+const textStyle = {
   textAlign: 'start',
   width: '80%'
-}
+};
 
 class newProfile extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
-      title: "Thanks for your application.  We will get back to you shortly!",
+      title: 'Thanks for your application.  We will get back to you shortly!',
       // price_error_text: null,
       tel_error_text: null,
-      description: '',
-      image: '',
+      // description: '',
+      // image: '',
       otherProfile: '',
-      price: '',
+      // price: '',
       disabled: true,
-      timezone: '',
-      etherPrice: '',
+      // timezone: '',
+      // etherPrice: '',
       email: '',
       message: '',
       open: false,
-      waiting: false,
-      who: '',
+      waiting: true,
+      // who: '',
       tel: '',
-      pnf: ''
+      pnf: '',
+      country: 'United States'
     };
   }
 
-  noExcepetion(number) {
-    let ret;
-    try {
-      ret = phoneUtil.isValidNumber(number)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      return ret;
-    }
-  }
-
-  isDisabled() {
-    let tel_is_valid = false;
-    let number = ''
-    let country = allCountries.getCountryCodeByCountryName(this.state.country)
-    try {
-      number = phoneUtil.parse(this.state.tel, country)
-    } catch(error){
-    }
-    if (this.state.tel === '' || !this.state.tel) {
-        this.setState({
-            tel_error_text: null,
-        });
-    } else if (this.noExcepetion(number)) {
-        this.setState({
-            tel_error_text: null,
-            pnf: number,
-        });
-        tel_is_valid = true;
-    }else {
-        this.setState({
-            tel_error_text: 'Enter a valid phone number',
-        });
-    }
-    if (tel_is_valid && this.state.message.length !== 0 && this.state.otherProfile.length !== 0) {
-            this.setState({
-                disabled: false,
-            });
-        }
-  }
-
-  changeValue(e, type) {
-    if (type === "name"){
-      this.getNames(e.target.value)
-    }
-    const value = e.target.value;
-    const next_state = {};
-    next_state[type] = value;
-    this.setState(next_state, () => {
-        this.isDisabled();
-    });
-  }
-
-  _handleKeyPress(e) {
-    if (e.key === 'Enter') {
-      // if (!this.state.disabled) {
-      //     this.login(e);
-      // }
-    }
-  }
-
-  async checkRegistered(){
-    const { getAccessToken } = this.props.auth;
-    let headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`, 
-      {headers})
-      if (response.data.dp) {
-        history.replace(`/discussionProfile?id=${response.data.dp}`)
-      } else {
-        return
-      }
-    } catch (err) {
-      return
-    }
-  }
-
-  componentWillMount() {
+  componentWillMount () {
     const { isAuthenticated } = this.props.auth;
     if (! isAuthenticated()) {
-      this.props.auth.login("newProfile")
+      this.props.auth.login('newProfile');
     }
     this.checkRegistered();
   }
 
-  getEmail(){
-    let fullUrl = `https://jonsanders:auth0:com/user_metadata`
+  componentDidMount () {
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    this.getNames();
+    this.getEmail();
+    let headers = {};
+    if (isAuthenticated()) {
+      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    }
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
+      .then((response) => {
+        this.setState({ expert: response.data.expert, tel: response.data.phone_number })
+      })
+      .catch(function (error) {
+        console.log(error)
+    });
+  }
+
+  getNames (name) {
+    if (name) {
+      this.setState({
+        hasName: true,
+        first_name: name.split(' ').slice(0, -1).join(' '),
+        last_name: name.split(' ').slice(-1).join(' ')
+      });
+      return;
+    }
+    const fullUrl = `https://jonsanders:auth0:com/user_metadata`;
+    this.setState({ profile: {} });
+    const { userProfile, getProfile } = this.props.auth;
+    if (!userProfile) {
+      getProfile((err, profile) => {
+        this.setState({ profile });
+        if (profile.given_name) {
+          this.setState({
+            hasName: true,
+            first_name: profile.given_name,
+            last_name: profile.family_name
+          });
+        } else if (profile[fullUrl]){
+          if (profile[fullUrl].given_name) {
+            this.setState({
+              hasName: true,
+              first_name: profile[fullUrl].given_name,
+              last_name: profile[fullUrl].family_name
+            })
+          } 
+        } else if (profile.name) {
+            this.setState({
+              hasName: true,
+              first_name: profile.name.split(' ').slice(0, -1).join(' '),
+              last_name: profile.name.split(' ').slice(-1).join(' ')
+            })
+          }
+      });
+    } else {
+      this.setState({ profile: userProfile });
+      if (userProfile.given_name) {
+        this.setState({
+          hasName: true,
+          first_name: userProfile.given_name,
+          last_name: userProfile.family_name
+        });
+      } else if (userProfile[fullUrl]) {
+        if (userProfile[fullUrl].given_name) {
+          this.setState({
+            hasName: true,
+            first_name: userProfile[fullUrl].given_name,
+            last_name: userProfile[fullUrl].family_name
+          });
+        }
+      } else if (userProfile.name) {
+        this.setState({
+          hasName: true,
+          first_name: userProfile.name.split(' ').slice(0, -1).join(' '),
+          last_name: userProfile.name.split(' ').slice(-1).join(' ')
+        });
+      } else {
+        this.setState({
+          hasName: true,
+          first_name: '',
+          last_name: ''
+        });
+      }
+    }
+  }
+
+  getEmail () {
+    const fullUrl = `https://jonsanders:auth0:com/user_metadata`;
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
@@ -153,160 +165,165 @@ class newProfile extends React.Component {
         } 
       });
     } else {
-        if (userProfile.email) {
-          this.setState({email: userProfile.email})
-        } else if (userProfile[fullUrl]) {
-            if (userProfile[fullUrl].email) {
-              this.setState({ email: userProfile[fullUrl].email})
-            } 
-        } 
+      if (userProfile.email) {
+        this.setState({ email: userProfile.email })
+      } else if (userProfile[fullUrl]) {
+          if (userProfile[fullUrl].email) {
+            this.setState({ email: userProfile[fullUrl].email})
+          }
+      }
     }
   }
 
-  getNames(name){
-    if (name){
-      this.setState({hasName: true, 
-              first_name: name.split(' ').slice(0, -1).join(' '),
-              last_name: name.split(' ').slice(-1).join(' ')
-              })
-      return
+  async checkRegistered () {
+    const { getAccessToken } = this.props.auth;
+    let headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+        { headers }
+      );
+      if (response.data.dp) {
+        history.replace(`/discussionProfile?id=${response.data.dp}`);
+      } else {
+        this.setState({ waiting: false });
+        return;
+      }
+    } catch (err) {
+      return;
     }
-    let fullUrl = `https://jonsanders:auth0:com/user_metadata`
-    this.setState({ profile: {} });
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
-        if (profile.given_name) {
-          this.setState({hasName: true, 
-            first_name: profile.given_name,
-            last_name: profile.family_name,
-          })
-        } else if (profile[fullUrl]){
-          if (profile[fullUrl].given_name) {
-            this.setState({hasName: true, 
-              first_name: profile[fullUrl].given_name,
-              last_name: profile[fullUrl].family_name,
-            })
-          } 
-        } else if (profile.name) {
-            this.setState({hasName: true, 
-              first_name: profile.name.split(' ').slice(0, -1).join(' '),
-              last_name: profile.name.split(' ').slice(-1).join(' ')
-            })
-          }
+  }
+
+  _handleKeyPress (e) {
+    if (e.key === 'Enter') {
+      if (!this.state.disabled) {
+        // this.login(e);
+        // return;
+      }
+      // return;
+    }
+  }
+
+  changeValue (e, type) {
+    if (type === 'name') {
+      this.getNames(e.target.value);
+    }
+    const nextState = {};
+    nextState[type] = e.target.value;
+    this.setState(nextState, () => {
+      this.isDisabled();
+    });
+  }
+
+  isDisabled () {
+    let telIsValid = false;
+    let number = '';
+    const country = allCountries.getCountryCodeByCountryName(this.state.country);
+    try {
+      number = phoneUtil.parse(this.state.tel, country);
+    } catch(error){
+    }
+    if (this.state.tel === '' || !this.state.tel) {
+      this.setState({
+        tel_error_text: null
       });
+    } else if (this.noExcepetion(number)) {
+      this.setState({
+        tel_error_text: null,
+        pnf: number
+      });
+      telIsValid = true;
     } else {
-        this.setState({ profile: userProfile });
-        if (userProfile.given_name) {
-          this.setState({hasName: true, 
-            first_name: userProfile.given_name,
-            last_name: userProfile.family_name,
-          })
-        } else if (userProfile[fullUrl]){
-          if (userProfile[fullUrl].given_name){
-            this.setState({hasName: true, 
-              first_name: userProfile[fullUrl].given_name,
-              last_name: userProfile[fullUrl].family_name,
-            })
-          } 
-        } else if (userProfile.name) {
-            this.setState({hasName: true, 
-              first_name: userProfile.name.split(' ').slice(0, -1).join(' '),
-              last_name: userProfile.name.split(' ').slice(-1).join(' ')
-            })
-          }
-        else{
-          this.setState({hasName: true, first_name: '',last_name: ''})
-        }
+      this.setState({
+        tel_error_text: 'Enter a valid phone number'
+      });
+    }
+    if (telIsValid && this.state.message.length !== 0 && this.state.otherProfile.length !== 0) {
+      this.setState({
+        disabled: false
+      });
     }
   }
 
-  componentDidMount() {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    this.getNames();
-    this.getEmail();
-    this.setState({country: "United States"})
-    let headers = {}
-    if ( isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+  noExcepetion (number) {
+    let ret;
+    try {
+      ret = phoneUtil.isValidNumber(number)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      return ret;
     }
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, {headers})
-        .then((response) => {
-          this.setState({expert: response.data.expert, tel: response.data.phone_number})
-          })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }
+  }
 
-  
-  async submit() {
+  async submit () {
     // e.preventDefault();
-    this.setState({waiting: true})
+    this.setState({ waiting: true });
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
-    if ( isAuthenticated()) {
-      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-      let user;
-      user = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
-          {
+    if (isAuthenticated()) {
+      const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+      const user = await axios.post(
+        `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
+        {
           // user_id: this.state.profile.sub,
           phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
           first_name: this.state.first_name,
           last_name: this.state.last_name,
-          auth_pic: this.state.profile.picture,
-          }, {headers}
-       )
+          auth_pic: this.state.profile.picture
+        }, { headers }
+      );
       if (user) {
-        if (user.data === "Phone number already in use."){
-          this.setState({title: `The phone number ${this.state.tel} is already in use. Please log into that profile or contact admin@dimpull.com`})
+        if (user.data === 'Phone number already in use.') {
+          this.setState({
+            title: `The phone number ${this.state.tel} is already in use. Please log into that profile or contact admin@dimpull.com`
+          });
         } else {
-            try{
-              await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
-                {
-                  // user_id: this.state.profile.sub,
-                  // description: this.state.description,
-                  // image_url: this.state.image,
-                  otherProfile: this.state.otherProfile,
-                  // price: this.state.price,
-                  // timezone: this.state.timezone,
-                  email: this.state.email,
-                  message: this.state.message,
-                  // who: this.state.who,
-                }, {headers}
-              )
-            } catch(err) {
-              history.push("/")
-            }
+          try {
+            await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
+              {
+                // user_id: this.state.profile.sub,
+                // description: this.state.description,
+                // image_url: this.state.image,
+                otherProfile: this.state.otherProfile,
+                // price: this.state.price,
+                // timezone: this.state.timezone,
+                email: this.state.email,
+                message: this.state.message,
+                // who: this.state.who,
+              }, { headers }
+            );
+          } catch(err) {
+            history.push('/');
           }
         }
-        
-
-      this.setState({waiting: false})
-      this.setState({open: true});
+      }
+      this.setState({
+        waiting: false,
+        open: true
+      });
     } else {
-      this.props.auth.login("newProfile")
+      this.props.auth.login('newProfile');
     }
   }
 
   handleOpen (evt) {
-    this.setState({ open: true, event: evt });
+    this.setState({
+      open: true,
+      event: evt
+    });
   }
 
-  handleClose() {
-    this.setState({open: false});
-    history.replace('/')
+  handleClose () {
+    this.setState({ open: false });
+    history.replace('/');
   }
 
-  selectCountry(event, index, value) {
-    this.setState({country: value})
+  selectCountry (event, index, value) {
+    this.setState({ country: value });
   }
 
-
-
-  render() {
+  render () {
     const { isAuthenticated } = this.props.auth;
     const actions = [
       <FlatButton
@@ -328,14 +345,14 @@ class newProfile extends React.Component {
                 <div className="col-md-12">
                   
                   {(this.state.first_name && this.state.last_name) && (
-                  <TextField
-                    defaultValue={`${this.state.first_name} ${this.state.last_name}`}
-                    type="name"
-                    style={textStyle}
-                    // fullWidth={true}
-                    floatingLabelText="First and last name"
-                    onChange={(e) => this.changeValue(e, 'name')}
-                  />
+                    <TextField
+                      defaultValue={`${this.state.first_name} ${this.state.last_name}`}
+                      type="name"
+                      style={textStyle}
+                      // fullWidth={true}
+                      floatingLabelText="First and last name"
+                      onChange={(e) => this.changeValue(e, 'name')}
+                    />
                   )}
                   <TextField
                     // hintText="Email (so we can notify you if you get accepted)"
@@ -348,14 +365,16 @@ class newProfile extends React.Component {
                     // fullWidth={true}
                   />
                   <SelectField
-                      floatingLabelText="Country"
-                      value={this.state.country}
-                      onChange={(event, index, value) => this.selectCountry(event, index, value, "id")}
-                      maxHeight={200}
-                      // fullWidth={true}
-                      style={textStyle}
-                    >
-                      {allCountries.all.sort().map((country) => <MenuItem value={country} key={country} primaryText={country} />)}
+                    floatingLabelText="Country"
+                    value={this.state.country}
+                    onChange={(event, index, value) => this.selectCountry(event, index, value, "id")}
+                    maxHeight={200}
+                    // fullWidth={true}
+                    style={textStyle}
+                  >
+                    {allCountries.all.sort().map(country =>
+                      <MenuItem value={country} key={country} primaryText={country} />)
+                    }
                   </SelectField>
                   <TextField
                     hintText="Comma separated if you want to show multiple links"
@@ -364,33 +383,33 @@ class newProfile extends React.Component {
                     // fullWidth={true}
                     style={textStyle}
                     // errorText={this.state.tel_error_text}
-                    onChange={(e) => this.changeValue(e, 'otherProfile')}
+                    onChange={e => this.changeValue(e, 'otherProfile')}
                   />
-                    <TextField
-                      floatingLabelText="Message for the dimpull admins (optional)"
-                      type="message"
-                      value={this.state.message}
-                      onChange={(e) => this.changeValue(e, 'message')}
-                      multiLine={true}
-                      rows={1}
-                      rowsMax={6}
-                      style={textStyle}
-                      // fullWidth={true}
-                    />
-                    <TextField
-                      floatingLabelText="Phone number"
-                      type="tel"
-                      errorText={this.state.tel_error_text}
-                      onChange={(e) => this.changeValue(e, 'tel')}
-                      style={textStyle}
-                      value={this.state.tel}
-                    />
+                  <TextField
+                    floatingLabelText="Message for the dimpull admins (optional)"
+                    type="message"
+                    value={this.state.message}
+                    onChange={e => this.changeValue(e, 'message')}
+                    multiLine
+                    rows={1}
+                    rowsMax={6}
+                    style={textStyle}
+                    // fullWidth={true}
+                  />
+                  <TextField
+                    floatingLabelText="Phone number"
+                    type="tel"
+                    errorText={this.state.tel_error_text}
+                    onChange={e => this.changeValue(e, 'tel')}
+                    style={textStyle}
+                    value={this.state.tel}
+                  />
                 </div>
                 <RaisedButton
                   disabled={this.state.disabled}
                   style={{ marginTop: 50 }}
                   label="Submit"
-                  onClick={(e) => this.submit(e)}
+                  onClick={e => this.submit(e)}
                 />
               </div>
               <Dialog
@@ -403,13 +422,14 @@ class newProfile extends React.Component {
               </Dialog>
             </Paper>
           </div>
+        )}
+        {
+          !isAuthenticated() && (
+            <h4> You aren't logged in</h4>
           )}
-              {
-              !isAuthenticated() && (
-                <h4> You aren't logged in</h4> )}
-        </div>
+      </div>
     );
   }
 }
 
-export default newProfile; 
+export default newProfile;
