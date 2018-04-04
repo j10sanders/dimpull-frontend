@@ -13,6 +13,7 @@ import Paper from 'material-ui/Paper';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
+import CircularProgress from 'material-ui/CircularProgress';
 import history from '../../history';
 import '../../Profile/calendar.css'
 
@@ -25,6 +26,7 @@ class Availability extends React.Component {
     this.state = {
       events: [],
       open: false,
+      waiting: true
     }
 
     this.moveEvent = this.moveEvent.bind(this)
@@ -32,7 +34,7 @@ class Availability extends React.Component {
 
   componentDidMount(){
   axios.get(`
-    ${process.env.REACT_APP_USERS_SERVICE_URL}/api/gettimeslots${this.props.location.search}`)
+    ${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`)
     .then((response) => {
       let events = []
       let index = 0
@@ -45,7 +47,7 @@ class Availability extends React.Component {
         events.push(event)
         index += 1
       }
-      this.setState({events: events})})
+      this.setState({events: events, waiting: false})})
     .catch(function (error) {
       console.log(error)
     })
@@ -216,30 +218,37 @@ class Availability extends React.Component {
     
     return (
       <div id="calendarDiv">
-      <Paper style={{marginTop: '10px'}}>
-      <DragAndDropCalendar
-        selectable
-        events={this.state.events}
-        onEventDrop={this.moveEvent}
-        onSelectEvent={event => this.handleOpen(event)}
-        resizable
-        onEventResize={this.resizeEvent}
-        defaultView="week"
-        defaultDate={new Date()}
-        formats={formats}
-      />
-      </Paper>
-       <Dialog
+      {this.state.waiting ? <CircularProgress />
+      :
+        (
+          <div>
+            <Paper style={{marginTop: '10px'}}>
+              <DragAndDropCalendar
+                selectable
+                events={this.state.events}
+                onEventDrop={this.moveEvent}
+                onSelectEvent={event => this.handleOpen(event)}
+                resizable
+                onEventResize={this.resizeEvent}
+                defaultView="week"
+                defaultDate={new Date()}
+                formats={formats}
+              />
+            </Paper>
+            <Dialog
               title="Pick your start time for a 30 minute window"
               actions={actions}
               modal={false}
               open={this.state.open}
               onRequestClose={() => this.handleClose.bind(this)}
             >   
-            <RadioButtonGroup name="timeslots" defaultSelected={radios.length > 0 ? radios[0].props.value : ""}>
-            {radios}
-          </RadioButtonGroup>
-      </Dialog>
+              <RadioButtonGroup name="timeslots" defaultSelected={radios.length > 0 ? radios[0].props.value : ""}>
+                {radios}
+              </RadioButtonGroup>
+            </Dialog>
+          </div>
+        )
+      }
       </div>
     )
   }

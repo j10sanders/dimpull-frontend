@@ -14,6 +14,7 @@ import history from '../history';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
@@ -26,24 +27,21 @@ class Calendar extends React.Component {
 	      open: false,
 	      event: '',
 	      snackOpen: false,
+        waiting: true,
 	    }
     this.moveEvent = this.moveEvent.bind(this)
   }
 
   moveEvent({ event, start, end }) {
     const { events } = this.state
-
     const idx = events.indexOf(event)
     const updatedEvent = { ...event, start, end }
-
     const nextEvents = [...events]
     nextEvents.splice(idx, 1, updatedEvent)
-
     this.setState({
       events: nextEvents,
     })
-
-    alert(`${event.title} was dropped onto ${event.start}`)
+    // alert(`${event.title} was dropped onto ${event.start}`)
   }
 
   resizeEvent = (resizeType, { event, start, end }) => {
@@ -93,17 +91,18 @@ class Calendar extends React.Component {
         maxTime: end,
       };
       let slots = this.getTimeSlots(this.getTimeDate(settings.minTime), this.getTimeDate(settings.maxTime), settings.timeSlotGap);
-    //   let id = 0
-  		// if (events.length > 0){
-    //     id = events[events.length - 1].id + 1
-    //   }
       for (let i of slots) {
         const split = i.split(":")
         let star = new Date(start.valueOf())
         star.setHours(split[0]);
         star.setMinutes(split[1]);
         const newEnd = moment(star).add(30, 'm').toDate();
-        let newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
+        let newEvent = {};
+        if (events.length === 0) {
+          newEvent = {id: 0, title: "Available", allDay: false, start: star, end: newEnd}
+        } else {
+          newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
+        }
         events.push(newEvent)
         this.setState({events: events})
       }
@@ -116,19 +115,16 @@ class Calendar extends React.Component {
     });
   };
 
+	// handleOpen(evt) {
+ //    // console.log(evt)
+ //    this.setState({open: true, event: evt});
+	// }
+	// handleClose() {
+ //  	this.setState({open: false});
+	// }
 
-	handleOpen(evt) {
-    console.log(evt)
-    this.setState({open: true, event: evt});
-	}
-	
-	handleClose() {
-  	this.setState({open: false});
-	}
-
-	removeTimeslot(){
+	removeTimeslot(event){
 		let events = this.state.events
-		let event = this.state.event
 		var filtered = events.filter(function(el) { return el.id !== event.id });
 		this.setState({events: filtered})
 		this.setState({open: false})
@@ -136,10 +132,9 @@ class Calendar extends React.Component {
 
 	submit(){
 		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
-        {
+      {
         user_id: this.state.profile.sub,
         times: this.state.events,
-
     	})
     	history.replace('/discussions');
 	}
@@ -176,7 +171,11 @@ class Calendar extends React.Component {
             events.push(event)
             index += 1
           }
-          this.setState({events: events})})
+          this.setState({
+            events: events,
+            waiting: false
+          })
+        })
         .catch(function (error) {
           console.log(error)
         })
@@ -198,36 +197,43 @@ class Calendar extends React.Component {
 
     return (
       <div id="calendarDiv">
-	      <Snackbar
-          open={this.state.snackOpen}
-          message="You can't set past availability."
-          autoHideDuration={4000}
-          onRequestClose={this.handleRequestClose}
-        />
-        <Paper style={{marginTop: '10px'}} >
-  	      <DragAndDropCalendar
-  	        selectable
-  	        events={this.state.events}
-  	        onEventDrop={this.moveEvent}
-  	        resizable
-  	        onEventResize={this.resizeEvent}
-  	        defaultView="week"
-  	        defaultDate={new Date()}
-  	        onSelectEvent={event => this.handleOpen(event)}
-  			    onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
-  	      />
-  	      <Dialog
-            title="Remove this timeslot?"
-            actions={actions}
-            modal={false}
-            open={this.state.open}
-            onRequestClose={() => this.handleClose.bind(this)}
-          >
-          </Dialog>
-             <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
-  		    onClick={() => this.submit()}
-  		    />
-        </Paper>
+      {this.state.waiting ? <CircularProgress />
+      :
+        (
+          <div>
+            <Snackbar
+              open={this.state.snackOpen}
+              message="You can't set past availability."
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
+            <Paper style={{marginTop: '10px'}} >
+              <DragAndDropCalendar
+                selectable
+                events={this.state.events}
+                onEventDrop={this.moveEvent}
+                resizable
+                onEventResize={this.resizeEvent}
+                defaultView="week"
+                defaultDate={new Date()}
+                onSelectEvent={event => this.removeTimeslot(event)}
+                onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
+              />
+              <Dialog
+                title="Remove this timeslot?"
+                actions={actions}
+                modal={false}
+                open={this.state.open}
+                onRequestClose={() => this.handleClose.bind(this)}
+              >
+              </Dialog>
+                 <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
+              onClick={() => this.submit()}
+              />
+            </Paper>
+          </div>
+        )
+      }
       </div>
     )
   }

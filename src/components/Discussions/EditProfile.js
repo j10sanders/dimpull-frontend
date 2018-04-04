@@ -86,7 +86,8 @@ class EditProfile extends React.Component {
           origin: response.data.origin ? response.data.origin : '',
           excites: response.data.excites ? response.data.excites : '',
           helps: response.data.helps ? response.data.helps : '',
-          who: response.data.who ? response.data.who : ''
+          who: response.data.who ? response.data.who : '',
+          url: response.data.url
         }, () => this.isDisabled());
       })
       .catch(error => console.log(error));
@@ -158,31 +159,37 @@ class EditProfile extends React.Component {
     });
   }
 
-  _handleKeyPress (e) {
-    if (e.key === 'Enter') {
-      if (!this.state.disabled) {
-        this.login(e);
-      }
-    }
-  }
-
-  submit (e) {
-    debugger;
+  async submit (e) {
     const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    let headers = {};
     if (isAuthenticated()) {
-      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, {
-        user_id: this.state.profile.sub,
-        description: this.state.description,
-        image_url: this.state.image,
-        otherProfile: this.state.otherProfile,
-        price: this.state.price,
-        timezone: this.state.timezone,
-        origin: this.state.origin,
-        excites: this.state.excites,
-        helps: this.state.helps,
-        who: this.state.who
-      })
-        .then(response => history.replace('/calendar'));
+      headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+    }
+    if (!this.state.url || this.state.url.length === 0) {
+      this.setState({ urlError: 'Enter a url' });
+      return;
+    }
+    const urlvalid = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/urlcheck/${this.state.url}`, { headers });
+    if (urlvalid.data === 'available') {
+      if (isAuthenticated()) {
+        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, {
+          user_id: this.state.profile.sub,
+          description: this.state.description,
+          image_url: this.state.image,
+          otherProfile: this.state.otherProfile,
+          price: this.state.price,
+          timezone: this.state.timezone,
+          origin: this.state.origin,
+          excites: this.state.excites,
+          helps: this.state.helps,
+          who: this.state.who,
+          url: this.state.url
+        })
+          .then(response => history.replace('/calendar'));
+      }
+    } else {
+      this.setState({ urlError: `${this.state.url} is not available` });
     }
   }
 
@@ -198,7 +205,7 @@ class EditProfile extends React.Component {
           <div className="col-md-6 col-md-offset-0">
             <div style={{ paddingLeft: '34px' }} >
               {isAuthenticated() && (
-                <div className="" onKeyPress={e => this._handleKeyPress(e)}>
+                <div className="">
                   <Paper style={style}>
                     <div className="text-center">
                       <h2>Fill Out Your Expert Profile:</h2>
@@ -346,7 +353,20 @@ class EditProfile extends React.Component {
                           />
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
                         </div>
-
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                          <TextField
+                            floatingLabelText="What public url do you want for your profile?"
+                            type="url"
+                            value={this.state.url}
+                            fullWidth
+                            errorText={this.state.urlError}
+                            multiLine
+                            rows={2}
+                            rowsMax={6}
+                            onChange={e => this.changeValue(e, 'url')}
+                          />
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>dimpull.com/expert/{this.state.url}</Subheader>
+                        </div>
                         <RaisedButton
                           disabled={this.state.disabled}
                           style={{ marginTop: 50 }}

@@ -16,7 +16,6 @@ class ProfileCard extends React.Component {
   }
 
   render () {
-    console.log(this.props.location)
     return (
       <div id="cardStyle">
         {this.props.host && (
@@ -86,7 +85,7 @@ class ProfileCard extends React.Component {
                       fullWidth
                       primary
                       label="Schedule a Call"
-                      containerElement={<Link to={`/availability${this.props.search}`} />}
+                      containerElement={<Link to={`/availability/${this.props.dp}`} />}
                     />
                   )}
                 </div>
