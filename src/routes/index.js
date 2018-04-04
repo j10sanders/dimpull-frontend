@@ -46,7 +46,7 @@ class Routes extends Component {
 							<Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
 						    <Route exact path="/discussions" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
 						    <Route exact path="/mydiscussions" render={(props) => <AsyncMyDiscussions auth={auth} {...props} />} />
-						    <Route path="/discussionProfile" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
+						    <Route path="/expert" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
 						    <Route path="/requestConversation" render={(props) => <AsyncContact auth={auth} {...props} />} />
 						    <Route path="/newProfile" render={(props) => <AsyncNewProfile auth={auth} {...props} />} />
 						    <Route path="/editProfile" render={(props) => <AsyncEditProfile auth={auth} {...props} />} />

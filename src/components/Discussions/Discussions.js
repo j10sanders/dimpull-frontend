@@ -60,7 +60,7 @@ class Discussions extends React.Component {
     this.getDiscussions();
   }
 
- render() {
+ render () {
   let waiting = this.state.waiting ? 'inherit': 'none'
     return (
       <div style={{textAlign: 'center'}}>
@@ -78,7 +78,7 @@ class Discussions extends React.Component {
           <Subheader>These are example profiles while we prepare our first group of experts</Subheader>
           
   	      {this.state.dps.map((dp) => (
-            <Link to={`/discussionProfile?id=${dp.url}`} key={dp.id}>
+            <Link to={`/expert/${dp.url}`} key={dp.url}>
   	        <GridTile
   	          key={dp.id}
   	          title={<b>{`${dp.first_name} ${dp.last_name}`}</b>}

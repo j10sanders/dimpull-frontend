@@ -25,6 +25,7 @@ class DiscussionProfile extends React.Component {
   }
 
   componentDidMount () {
+    console.log("Mount")
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {};
@@ -60,7 +61,8 @@ class DiscussionProfile extends React.Component {
           origin: response.data.origin,
           who: response.data.who,
           excites: response.data.excites,
-          helps: response.data.helps
+          helps: response.data.helps,
+          dp: response.data.id
         });
         if (response.data.reviewlist) {
           this.setState({
@@ -113,7 +115,7 @@ class DiscussionProfile extends React.Component {
   submit (e) {
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
-      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/editdiscussion${this.props.location.search}`, { 
+      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/editProfile${this.props.location.search}`, { 
         user_id: this.state.profile.sub,
         description: this.state.description,
         image_url: this.state.image,
@@ -123,7 +125,7 @@ class DiscussionProfile extends React.Component {
         origin: this.state.origin,
         who: this.state.who,
         excites: this.state.excites,
-        helps: this.state.help
+        helps: this.state.help,
       }).then(response => history.replace('/calendar'));
     }
   }
@@ -219,6 +221,7 @@ class DiscussionProfile extends React.Component {
           linkToProfile={() => this.linkToProfile()}
           actions={actions}
           is_users={this.state.is_users}
+          dp={this.state.dp}
         />
         {this.state.reviews &&
           <div id="Reviews" style={{ paddingTop: '30px' }}>

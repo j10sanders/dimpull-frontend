@@ -76,14 +76,13 @@ class EditProfile extends React.Component {
     } else {
       history.push('/');
     }
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/editdiscussion${this.props.location.search}`, { headers })
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, { headers })
       .then((response) => {
         this.setState({
           price: response.data.price ? response.data.price : 50,
           image: response.data.image_url ? response.data.image_url : '',
           description: response.data.description ? response.data.description : '',
           otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
-          // timezone: response.data.timezone ,
           origin: response.data.origin ? response.data.origin : '',
           excites: response.data.excites ? response.data.excites : '',
           helps: response.data.helps ? response.data.helps : '',
@@ -168,9 +167,10 @@ class EditProfile extends React.Component {
   }
 
   submit (e) {
+    debugger;
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
-      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/editdiscussion${this.props.location.search}`, {
+      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, {
         user_id: this.state.profile.sub,
         description: this.state.description,
         image_url: this.state.image,
