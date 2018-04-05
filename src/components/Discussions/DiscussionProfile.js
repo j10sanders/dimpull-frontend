@@ -44,7 +44,7 @@ class DiscussionProfile extends React.Component {
           this.setState({ nonExistant: true });
           return;
         } else if (response.data === 'editProfile') {
-          history.push(`/editProfile${this.props.location.search}`);
+          history.push(`/editProfile${this.props.location.pathname}`);
         }
         this.etherPrice();
         this.setState({
@@ -114,7 +114,7 @@ class DiscussionProfile extends React.Component {
   submit (e) {
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
-      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/editProfile${this.props.location.search}`, { 
+      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/editProfile${this.props.location.pathname}`, {
         user_id: this.state.profile.sub,
         description: this.state.description,
         image_url: this.state.image,
@@ -212,6 +212,7 @@ class DiscussionProfile extends React.Component {
           helps={this.state.helps}
           open={this.state.open}
           search={this.props.location.search}
+          name={this.props.location.pathname.split('/').pop().trim()}
           handleClose={() => this.handleClose()}
           deleteProfile={() => this.deleteProfile()}
           title={title}

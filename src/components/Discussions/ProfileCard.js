@@ -63,7 +63,7 @@ class ProfileCard extends React.Component {
             <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
               {this.props.is_users && (
                 <div>
-                  <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${this.props.dp}`} />} />
+                  <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${this.props.name}`} />} />
                   <FlatButton label="Delete Profile" onClick={() => this.handleOpen()} containerElement={"Hi"}/>
                   <Dialog
                     title="Delete Discussion Profile"
