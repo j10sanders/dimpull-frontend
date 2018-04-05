@@ -8,11 +8,15 @@ import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader';
 import request from 'superagent';
 import Dropzone from 'react-dropzone';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import { timezones } from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';
 import './discussionprofile.css';
+
+const WAValidator = require('wallet-address-validator');
 
 const style = {
   marginTop: 50,
@@ -49,20 +53,27 @@ class EditProfile extends React.Component {
       origin: '',
       excites: '',
       helps: '',
-      uploadedFileCloudinaryUrl: '',
-      waiting: 'true'
+      walletAddress: '',
+      waiting: 'true',
+      open: false,
+      title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.'
     };
   }
 
   componentWillMount () {
     this.setState({ profile: {} });
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
-      });
+    const { isAuthenticated } = this.props.auth;
+    if (isAuthenticated()) {
+      const { userProfile, getProfile } = this.props.auth;
+      if (!userProfile) {
+        getProfile((err, profile) => {
+          this.setState({ profile });
+        });
+      } else {
+        this.setState({ profile: userProfile });
+      }
     } else {
-      this.setState({ profile: userProfile });
+      this.props.auth.login(this.props.location.pathname);
     }
   }
 
@@ -70,34 +81,37 @@ class EditProfile extends React.Component {
     this.etherPrice();
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
-    let headers = {}
+    let headers = {};
     if (isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}` };
     } else {
       history.push('/');
     }
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, { headers })
-      .then((response) => {
-        this.setState({
-          price: response.data.price ? response.data.price : 50,
-          image: response.data.image_url ? response.data.image_url : '',
-          description: response.data.description ? response.data.description : '',
-          otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
-          origin: response.data.origin ? response.data.origin : '',
-          excites: response.data.excites ? response.data.excites : '',
-          helps: response.data.helps ? response.data.helps : '',
-          who: response.data.who ? response.data.who : '',
-          url: response.data.url
-        }, () => this.isDisabled());
-      })
-      .catch(error => console.log(error));
+    this.fillForms(headers);
   }
 
   onImageDrop (files) {
-    this.setState({
-      uploadedFile: files[0]
-    });
     this.handleImageUpload(files[0]);
+  }
+
+  async fillForms (headers) {
+    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, { headers });
+    if (response.data !== "Not this user's") {
+      this.setState({
+        price: response.data.price ? response.data.price : 50,
+        image: response.data.image_url ? response.data.image_url : '',
+        description: response.data.description ? response.data.description : '',
+        otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
+        origin: response.data.origin ? response.data.origin : '',
+        excites: response.data.excites ? response.data.excites : '',
+        helps: response.data.helps ? response.data.helps : '',
+        who: response.data.who ? response.data.who : '',
+        url: response.data.url ? response.data.url : '',
+        walletAddress: response.data.walletAddress ? response.data.walletAddress : ''
+      }, () => this.isDisabled());
+    } else {
+      this.setState({ title: "Looks like a different user's profile.  Please contact admin@dimpull.com if you are sure you logged in with the same profile", open: true });
+    }
   }
 
   etherPrice () {
@@ -115,14 +129,14 @@ class EditProfile extends React.Component {
       }
       if (response.body.secure_url !== '') {
         this.setState({
-          uploadedFileCloudinaryUrl: response.body.secure_url,
           image: response.body.secure_url
         });
       }
     });
   }
 
-  isDisabled () {
+  async isDisabled () {
+    const validWallet = await this.validWallet();
     this.setState({ waiting: false });
     let priceIsValid = false;
     if (this.state.price.length === 0) {
@@ -140,7 +154,9 @@ class EditProfile extends React.Component {
       });
     }
     if (this.state.description && this.state.image) {
-      if (this.state.description.length !== 0 && this.state.image.length !== 0 && priceIsValid) {
+      if (this.state.description.length !== 0 &&
+        this.state.image.length !== 0 &&
+        priceIsValid && validWallet) {
         this.setState({
           disabled: false
         });
@@ -148,10 +164,20 @@ class EditProfile extends React.Component {
     }
   }
 
-  changeValue (e, type) {
-    if (type === 'price') {
-      this.etherPrice();
+  validWallet () {
+    const valid = WAValidator.validate(this.state.walletAddress, 'ethereum');
+    if (valid) {
+      this.setState({ walletError: null });
+      return true;
+    } else if (this.state.walletAddress === '') {
+      this.setState({ walletError: null });
+      return false;
     }
+    this.setState({ walletError: 'Not a valid ETH Wallet' });
+    return false;
+  }
+
+  changeValue (e, type) {
     const nextState = {};
     nextState[type] = e.target.value;
     this.setState(nextState, () => {
@@ -173,7 +199,7 @@ class EditProfile extends React.Component {
     const urlvalid = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/urlcheck/${this.state.url}`, { headers });
     if (urlvalid.data === 'available') {
       if (isAuthenticated()) {
-        axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, {
+        const posted = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, {
           user_id: this.state.profile.sub,
           description: this.state.description,
           image_url: this.state.image,
@@ -184,13 +210,27 @@ class EditProfile extends React.Component {
           excites: this.state.excites,
           helps: this.state.helps,
           who: this.state.who,
-          url: this.state.url
-        })
-          .then(response => history.replace('/calendar'));
+          url: this.state.url,
+          walletAddress: this.state.walletAddress
+        }, { headers });
+        if (posted.data === 'success') {
+          this.setState({ open: true });
+        }
       }
     } else {
       this.setState({ urlError: `${this.state.url} is not available` });
     }
+  }
+
+  handleOpen () {
+    this.setState({
+      open: true
+    });
+  }
+
+  handleClose () {
+    this.setState({ open: false });
+    history.replace('/');
   }
 
   selectTimezone (event, index, value) {
@@ -199,6 +239,13 @@ class EditProfile extends React.Component {
 
   render () {
     const { isAuthenticated } = this.props.auth;
+    const actions = [
+      <FlatButton
+        label="Sounds good"
+        primary
+        onClick={() => this.handleClose()}
+      />
+    ];
     return (
       <div className="container">
         <div className="row">
@@ -244,7 +291,7 @@ class EditProfile extends React.Component {
                             floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Researcher, etc...)"
                             type="description"
                             value={this.state.description}
-                            style={{marginTop: '8px'}}
+                            style={{ marginTop: '8px' }}
                             // errorText={this.state.description_error_text}
                             onChange={e => this.changeValue(e, 'description')}
                             fullWidth
@@ -283,7 +330,7 @@ class EditProfile extends React.Component {
                             onChange={e => this.changeValue(e, 'price')}
                           />
                           <p> Currently one Ether is {this.state.etherPrice} dollars,
-                            so your price would be {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
+                            so you will earn {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
                             {' '}ETH/half-hour.  It will be set when someone books one of your timeslots.
                           </p>
                         </div>
@@ -355,14 +402,24 @@ class EditProfile extends React.Component {
                         </div>
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
+                            // hintText="What can you help callers with?"
+                            floatingLabelText="Ethereum Wallet Address"
+                            type="walletAddress"
+                            value={this.state.walletAddress}
+                            fullWidth
+                            errorText={this.state.walletError}
+                            onChange={e => this.changeValue(e, 'walletAddress')}
+                          />
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
+                        </div>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                          <TextField
                             floatingLabelText="What public url do you want for your profile?"
                             type="url"
                             value={this.state.url}
                             fullWidth
                             errorText={this.state.urlError}
                             multiLine
-                            rows={2}
-                            rowsMax={6}
                             onChange={e => this.changeValue(e, 'url')}
                           />
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>dimpull.com/expert/{this.state.url}</Subheader>
@@ -406,6 +463,14 @@ class EditProfile extends React.Component {
             </div>
           </div>
         </div>
+        <Dialog
+          title={this.state.title}
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={() => this.handleClose.bind(this)}
+        >
+        </Dialog>
       </div>
     );
   }

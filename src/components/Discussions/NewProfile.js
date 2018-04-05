@@ -59,7 +59,7 @@ class newProfile extends React.Component {
   componentWillMount () {
     const { isAuthenticated } = this.props.auth;
     if (! isAuthenticated()) {
-      this.props.auth.login('newProfile');
+      this.props.auth.login('/newProfile');
     }
     this.checkRegistered();
   }
@@ -303,7 +303,7 @@ class newProfile extends React.Component {
         open: true
       });
     } else {
-      this.props.auth.login('newProfile');
+      this.props.auth.login('/newProfile');
     }
   }
 
@@ -328,15 +328,15 @@ class newProfile extends React.Component {
     const actions = [
       <FlatButton
         label="Sounds good"
-        primary={true}
+        primary
         onClick={() => this.handleClose()}
-      />,
+      />
     ];
-    let display = this.state.waiting ? 'none': 'inherit'
-    let waiting = this.state.waiting ? 'inherit': 'none'
+    const display = this.state.waiting ? 'none' : 'inherit';
+    const waiting = this.state.waiting ? 'inherit' : 'none';
     return (
       <div>
-        <CircularProgress style={{display: waiting}} size={80} thickness={5} />
+        <CircularProgress style={{ display: waiting }} size={80} thickness={5} />
         {isAuthenticated() && (
           <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)} style={{display: display}}>
             <Paper style={style}>

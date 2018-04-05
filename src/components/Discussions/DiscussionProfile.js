@@ -25,7 +25,6 @@ class DiscussionProfile extends React.Component {
   }
 
   componentDidMount () {
-    console.log("Mount")
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {};

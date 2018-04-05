@@ -33,7 +33,8 @@
     "react-twitter-widgets": "^1.7.1",
     "superagent": "^3.8.2",
     "truffle-contract": "^3.0.1",
-    "truffle-solidity-loader": "0.0.8"
+    "truffle-solidity-loader": "0.0.8",
+    "wallet-address-validator": "^0.1.5"
   },
   "scripts": {
     "start": "react-scripts start",

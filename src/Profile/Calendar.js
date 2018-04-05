@@ -80,7 +80,7 @@ class Calendar extends React.Component {
     return d;
   }
 
-  addEvent(start, end) { console.log(start)
+  addEvent(start, end) {
 		if (start < new Date()){
 			this.setState({snackOpen: true})
 		} else {
