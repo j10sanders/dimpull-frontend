@@ -65,7 +65,7 @@ class ProfileCard extends React.Component {
               {this.props.is_users && (
                 <div>
                   <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${this.props.name}`} />} />
-                  <FlatButton label="Delete Profile" onClick={() => this.handleOpen()} containerElement={"Hi"}/>
+                  <FlatButton label="Delete Profile" onClick={() => this.handleOpen()} containerElement="Hi" />
                   <Dialog
                     title="Delete Discussion Profile"
                     actions={this.props.actions}
@@ -137,6 +137,5 @@ ProfileCard.defaultProps = {
   subtitle: '',
   host: ''
 };
-
 
 export default ProfileCard;

@@ -7,9 +7,6 @@ contract Escrow {
   //Balances temporarily made public for testing; to be removed
   mapping (address =>  mapping (address => uint)) public balances;
 
-  //Events for debugging
-  event Print(string message, uint value);
-
   function escrow() public {
     owner = msg.sender;
   }
@@ -31,21 +28,16 @@ contract Escrow {
   //Portion should be percentage of value to pay in PPM
   function end(address payer, address payee, uint portion) onlyOwner external returns(bool) {
     uint value = balances[payer][payee];
-    Print("value", value);
 
     uint invoice = value / (1000000 / portion);
     uint paidFee = invoice / (1000000 / fee);
     uint payment = invoice - paidFee;
     uint returned = value - invoice;
-    Print("invoice", invoice);
-    Print("paidFee", paidFee);
-    Print("payment", payment);
-    Print("returned", returned);
 
     payee.transfer(payment);
     payer.transfer(returned);
     owner.transfer(paidFee);
-    
+
     return true;
   }
 }
