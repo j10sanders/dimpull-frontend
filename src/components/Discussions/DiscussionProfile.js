@@ -212,7 +212,7 @@ class DiscussionProfile extends React.Component {
           helps={this.state.helps}
           open={this.state.open}
           search={this.props.location.search}
-          name={this.props.location.pathname.split('/').pop().trim()}
+          name={this.props.location.pathname.split('/').pop().trim()} // get the last part of expert/jon
           handleClose={() => this.handleClose()}
           deleteProfile={() => this.deleteProfile()}
           title={title}

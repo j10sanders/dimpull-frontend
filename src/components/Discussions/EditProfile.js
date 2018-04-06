@@ -11,6 +11,7 @@ import Dropzone from 'react-dropzone';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import PropTypes from 'prop-types';
 import { timezones } from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';
@@ -475,5 +476,19 @@ class EditProfile extends React.Component {
     );
   }
 }
+
+EditProfile.propTypes = {
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.func,
+    getAccessToken: PropTypes.func,
+    login: PropTypes.func,
+    userProfile: PropTypes.object,
+    getProfile: PropTypes.func
+  })
+};
+
+EditProfile.defaultProps = {
+  auth: PropTypes.object
+};
 
 export default EditProfile;

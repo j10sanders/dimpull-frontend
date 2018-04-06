@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
+import PropTypes from 'prop-types';
 import './discussionprofile.css';
 
 class ProfileCard extends React.Component {
@@ -103,5 +104,39 @@ class ProfileCard extends React.Component {
     );
   }
 }
+
+ProfileCard.propTypes = {
+  dp: PropTypes.number,
+  edit: PropTypes.bool,
+  actions: PropTypes.arrayOf(PropTypes.object),
+  open: PropTypes.bool.isRequired,
+  is_users: PropTypes.bool,
+  origin: PropTypes.string,
+  excites: PropTypes.string,
+  helps: PropTypes.string,
+  title: PropTypes.string,
+  who: PropTypes.string,
+  image: PropTypes.string,
+  description: PropTypes.string,
+  subtitle: PropTypes.string,
+  host: PropTypes.string
+};
+
+ProfileCard.defaultProps = {
+  is_users: false,
+  origin: '',
+  excites: '',
+  helps: '',
+  title: '',
+  who: '',
+  image: '',
+  description: '',
+  edit: false,
+  dp: 0,
+  actions: [{}],
+  subtitle: '',
+  host: ''
+};
+
 
 export default ProfileCard;

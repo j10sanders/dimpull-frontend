@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import PropTypes from 'prop-types';
 import history from '../../history';
 
 const style = {
@@ -33,7 +34,7 @@ class Contact extends React.Component {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
-      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+      const headers = { Authorization: `Bearer ${getAccessToken()}` };
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
         .then((response) => {
           if (response.data.phone_number) {
@@ -200,8 +201,8 @@ class Contact extends React.Component {
     const actions = [
       <FlatButton
         label="Okay"
-        primary={true}
-        keyboardFocused={true}
+        primary
+        keyboardFocused
         onClick={this.handleClose}
       />
     ];
@@ -220,7 +221,7 @@ class Contact extends React.Component {
                   errorText={this.state.tel_error_text}
                   // onChange={(e) => this.changeValue(e, 'tel')}
                   defaultValue={this.state.tel}
-                  disabled={true}
+                  disabled
                 />
               }
               {!this.state.telReceived &&
@@ -240,7 +241,7 @@ class Contact extends React.Component {
                 // errorText={this.state.tel_error_text}
                 onChange={e => this.changeValue(e, 'message')}
                 defaultValue="Hi, "
-                fullWidth={true}
+                fullWidth
               />
             </div>
             <RaisedButton
@@ -264,5 +265,19 @@ class Contact extends React.Component {
     );
   }
 }
+
+Contact.propTypes = {
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.func,
+    getAccessToken: PropTypes.func,
+    login: PropTypes.func,
+    userProfile: PropTypes.object,
+    getProfile: PropTypes.func
+  })
+};
+
+Contact.defaultProps = {
+  auth: PropTypes.object
+};
 
 export default Contact;

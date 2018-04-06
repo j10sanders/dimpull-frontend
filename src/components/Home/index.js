@@ -7,6 +7,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
+import PropTypes from 'prop-types';
 import './landingpage.css';
 
 class Home extends React.Component {
@@ -21,7 +22,7 @@ class Home extends React.Component {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
-      const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+      const headers = { Authorization: `Bearer ${getAccessToken()}` };
       axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
         .then(response =>
           this.setState({ dps: response.data.slice(0, 4) }))
@@ -39,7 +40,7 @@ class Home extends React.Component {
     return (
       <div style={{ textAlign: 'center' }}>
         <section id="headerTop">
-          <div className="row" id='headerRow'>
+          <div className="row" id="headerRow">
             <div className="col-sm-6">
               <div id="head">
                 <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
@@ -147,7 +148,7 @@ class Home extends React.Component {
             label="Become a Dimpull Expert"
             secondary
             style={{
-              marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' 
+              marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
             }}
           />
         )}
@@ -155,5 +156,17 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.func,
+    getAccessToken: PropTypes.func,
+    login: PropTypes.func
+  })
+};
+
+Home.defaultProps = {
+  auth: PropTypes.object
+};
 
 export default Home;
