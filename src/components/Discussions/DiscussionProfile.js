@@ -20,7 +20,9 @@ class DiscussionProfile extends React.Component {
     super(props);
     this.state = {
       open: false,
-      etherPrice: ''
+      etherPrice: '',
+      email: '',
+      emailOpen: false
     };
   }
 
@@ -61,7 +63,7 @@ class DiscussionProfile extends React.Component {
           who: response.data.who,
           excites: response.data.excites,
           helps: response.data.helps,
-          dp: response.data.id
+          dp: response.data.id,
         });
         if (response.data.reviewlist) {
           this.setState({
@@ -100,6 +102,32 @@ class DiscussionProfile extends React.Component {
 
   handleClose () {
     this.setState({ open: false });
+  }
+
+  getEmail () {
+    this.setState({ emailOpen: true });
+  }
+
+  emailClose () {
+    this.setState({ emailOpen: false });
+  }
+
+  changeEmail (e) {
+    this.setState({ email: e.target.value });
+  }
+
+  async submitEmail () {
+    try {
+      await axios.post('https://emailoctopus.com/api/1.3/lists/6543ad73-3cfa-11e8-a3c9-06b79b628af2/contacts', {
+        api_key: `${process.env.REACT_APP_OCTOPUS_KEY}`,
+        email_address: this.state.email,
+        subscribed: true
+      });
+    }
+    catch (err) {
+      this.emailClose();
+    }
+    this.emailClose();
   }
 
   linkToProfile (profile){
@@ -179,6 +207,19 @@ class DiscussionProfile extends React.Component {
       />
     ];
 
+    const ok = [
+      <FlatButton
+        label="No Thanks"
+        primary
+        onClick={() => this.handleClose()}
+      />,
+      <FlatButton
+        label="Submit"
+        primary
+        onClick={() => this.submitEmail()}
+      />
+    ];
+
     // `${Number(Math.round((this.state.price/this.state.etherPrice)+'e2')+'e-2')} Ether`
     const title = `$${Number(this.state.price).toFixed(0)} per half hour`;
     const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')} Ether`;
@@ -222,6 +263,13 @@ class DiscussionProfile extends React.Component {
           actions={actions}
           is_users={this.state.is_users}
           dp={this.state.dp}
+          handleOpen={() => this.handleOpen()}
+          getEmail={() => this.getEmail()}
+          emailOpen={this.state.emailOpen}
+          emailClose={() => this.emailClose()}
+          email={this.state.email}
+          changeEmail={e => this.changeEmail(e)}
+          ok={ok}
         />
         {this.state.reviews &&
           <div id="Reviews" style={{ paddingTop: '30px' }}>

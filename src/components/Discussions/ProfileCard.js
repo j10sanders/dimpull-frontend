@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
+import TextField from 'material-ui/TextField';
 import './discussionprofile.css';
 
 class ProfileCard extends React.Component {
@@ -65,13 +66,13 @@ class ProfileCard extends React.Component {
               {this.props.is_users && (
                 <div>
                   <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${this.props.name}`} />} />
-                  <FlatButton label="Delete Profile" onClick={() => this.handleOpen()} containerElement="Hi" />
+                  <FlatButton label="Delete Profile" onClick={() => this.props.handleOpen()} containerElement="Hi" />
                   <Dialog
                     title="Delete Discussion Profile"
                     actions={this.props.actions}
                     modal={false}
                     open={this.props.open}
-                    onRequestClose={() => this.handleClose()}
+                    onRequestClose={() => this.props.handleClose()}
                   >
                    Are you sure you want to delete this discussion profile?
                   </Dialog>
@@ -80,14 +81,36 @@ class ProfileCard extends React.Component {
               {!this.props.is_users && (
                 <div>
                   {!this.props.edit && (
-                    <RaisedButton
-                      style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
-                      labelStyle={{ fontSize: '20px' }}
-                      fullWidth
-                      primary
-                      label="Schedule a Call"
-                      containerElement={<Link to={`/availability/${this.props.dp}`} />}
-                    />
+                    <div>
+                      <RaisedButton
+                        style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
+                        labelStyle={{ fontSize: '20px' }}
+                        fullWidth
+                        primary
+                        label="Schedule a Call"
+                        // containerElement={<Link to={`/availability/${this.props.dp}`} />}
+                        onClick={() => this.props.getEmail()}
+                      />
+                      <Dialog
+                        title="We aren't ready just yet!"
+                        actions={this.props.ok}
+                        modal={false}
+                        open={this.props.emailOpen}
+                        onRequestClose={() => this.props.emailClose()}
+                      >
+                        {this.props.host} will be accepting calls VERY soon.
+                        To be notified when the platform is ready, please enter your email below.  We promise no spam!
+                        <TextField
+                          // hintText="Link to another site's profile"
+                          floatingLabelText="Your email"
+                          type="email"
+                          value={this.props.email}
+                          fullWidth
+                          // errorText={this.state.tel_error_text}
+                          onChange={e => this.props.changeEmail(e)}
+                        />
+                      </Dialog>
+                    </div>
                   )}
                 </div>
               )}
@@ -119,7 +142,9 @@ ProfileCard.propTypes = {
   image: PropTypes.string,
   description: PropTypes.string,
   subtitle: PropTypes.string,
-  host: PropTypes.string
+  host: PropTypes.string,
+  handleOpen: PropTypes.func,
+  handleClose: PropTypes.func
 };
 
 ProfileCard.defaultProps = {
