@@ -122,7 +122,7 @@ class Availability extends React.Component {
       // save go to next step to save anon number and will need to associate with this time.
       history.push({
         pathname: '/requestConversation',
-        search: this.props.location.search,
+        search: this.props.location.pathname.split('/').pop().trim(),
         state: { startTime: startTime }
       })
     }

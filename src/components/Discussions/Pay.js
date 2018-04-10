@@ -29,18 +29,13 @@ class Pay extends React.Component {
       });
   }
 
-  submit () {
-    let escrowInstance;
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      if (error) {
-        console.log(error, 'Error getting accounts');
-      }
-      this.state.escrow.deployed().then((instance) => {
-        escrowInstance = instance;
-        const payeeAddress = '0xa40dDf63944E24ea6b667e8A1Ea247319C96820C';
-        escrowInstance.start(payeeAddress, { from: accounts[0], value: 1000000000000000000 });
-      });
-    });
+  async submit () {
+    const escrowinstance = await this.state.escrow.deployed();
+    const account = await this.state.web3.eth.accounts;
+    const payeeAddress = '0x1C34D277B51ec49536FE7843E289933e0f8020ED';
+    const result = await escrowinstance.start(payeeAddress, { from: account[0], value: 2000000000000000000 });
+    console.log(result);
+    debugger;
   }
 
   instantiateContract () {

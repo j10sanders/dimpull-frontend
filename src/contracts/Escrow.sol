@@ -26,16 +26,16 @@ contract Escrow {
   }
 
   //Portion should be percentage of value to pay in PPM
-  function end(address payer, address payee, uint portion) onlyOwner external returns(bool) {
+  function end(address payer, address payee) onlyOwner external returns(bool) {
     uint value = balances[payer][payee];
 
-    uint invoice = value / (1000000 / portion);
-    uint paidFee = invoice / (1000000 / fee);
-    uint payment = invoice - paidFee;
-    uint returned = value - invoice;
+    // uint invoice = value / (1000000 / portion);
+    uint paidFee = value / (1000000 / fee);
+    uint payment = value - paidFee;
+    // uint returned = value - invoice;
 
     payee.transfer(payment);
-    payer.transfer(returned);
+    // payer.transfer(returned);
     owner.transfer(paidFee);
 
     return true;

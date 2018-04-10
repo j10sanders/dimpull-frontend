@@ -15,7 +15,7 @@ import history from '../../history';
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-var allCountries = require('all-countries');
+const allCountries = require('all-countries');
 
 const style = {
   marginTop: 50,

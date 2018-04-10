@@ -8,6 +8,11 @@ import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import history from '../../history';
 
+const PNF = require('google-libphonenumber').PhoneNumberFormat;
+const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+const allCountries = require('all-countries');
+
+
 const style = {
   marginTop: 50,
   paddingBottom: 50,
@@ -26,7 +31,10 @@ class Contact extends React.Component {
       tel_error_text: null,
       disabled: true,
       // startTime: null,
-      open: false
+      open: false,
+      emailError: null,
+      pnf: '',
+      country: 'United States'
     };
   }
 
@@ -45,31 +53,56 @@ class Contact extends React.Component {
     }
   }
 
-  isDisabled () {
+  async isDisabled () {
+    const email = await this.validEmail();
     let telIsValid = false;
-    if (this.state.telReceived) {
-      this.setState({
-        disabled: false
-      });
-    } else if (this.state.tel === '' || !this.state.tel) {
-      this.setState({
-        tel_error_text: null
-      });
-    } else if (this.state.tel.length >= 15 && this.state.tel.length < 17) {
+    let number = '';
+    const country = allCountries.getCountryCodeByCountryName(this.state.country);
+    try {
+      number = phoneUtil.parse(this.state.tel, country);
+    } catch(error){
+    }
+    if (this.state.tel === '' || !this.state.tel) {
       this.setState({
         tel_error_text: null
+      });
+    } else if (this.noExcepetion(number)) {
+      this.setState({
+        tel_error_text: null,
+        pnf: number
       });
       telIsValid = true;
     } else {
       this.setState({
-        tel_error_text: 'Enter a valid phone number (+1-917-555-7777)',
+        tel_error_text: 'Enter a valid phone number'
       });
     }
-    if (telIsValid) {
+    if (telIsValid && email) {
       this.setState({
         disabled: false
       });
     }
+  }
+
+  noExcepetion (number) {
+    let ret;
+    try {
+      ret = phoneUtil.isValidNumber(number)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      return ret;
+    }
+  }
+
+  validEmail () {
+    const re = /\S+@\S+/;
+    if (re.test(this.state.email)) {
+      this.setState({ emailError: false });
+      return true;
+    }
+    this.setState({ emailError: true });
+    return false;
   }
 
   changeValue (e, type) {
@@ -138,7 +171,7 @@ class Contact extends React.Component {
       `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
       {
         user_id: this.state.profile.sub,
-        phone_number: this.state.tel,
+        phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
         first_name: this.state.first_name,
         last_name: this.state.last_name,
         auth_pic: this.state.profile.picture
@@ -148,9 +181,14 @@ class Contact extends React.Component {
   }
 
   submit (e) {
+    let search = this.props.location.search;
+    if (search.charAt(0) === '?') {
+      search = search.slice(1);
+    }
     e.preventDefault();
-    const start = this.props.location.state.startTime
-    //TODO add real error handling if time is now in the past.
+    const start = this.props.location.state.startTime;
+
+    //T ODO add real error handling if time is now in the past.
     if (start < new Date()) {
       console.log('TOO EARLY');
     } else {
@@ -158,12 +196,13 @@ class Contact extends React.Component {
       const { getAccessToken } = this.props.auth;
       if (isAuthenticated()) {
         this.addProfile();
-        const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+        const headers = { Authorization: `Bearer ${getAccessToken()}` };
         axios.post(
-          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
+          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
           {
-            phone_number: this.state.tel,
+            phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
             message: this.state.message,
+            email: this.state.email,
             start_time: new Date(start)
           }, { headers }
         ).then((response) => {
@@ -180,10 +219,11 @@ class Contact extends React.Component {
         }).catch(error => this.setState({ tel_error_text: error }));
       } else {
         axios.post(
-          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${this.props.location.search}`,
+          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
           {
-            phone_number: this.state.tel,
+            phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
             message: this.state.message,
+            email: this.state.email,
             start_time: new Date(start)
           }
         ).then((response) => {
@@ -207,31 +247,28 @@ class Contact extends React.Component {
       />
     ];
     return (
-      <div className="col-md-6 col-md-offset-3" onKeyPress={e => this._handleKeyPress(e)}>
+      <div className="col-md-6 col-md-offset-3">
         <Paper style={style}>
           <div className="text-center">
-            <h2>Please provide your phone number.</h2>
+            <h2>Please provide the number you will call from</h2>
             <p> Don't worry, we aren't sharing this, and a different number will show up in caller ID.</p>
             <div className="col-md-12">
               {this.state.telReceived &&
                 <TextField
-                  hintText="Phone number"
                   floatingLabelText="Phone number"
                   type="tel"
                   errorText={this.state.tel_error_text}
-                  // onChange={(e) => this.changeValue(e, 'tel')}
-                  defaultValue={this.state.tel}
-                  disabled
+                  onChange={e => this.changeValue(e, 'tel')}
+                  value={this.state.tel}
                 />
               }
               {!this.state.telReceived &&
                 <TextField
-                  hintText="Phone number"
-                  floatingLabelText="Your phone number"
+                  floatingLabelText="Phone number"
                   type="tel"
                   errorText={this.state.tel_error_text}
                   onChange={e => this.changeValue(e, 'tel')}
-                  defaultValue="+1-"
+                  value={this.state.tel}
                 />
               }
               <TextField
@@ -242,6 +279,13 @@ class Contact extends React.Component {
                 onChange={e => this.changeValue(e, 'message')}
                 defaultValue="Hi, "
                 fullWidth
+              />
+              <TextField
+                floatingLabelText="Your email address (or login!)"
+                type="email"
+                onChange={e => this.changeValue(e, 'email')}
+                defaultValue=""
+                errorText={this.state.emailError}
               />
             </div>
             <RaisedButton
