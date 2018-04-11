@@ -118,13 +118,10 @@ class DiscussionProfile extends React.Component {
 
   async submitEmail () {
     try {
-      await axios.post('https://emailoctopus.com/api/1.3/lists/6543ad73-3cfa-11e8-a3c9-06b79b628af2/contacts', {
-        api_key: `${process.env.REACT_APP_OCTOPUS_KEY}`,
-        email_address: this.state.email,
-        subscribed: true
+      await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/addemail`, {
+        email: this.state.email
       });
-    }
-    catch (err) {
+    } catch (err) {
       this.emailClose();
     }
     this.emailClose();
@@ -152,7 +149,7 @@ class DiscussionProfile extends React.Component {
         origin: this.state.origin,
         who: this.state.who,
         excites: this.state.excites,
-        helps: this.state.help,
+        helps: this.state.help
       }).then(response => history.replace('/calendar'));
     }
   }
@@ -282,7 +279,7 @@ class DiscussionProfile extends React.Component {
             </List>
           </div>
         }
-        <div style={{ width: '100%', margin: '0 auto', textAlign: 'center' }} >
+        <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >
           <Divider style={{ marginTop: '80px' }} />
           <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
           <RaisedButton

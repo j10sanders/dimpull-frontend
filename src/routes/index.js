@@ -34,7 +34,7 @@ class Routes extends Component {
 					<AsyncHeader />
 					<div
 						className="container"
-                        style={{ paddingBottom: '100px',
+                        style={{ paddingBottom: '65px',
                         		marginTop: '64px',
 	                        // height: '100%',
 	                        // minHeight: '88vh'

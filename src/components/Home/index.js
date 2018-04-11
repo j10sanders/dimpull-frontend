@@ -1,6 +1,9 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -14,7 +17,9 @@ class Home extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      dps: null
+      dps: null,
+      email: '',
+      emailSubmitted: false
     };
   }
 
@@ -33,6 +38,21 @@ class Home extends React.Component {
           this.setState({ dps: response.data.slice(0, 4) }))
         .catch(error => console.log(error));
     }
+  }
+
+  changeEmail (e) {
+    this.setState({ email: e.target.value });
+  }
+
+  async submitEmail () {
+    try {
+      await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/addemail`, {
+        email: this.state.email
+      });
+    } catch (err) {
+      this.setState({ emailSubmitted: true });
+    }
+    this.setState({ emailSubmitted: true });
   }
 
   render () {
@@ -128,30 +148,57 @@ class Home extends React.Component {
           </Paper>
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
         </div>
-        <h2 style={{ marginBottom: '20px' }}> Are You an Expert? </h2>
-        <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
-          so you can start connecting with Crypto enthusiasts.
-        </p>
-        {!isAuthenticated() && (
-          <RaisedButton
-            onClick={() => this.props.auth.login('/newProfile')}
-            label="Become a Dimpull Expert"
-            secondary
-            style={{
-              marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
-            }}
-          />
-        )}
-        {isAuthenticated() && (
-          <RaisedButton
-            containerElement={<Link to="/newProfile"  />}
-            label="Become a Dimpull Expert"
-            secondary
-            style={{
-              marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
-            }}
-          />
-        )}
+        <div>
+          <h2 style={{ marginBottom: '20px' }}> Are You an Expert? </h2>
+          <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
+            so you can start connecting with Crypto enthusiasts.
+          </p>
+          {!isAuthenticated() && (
+            <RaisedButton
+              onClick={() => this.props.auth.login('/newProfile')}
+              label="Become a Dimpull Expert"
+              secondary
+              style={{
+                marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
+              }}
+            />
+          )}
+          {isAuthenticated() && (
+            <RaisedButton
+              containerElement={<Link to="/newProfile"  />}
+              label="Become a Dimpull Expert"
+              secondary
+              style={{
+                marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
+              }}
+            />
+          )}
+        </div>
+        <div style={{ backgroundColor: '#efefef', marginTop: '100px' }}>
+          <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
+          <Paper id="email" zDepth={0} style={{ backgroundColor: '#efefef' }}>
+            <h2 style={{ marginBottom: '20px', paddingTop: '35px' }}> Ready to Connect with an Expert? </h2>
+            <p id="pRegister">Dimpull will be live in the next couple weeks.  To find out when it's ready, leave your email below (we promise no spam):
+            </p>
+            {!this.state.emailSubmitted ? (
+              <div style={{ paddingBottom: '50px' }}>
+                <TextField
+                  floatingLabelText="Email"
+                  type="email"
+                  value={this.state.email}
+                  style={{ marginTop: '-20px' }}
+                  onChange={e => this.changeEmail(e)}
+                />
+                <FlatButton
+                  label="Submit"
+                  primary
+                  onClick={() => this.submitEmail()}
+                />
+              </div>
+            ) : <div style={{ paddingBottom: '50px' }}>Thanks!  We'll let you know soon!</div>
+            }
+          </Paper>
+        </div>
       </div>
     );
   }
