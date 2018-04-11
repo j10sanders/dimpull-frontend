@@ -377,7 +377,7 @@ class newProfile extends React.Component {
                     }
                   </SelectField>
                   <TextField
-                    hintText="Comma separated if you want to show multiple links"
+                    // hintText="Comma separated if you want to show multiple links"
                     floatingLabelText="Post a link that best showcases your expertise"
                     type="otherProfile"
                     // fullWidth={true}
