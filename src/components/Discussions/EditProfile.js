@@ -251,7 +251,7 @@ class EditProfile extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-md-6 col-md-offset-0">
-            <div style={{ paddingLeft: '34px' }} >
+            <div style={{ paddingLeft: '34px', marginBottom: '40px' }} >
               {isAuthenticated() && (
                 <div className="">
                   <Paper style={style}>
@@ -448,9 +448,9 @@ class EditProfile extends React.Component {
                 image={this.state.image}
                 description={this.state.description ? this.state.description : ' '}
                 who={this.state.who ? this.state.who : ' '}
-                origin={this.state.origin ? this.state.origin : ' '}
-                excites={this.state.excites ? this.state.excites : ' '}
-                helps={this.state.helps ? this.state.helps : ' '}
+                origin={this.state.origin}
+                excites={this.state.excites}
+                helps={this.state.helps}
                 open={this.state.open}
                 search={this.props.location.search}
                 handleClose={() => this.handleClose()}

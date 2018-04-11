@@ -208,7 +208,7 @@ class DiscussionProfile extends React.Component {
       <FlatButton
         label="No Thanks"
         primary
-        onClick={() => this.handleClose()}
+        onClick={() => this.emailClose()}
       />,
       <FlatButton
         label="Submit"
