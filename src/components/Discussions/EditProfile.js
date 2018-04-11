@@ -159,9 +159,20 @@ class EditProfile extends React.Component {
         this.state.image.length !== 0 &&
         priceIsValid && validWallet) {
         this.setState({
-          disabled: false
+          disabled: false,
+          title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.'
+        });
+      } else if (this.state.disabled === false) {
+        this.setState({
+          disabled: true,
+          title: "Come back anytime to finish your profile.  We won't make it public in the meantime."
         });
       }
+    } else if (this.state.disabled === false) {
+      this.setState({
+        disabled: true,
+        title: "Come back anytime to finish your profile.  We won't make it public in the meantime."
+      });
     }
   }
 
@@ -425,6 +436,13 @@ class EditProfile extends React.Component {
                           />
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>dimpull.com/expert/{this.state.url}</Subheader>
                         </div>
+                        {this.state.disabled && (
+                          <RaisedButton
+                            style={{ marginTop: 50, marginRight: '4px' }}
+                            label="Not done?  Save for later."
+                            onClick={e => this.submit(e)}
+                          />
+                        )}
                         <RaisedButton
                           disabled={this.state.disabled}
                           style={{ marginTop: 50 }}
