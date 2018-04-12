@@ -495,6 +495,10 @@ class EditProfile extends React.Component {
                 search={this.props.location.search}
                 handleClose={() => this.handleClose()}
                 deleteProfile={() => this.deleteProfile()}
+                twitter={this.state.twitter}
+                github={this.state.github}
+                medium={this.state.medium}
+                linkedin={this.state.linkedin}
                 // title={title}
                 // subtitle={subtitle}
                 // otherProfile={this.state.otherProfile}
