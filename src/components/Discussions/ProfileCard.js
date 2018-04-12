@@ -56,10 +56,10 @@ class ProfileCard extends React.Component {
                       </Dialog>
                     </div>
                   )}
-                  {this.props.github && <IconButton iconClassName="fab fa-github" href={this.props.github} /> }
-                  {this.props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" disabled={!this.props.linkedin} href={this.props.linkedin}/> }
-                  {this.props.twitter && <IconButton iconClassName="fab fa-twitter" disabled={!this.props.twitter} href={this.props.twitter} /> }
-                  {this.props.medium && <IconButton iconClassName="fab fa-medium-m" disabled={!this.props.medium} href={this.props.medium} /> }
+                  {this.props.github && <IconButton iconClassName="fab fa-github" href={this.props.github} target="_blank" /> }
+                  {this.props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" disabled={!this.props.linkedin} target="_blank" /> }
+                  {this.props.twitter && <IconButton iconClassName="fab fa-twitter" disabled={!this.props.twitter} target="_blank" /> }
+                  {this.props.medium && <IconButton iconClassName="fab fa-medium-m" disabled={!this.props.medium} target="_blank" /> }
                 </CardActions>
               </Card>
             )}
