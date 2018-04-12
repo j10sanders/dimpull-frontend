@@ -275,7 +275,7 @@ class EditProfile extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-md-6 col-md-offset-0">
-            <div style={{ paddingLeft: '34px', marginBottom: '40px' }} >
+            <div id="editSection" >
               {isAuthenticated() && (
                 <div className="">
                   <Paper style={style}>

@@ -20,12 +20,12 @@
 
 @media (max-width: 1060px){ 
 	#pic {
-    max-width: 80vw;
+    /*max-width: 80vw;*/
     margin: auto;
     
   }
   #profile {
-    /*width: 80vw !important;*/
+    width: auto !important;
     margin: auto !important;
   }
 }
@@ -34,6 +34,9 @@
 	#pic {
     max-width: 30vw;
     margin-left: 10%;
+  }
+  #editSection {
+    padding-left: 34px;
   }
 }
 
@@ -65,4 +68,8 @@
 #pic {
   padding-top: 30px;
   width: fit-content;
+}
+
+#editSection {
+  margin-bottom: 40px;
 }
