@@ -2,6 +2,7 @@ import React from 'react';
 import Subheader from 'material-ui/Subheader';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
 import { Card, CardActions, CardMedia, CardTitle } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
@@ -88,11 +89,12 @@ class ProfileCard extends React.Component {
                   </div>
                 )}
               </div>
-              {this.props.title && (
-                <CardTitle title={this.props.title} subtitle={this.props.subtitle} />
-              )}
               {!this.props.is_users && (
                 <div>
+                  <Divider style={{ marginBottom: '6px' }} />
+                  {this.props.title && (
+                    <CardTitle title={this.props.title} subtitle={this.props.subtitle} style={{ marginBottom: '6px' }} />
+                  )}
                   {!this.props.edit && (
                     <div>
                       <RaisedButton
