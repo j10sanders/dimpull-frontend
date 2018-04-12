@@ -6,6 +6,8 @@
     font-family: 'Lora', serif;
     line-height: 1.8;
     font-size: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #cardStyle {
@@ -17,19 +19,27 @@
 }
 
 @media (max-width: 1060px){ 
-	#cardStyle {
-		width: 90vw;
-	}
+	#pic {
+    width: 80vw;
+    margin: auto;
+    padding-top: 30px;
+  }
+  #profile {
+    width: 80vw !important;
+    margin: auto !important;
+  }
 }
 
 @media (min-width: 1060px){ 
-	#cardStyle {
-		width: 45vw;
-	}
+	#pic {
+    width: 30vw;
+    margin-left: 10%;
+    padding-top: 30px;
+  }
 }
 
 #q {
-	margin-left: -2px;
+	padding-left: 18px;
   font-size: 30px;
 }
 
@@ -40,4 +50,15 @@
 .dropzone {
   margin: 0 auto;
   padding-top: 30px;
+}
+
+
+#qa{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#profile {
+  padding-top: 30px;
+  padding-bottom: 30px;
 }

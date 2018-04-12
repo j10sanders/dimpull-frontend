@@ -1,13 +1,16 @@
 import React from 'react';
 import Subheader from 'material-ui/Subheader';
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardMedia, CardTitle } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
+// import IconButton from 'material-ui/IconButton';
+
 import './discussionprofile.css';
 
 class ProfileCard extends React.Component {
@@ -19,64 +22,74 @@ class ProfileCard extends React.Component {
 
   render () {
     return (
-      <div id="cardStyle">
-        {this.props.host && (
-          <Card>
-            <CardMedia
-              style={{ cursor: 'pointer' }}
-              overlay={<CardTitle title={this.props.host} subtitle={this.props.description} />}
-              // onClick={() => this.props.linkToProfile(this.props.other_profile)}
-            >
-              <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
-                {this.props.image && (
-                  <img src={this.props.image} alt={this.props.image} style={{ maxWidth: '100%' }} />
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6" id="pic">
+            {this.props.host && (
+              <Card>
+                <CardMedia
+                  style={{ cursor: 'pointer' }}
+                  overlay={<CardTitle title={this.props.host} subtitle={this.props.description} />}
+                  // onClick={() => this.props.linkToProfile(this.props.other_profile)}
+                >
+                  <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
+                    {this.props.image && (
+                      <img src={this.props.image} alt={this.props.image} style={{ maxWidth: '100%' }} />
+                    )}
+                  </div>
+                </CardMedia>
+                
+                <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
+                  {this.props.is_users && (
+                    <div>
+                      <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${this.props.name}`} />} />
+                      <FlatButton label="Delete Profile" onClick={() => this.props.handleOpen()} containerElement="Hi" />
+                      <Dialog
+                        title="Delete Discussion Profile"
+                        actions={this.props.actions}
+                        modal={false}
+                        open={this.props.open}
+                        onRequestClose={() => this.props.handleClose()}
+                      >
+                       Are you sure you want to delete this discussion profile?
+                      </Dialog>
+                    </div>
+                  )}
+                  
+                </CardActions>
+              </Card>
+            )}
+          </div>
+          <div className="col-md-6" id="profile" style={{ width: this.props.edit && '30vw', marginLeft: this.props.edit &&'10%' }}>
+            <Paper>
+              <div id="qa">
+                {this.props.who && (
+                  <div>
+                    <h3 id="q"> Who are you? </h3>
+                    <p id="answer">{this.props.who}</p>
+                  </div>
+                )}
+                {this.props.origin && (
+                  <div>
+                    <h3 id="q"> What is your crypto origin story?</h3>
+                    <p id="answer">{this.props.origin}</p>
+                  </div>
+                )}
+                {this.props.excites && (
+                  <div>
+                    <h3 id="q"> What excites you about blockchain technology?</h3>
+                    <p id="answer">{this.props.excites}</p>
+                  </div>
+                )}
+                {this.props.helps && (
+                  <div>
+                    <h3 id="q"> What can you help callers with?</h3>
+                    <p id="answer">{this.props.helps}</p>
+                  </div>
                 )}
               </div>
-            </CardMedia>
-            <CardText>
-              {this.props.who && (
-                <div>
-                  <h3 id="q"> Who are you? </h3>
-                  <p id="answer">{this.props.who}</p>
-                </div>
-              )}
-              {this.props.origin && (
-                <div>
-                  <h3 id="q"> What is your crypto origin story?</h3>
-                  <p id="answer">{this.props.origin}</p>
-                </div>
-              )}
-              {this.props.excites && (
-                <div>
-                  <h3 id="q"> What excites you about blockchain technology?</h3>
-                  <p id="answer">{this.props.excites}</p>
-                </div>
-              )}
-              {this.props.helps && (
-                <div>
-                  <h3 id="q"> What can you help callers with?</h3>
-                  <p id="answer">{this.props.helps}</p>
-                </div>
-              )}
-            </CardText>
-            {this.props.title && (
-              <CardTitle title={this.props.title} subtitle={this.props.subtitle} />
-            )}
-            <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
-              {this.props.is_users && (
-                <div>
-                  <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${this.props.name}`} />} />
-                  <FlatButton label="Delete Profile" onClick={() => this.props.handleOpen()} containerElement="Hi" />
-                  <Dialog
-                    title="Delete Discussion Profile"
-                    actions={this.props.actions}
-                    modal={false}
-                    open={this.props.open}
-                    onRequestClose={() => this.props.handleClose()}
-                  >
-                   Are you sure you want to delete this discussion profile?
-                  </Dialog>
-                </div>
+              {this.props.title && (
+                <CardTitle title={this.props.title} subtitle={this.props.subtitle} />
               )}
               {!this.props.is_users && (
                 <div>
@@ -114,15 +127,15 @@ class ProfileCard extends React.Component {
                   )}
                 </div>
               )}
-            </CardActions>
-          </Card>
-        )}
-        {!this.props.host && (
-          <CircularProgress size={80} thickness={5} />
-        )}
-        {!this.props.edit && (
-          <Subheader inset style={{ paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px' }}>This is an example profile while we prepare our first group of experts</Subheader>
-        )}
+            </Paper>
+            {!this.props.host && (
+              <CircularProgress size={80} thickness={5} />
+            )}
+            {!this.props.edit && (
+              <Subheader inset style={{ paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px' }}>This is an example profile while we prepare our first group of experts</Subheader>
+            )}
+          </div>
+        </div>
       </div>
     );
   }
