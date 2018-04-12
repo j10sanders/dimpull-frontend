@@ -24,7 +24,7 @@ class ProfileCard extends React.Component {
   render () {
     return (
       <div className="container">
-        <div className="row">
+        <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
           <div className="col-md-6" id="pic">
             {this.props.host && (
               <Card>
