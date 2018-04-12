@@ -45,7 +45,7 @@ class EditProfile extends React.Component {
       priceErrorText: null,
       description: '',
       image: '',
-      otherProfile: '',
+      // otherProfile: '',
       price: '',
       disabled: true,
       timezone: 'America/New_York',
@@ -57,6 +57,10 @@ class EditProfile extends React.Component {
       walletAddress: '',
       waiting: 'true',
       open: false,
+      linkedin: '',
+      twitter: '',
+      github: '',
+      medium: '',
       title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.'
     };
   }
@@ -102,12 +106,16 @@ class EditProfile extends React.Component {
         price: response.data.price ? response.data.price : 50,
         image: response.data.image_url ? response.data.image_url : '',
         description: response.data.description ? response.data.description : '',
-        otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
+        // otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
         origin: response.data.origin ? response.data.origin : '',
         excites: response.data.excites ? response.data.excites : '',
         helps: response.data.helps ? response.data.helps : '',
         who: response.data.who ? response.data.who : '',
         url: response.data.url ? response.data.url : '',
+        linkedin: response.data.linkedin,
+        twitter: response.data.twitter,
+        github: response.data.github,
+        medium: response.data.medium,
         walletAddress: response.data.walletAddress ? response.data.walletAddress : ''
       }, () => this.isDisabled());
     } else {
@@ -198,6 +206,7 @@ class EditProfile extends React.Component {
   }
 
   async submit (e) {
+    debugger;
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {};
@@ -223,7 +232,11 @@ class EditProfile extends React.Component {
           helps: this.state.helps,
           who: this.state.who,
           url: this.state.url,
-          walletAddress: this.state.walletAddress
+          walletAddress: this.state.walletAddress,
+          linkedin: this.state.linkedin,
+          medium: this.state.medium,
+          twitter: this.state.twitter,
+          github: this.state.github
         }, { headers });
         if (posted.data === 'success') {
           this.setState({ open: true });
@@ -299,23 +312,12 @@ class EditProfile extends React.Component {
                             </Dropzone>
                           </div>
                           <TextField
-                            // hintText="Area of expertise"
                             floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Researcher, etc...)"
                             type="description"
                             value={this.state.description}
                             style={{ marginTop: '8px' }}
-                            // errorText={this.state.description_error_text}
                             onChange={e => this.changeValue(e, 'description')}
                             fullWidth
-                          />
-                          <TextField
-                            // hintText="Link to another site's profile"
-                            floatingLabelText="Link to site (twitter, youtube, blog, etc..) that showcases your expertise (not required)"
-                            type="otherProfile"
-                            value={this.state.otherProfile}
-                            fullWidth
-                            // errorText={this.state.tel_error_text}
-                            onChange={e => this.changeValue(e, 'otherProfile')}
                           />
                           <SelectField
                             floatingLabelText="Timezone"
@@ -353,64 +355,55 @@ class EditProfile extends React.Component {
                       <div className="col-md-12">
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
-                            // hintText="Who are you?"
                             floatingLabelText="Who are you?"
                             type="who"
                             fullWidth
                             value={this.state.who}
-                            // errorText={this.state.tel_error_text}
                             multiLine
                             rows={2}
                             rowsMax={6}
                             onChange={e => this.changeValue(e, 'who')}
                           />
-                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
                         </div>
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
-                            // hintText="What is your crypto origin story?"
                             floatingLabelText="What is your crypto origin story?"
                             type="origin"
                             fullWidth
                             value={this.state.origin}
-                            // errorText={this.state.tel_error_text}
                             multiLine
                             rows={2}
                             rowsMax={6}
                             onChange={e => this.changeValue(e, 'origin')}
                           />
-                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>Let newer crypto enthusiasts know what got you started.</Subheader>
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Let newer crypto enthusiasts know what got you started.</Subheader>
                         </div>
-
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
-                            // hintText="What excites you about blockchain technology?"
-                            floatingLabelText="What excites you about blockchain technology?"
+                            floatingLabelText="What excites you about blockchain tech?"
                             type="excites"
                             value={this.state.excites}
                             fullWidth
-                            // errorText={this.state.tel_error_text}
                             multiLine
                             rows={2}
                             rowsMax={6}
                             onChange={e => this.changeValue(e, 'excites')}
                           />
-                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
                         </div>
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
-                            // hintText="What can you help callers with?"
                             floatingLabelText="What can you help callers with?"
                             type="helps"
                             value={this.state.helps}
                             fullWidth
-                            // errorText={this.state.tel_error_text}
                             multiLine
                             rows={2}
                             rowsMax={6}
                             onChange={e => this.changeValue(e, 'helps')}
                           />
-                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
                         </div>
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
@@ -422,20 +415,49 @@ class EditProfile extends React.Component {
                             errorText={this.state.walletError}
                             onChange={e => this.changeValue(e, 'walletAddress')}
                           />
-                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
                         </div>
                         <div style={{ textAlign: 'left', paddingTop: '30px' }}>
                           <TextField
-                            floatingLabelText="What public url do you want for your profile?"
+                            floatingLabelText="Public URL"
                             type="url"
                             value={this.state.url}
-                            fullWidth
                             errorText={this.state.urlError}
-                            multiLine
                             onChange={e => this.changeValue(e, 'url')}
                           />
-                          <Subheader style={{ paddingLeft: '0px', marginTop: '-14px' }}>dimpull.com/expert/{this.state.url}</Subheader>
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>dimpull.com/expert/{this.state.url}</Subheader>
                         </div>
+                        <br />
+                        <h4>Optional social links</h4>
+                        <TextField
+                          floatingLabelText="Github URL"
+                          type="github"
+                          value={this.state.github}
+                          style={{ marginLeft: '2px', marginRight: '2px' }}
+                          onChange={e => this.changeValue(e, 'github')}
+                        />
+                        <TextField
+                          floatingLabelText="LinkedIn URL"
+                          type="linkedin"
+                          value={this.state.linkedin}
+                          style={{ marginLeft: '2px', marginRight: '2px' }}
+                          onChange={e => this.changeValue(e, 'linkedin')}
+                        />
+                        <br />
+                        <TextField
+                          floatingLabelText="Twitter URL"
+                          type="otherProfile"
+                          value={this.state.twitter}
+                          style={{ marginLeft: '2px', marginRight: '2px' }}
+                          onChange={e => this.changeValue(e, 'twitter')}
+                        />
+                        <TextField
+                          floatingLabelText="Medium URL"
+                          type="medium"
+                          value={this.state.medium}
+                          style={{ marginLeft: '2px', marginRight: '2px' }}
+                          onChange={e => this.changeValue(e, 'medium')}
+                        />
+                        <br />
                         {this.state.disabled && (
                           <RaisedButton
                             style={{ marginTop: 50, marginRight: '4px' }}
@@ -475,9 +497,8 @@ class EditProfile extends React.Component {
                 deleteProfile={() => this.deleteProfile()}
                 // title={title}
                 // subtitle={subtitle}
-                otherProfile={this.state.otherProfile}
+                // otherProfile={this.state.otherProfile}
                 edit
-                // linkToProfile={() => this.linkToProfile()}
               />
             </div>
           </div>

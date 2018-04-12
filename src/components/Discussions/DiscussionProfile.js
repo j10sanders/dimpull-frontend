@@ -52,17 +52,18 @@ class DiscussionProfile extends React.Component {
         this.setState({
           host: `${response.data.first_name} ${response.data.last_name}`,
           image: response.data.image,
-          // auth_image: response.data.auth_pic,
           description: response.data.description,
-          // anonymous_phone_number: response.data.anonymous_phone_number,
           is_users: response.data.is_users,
           price: response.data.price,
-          other_profile: response.data.otherProfile,
           needReview: response.data.needReview,
           origin: response.data.origin,
           who: response.data.who,
           excites: response.data.excites,
           helps: response.data.helps,
+          linkedin: response.data.linkedin,
+          medium: response.data.medium,
+          twitter: response.data.twitter,
+          github: response.data.github,
           dp: response.data.id,
         });
         if (response.data.reviewlist) {
@@ -134,24 +135,6 @@ class DiscussionProfile extends React.Component {
     // );
     //commented out because we don't need to link in seed profiles.
   return;
-  }
-
-  submit (e) {
-    const { isAuthenticated } = this.props.auth;
-    if (isAuthenticated()) {
-      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/editProfile${this.props.location.pathname}`, {
-        user_id: this.state.profile.sub,
-        description: this.state.description,
-        image_url: this.state.image,
-        otherProfile: this.state.otherProfile,
-        price: this.state.price,
-        timezone: this.state.timezone,
-        origin: this.state.origin,
-        who: this.state.who,
-        excites: this.state.excites,
-        helps: this.state.help
-      }).then(response => history.replace('/calendar'));
-    }
   }
 
   reviewed () {
@@ -267,6 +250,10 @@ class DiscussionProfile extends React.Component {
           email={this.state.email}
           changeEmail={e => this.changeEmail(e)}
           ok={ok}
+          linkedin={this.state.linkedin}
+          github={this.state.github}
+          twitter={this.state.twitter}
+          medium={this.state.medium}
         />
         {this.state.reviews &&
           <div id="Reviews" style={{ paddingTop: '30px' }}>

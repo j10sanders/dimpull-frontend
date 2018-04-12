@@ -10,7 +10,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
-// import IconButton from 'material-ui/IconButton';
+import IconButton from 'material-ui/IconButton';
 
 import './discussionprofile.css';
 
@@ -56,7 +56,10 @@ class ProfileCard extends React.Component {
                       </Dialog>
                     </div>
                   )}
-                  
+                  {this.props.github && <IconButton iconClassName="fab fa-github" href={this.props.github} /> }
+                  {this.props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" disabled={!this.props.linkedin} href={this.props.linkedin}/> }
+                  {this.props.twitter && <IconButton iconClassName="fab fa-twitter" disabled={!this.props.twitter} href={this.props.twitter} /> }
+                  {this.props.medium && <IconButton iconClassName="fab fa-medium-m" disabled={!this.props.medium} href={this.props.medium} /> }
                 </CardActions>
               </Card>
             )}
