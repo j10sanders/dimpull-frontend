@@ -34,7 +34,7 @@ class ProfileCard extends React.Component {
                 >
                   <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
                     {this.props.image && (
-                      <img src={this.props.image} alt={this.props.image} style={{ maxWidth: '100%' }} />
+                      <img src={this.props.image} alt={this.props.image} style={{ maxWidth: '100%', maxHeight: '500px' }} />
                     )}
                   </div>
                 </CardMedia>
