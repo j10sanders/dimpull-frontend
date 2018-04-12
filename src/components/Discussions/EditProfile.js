@@ -55,7 +55,7 @@ class EditProfile extends React.Component {
       excites: '',
       helps: '',
       walletAddress: '',
-      waiting: 'true',
+      waiting: true,
       open: false,
       linkedin: '',
       twitter: '',

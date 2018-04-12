@@ -6,6 +6,7 @@ import { List, ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
+import CircularProgress from 'material-ui/CircularProgress';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import history from '../../history';
@@ -22,7 +23,8 @@ class DiscussionProfile extends React.Component {
       open: false,
       etherPrice: '',
       email: '',
-      emailOpen: false
+      emailOpen: false,
+      waiting: true
     };
   }
 
@@ -66,6 +68,7 @@ class DiscussionProfile extends React.Component {
           github: response.data.github,
           dp: response.data.id,
         });
+        this.setState({ waiting: false });
         if (response.data.reviewlist) {
           this.setState({
             reviews: response.data.reviewlist,
@@ -223,38 +226,40 @@ class DiscussionProfile extends React.Component {
             auth={this.props.auth}
           />
         }
-        <ProfileCard
-          host={this.state.host}
-          description={this.state.description}
-          image={this.state.image}
-          who={this.state.who}
-          origin={this.state.origin}
-          excites={this.state.excites}
-          helps={this.state.helps}
-          open={this.state.open}
-          search={this.props.location.search}
-          name={this.props.location.pathname.split('/').pop().trim()} // get the last part of expert/jon
-          handleClose={() => this.handleClose()}
-          deleteProfile={() => this.deleteProfile()}
-          title={title}
-          subtitle={subtitle}
-          otherProfile={this.state.otherProfile}
-          linkToProfile={() => this.linkToProfile()}
-          actions={actions}
-          is_users={this.state.is_users}
-          dp={this.state.dp}
-          handleOpen={() => this.handleOpen()}
-          getEmail={() => this.getEmail()}
-          emailOpen={this.state.emailOpen}
-          emailClose={() => this.emailClose()}
-          email={this.state.email}
-          changeEmail={e => this.changeEmail(e)}
-          ok={ok}
-          linkedin={this.state.linkedin}
-          github={this.state.github}
-          twitter={this.state.twitter}
-          medium={this.state.medium}
-        />
+        {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
+          <ProfileCard
+            host={this.state.host}
+            description={this.state.description}
+            image={this.state.image}
+            who={this.state.who}
+            origin={this.state.origin}
+            excites={this.state.excites}
+            helps={this.state.helps}
+            open={this.state.open}
+            search={this.props.location.search}
+            name={this.props.location.pathname.split('/').pop().trim()} // get the last part of expert/jon
+            handleClose={() => this.handleClose()}
+            deleteProfile={() => this.deleteProfile()}
+            title={title}
+            subtitle={subtitle}
+            otherProfile={this.state.otherProfile}
+            linkToProfile={() => this.linkToProfile()}
+            actions={actions}
+            is_users={this.state.is_users}
+            dp={this.state.dp}
+            handleOpen={() => this.handleOpen()}
+            getEmail={() => this.getEmail()}
+            emailOpen={this.state.emailOpen}
+            emailClose={() => this.emailClose()}
+            email={this.state.email}
+            changeEmail={e => this.changeEmail(e)}
+            ok={ok}
+            linkedin={this.state.linkedin}
+            github={this.state.github}
+            twitter={this.state.twitter}
+            medium={this.state.medium}
+          />
+        )}
         {this.state.reviews &&
           <div id="Reviews" style={{ paddingTop: '30px' }}>
             <h1> Reviews </h1>
