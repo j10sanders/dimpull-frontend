@@ -472,7 +472,7 @@ class EditProfile extends React.Component {
           </div>
           <div className="col-md-6 col-md-offset-0">
             <div style={{ marginTop: '50px' }} >
-              <div style={{ marginBottom: !this.state.image && '64px', paddingLeft: '34px' }}>
+              <div>
                 <h2> Preview: </h2>
               </div>
               <ProfileCard
