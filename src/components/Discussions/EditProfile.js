@@ -208,17 +208,34 @@ class EditProfile extends React.Component {
   }
 
   async submit (e) {
-    debugger;
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {};
     if (isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
     }
     if (!this.state.url || this.state.url.length === 0) {
       this.setState({ urlError: 'Enter a url' });
       return;
     }
+    const urls = {
+      github: this.state.github,
+      twitter: this.state.twitter,
+      linkedin: this.state.linkedin,
+      medium: this.state.medium
+    };
+
+    const httpsUrls = {};
+
+    Object.keys(urls).map(function(key, index) {
+      if (!/^https?:\/\//i.test(urls[key]) && urls[key] !== '' && urls[key] !== ' ') {
+        httpsUrls[key] = 'https://' + urls[key];
+      } else {
+        httpsUrls[key] = urls[key]
+      }
+      return httpsUrls;
+    });
+
     const urlvalid = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/urlcheck/${this.state.url}`, { headers });
     if (urlvalid.data === 'available') {
       if (isAuthenticated()) {
@@ -235,10 +252,10 @@ class EditProfile extends React.Component {
           who: this.state.who,
           url: this.state.url,
           walletAddress: this.state.walletAddress,
-          linkedin: this.state.linkedin,
-          medium: this.state.medium,
-          twitter: this.state.twitter,
-          github: this.state.github
+          linkedin: httpsUrls['linkedin'],
+          medium: httpsUrls['medium'],
+          twitter: httpsUrls['twitter'],
+          github: httpsUrls['github']
         }, { headers });
         if (posted.data === 'success') {
           this.setState({ open: true });

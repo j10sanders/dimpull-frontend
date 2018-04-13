@@ -64,7 +64,7 @@ class Home extends React.Component {
             <div className="col-sm-6">
               <div id="head">
                 <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
-                <h3 id="h3exchange">Connect with new crypto traders and get paid for your time</h3>
+                <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
                 <h3 id="h3exchange">Guaranteed by the Ethereum blockchain</h3>
                 {!isAuthenticated() && (
                   <RaisedButton
@@ -151,7 +151,7 @@ class Home extends React.Component {
         <div>
           <h2 style={{ marginBottom: '20px' }}> Are You an Expert? </h2>
           <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
-            so you can start connecting with Crypto enthusiasts.
+            so you can start connecting with crypto enthusiasts.
           </p>
           {!isAuthenticated() && (
             <RaisedButton
@@ -178,7 +178,7 @@ class Home extends React.Component {
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
           <Paper id="email" zDepth={0} style={{ backgroundColor: '#efefef' }}>
             <h2 style={{ marginBottom: '20px', paddingTop: '35px' }}> Ready to Connect with an Expert? </h2>
-            <p id="pRegister">Dimpull will be live in the next couple weeks.  To find out when it's ready, leave your email below (we promise no spam):
+            <p id="pRegister">Dimpull will be live in the next couple weeks.  To be notified of our launch, leave your email below (we promise no spam):
             </p>
             {!this.state.emailSubmitted ? (
               <div style={{ paddingBottom: '50px' }}>
