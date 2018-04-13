@@ -92,7 +92,7 @@ class DiscussionProfile extends React.Component {
     if (isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}` };
     }
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/deleteDiscussion${this.props.location.search}`, { headers })
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/deleteDiscussion/${this.state.dp}`, { headers })
       .then((response) => {
         this.handleClose();
         history.replace('/discussions');

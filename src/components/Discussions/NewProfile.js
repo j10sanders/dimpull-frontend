@@ -184,7 +184,7 @@ class newProfile extends React.Component {
         { headers }
       );
       if (response.data.dp) {
-        history.replace(`/expert/${response.data.url}`);
+        history.replace(`/editProfile/${response.data.url}`);
       } else {
         this.setState({ waiting: false });
         return;
