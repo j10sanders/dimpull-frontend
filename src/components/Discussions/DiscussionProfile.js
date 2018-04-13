@@ -213,7 +213,7 @@ class DiscussionProfile extends React.Component {
         </div>
       );
     }
-
+    
     return (
       <div style={{ paddingBottom: '10px' }}>
         {this.state.thanks && (
