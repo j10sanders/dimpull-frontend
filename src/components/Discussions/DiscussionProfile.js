@@ -33,14 +33,18 @@ class DiscussionProfile extends React.Component {
     const { getAccessToken } = this.props.auth;
     let headers = {};
     if (isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+      headers = { Authorization: `Bearer ${getAccessToken()}`};
     }
     this.getDiscussion(headers);
   }
 
   getDiscussion (headers) {
     this.etherPrice();
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, { headers })
+    let requestUrl = this.props.location.pathname;
+    if (!requestUrl.startsWith('/expert')) {
+      requestUrl = `/expert${this.props.location.pathname}`;
+    }
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${requestUrl}`, { headers })
       .then((response) => {
         if (response.data === 'not an expert yet') {
           this.setState({ notExpert: true });
@@ -49,6 +53,9 @@ class DiscussionProfile extends React.Component {
           return;
         } else if (response.data === 'editProfile') {
           history.push(`/editProfile${this.props.location.pathname}`);
+        } else if (response.data === 404) {
+          this.setState({ four0four: true });
+          return;
         }
         this.etherPrice();
         this.setState({
@@ -213,7 +220,11 @@ class DiscussionProfile extends React.Component {
         </div>
       );
     }
-    
+
+    if (this.state.four0four) {
+      return <div>404 - this page does not exist</div>
+    }
+
     return (
       <div style={{ paddingBottom: '10px' }}>
         {this.state.thanks && (

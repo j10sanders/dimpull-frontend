@@ -34,14 +34,17 @@ class Routes extends Component {
 					<AsyncHeader />
 					<div
 						className="container"
-                        style={{ paddingBottom: '65px',
-                        		marginTop: '64px',
-	                        // height: '100%',
-	                        // minHeight: '88vh'
-                        }}
-                  	>
+            style={{ 
+            	paddingBottom: '65px',
+              marginTop: '64px',
+                // height: '100%',
+                // minHeight: '88vh'
+              }}
+        	>
+        	
+        	
 						<Switch>
-							<Route exact path="/" render={(props) => <AsyncHome auth={auth} {...props} />} />
+						<Route exact path="/" render={(props) => <AsyncHome auth={auth} {...props} />} />
 							<Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
 							<Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
 						    <Route exact path="/discussions" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
@@ -60,6 +63,7 @@ class Routes extends Component {
 					              <AsyncProfile auth={auth} {...props} />
 					            )
 					          )} />
+						    <Route path="*" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
 						    <Route path="/callback" render={(props) => {
 					          handleAuthentication(props);
 					          return <Callback {...props} /> 
