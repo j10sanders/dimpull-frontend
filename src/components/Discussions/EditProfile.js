@@ -116,7 +116,9 @@ class EditProfile extends React.Component {
         twitter: response.data.twitter,
         github: response.data.github,
         medium: response.data.medium,
-        walletAddress: response.data.walletAddress ? response.data.walletAddress : ''
+        walletAddress: response.data.walletAddress ? response.data.walletAddress : '',
+        first_name: response.data.first_name,
+        last_name: response.data.last_name
       }, () => this.isDisabled());
     } else {
       this.setState({ title: "Looks like a different user's profile.  Please contact admin@dimpull.com if you are sure you logged in with the same profile", open: true });
@@ -283,22 +285,12 @@ class EditProfile extends React.Component {
                       <h2>Fill Out Your Expert Profile:</h2>
                       {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
                         <div className="col-md-12">
-                          {this.state.profile.given_name && (
-                            <TextField
-                              hintText={`${this.state.profile.given_name} ${this.state.profile.family_name}`}
-                              type="name"
-                              disabled
-                              fullWidth
-                            />
-                          )}
-                          {(!this.state.profile.given_name && this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`]) && (
-                            <TextField
-                              hintText={`${this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`].given_name} ${this.state.profile[`${process.env.REACT_APP_AUTH0_DOMAIN}`].family_name}`}
-                              type="name"
-                              disabled
-                              fullWidth
-                            />
-                          )}
+                          <TextField
+                            hintText={`${this.state.first_name} ${this.state.last_name}`}
+                            type="name"
+                            disabled
+                            fullWidth
+                          />
                           <div style={{ color: this.state.image ? 'black' : 'red', paddingTop: '20px' }}>
                             <Dropzone
                               multiple={false}
@@ -484,7 +476,7 @@ class EditProfile extends React.Component {
                 <h2> Preview: </h2>
               </div>
               <ProfileCard
-                host={this.state.profile.given_name ? `${this.state.profile.given_name} ${this.state.profile.family_name}` : ' '}
+                host={this.state.first_name ? `${this.state.first_name} ${this.state.last_name}` : ' '}
                 image={this.state.image}
                 description={this.state.description ? this.state.description : ' '}
                 who={this.state.who ? this.state.who : ' '}
