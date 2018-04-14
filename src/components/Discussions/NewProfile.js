@@ -217,7 +217,7 @@ class newProfile extends React.Component {
     const country = allCountries.getCountryCodeByCountryName(this.state.country);
     try {
       number = phoneUtil.parse(this.state.tel, country);
-    } catch(error){
+    } catch (error){
     }
     if (this.state.tel === '' || !this.state.tel) {
       this.setState({
