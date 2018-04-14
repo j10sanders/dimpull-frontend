@@ -269,7 +269,7 @@ class newProfile extends React.Component {
           auth_pic: this.state.profile.picture
         }, { headers }
       );
-      if (user) {
+      if (user) { //To do - handle error!
         if (user.data === 'Phone number already in use.') {
           this.setState({
             title: `The phone number ${this.state.tel} is already in use. Please log into that profile or contact admin@dimpull.com`
@@ -331,8 +331,7 @@ class newProfile extends React.Component {
             <Paper style={style}>
               <div className="text-center">
                 <h2>Become a Dimpull Expert</h2>
-                <div className="col-md-12">
-                  
+                <div className="col-md-12"> 
                   {(this.state.first_name && this.state.last_name) && (
                     <TextField
                       defaultValue={`${this.state.first_name} ${this.state.last_name}`}
@@ -343,7 +342,7 @@ class newProfile extends React.Component {
                       onChange={e => this.changeValue(e, 'name')}
                     />
                   )}
-                  {(this.state.first_name && this.state.last_name) && (
+                  {(!this.state.first_name && this.state.last_name) && (
                     <TextField
                       defaultValue={`${this.state.first_name} ${this.state.last_name}`}
                       type="name"
