@@ -41,8 +41,6 @@ class Routes extends Component {
                 // minHeight: '88vh'
               }}
         	>
-        	
-        	
 						<Switch>
 						<Route exact path="/" render={(props) => <AsyncHome auth={auth} {...props} />} />
 							<Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
@@ -63,11 +61,12 @@ class Routes extends Component {
 					              <AsyncProfile auth={auth} {...props} />
 					            )
 					          )} />
-						    <Route path="*" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
+						    
 						    <Route path="/callback" render={(props) => {
 					          handleAuthentication(props);
 					          return <Callback {...props} /> 
 					        }}/>
+					      <Route path="*" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
 					    </Switch>
 				    </div>
 				</div>
