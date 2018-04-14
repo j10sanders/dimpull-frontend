@@ -30,7 +30,7 @@ const style = {
 
 const dropzoneStyle = {
   width: '100%',
-  height: '80px',
+  height: '100px',
   border: '1px solid black',
   cursor: 'pointer'
 };
@@ -308,7 +308,7 @@ class EditProfile extends React.Component {
                             disabled
                             fullWidth
                           />
-                          <div style={{ color: this.state.image ? 'black' : 'red', paddingTop: '20px' }}>
+                          <div style={{ color: this.state.image ? 'black' : 'red', width: '50%', margin: 'auto', height: '100px', paddingTop: '30px', marginBottom: '30px'}}>
                             <Dropzone
                               multiple={false}
                               accept="image/*"
@@ -433,7 +433,7 @@ class EditProfile extends React.Component {
                             errorText={this.state.urlError}
                             onChange={e => this.changeValue(e, 'url')}
                           />
-                          <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>dimpull.com/expert/{this.state.url}</Subheader>
+                          <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>dimpull.com/{this.state.url}</Subheader>
                         </div>
                         <br />
                         <h4>Optional social links</h4>
