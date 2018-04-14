@@ -344,7 +344,6 @@ class newProfile extends React.Component {
                   )}
                   {(!(this.state.first_name && this.state.last_name)) && (
                     <TextField
-                      defaultValue={`${this.state.first_name} ${this.state.last_name}`}
                       type="name"
                       style={textStyle}
                       // fullWidth={true}
