@@ -139,11 +139,11 @@ class newProfile extends React.Component {
           last_name: userProfile.name.split(' ').slice(-1).join(' ')
         });
       } else {
-        this.setState({
-          hasName: true,
-          first_name: '',
-          last_name: ''
-        });
+        // this.setState({
+        //   // hasName: true,
+        //   first_name: '',
+        //   last_name: ''
+        // });
       }
     }
   }
