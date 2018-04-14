@@ -333,7 +333,7 @@ class newProfile extends React.Component {
               <div className="text-center">
                 <h2>Become a Dimpull Expert</h2>
                 <div className="col-md-12"> 
-                  {(this.state.first_name && this.state.last_name) && (
+                  {(this.state.hasName) && (
                     <TextField
                       defaultValue={`${this.state.first_name} ${this.state.last_name}`}
                       type="name"
