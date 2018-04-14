@@ -48,7 +48,8 @@ class newProfile extends React.Component {
       waiting: true,
       tel: '',
       pnf: '',
-      country: 'United States'
+      country: 'United States',
+      hasName: false
     };
   }
 
@@ -81,7 +82,7 @@ class newProfile extends React.Component {
   getNames (name) {
     if (name) {
       this.setState({
-        hasName: true,
+        hasName: false,
         first_name: name.split(' ').slice(0, -1).join(' '),
         last_name: name.split(' ').slice(-1).join(' ')
       });
@@ -342,7 +343,7 @@ class newProfile extends React.Component {
                       onChange={e => this.changeValue(e, 'name')}
                     />
                   )}
-                  {(!(this.state.first_name && this.state.last_name)) && (
+                  {(!this.state.hasName) && (
                     <TextField
                       type="name"
                       style={textStyle}
