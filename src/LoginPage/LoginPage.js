@@ -97,19 +97,19 @@ class LoginPage extends React.Component {
         {
           isAuthenticated() && (
             <div>
-              {this.state.first_name.length > 0 && (
-                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+              <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                {this.state.first_name.length > 0 && (
                   <h4>
                     {this.state.first_name}, you are logged in.
                   </h4>
-                </div>
-              )}
-              <RaisedButton
-                primary
-                style={{ marginTop: 10 }}
-                label="Log Out?"
-                onClick={this.logout.bind(this)}
-              />
+                )}
+                <RaisedButton
+                  primary
+                  style={{ marginTop: 10 }}
+                  label="Log Out?"
+                  onClick={this.logout.bind(this)}
+                />
+              </div>
             </div>
           )
         }
