@@ -342,7 +342,7 @@ class newProfile extends React.Component {
                       onChange={e => this.changeValue(e, 'name')}
                     />
                   )}
-                  {(!this.state.first_name && this.state.last_name) && (
+                  {(!(this.state.first_name && this.state.last_name)) && (
                     <TextField
                       defaultValue={`${this.state.first_name} ${this.state.last_name}`}
                       type="name"
