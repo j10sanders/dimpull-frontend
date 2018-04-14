@@ -101,7 +101,7 @@ class EditProfile extends React.Component {
 
   async fillForms (headers) {
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, { headers });
-    if (response.data !== "Not this user's") {
+    if (response.data !== "Not this user's" && response.data !== 404) {
       this.setState({
         price: response.data.price ? response.data.price : 50,
         image: response.data.image_url ? response.data.image_url : '',
@@ -121,7 +121,7 @@ class EditProfile extends React.Component {
         last_name: response.data.last_name
       }, () => this.isDisabled());
     } else {
-      this.setState({ title: "Looks like a different user's profile.  Please contact admin@dimpull.com if you are sure you logged in with the same profile", open: true });
+      this.setState({ title: "Doesn't look like your profile.  Please contact admin@dimpull.com if you are sure you logged in with the same profile", open: true });
     }
   }
 
