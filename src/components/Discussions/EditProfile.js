@@ -494,7 +494,7 @@ class EditProfile extends React.Component {
               </div>
               <ProfileCard
                 host={this.state.first_name ? `${this.state.first_name} ${this.state.last_name}` : ' '}
-                image={this.state.image ? this.state.image : 'http://res.cloudinary.com/dtvc9q04c/image/upload/v1523630798/grey.jpg'}
+                image={this.state.image ? this.state.image : 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1523630798/grey.jpg'}
                 description={this.state.description ? this.state.description : ' '}
                 who={this.state.who}
                 origin={this.state.origin}
