@@ -31,25 +31,21 @@ const textStyle = {
   width: '80%'
 };
 
+const thanks = `Thanks!  We will review your application right away. In the meantime,
+  feel free to fill out your profile.  It will only be public once you've been verified by the Dimpull admins.`;
+
 class newProfile extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      title: 'Thanks for your application.  We will get back to you shortly!',
-      // price_error_text: null,
+      title: thanks,
       tel_error_text: null,
-      // description: '',
-      // image: '',
       otherProfile: '',
-      // price: '',
       disabled: true,
-      // timezone: '',
-      // etherPrice: '',
       email: '',
       message: '',
       open: false,
       waiting: true,
-      // who: '',
       tel: '',
       pnf: '',
       country: 'United States'
@@ -262,7 +258,7 @@ class newProfile extends React.Component {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
-      const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+      const headers = { Authorization: `Bearer ${getAccessToken()}` };
       const user = await axios.post(
         `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
         {
@@ -280,20 +276,20 @@ class newProfile extends React.Component {
           });
         } else {
           try {
-            await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
+            const editUrl = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
               {
-                // user_id: this.state.profile.sub,
-                // description: this.state.description,
-                // image_url: this.state.image,
                 otherProfile: this.state.otherProfile,
-                // price: this.state.price,
-                // timezone: this.state.timezone,
                 email: this.state.email,
-                message: this.state.message,
-                // who: this.state.who,
+                message: this.state.message
               }, { headers }
             );
-          } catch(err) {
+            this.setState({ editUrl: editUrl.data });
+          } catch (err) { // TODO: error handling
+            await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
+              {
+                err: err,
+                email: this.state.email
+              });
             history.push('/');
           }
         }
@@ -307,16 +303,9 @@ class newProfile extends React.Component {
     }
   }
 
-  handleOpen (evt) {
-    this.setState({
-      open: true,
-      event: evt
-    });
-  }
-
   handleClose () {
     this.setState({ open: false });
-    history.replace('/');
+    history.replace(`/editProfile/${this.state.editUrl}`);
   }
 
   selectCountry (event, index, value) {
@@ -327,7 +316,7 @@ class newProfile extends React.Component {
     const { isAuthenticated } = this.props.auth;
     const actions = [
       <FlatButton
-        label="Sounds good"
+        label="Edit full profile"
         primary
         onClick={() => this.handleClose()}
       />
@@ -338,7 +327,7 @@ class newProfile extends React.Component {
       <div>
         <CircularProgress style={{ display: waiting }} size={80} thickness={5} />
         {isAuthenticated() && (
-          <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)} style={{display: display}}>
+          <div className="col-md-6 col-md-offset-3" style={{ display }}>
             <Paper style={style}>
               <div className="text-center">
                 <h2>Become a Dimpull Expert</h2>
@@ -351,7 +340,7 @@ class newProfile extends React.Component {
                       style={textStyle}
                       // fullWidth={true}
                       floatingLabelText="First and last name"
-                      onChange={(e) => this.changeValue(e, 'name')}
+                      onChange={e => this.changeValue(e, 'name')}
                     />
                   )}
                   <TextField
