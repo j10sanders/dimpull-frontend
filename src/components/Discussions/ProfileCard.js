@@ -136,9 +136,6 @@ class ProfileCard extends React.Component {
             {!this.props.host && (
               <CircularProgress size={80} thickness={5} />
             )}
-            {!this.props.edit && (
-              <Subheader inset style={{ paddingTop: '10px', lineHeight: 'inherit', paddingLeft: '0px' }}>This is an example profile while we prepare our first group of experts</Subheader>
-            )}
           </div>
         </div>
       </div>
