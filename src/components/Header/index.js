@@ -28,6 +28,13 @@ class Header extends Component {
     });
   }
 
+            // <MenuItem
+            //   containerElement={<Link to="/discussions" />}
+            //   onClick={() => this.setState({ open: false })}
+            // >
+            //     Meet the Experts
+            // </MenuItem>
+            
   render () {
     return (
       <header>
@@ -49,12 +56,7 @@ class Header extends Component {
             >
                 Login
             </MenuItem>
-            <MenuItem
-              containerElement={<Link to="/discussions" />}
-              onClick={() => this.setState({ open: false })}
-            >
-                Meet the Experts
-            </MenuItem>
+
           </div>
         </Drawer>
         <AppBar

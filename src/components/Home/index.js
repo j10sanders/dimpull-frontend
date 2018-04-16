@@ -73,7 +73,7 @@ class Home extends React.Component {
                     secondary
                     labelStyle={{ fontSize: '18px' }}
                     style={{
-                      marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth:'300px', minWidth: '255px'
+                      marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px'
                     }}
                   />
                 )}
@@ -83,7 +83,7 @@ class Home extends React.Component {
                     label="Become a Dimpull Expert"
                     secondary
                     style={{
-                      marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '230px', minWidth: '175px' 
+                      marginTop: '40px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '230px', minWidth: '175px'
                     }}
                   />
                 )}
