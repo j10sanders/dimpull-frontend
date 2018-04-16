@@ -154,14 +154,14 @@ class EditProfile extends React.Component {
       this.setState({
         priceErrorText: null
       });
-    } else if (!isNaN(this.state.price) && Number(this.state.price) > 0) {
+    } else if (!isNaN(this.state.price) && Number(this.state.price) > 5) {
       priceIsValid = true;
       this.setState({
         priceErrorText: null
       });
     } else {
       this.setState({
-        priceErrorText: 'Enter a valid number, greater than 0'
+        priceErrorText: 'Enter a valid number, greater than $5'
       });
     }
     if (this.state.description && this.state.image) {
