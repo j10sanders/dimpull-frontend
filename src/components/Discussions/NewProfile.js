@@ -235,7 +235,7 @@ class newProfile extends React.Component {
         tel_error_text: 'Enter a valid phone number'
       });
     }
-    if (telIsValid && this.state.message.length !== 0 && this.state.otherProfile.length !== 0) {
+    if (telIsValid && this.state.otherProfile.length !== 0) {
       this.setState({
         disabled: false
       });
@@ -254,6 +254,7 @@ class newProfile extends React.Component {
   }
 
   async submit () {
+    const message = this.state.message ? this.state.message : 'empty'
     // e.preventDefault();
     this.setState({ waiting: true });
     const { isAuthenticated } = this.props.auth;
@@ -281,7 +282,7 @@ class newProfile extends React.Component {
               {
                 otherProfile: this.state.otherProfile,
                 email: this.state.email,
-                message: this.state.message
+                message: message
               }, { headers }
             );
             this.setState({ editUrl: editUrl.data });

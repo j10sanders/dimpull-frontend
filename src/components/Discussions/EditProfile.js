@@ -88,7 +88,7 @@ class EditProfile extends React.Component {
     const { getAccessToken } = this.props.auth;
     let headers = {};
     if (isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
     } else {
       history.push('/');
     }
