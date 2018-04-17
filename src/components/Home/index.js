@@ -1,9 +1,7 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -24,20 +22,10 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    if (isAuthenticated()) {
-      const headers = { Authorization: `Bearer ${getAccessToken()}` };
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
-        .then(response =>
-          this.setState({ dps: response.data.slice(0, 4) }))
-        .catch(error => console.log(error));
-    } else {
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
-        .then(response =>
-          this.setState({ dps: response.data.slice(0, 4) }))
-        .catch(error => console.log(error));
-    }
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
+      .then(response =>
+        this.setState({ dps: response.data.slice(0, 4) }))
+      .catch(error => console.log(error));
   }
 
   changeEmail (e) {
@@ -103,7 +91,7 @@ class Home extends React.Component {
                         key={dp.id}
                         title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
                         subtitle={dp.description}
-                        actionIcon={<IconButton></IconButton>}
+                        // actionIcon={<IconButton></IconButton>}
                       >
                         <img src={dp.image} alt={dp.id} />
                       </GridTile>

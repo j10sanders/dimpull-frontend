@@ -1,5 +1,4 @@
 import React from 'react';
-import Subheader from 'material-ui/Subheader';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -39,7 +38,6 @@ class ProfileCard extends React.Component {
                     )}
                   </div>
                 </CardMedia>
-                
                 <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
                   {this.props.is_users && (
                     <div>
