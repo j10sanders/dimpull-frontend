@@ -170,7 +170,7 @@ class EditProfile extends React.Component {
     if (this.state.description && this.state.image) {
       if (this.state.description.length !== 0 &&
         this.state.image.length !== 0 &&
-        priceIsValid && validWallet) {
+        priceIsValid && validWallet && this.state.url.length !== 0) {
         this.setState({
           disabled: false,
           title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.'
@@ -473,7 +473,7 @@ class EditProfile extends React.Component {
                         {this.state.disabled && (
                           <RaisedButton
                             style={{ marginTop: 50, marginRight: '4px' }}
-                            label="Not done?  Save for later."
+                            label="Not done?  Save for your edits for later"
                             onClick={e => this.submit(e)}
                           />
                         )}
@@ -511,12 +511,21 @@ class EditProfile extends React.Component {
                 github={this.state.github}
                 medium={this.state.medium}
                 linkedin={this.state.linkedin}
-                // title={title}
-                // subtitle={subtitle}
-                // otherProfile={this.state.otherProfile}
                 edit
               />
+              {this.state.disabled && (
+                <div style={{ paddingLeft: '15px' }} >
+              <RaisedButton
+                style={{ marginLeft: '10%' }}
+                label="Haven't finished?  Save your edits for later"
+                onClick={e => this.submit(e)}
+                primary
+              />
+              </div>
+            )}
+            
             </div>
+            
           </div>
         </div>
         <Dialog
