@@ -180,6 +180,11 @@ class newProfile extends React.Component {
         `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
         { headers }
       );
+      // check path to see if there is a ref code
+      const pathName = this.props.location.pathname;
+      if (pathName.substr(pathName.length - 8) !== 'newProfile') {
+        
+      }
       if (response.data.dp) {
         history.replace(`/editProfile/${response.data.url}`);
       } else {
@@ -271,7 +276,7 @@ class newProfile extends React.Component {
           auth_pic: this.state.profile.picture
         }, { headers }
       );
-      if (user) { //To do - handle error!
+      if (user) {
         if (user.data === 'Phone number already in use.') {
           this.setState({
             title: `The phone number ${this.state.tel} is already in use. Please log into that profile or contact admin@dimpull.com`
@@ -286,10 +291,10 @@ class newProfile extends React.Component {
               }, { headers }
             );
             this.setState({ editUrl: editUrl.data });
-          } catch (err) { // TODO: error handling
+          } catch (err) {
             await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
               {
-                err: err,
+                err: err.message,
                 email: this.state.email
               });
             history.push('/');
