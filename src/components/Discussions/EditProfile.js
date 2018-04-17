@@ -139,8 +139,11 @@ class EditProfile extends React.Component {
         console.error(err);
       }
       if (response.body.secure_url !== '') {
+        const image = response.body.secure_url;
+        const n = image.indexOf('upload');
+        const scaledImage = `${image.substring(0, n + 7)}c_scale,h_595/${image.substring(n + 7)}`;
         this.setState({
-          image: response.body.secure_url
+          image: scaledImage
         });
       }
     });
