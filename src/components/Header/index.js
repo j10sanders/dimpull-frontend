@@ -63,11 +63,11 @@ class Header extends Component {
           style={{ position: 'fixed' }}
           title={
             <img
-              src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1520111213/dimpullgif.gif"
+              src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,w_120/v1523982285/Dimpull_LogoName_wg.png"
               style={{
                 cursor: 'pointer',
-                width: '120px',
-                height: 'auto',
+                // width: '120px',
+                // height: 'auto',
                 imageRendering: 'crisp-edges'
               }}
               alt="logo"
