@@ -167,6 +167,11 @@ class EditProfile extends React.Component {
         priceErrorText: 'Enter a valid number, greater than $5'
       });
     }
+    if (this.state.url.length !== 0 && this.state.url && this.state.url.trim()) {
+      this.setState({ urlError: null });
+    } else {
+      this.setState({ urlError: 'enter a URL' });
+    }
     if (this.state.description && this.state.image) {
       if (this.state.description.length !== 0 &&
         this.state.image.length !== 0 &&

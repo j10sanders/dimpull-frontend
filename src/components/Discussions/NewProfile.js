@@ -12,6 +12,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 // import { timezones } from '../../timezones/timezones';
 import history from '../../history';
+import './discussionprofile.css';
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -49,16 +50,16 @@ class newProfile extends React.Component {
       tel: '',
       pnf: '',
       country: 'United States',
-      hasName: false
+      hasName: false,
+      codeAccepted: false,
     };
   }
 
   componentWillMount () {
     const { isAuthenticated } = this.props.auth;
-    if (! isAuthenticated()) {
-      this.props.auth.login('/newProfile');
+    if (!isAuthenticated()) {
+      this.props.auth.login(this.props.location.pathname);
     }
-    this.checkRegistered();
   }
 
   componentDidMount () {
@@ -72,11 +73,12 @@ class newProfile extends React.Component {
     }
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
       .then((response) => {
-        this.setState({ expert: response.data.expert, tel: response.data.phone_number })
+        this.setState({ expert: response.data.expert, tel: response.data.phone_number });
       })
       .catch(function (error) {
         console.log(error)
-    });
+      });
+    this.checkRegistered();
   }
 
   getNames (name) {
@@ -182,13 +184,17 @@ class newProfile extends React.Component {
       );
       // check path to see if there is a ref code
       const pathName = this.props.location.pathname;
-      if (pathName.substr(pathName.length - 8) !== 'newProfile') {
+      if (pathName.substr(pathName.length - 10) !== 'newProfile' || pathName.substr(pathName.length - 11) !== 'newProfile/') {
         if (!response.data.dp) {
-          // TODO send an axios request to add referral code
-          const response = await axios.get(
-            `${process.env.REACT_APP_USERS_SERVICE_URL}/`,
+          const referred = await axios.get(
+            `${process.env.REACT_APP_USERS_SERVICE_URL}/addReferent/${pathName.substr(pathName.length - 7)}`,
             { headers }
           );
+          if (referred.data === 'referral code accepted') {
+            this.setState({ codeAccepted: true });
+          } else if (referred.data === `referral code doesn't exist`) {
+            this.setState({ noCode: true });
+          }
         }
       }
       if (response.data.dp) {
@@ -308,9 +314,25 @@ class newProfile extends React.Component {
               {
                 err: err.message,
                 email: this.state.email
-              });
+              }
+            );
             history.push('/');
           }
+        }
+      }
+      if (this.state.codeAccepted) {
+        const pathName = this.props.location.pathname;
+        const referred = await axios.get(
+          `${process.env.REACT_APP_USERS_SERVICE_URL}/addReferent/${pathName.substr(pathName.length - 7)}`,
+          { headers }
+        );
+        if (referred.data !== "applied") {
+          await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
+            {
+              err: 'referral failed',
+              email: this.state.email
+            }
+          );
         }
       }
       this.setState({
@@ -347,10 +369,22 @@ class newProfile extends React.Component {
         <CircularProgress style={{ display: waiting }} size={80} thickness={5} />
         {isAuthenticated() && (
           <div className="col-md-6 col-md-offset-3" style={{ display }}>
+            {this.state.codeAccepted && (
+              <div id="referralAccepted">
+                Referral code accepted.
+                {' '}Get an extra $5 (in ETH) when you complete your first paid call.
+              </div>
+            )}
+            {this.state.noCode && (
+              <div id="noCode">
+                Referral Code isn't valid.
+                {' '}Make sure link was entered correctly, or continue with signup process and contact admin@dimpull.com
+              </div>
+            )}
             <Paper style={style}>
               <div className="text-center">
                 <h2>Become a Dimpull Expert</h2>
-                <div className="col-md-12"> 
+                <div className="col-md-12">
                   {(this.state.hasName) && (
                     <TextField
                       defaultValue={`${this.state.first_name} ${this.state.last_name}`}

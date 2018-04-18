@@ -80,3 +80,18 @@
 #editSection {
   margin-bottom: 40px;
 }
+
+#referralAccepted {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: green;
+}
+
+#noCode {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+}

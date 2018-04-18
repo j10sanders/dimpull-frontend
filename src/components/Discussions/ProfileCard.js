@@ -10,7 +10,6 @@ import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-
 import './discussionprofile.css';
 
 class ProfileCard extends React.Component {
