@@ -233,7 +233,8 @@ class newProfile extends React.Component {
     }
     if (this.state.tel === '' || !this.state.tel) {
       this.setState({
-        tel_error_text: null
+        tel_error_text: null,
+        disabled: true
       });
     } else if (this.noExcepetion(number)) {
       this.setState({
@@ -241,15 +242,20 @@ class newProfile extends React.Component {
         pnf: number
       });
       telIsValid = true;
+    } else if (this.state.email.length === 0) {
+      this.setState({ disabled: true });
     } else {
       this.setState({
-        tel_error_text: 'Enter a valid phone number'
+        tel_error_text: 'Enter a valid phone number',
+        disabled: true
       });
     }
-    if (telIsValid && this.state.otherProfile.length !== 0) {
+    if (telIsValid && this.state.otherProfile.length !== 0 && this.state.email.length !== 0) {
       this.setState({
         disabled: false
       });
+    } else {
+      this.setState({ disabled: true });
     }
   }
 
@@ -265,7 +271,7 @@ class newProfile extends React.Component {
   }
 
   async submit () {
-    const message = this.state.message ? this.state.message : 'empty'
+    const message = this.state.message ? this.state.message : 'empty';
     // e.preventDefault();
     this.setState({ waiting: true });
     const { isAuthenticated } = this.props.auth;
@@ -412,7 +418,7 @@ class newProfile extends React.Component {
                     errorText={this.state.tel_error_text}
                     onChange={e => this.changeValue(e, 'tel')}
                     style={textStyle}
-                    value={this.state.tel}
+                    // value={this.state.tel}
                   />
                 </div>
                 <RaisedButton

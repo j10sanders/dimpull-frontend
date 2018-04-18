@@ -62,75 +62,77 @@ class ProfileCard extends React.Component {
               </Card>
             )}
           </div>
-          <div className="col-md-6" id="profile" style={{ width: this.props.edit && '30vw', marginLeft: this.props.edit &&'10%' }}>
-            <Paper>
-              <div id="qa">
-                {this.props.who && (
-                  <div>
-                    <h3 id="q"> Who are you? </h3>
-                    <p id="answer">{this.props.who}</p>
-                  </div>
-                )}
-                {this.props.origin && (
-                  <div>
-                    <h3 id="q"> What is your crypto origin story?</h3>
-                    <p id="answer">{this.props.origin}</p>
-                  </div>
-                )}
-                {this.props.excites && (
-                  <div>
-                    <h3 id="q"> What excites you about blockchain technology?</h3>
-                    <p id="answer">{this.props.excites}</p>
-                  </div>
-                )}
-                {this.props.helps && (
-                  <div>
-                    <h3 id="q"> What can you help callers with?</h3>
-                    <p id="answer">{this.props.helps}</p>
-                  </div>
-                )}
-              </div>
-              {!this.props.is_users && (
-                <div>
-                  <Divider style={{ marginBottom: '6px' }} />
-                  {this.props.title && (
-                    <CardTitle title={this.props.title} subtitle={this.props.subtitle} style={{ marginBottom: '6px' }} />
-                  )}
-                  {!this.props.edit && (
+          <div className="col-md-6" id="profile" style={{ width: this.props.edit && '30vw', marginLeft: this.props.edit && '10%' }}>
+            {(this.props.who || this.props.origin || this.props.excites || this.props.helps) && (
+              <Paper>
+                <div id="qa">
+                  {this.props.who && (
                     <div>
-                      <RaisedButton
-                        style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
-                        labelStyle={{ fontSize: '20px' }}
-                        fullWidth
-                        primary
-                        label="Schedule a Call"
-                        // containerElement={<Link to={`/availability/${this.props.dp}`} />}
-                        onClick={() => this.props.getEmail()}
-                      />
-                      <Dialog
-                        title="We aren't ready just yet!"
-                        actions={this.props.ok}
-                        modal={false}
-                        open={this.props.emailOpen}
-                        onRequestClose={() => this.props.emailClose()}
-                      >
-                        {this.props.host} will be accepting calls VERY soon.
-                        To be notified when the platform is ready, please enter your email below.  We promise no spam!
-                        <TextField
-                          // hintText="Link to another site's profile"
-                          floatingLabelText="Your email"
-                          type="email"
-                          value={this.props.email}
-                          fullWidth
-                          // errorText={this.state.tel_error_text}
-                          onChange={e => this.props.changeEmail(e)}
-                        />
-                      </Dialog>
+                      <h3 id="q"> Who are you? </h3>
+                      <p id="answer">{this.props.who}</p>
+                    </div>
+                  )}
+                  {this.props.origin && (
+                    <div>
+                      <h3 id="q"> What is your crypto origin story?</h3>
+                      <p id="answer">{this.props.origin}</p>
+                    </div>
+                  )}
+                  {this.props.excites && (
+                    <div>
+                      <h3 id="q"> What excites you about blockchain technology?</h3>
+                      <p id="answer">{this.props.excites}</p>
+                    </div>
+                  )}
+                  {this.props.helps && (
+                    <div>
+                      <h3 id="q"> What can you help callers with?</h3>
+                      <p id="answer">{this.props.helps}</p>
                     </div>
                   )}
                 </div>
-              )}
-            </Paper>
+                {!this.props.is_users && (
+                  <div>
+                    <Divider style={{ marginBottom: '6px' }} />
+                    {this.props.title && (
+                      <CardTitle title={this.props.title} subtitle={this.props.subtitle} style={{ marginBottom: '6px' }} />
+                    )}
+                    {!this.props.edit && (
+                      <div>
+                        <RaisedButton
+                          style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
+                          labelStyle={{ fontSize: '20px' }}
+                          fullWidth
+                          primary
+                          label="Schedule a Call"
+                          // containerElement={<Link to={`/availability/${this.props.dp}`} />}
+                          onClick={() => this.props.getEmail()}
+                        />
+                        <Dialog
+                          title="We aren't ready just yet!"
+                          actions={this.props.ok}
+                          modal={false}
+                          open={this.props.emailOpen}
+                          onRequestClose={() => this.props.emailClose()}
+                        >
+                          {this.props.host} will be accepting calls VERY soon.
+                          To be notified when the platform is ready, please enter your email below.  We promise no spam!
+                          <TextField
+                            // hintText="Link to another site's profile"
+                            floatingLabelText="Your email"
+                            type="email"
+                            value={this.props.email}
+                            fullWidth
+                            // errorText={this.state.tel_error_text}
+                            onChange={e => this.props.changeEmail(e)}
+                          />
+                        </Dialog>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Paper>
+            )}
             {!this.props.host && (
               <CircularProgress size={80} thickness={5} />
             )}
