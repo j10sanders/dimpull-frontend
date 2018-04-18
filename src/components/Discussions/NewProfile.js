@@ -183,7 +183,13 @@ class newProfile extends React.Component {
       // check path to see if there is a ref code
       const pathName = this.props.location.pathname;
       if (pathName.substr(pathName.length - 8) !== 'newProfile') {
-        
+        if (!response.data.dp) {
+          // TODO send an axios request to add referral code
+          const response = await axios.get(
+            `${process.env.REACT_APP_USERS_SERVICE_URL}/`,
+            { headers }
+          );
+        }
       }
       if (response.data.dp) {
         history.replace(`/editProfile/${response.data.url}`);
