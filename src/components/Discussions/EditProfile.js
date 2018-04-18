@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+// import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader';
 import request from 'superagent';
 import Dropzone from 'react-dropzone';
@@ -12,7 +12,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PropTypes from 'prop-types';
-import { timezones } from '../../timezones/timezones';
+import menuTimeZones from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';
 import './discussionprofile.css';
@@ -305,12 +305,6 @@ class EditProfile extends React.Component {
                       <h2>Fill Out Your Expert Profile:</h2>
                       {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
                         <div className="col-md-12">
-                          <TextField
-                            hintText={`${this.state.first_name} ${this.state.last_name}`}
-                            type="name"
-                            disabled
-                            fullWidth
-                          />
                           <div style={{ color: this.state.image ? 'black' : 'red', width: '50%', margin: 'auto', height: '100px', paddingTop: '30px', marginBottom: '30px'}}>
                             <Dropzone
                               multiple={false}
@@ -323,51 +317,47 @@ class EditProfile extends React.Component {
                               </p>
                             </Dropzone>
                           </div>
-                          <TextField
-                            floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Researcher, etc...)"
-                            type="description"
-                            value={this.state.description}
-                            style={{ marginTop: '8px' }}
-                            onChange={e => this.changeValue(e, 'description')}
-                            fullWidth
-                          />
-                          <SelectField
-                            floatingLabelText="Timezone"
-                            value={this.state.timezone}
-                            onChange={(event, index, value) => this.selectTimezone(event, index, value, 'id')}
-                            maxHeight={200}
-                            fullWidth
-                            style={{ textAlign: 'start' }}
-                          >
-                            {timezones.map(timezone => (
-                              <MenuItem
-                                value={timezone.value}
-                                key={timezone.value}
-                                primaryText={timezone.name}
-                              />
-                            ))}
-                          </SelectField>
-                          <TextField
-                            floatingLabelText="Price Per 30 Minutes (in dollars)"
-                            type="price"
-                            value={this.state.price}
-                            errorText={this.state.priceErrorText}
-                            fullWidth
-                            onChange={e => this.changeValue(e, 'price')}
-                          />
-                          <p> Currently one Ether is {this.state.etherPrice} dollars,
-                            so you will earn {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
-                            {' '}ETH/half-hour.  It will be set when someone books one of your timeslots.
-                          </p>
+                          <div id="editInputs" >
+                            <TextField
+                              floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Writer, etc)"
+                              type="description"
+                              value={this.state.description}
+                              style={{ marginTop: '8px' }}
+                              onChange={e => this.changeValue(e, 'description')}
+                              fullWidth
+                            />
+                            <SelectField
+                              floatingLabelText="Timezone"
+                              value={this.state.timezone}
+                              onChange={(event, index, value) => this.selectTimezone(event, index, value, 'id')}
+                              maxHeight={200}
+                              fullWidth
+                              style={{ textAlign: 'start' }}
+                            >
+                              {menuTimeZones}
+                            </SelectField>
+                            <TextField
+                              floatingLabelText="Price Per 30 Minutes (in dollars)"
+                              type="price"
+                              value={this.state.price}
+                              errorText={this.state.priceErrorText}
+                              fullWidth
+                              onChange={e => this.changeValue(e, 'price')}
+                            />
+                            <p> Currently one Ether is {this.state.etherPrice} dollars,
+                              so you will earn {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
+                              {' '}ETH/half-hour.  It will be set when someone books one of your timeslots.
+                            </p>
+                          </div>
                         </div>
                       )}
                     </div>
 
                     <div className="text-center">
                       <div className="col-md-12">
-                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
-                            floatingLabelText="Who are you?"
+                            floatingLabelText="Who are you? (optional)"
                             type="who"
                             fullWidth
                             value={this.state.who}
@@ -378,9 +368,9 @@ class EditProfile extends React.Component {
                           />
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
                         </div>
-                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
-                            floatingLabelText="What is your crypto origin story?"
+                            floatingLabelText="What is your crypto origin story? (optional)"
                             type="origin"
                             fullWidth
                             value={this.state.origin}
@@ -391,9 +381,9 @@ class EditProfile extends React.Component {
                           />
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Let newer crypto enthusiasts know what got you started.</Subheader>
                         </div>
-                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
-                            floatingLabelText="What excites you about blockchain tech?"
+                            floatingLabelText="What excites you about blockchain tech? (optional)"
                             type="excites"
                             value={this.state.excites}
                             fullWidth
@@ -404,9 +394,9 @@ class EditProfile extends React.Component {
                           />
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
                         </div>
-                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
-                            floatingLabelText="What can you help callers with?"
+                            floatingLabelText="What can you help callers with? (optional)"
                             type="helps"
                             value={this.state.helps}
                             fullWidth
@@ -417,7 +407,7 @@ class EditProfile extends React.Component {
                           />
                           <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
                         </div>
-                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
                             // hintText="What can you help callers with?"
                             floatingLabelText="Ethereum Wallet Address"
@@ -428,7 +418,7 @@ class EditProfile extends React.Component {
                             onChange={e => this.changeValue(e, 'walletAddress')}
                           />
                         </div>
-                        <div style={{ textAlign: 'left', paddingTop: '30px' }}>
+                        <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
                             floatingLabelText="Public URL"
                             type="url"
@@ -514,16 +504,15 @@ class EditProfile extends React.Component {
                 edit
               />
               {this.state.disabled && (
-                <div style={{ paddingLeft: '15px' }} >
-              <RaisedButton
-                style={{ marginLeft: '10%' }}
-                label="Haven't finished?  Save your edits for later"
-                onClick={e => this.submit(e)}
-                primary
-              />
-              </div>
-            )}
-            
+                <div style={{ paddingLeft: '15px' }} id="saveForLater">
+                  <RaisedButton
+                    style={{ marginLeft: '10%', marginTop: '30px' }}
+                    label="Haven't finished?  Save your edits for later"
+                    onClick={e => this.submit(e)}
+                    primary
+                  />
+                </div>
+              )}
             </div>
             
           </div>

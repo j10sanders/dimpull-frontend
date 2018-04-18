@@ -28,6 +28,9 @@
     width: auto !important;
     margin: auto !important;
   }
+  #saveForLater {
+    display: none;
+  }
 }
 
 @media (min-width: 1060px){ 
@@ -37,6 +40,10 @@
   }
   #editSection {
     padding-left: 34px;
+  }
+  #editInputs {
+    width: 82%;
+    margin: 0 auto;
   }
 }
 
