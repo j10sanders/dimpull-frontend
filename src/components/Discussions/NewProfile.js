@@ -186,7 +186,6 @@ class newProfile extends React.Component {
       // check path to see if there is a ref code
       const pathName = this.props.location.pathname;
       if (pathName.substr(pathName.length - 10) !== 'newProfile' && pathName.substr(pathName.length - 11) !== 'newProfile/') {
-        debugger;
         if (!response.data.dp) {
           const referred = await axios.get(
             `${process.env.REACT_APP_USERS_SERVICE_URL}/addReferent/${pathName.substr(pathName.length - 7)}`,

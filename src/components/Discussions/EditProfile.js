@@ -90,7 +90,7 @@ class EditProfile extends React.Component {
     if (isAuthenticated()) {
       headers = { Authorization: `Bearer ${getAccessToken()}` };
     } else {
-      history.push('/');
+      this.props.auth.login(this.props.location.pathname);
     }
     this.fillForms(headers);
   }
@@ -101,7 +101,13 @@ class EditProfile extends React.Component {
 
   async fillForms (headers) {
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, { headers });
-    if (response.data !== "Not this user's" && response.data !== 404) {
+    if (response.data === 404) {
+      this.props.auth.login('/newProfile');
+    }
+    if (response.data.dp) {
+      history.replace(`/editProfile/${response.data.url}`);
+    }
+    if (response.data !== "Not this user's") {
       this.setState({
         price: response.data.price ? response.data.price : 50,
         image: response.data.image_url ? response.data.image_url : '',
