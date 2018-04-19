@@ -31,7 +31,7 @@ class Routes extends Component {
 		return (
 			<Router history={history}>
 				<div>
-					<AsyncHeader />
+					<AsyncHeader auth={auth} />
 					<div
 						className="container"
             style={{ 

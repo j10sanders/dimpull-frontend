@@ -36,6 +36,7 @@ class Header extends Component {
             // </MenuItem>
             
   render () {
+    const { isAuthenticated } = this.props.auth;
     return (
       <header>
         <Drawer
@@ -54,7 +55,7 @@ class Header extends Component {
               containerElement={<Link to="/login" />}
               onClick={() => this.setState({ open: false })}
             >
-                Login
+              {isAuthenticated() ? `Log Out` : `Login` }
             </MenuItem>
 
           </div>
