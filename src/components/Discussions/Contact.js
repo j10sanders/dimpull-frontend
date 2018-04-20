@@ -149,7 +149,7 @@ class Contact extends React.Component {
             last_name: profile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].family_name
           });
         }
-      }).catch(err => console.log(err));
+      });
     } else {
       this.setState({ profile: userProfile });
       if (userProfile.given_name) {

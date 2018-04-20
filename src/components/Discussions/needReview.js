@@ -6,6 +6,7 @@ import axios from 'axios';
 import ReactStars from 'react-stars';
 
 const style = {
+  margin: '0 auto',
   marginTop: '50px',
   paddingBottom: 50,
   paddingTop: '30px',
@@ -31,7 +32,7 @@ class NeedReview extends React.Component {
       axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/submitreview`, {
         stars: this.state.stars,
         comment: this.state.comment,
-        discussion_id: this.props.discussion_id
+        url: this.props.url
       }, { headers })
         .then(response => this.props.reviewed());
     }

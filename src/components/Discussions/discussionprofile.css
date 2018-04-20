@@ -22,7 +22,9 @@
 	#pic {
     /*max-width: 80vw;*/
     margin: auto;
-    
+  }
+  #reviews {
+    margin: auto;
   }
   #profile {
     width: auto !important;
@@ -37,6 +39,11 @@
 	#pic {
     max-width: 30vw;
     margin-left: 10%;
+  }
+  #reviews {
+    max-width: 30vw;
+    margin-left: 10%;
+    padding-top: 20px;
   }
   #editSection {
     padding-left: 34px;

@@ -373,7 +373,7 @@ class newProfile extends React.Component {
             {this.state.codeAccepted && (
               <div id="referralAccepted">
                 Referral code accepted.
-                {' '}Get an extra $5 (in ETH) when you complete your first paid call.
+                {' '}Get an extra $10X (in ETH) when you complete your first paid call.
               </div>
             )}
             {this.state.noCode && (
@@ -468,7 +468,7 @@ class newProfile extends React.Component {
                 actions={actions}
                 modal={false}
                 open={this.state.open}
-                onRequestClose={() => this.handleClose.bind(this)}
+                onRequestClose={() => this.handleClose()}
               >
               </Dialog>
             </Paper>
