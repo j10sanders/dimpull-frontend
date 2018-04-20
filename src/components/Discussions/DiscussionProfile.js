@@ -73,7 +73,7 @@ class DiscussionProfile extends React.Component {
           medium: response.data.medium,
           twitter: response.data.twitter,
           github: response.data.github,
-          dp: response.data.id,
+          dp: response.data.id
         });
         this.setState({ waiting: false });
         if (response.data.reviewlist) {

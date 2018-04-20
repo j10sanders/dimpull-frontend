@@ -35,14 +35,15 @@ class Routes extends Component {
 					<div
 						className="container"
             style={{ 
-            	paddingBottom: '65px',
+              paddingBottom: '65px',
               marginTop: '64px',
-                // height: '100%',
-                // minHeight: '88vh'
-              }}
+              // height: '100%',
+              // minHeight: '88vh'
+            }}
         	>
 						<Switch>
 						<Route exact path="/" render={(props) => <AsyncHome auth={auth} {...props} />} />
+						<Route exact path="/home" render={(props) => <AsyncHome auth={auth} {...props} />} />
 							<Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
 							<Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
 						    <Route exact path="/discussions" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
