@@ -373,7 +373,7 @@ class newProfile extends React.Component {
             {this.state.codeAccepted && (
               <div id="referralAccepted">
                 Referral code accepted.
-                {' '}Get an extra $5 (in ETH) when you complete your first paid call.
+                {' '}Get an extra $10 (in ETH) when you complete your first paid call.
               </div>
             )}
             {this.state.noCode && (
