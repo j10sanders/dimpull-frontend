@@ -279,7 +279,6 @@ class DiscussionProfile extends React.Component {
           <div className="container">
             <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
               <div className="col-md-6" id="reviews">
-          
                 <h1> Reviews </h1>
                 <List>
                   <Subheader>
