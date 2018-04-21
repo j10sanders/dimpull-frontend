@@ -10,6 +10,9 @@ import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
+import { List } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+
 import './discussionprofile.css';
 
 class ProfileCard extends React.Component {
@@ -60,6 +63,18 @@ class ProfileCard extends React.Component {
                 </CardActions>
               </Card>
             )}
+            {this.props.reviews &&
+                  <div id="reviews">
+                    <h1> Reviews </h1>
+                    <List>
+                      <Subheader>
+                        Verified Caller Reviews
+                      </Subheader>
+                      {this.props.reviews}
+                    </List>
+                  </div>
+
+            }
           </div>
           <div className="col-md-6" id="profile" style={{ width: this.props.edit && '30vw', marginLeft: this.props.edit && '10%' }}>
             {(this.props.who || this.props.origin || this.props.excites || this.props.helps) && (
