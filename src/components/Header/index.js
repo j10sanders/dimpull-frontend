@@ -76,7 +76,7 @@ class Header extends Component {
           onTitleClick={() => history.push('/')}
           onLeftIconButtonClick={() => this.openNav()}
           iconElementRight={
-            <Link to={'/'} >
+            <Link to={'/home'} >
               <FlatButton
                 label={
                   <img

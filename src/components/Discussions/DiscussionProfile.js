@@ -38,11 +38,25 @@ class DiscussionProfile extends React.Component {
     this.getDiscussion(headers);
   }
 
-  getDiscussion (headers) {
+  async getDiscussion (headers) {
     this.etherPrice();
     let requestUrl = this.props.location.pathname;
+    if (requestUrl.includes('review=')) {
+      const reviewId = requestUrl.substring(requestUrl.indexOf('/review=') + 8);
+      requestUrl = requestUrl.substring(0, requestUrl.indexOf('/review='));
+      const reviewNeeded = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/checkreviewid/${reviewId}`,
+        {
+          url: requestUrl.match(/\/([^/]+)\/?$/)[1]
+        }
+      );
+      if (reviewNeeded.data.confirmed === 'confirmed') {
+        this.setState({ reviewIdConfirmed: true, cid: reviewNeeded.data.cid });
+      }
+    }
+    const url = requestUrl.match(/\/([^/]+)\/?$/)[1];
+    this.setState({ url });
     if (!requestUrl.startsWith('/expert')) {
-      requestUrl = `/expert${this.props.location.pathname}`;
+      requestUrl = `/expert${requestUrl}`;
     }
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${requestUrl}`, { headers })
       .then((response) => {
@@ -73,7 +87,7 @@ class DiscussionProfile extends React.Component {
           medium: response.data.medium,
           twitter: response.data.twitter,
           github: response.data.github,
-          dp: response.data.id,
+          dp: response.data.id
         });
         this.setState({ waiting: false });
         if (response.data.reviewlist) {
@@ -148,7 +162,7 @@ class DiscussionProfile extends React.Component {
   }
 
   reviewed () {
-    this.setState({ needReview: false, thanks: true });
+    this.setState({ needReview: false, reviewIdConfirmed: false, thanks: true });
   }
 
   render () {
@@ -230,12 +244,15 @@ class DiscussionProfile extends React.Component {
         {this.state.thanks && (
           <h2>Thanks for your review!</h2>
         )}
-        {this.state.needReview &&
-          <NeedReview
-            reviewed={() => this.reviewed()}
-            discussion_id={this.props.location.search.slice(4)}
-            auth={this.props.auth}
-          />
+        {(this.state.needReview || this.state.reviewIdConfirmed) &&
+          <div style={{ margin: '0 auto', paddingLeft: '5%', paddingRight: '5%' }} >
+            <NeedReview
+              reviewed={() => this.reviewed()}
+              url={this.state.url}
+              auth={this.props.auth}
+              cid={this.state.cid}
+            />
+          </div>
         }
         {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
           <ProfileCard
@@ -272,14 +289,18 @@ class DiscussionProfile extends React.Component {
           />
         )}
         {this.state.reviews &&
-          <div id="Reviews" style={{ paddingTop: '30px' }}>
-            <h1> Reviews </h1>
-            <List>
-              <Subheader>
-                You can leave a review once you have a conversation with {this.state.host}.
-              </Subheader>
-              {reviews}
-            </List>
+          <div className="container">
+            <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
+              <div className="col-md-6" id="reviews">
+                <h1> Reviews </h1>
+                <List>
+                  <Subheader>
+                    Verified Caller Reviews
+                  </Subheader>
+                  {reviews}
+                </List>
+              </div>
+            </div>
           </div>
         }
         <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >

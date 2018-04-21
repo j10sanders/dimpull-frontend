@@ -27,23 +27,33 @@ class MyDiscussions extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps, "nextProps")
+  // componentWillReceiveProps(nextProps){
+  //   console.log(nextProps, "nextProps")
+  // }
+
+	// componentDidMount () {
+ //    const { isAuthenticated } = this.props.auth;
+ //    const { getAccessToken } = this.props.auth;
+ //    if ( isAuthenticated()) {
+ //      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+ //    	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/mydiscussions`, {headers})
+ //        .then((response) => 
+ //          this.setState({dps: response.data}))
+ //        .catch(function (error) {
+ //          console.log(error)
+ //      })
+ //    } 
+	// }
+
+  componentDidMount () {
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/emailJon`)
+      .then((response) => 
+        console.log(response))
+      .catch(function (error) {
+        console.log(error)
+    });
   }
 
-	componentDidMount() {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    if ( isAuthenticated()) {
-      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-    	axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/mydiscussions`, {headers})
-        .then((response) => 
-          this.setState({dps: response.data}))
-        .catch(function (error) {
-          console.log(error)
-      })
-    } 
-	}
 
  render() {
   // const { isAuthenticated } = this.props.auth;

@@ -22,6 +22,10 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
+    if (this.props.location.pathname === '/home') {
+      // TODO: look up if the user has a profile.  If so, redirect to that profile.
+      
+    }
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
       .then(response =>
         this.setState({ dps: response.data.slice(0, 4) }))
@@ -42,6 +46,7 @@ class Home extends React.Component {
     }
     this.setState({ emailSubmitted: true });
   }
+
 
   render () {
     const { isAuthenticated } = this.props.auth;

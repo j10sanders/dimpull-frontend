@@ -200,14 +200,14 @@ class Calendar extends React.Component {
       {this.state.waiting ? <CircularProgress />
       :
         (
-          <div>
+          <div >
             <Snackbar
               open={this.state.snackOpen}
               message="You can't set past availability."
               autoHideDuration={4000}
               onRequestClose={this.handleRequestClose}
             />
-            <Paper style={{marginTop: '10px'}} >
+            <Paper style={{ marginTop: '10px', marginBotton: '20px' }} >
               <DragAndDropCalendar
                 selectable
                 events={this.state.events}

@@ -407,7 +407,7 @@ class EditProfile extends React.Component {
                         </div>
                         <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
-                            floatingLabelText="What can you help callers with? (optional)"
+                            floatingLabelText="What can you help callers with? (required)"
                             type="helps"
                             value={this.state.helps}
                             fullWidth

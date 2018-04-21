@@ -468,7 +468,7 @@ class newProfile extends React.Component {
                 actions={actions}
                 modal={false}
                 open={this.state.open}
-                onRequestClose={() => this.handleClose.bind(this)}
+                onRequestClose={() => this.handleClose()}
               >
               </Dialog>
             </Paper>
