@@ -38,13 +38,25 @@ class DiscussionProfile extends React.Component {
     this.getDiscussion(headers);
   }
 
-  getDiscussion (headers) {
+  async getDiscussion (headers) {
     this.etherPrice();
     let requestUrl = this.props.location.pathname;
+    if (requestUrl.includes('review=')) {
+      const reviewId = requestUrl.substring(requestUrl.indexOf('/review=') + 8);
+      requestUrl = requestUrl.substring(0, requestUrl.indexOf('/review='));
+      const reviewNeeded = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/checkreviewid/${reviewId}`,
+        {
+          url: requestUrl.match(/\/([^/]+)\/?$/)[1]
+        }
+      );
+      if (reviewNeeded.data.confirmed === 'confirmed') {
+        this.setState({ reviewIdConfirmed: true, cid: reviewNeeded.data.cid });
+      }
+    }
     const url = requestUrl.match(/\/([^/]+)\/?$/)[1];
-    this.setState({ url: url });
+    this.setState({ url });
     if (!requestUrl.startsWith('/expert')) {
-      requestUrl = `/expert${this.props.location.pathname}`;
+      requestUrl = `/expert${requestUrl}`;
     }
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${requestUrl}`, { headers })
       .then((response) => {
@@ -150,7 +162,7 @@ class DiscussionProfile extends React.Component {
   }
 
   reviewed () {
-    this.setState({ needReview: false, thanks: true });
+    this.setState({ needReview: false, reviewIdConfirmed: false, thanks: true });
   }
 
   render () {
@@ -232,12 +244,13 @@ class DiscussionProfile extends React.Component {
         {this.state.thanks && (
           <h2>Thanks for your review!</h2>
         )}
-        {this.state.needReview &&
+        {(this.state.needReview || this.state.reviewIdConfirmed) &&
           <div style={{ margin: '0 auto', paddingLeft: '5%', paddingRight: '5%' }} >
             <NeedReview
               reviewed={() => this.reviewed()}
               url={this.state.url}
               auth={this.props.auth}
+              cid={this.state.cid}
             />
           </div>
         }

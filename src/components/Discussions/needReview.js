@@ -20,22 +20,39 @@ class NeedReview extends React.Component {
     super(props);
     this.state = {
       comment: '',
-      stars: 5
+      stars: 5,
+      disabled: true,
+      initials: ''
     };
+  }
+
+  isDisabled () {
+    if (this.state.initials.length !== 2) {
+      this.setState({
+        disabled: true
+      });
+    } else {
+      this.setState({
+        disabled: false
+      });
+    }
   }
 
   submitReview (e) {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
+    let headers = {};
     if (isAuthenticated()) {
-      const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/submitreview`, {
-        stars: this.state.stars,
-        comment: this.state.comment,
-        url: this.props.url
-      }, { headers })
-        .then(response => this.props.reviewed());
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
     }
+    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/submitreview`, {
+      stars: this.state.stars,
+      comment: this.state.comment,
+      url: this.props.url,
+      cid: this.props.cid,
+      initials: this.state.initials
+    }, { headers })
+      .then(response => this.props.reviewed());
   }
 
   ratingChanged (newRating) {
@@ -45,7 +62,14 @@ class NeedReview extends React.Component {
   changeValue (e, type) {
     const nextState = {};
     nextState[type] = e.target.value;
-    this.setState(nextState);
+    if (type === 'initials') {
+      if (e.target.value.length > 2) {
+        return;
+      }
+    }
+    this.setState(nextState, () => {
+      this.isDisabled();
+    });
   }
 
   render () {
@@ -67,11 +91,18 @@ class NeedReview extends React.Component {
           floatingLabelText="Review"
           type="comment"
           onChange={e => this.changeValue(e, 'comment')}
-          multiLine={true}
+          multiLine
           rows={2}
           rowsMax={6}
           style={{ textAlign: 'start', width: '95%' }}
-          fullWidth={true}
+          fullWidth
+        />
+        <TextField
+          value={this.state.initials}
+          floatingLabelText="Initials"
+          type="initials"
+          onChange={e => this.changeValue(e, 'initials')}
+          // style={{ textAlign: 'start', width: '95%' }}
         />
         <RaisedButton
           disabled={this.state.disabled}
