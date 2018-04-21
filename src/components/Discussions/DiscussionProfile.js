@@ -1,8 +1,7 @@
 import React from 'react';
-import Subheader from 'material-ui/Subheader';
 import ReactStars from 'react-stars';
 import Avatar from 'material-ui/Avatar';
-import { List, ListItem } from 'material-ui/List';
+import { ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -286,23 +285,10 @@ class DiscussionProfile extends React.Component {
             github={this.state.github}
             twitter={this.state.twitter}
             medium={this.state.medium}
+            reviews={reviews}
           />
         )}
-        {this.state.reviews &&
-          <div className="container">
-            <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
-              <div className="col-md-6" id="reviews">
-                <h1> Reviews </h1>
-                <List>
-                  <Subheader>
-                    Verified Caller Reviews
-                  </Subheader>
-                  {reviews}
-                </List>
-              </div>
-            </div>
-          </div>
-        }
+        
         <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >
           <Divider style={{ marginTop: '80px' }} />
           <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
