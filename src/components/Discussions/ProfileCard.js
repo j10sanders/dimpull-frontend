@@ -12,7 +12,6 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import { List } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-
 import './discussionprofile.css';
 
 class ProfileCard extends React.Component {
@@ -60,20 +59,20 @@ class ProfileCard extends React.Component {
                   {this.props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" href={this.props.linkedin} target="_blank" /> }
                   {this.props.twitter && <IconButton iconClassName="fab fa-twitter" href={this.props.twitter} target="_blank" /> }
                   {this.props.medium && <IconButton iconClassName="fab fa-medium-m" href={this.props.medium} target="_blank" /> }
+                  {this.props.averageRating && this.props.averageRating}
                 </CardActions>
               </Card>
             )}
             {this.props.reviews &&
-                  <div id="reviews">
-                    <h1> Reviews </h1>
-                    <List>
-                      <Subheader>
-                        Verified Caller Reviews
-                      </Subheader>
-                      {this.props.reviews}
-                    </List>
-                  </div>
-
+              <div id="reviews">
+                <h1> Reviews </h1>
+                <List>
+                  <Subheader>
+                    Verified Caller Reviews
+                  </Subheader>
+                  {this.props.reviews}
+                </List>
+              </div>
             }
           </div>
           <div className="col-md-6" id="profile" style={{ width: this.props.edit && '30vw', marginLeft: this.props.edit && '10%' }}>

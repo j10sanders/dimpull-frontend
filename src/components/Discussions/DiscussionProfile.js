@@ -32,7 +32,7 @@ class DiscussionProfile extends React.Component {
     const { getAccessToken } = this.props.auth;
     let headers = {};
     if (isAuthenticated()) {
-      headers = { Authorization: `Bearer ${getAccessToken()}`};
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
     }
     this.getDiscussion(headers);
   }
@@ -98,6 +98,18 @@ class DiscussionProfile extends React.Component {
       }).catch(error => console.log(error));
   }
 
+  getEmail () {
+    this.setState({ emailOpen: true });
+  }
+
+  handleOpen () {
+    this.setState({ open: true });
+  }
+
+  handleClose () {
+    this.setState({ open: false });
+  }
+
   etherPrice () {
     axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
       .then((res) => {
@@ -110,7 +122,7 @@ class DiscussionProfile extends React.Component {
     const { getAccessToken } = this.props.auth;
     let headers = {};
     if (isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
     }
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/deleteDiscussion/${this.state.dp}`, { headers })
       .then((response) => {
@@ -118,18 +130,6 @@ class DiscussionProfile extends React.Component {
         history.replace('/discussions');
       })
       .catch(error => console.log(error));
-  }
-
-  handleOpen () {
-    this.setState({ open: true });
-  }
-
-  handleClose () {
-    this.setState({ open: false });
-  }
-
-  getEmail () {
-    this.setState({ emailOpen: true });
   }
 
   emailClose () {
@@ -195,6 +195,20 @@ class DiscussionProfile extends React.Component {
           />
         )
       }
+    }
+
+    let averageRating = null;
+    if (this.state.averageRating) {
+      averageRating = (
+        <div id="rating" >
+          <ReactStars
+            value={this.state.averageRating}
+            edit={false}
+            count={5}
+            size={24}
+            color2="#ffc700"
+          />
+        </div>);
     }
 
     const actions = [
@@ -286,6 +300,7 @@ class DiscussionProfile extends React.Component {
             twitter={this.state.twitter}
             medium={this.state.medium}
             reviews={reviews}
+            averageRating={averageRating}
           />
         )}
         
