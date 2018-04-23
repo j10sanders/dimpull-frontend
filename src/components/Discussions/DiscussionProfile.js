@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
+import IconButton from 'material-ui/IconButton';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import history from '../../history';
@@ -91,15 +92,47 @@ class DiscussionProfile extends React.Component {
         this.setState({ waiting: false });
         if (response.data.reviewlist) {
           this.setState({
-            reviews: response.data.reviewlist,
             averageRating: response.data.averageRating
-          });
+          }, () => this.reviews(response.data.reviewlist));
         }
       }).catch(error => console.log(error));
+    
   }
 
   getEmail () {
     this.setState({ emailOpen: true });
+  }
+
+  reviews (reviews) {
+    const reviewRender = [];
+    reviews.forEach(i => {
+      let image = 'https://www.clker.com/cliparts/Z/j/o/Z/g/T/turquoise-anonymous-man-md.png';
+      if (i.guest_initials) {
+        image = `https://ui-avatars.com/api/?name=${i.guest_initials.charAt(0)}+${i.guest_initials.charAt(1)}&rounded=true&background=${colors[Math.floor(Math.random() * colors.length)]}`;
+      }
+      reviewRender.push(<ListItem
+        primaryText={i.comment}
+        key={i.comment}
+        leftAvatar={<Avatar src={image} />}
+        leftIcon={
+          <div
+            style={{
+              float: 'right', margin: 'auto', position: 'inherit', width: 'auto'
+            }}
+          >
+            <ReactStars
+              count={5}
+              size={24}
+              color2="#ffd700"
+              value={i.stars}
+              half={false}
+              edit={false}
+            />
+          </div>
+        }
+      />);
+    });
+    this.setState({ reviewRender });
   }
 
   handleOpen () {
@@ -168,39 +201,11 @@ class DiscussionProfile extends React.Component {
     if (this.state.nonExistant) {
       return <div> {"That profile doesn't exist"} </div>;
     }
-    const reviews = [];
-    if (this.state.reviews) {
-      for (let i of this.state.reviews) {
-        let image = "https://www.clker.com/cliparts/Z/j/o/Z/g/T/turquoise-anonymous-man-md.png"
-        if (i.guest_initials){
-          image = `https://ui-avatars.com/api/?name=${i.guest_initials.charAt(0)}+${i.guest_initials.charAt(1)}&rounded=true&background=${colors[Math.floor(Math.random() * colors.length)]}`
-        }
-        reviews.push(
-          <ListItem
-            primaryText = {i.comment}
-            key={i.comment}
-            leftAvatar = {<Avatar src={image} />}
-            leftIcon={
-              <div style={{ float: 'right', margin: 'auto', position: 'inherit', width: 'auto' }}>
-                <ReactStars
-                  count={5}
-                  size={24}
-                  color2={'#ffd700'}
-                  value={i.stars}
-                  half={false}
-                  edit={false}
-                />
-              </div>
-            }
-          />
-        )
-      }
-    }
 
     let averageRating = null;
     if (this.state.averageRating) {
       averageRating = (
-        <div id="rating" >
+        <IconButton tooltip={`${this.state.averageRating} average rating`} touch style={{ width: '100%' }} tooltipPosition="bottom-right" >
           <ReactStars
             value={this.state.averageRating}
             edit={false}
@@ -208,7 +213,8 @@ class DiscussionProfile extends React.Component {
             size={24}
             color2="#ffc700"
           />
-        </div>);
+        </IconButton>
+      );
     }
 
     const actions = [
@@ -299,7 +305,7 @@ class DiscussionProfile extends React.Component {
             github={this.state.github}
             twitter={this.state.twitter}
             medium={this.state.medium}
-            reviews={reviews}
+            reviews={this.state.reviewRender}
             averageRating={averageRating}
           />
         )}
