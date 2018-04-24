@@ -29,16 +29,16 @@ contract Escrow {
     uint value = balances[payer][payee];
     uint paidFee = value / (1000000 / fee);
     uint payment = value - paidFee;
+    balances[payer][payee] = 0;
     payee.transfer(payment);
     owner.transfer(paidFee);
-    balances[payer][payee] = 0;
     return true;
   }
   
   function refund(address payer, address payee) onlyOwner external returns(bool){
     uint value = balances[payer][payee];
-    payer.transfer(value);
     balances[payer][payee] = 0;
+    payer.transfer(value);
     return true;
   }
   

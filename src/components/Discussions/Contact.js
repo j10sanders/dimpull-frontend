@@ -7,6 +7,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import history from '../../history';
+import getWeb3 from '../../utils/getWeb3';
+import EscrowContract from '../../build/contracts/Escrow.json';
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -34,8 +36,28 @@ class Contact extends React.Component {
       open: false,
       emailError: null,
       pnf: '',
-      country: 'United States'
+      country: 'United States',
+      transactionSent: false
     };
+  }
+
+  componentWillMount () {
+    // Get network provider and web3 instance.
+    // See utils/getWeb3 for more info.
+    getWeb3
+      .then((results) => {
+        if (results.error) {
+          this.setState({ web3error: true });
+        } else {
+          this.setState({
+            web3: results.web3,
+            Fee: 0
+          }, () => this.instantiateContract());
+        }
+      })
+      .catch(() => {
+        this.setState({web3error: true});
+      });
   }
 
   componentDidMount () {
@@ -53,7 +75,46 @@ class Contact extends React.Component {
     }
   }
 
-  async isDisabled () {
+  async getWallet () {
+    const walletAndPrice = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/walletandprice/${this.props.location.search.substring(1)}`);
+    if (walletAndPrice.data.walletAddress.length === 42 && walletAndPrice.data.price) {
+      const walletAddress = walletAndPrice.data.walletAddress;
+      const price = await this.getEtherPrice(Number(walletAndPrice.data.price));
+      const instance = await this.state.escrow.deployed();
+      const esc = instance;
+      const accounts = await this.state.web3.eth.accounts;
+      // const balance = await esc.balances.call(walletAddress, accounts[0]);
+      let result;
+      try {
+        result = await esc.start(walletAddress, { from: accounts[0], value: price });
+      } catch (err) {
+        console.log(err);
+      }
+      console.log(result);
+      // debugger;
+      if (result) { //TODO find better way to ensure it was sent
+        this.setState({ transactionSent: true });
+      }
+      
+    } else { // TODO: handle inadequate wallet address
+      console.log(walletAndPrice.data);
+    }
+  }
+
+  instantiateContract () {
+    const contract = require('truffle-contract');
+    const escrow = contract(EscrowContract);
+    escrow.setProvider(this.state.web3.currentProvider);
+    this.setState({ escrow }, () => this.getWallet());
+  }
+
+  async getEtherPrice (eth) {
+    const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
+    const wei = (eth/res.data.USD)*1000000000000000000;
+    return wei
+  }
+
+  async isDisabled () {console.log(this.state.transactionSent)
     const email = await this.validEmail();
     let telIsValid = false;
     let number = '';
@@ -77,7 +138,7 @@ class Contact extends React.Component {
         tel_error_text: 'Enter a valid phone number'
       });
     }
-    if (telIsValid && email) {
+    if (telIsValid && email && this.state.transactionSent) {
       this.setState({
         disabled: false
       });
@@ -180,7 +241,7 @@ class Contact extends React.Component {
     return res;
   }
 
-  submit (e) {
+  submit (e) {// TODO: pop up meta mask here
     let search = this.props.location.search;
     if (search.charAt(0) === '?') {
       search = search.slice(1);
@@ -246,6 +307,17 @@ class Contact extends React.Component {
         onClick={this.handleClose}
       />
     ];
+    if (this.state.web3error) {
+      return (
+        <div className="col-md-6 col-md-offset-3">
+          <Paper style={style}>
+            <div className="text-center">
+              <h2>No web3 client found.  Do you have MetaMask running?  If not, <a href="https://metamask.io/">make sure to install it</a>.</h2>
+            </div>
+          </Paper>
+        </div>
+      );
+    }
     return (
       <div className="col-md-6 col-md-offset-3">
         <Paper style={style}>
@@ -271,22 +343,40 @@ class Contact extends React.Component {
                   value={this.state.tel}
                 />
               }
-              <TextField
-                hintText="Short message for expert"
-                floatingLabelText="Short message for expert"
-                type="text"
-                // errorText={this.state.tel_error_text}
-                onChange={e => this.changeValue(e, 'message')}
-                defaultValue="Hi, "
-                fullWidth
-              />
-              <TextField
-                floatingLabelText="Your email address (or login!)"
-                type="email"
-                onChange={e => this.changeValue(e, 'email')}
-                defaultValue=""
-                errorText={this.state.emailError}
-              />
+              <div>
+                <TextField
+                  hintText="Short message for expert"
+                  floatingLabelText="Short message for expert"
+                  type="text"
+                  style={{paddingTop: '8px'}}
+                  // errorText={this.state.tel_error_text}
+                  onChange={e => this.changeValue(e, 'message')}
+                  defaultValue="Hi, "
+                  // fullWidth
+                />
+              </div>
+              <div>
+                <TextField
+                  floatingLabelText="Your email address (or login!)"
+                  type="email"
+                  onChange={e => this.changeValue(e, 'email')}
+                  defaultValue=""
+                  errorText={this.state.emailError}
+                />
+              </div>
+              <div style={{ paddingTop: '30px' }} >
+                {this.state.transactionSent ? (
+                  <div>
+                    <div><img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605282/icons8-ok-50.png" alt="yes" /></div>
+                    {' '}Transaction accepted.
+                  </div>
+                ) : (
+                  <div>
+                    <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605290/icons8-close-window-50.png" alt="no" />
+                    {' '}<div>Payment not sent yet.</div>
+                  </div>
+                )}
+              </div>
             </div>
             <RaisedButton
               disabled={this.state.disabled}

@@ -118,8 +118,9 @@ class ProfileCard extends React.Component {
                           fullWidth
                           primary
                           label="Schedule a Call"
-                          // containerElement={<Link to={`/availability/${this.props.dp}`} />}
-                          onClick={() => this.props.getEmail()}
+                          containerElement={<Link to={`/availability/${this.props.dp}`} />}
+                          // containerElement={<Link to={`/Pay/${this.props.dp}`} />}
+                          // onClick={() => this.props.getEmail()}
                         />
                         <Dialog
                           title="We aren't ready just yet!"

@@ -1,4 +1,5 @@
 import React from 'react';
+// import axios from 'axios';
 import RaisedButton from 'material-ui/RaisedButton';
 import getWeb3 from '../../utils/getWeb3';
 import EscrowContract from '../../build/contracts/Escrow.json';
@@ -13,6 +14,7 @@ class Pay extends React.Component {
   }
 
   componentWillMount () {
+    debugger;
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
     getWeb3
