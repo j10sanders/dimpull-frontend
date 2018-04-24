@@ -1,72 +1,44 @@
 const Escrow = artifacts.require("Escrow");
 
 contract('Escrow test', async (accounts) => {
-
-  it("should start contract", async () => {
-    let instance = await Escrow.deployed();
-    let addr = await instance.escrow.call({ from: accounts[0] })
-    assert.equal(addr, accounts[0]);
-  })
-
-  it("should link 200000 to last account", async () => {
-  	const instance = await Escrow.deployed();
-    const addr = await instance.escrow.call({ from: accounts[0] });
-    const send = await instance.start.call(accounts[9], { from: accounts[1], value: 200000 });
-    assert.equal(send, 200000);
-	});
+  // it("should link 200000 to last account", async () => {
+  //   const instance = await Escrow.deployed();
+  //   // const addr = await instance.Escrow.call({ from: accounts[0] });
+  //   const send = await instance.start.call(accounts[9], { from: accounts[1], value: 200000 });
+  //   assert.equal(send, 200000);
+  // });
 
   it("should transfer to account", async () => {
-  	const instance = await Escrow.deployed();
-    // const addr = await instance.escrow.call({ from: accounts[0] });
-    // const send = await instance.start.call(accounts[9], { from: accounts[3], value: 200000 });
-    const s = await instance.s.call({gas: '3000000'});
-    // const val = s.toNumber();
-    assert.equal(s, true);
-	});
-
- //  it("should transfer 200000 to last account", async () => {
- //  	let instance = await Escrow.deployed();
- //    let addr = await instance.escrow.call({ from: accounts[1] });
- //    let sen = await instance.start.call(accounts[9], { from: accounts[2], value: 200000 });
- //    assert.equal(sen, 200000);
-	// });
-  // it("should call a function that depends on a linked library", async () => {
-  //   let esc = await Escrow.deployed();
-  //   let outCoinBalance = await esc.getBalance.call(accounts[0]);
-  //   let escCoinBalance = outCoinBalance.toNumber();
-  //   let outCoinBalanceEth = await esc.getBalanceInEth.call(accounts[0]);
-  //   let escCoinEthBalance = outCoinBalanceEth.toNumber();
-  //   assert.equal(escCoinEthBalance, 2 * escCoinBalance);
-
-  // });
-
-  // it("should send coin correctly", async () => {
-
-  //   // Get initial balances of first and second account.
-  //   let account_one = accounts[0];
-  //   let account_two = accounts[1];
-
-  //   let amount = 10;
-
-
-  //   let instance = await Escrow.deployed();
-  //   let esc = instance;
-
-  //   let balance = await esc.getBalance.call(account_one);
-  //   let account_one_starting_balance = balance.toNumber();
-
-  //   balance = await esc.getBalance.call(account_two);
-  //   let account_two_starting_balance = balance.toNumber();
-  //   await esc.sendCoin(account_two, amount, {from: account_one});
-
-  //   balance = await esc.getBalance.call(account_one);
-  //   let account_one_ending_balance = balance.toNumber();
-
-  //   balance = await esc.getBalance.call(account_two);
-  //   let account_two_ending_balance = balance.toNumber();
-
-  //   assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
-  //   assert.equal(account_two_ending_balance, account_two_starting_balance + amount, "Amount wasn't correctly sent to the receiver");
-  // });
-
+    const getBal = web3.eth.getBalance
+    const instance = await Escrow.deployed({ from: accounts[0] });
+    const esc = instance;
+    await esc.setFee(18000, { from: accounts[0] });
+    await esc.start(accounts[2], { from: accounts[1], value: 2000000000000000 });
+    const balance = await esc.balances.call(accounts[1], accounts[2]);
+    const balNum = balance.toString(10);
+    await esc.end(accounts[2], accounts[1], { from: accounts[0] });
+    const bal = await getBal(accounts[2]).toNumber();
+    assert.equal(balNum, 2000000000000000);
+    assert.equal(bal, 100001963636363640000);
+  });
 })
+
+// Escrow.deployed().then(function(instance){return instance.setFee(18000, {from: web3.eth.accounts[0]})})
+// .then(function(instance){return instance.start.call(web3.eth.accounts[2], { from: web3.eth.accounts[1], value: 2000000000000000 })}).then(function(instance){return instance.balances.call(web3.eth.accounts[2], web3.eth.accounts[1])})
+
+// Escrow.deployed().then(function(instance){return instance.setFee(18000, {from: web3.eth.accounts[0]})})
+
+// Escrow.deployed().then(function(instance){esc = instance})
+// getBal = web3.eth.getBalance
+// const accounts = web3.eth.accounts
+// for (let i of accounts){console.log(getBal(i).toNumber())}
+// esc.setFee(18000, {from: accounts[0]})
+// esc.start(accounts[2], { from: accounts[1], value: 2000000000000000 }); //DON"T .CALL!!!
+// esc.balances.call(accounts[1], accounts[2]).then(function(bal){return console.log(bal.toNumber())})
+
+// Escrow.deployed().then(function(instance){esc = instance})
+// esc.setFee(18000, {from: accounts[0]})
+// esc.start.call(web3.eth.accounts[2], { from: web3.eth.accounts[1], value: 2000000000000000 })
+// esc.balances.call(accounts[1], accounts[2]).then(function(bal){return bal.toNumber()})
+
+// for (let i of this.accounts){console.log(web3.eth.getBalance(i).toNumber())}
