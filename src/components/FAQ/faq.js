@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+// import MobileTearSheet from '../../../MobileTearSheet';
 
-// import Divider from `material-ui/Divider`;
-// import `./FAQ.css`;
-
-const FAQs = [
+const customerFAQs = [
   [`What is Dimpull?`,
     `Dimpull is a marketplace for experienced crypto traders and experts to provide their time and knowledge to new crypto ethusiats through phone calls.`],
   [`Why should I use Dimpull?`,
@@ -16,6 +14,9 @@ const FAQs = [
     `Dimpull uses an escrow smart contract to hold funds during the call.  As a caller you pay into this escrow contract before a call.  Once a call is completed, funds are sent from the escrow contract to the expert.  Using an escrow contract on the blockchain allows payments to go from callers to experts without either user needing to trust Dimpull to hold those funds.  In other words, there is no way for Dimpull to take funds from callers or experts.`],
   [`How much does it cost to use Dimpull?`,
     `Dimpull takes 18% of payments to experts to run the website and ensure that conversations on the platform meet current legal guidelines.`],
+];
+
+const expertFAQs = [
   [`Why should I use Dimpull?`,
     `Dimpull provides you an easy way for you to connect with people who want your advice and get paid for your time.  Payments are automatic following a call's completion, so you get your hard earned ETH immediately.`],
   [`How do I get paid for calls?`,
@@ -53,9 +54,23 @@ class FAQ extends Component {
     };
   }
 
-
   render () {
-    const faqRender = FAQs.map(x => (
+    const customerfaqRender = customerFAQs.map(x => (
+      <ListItem
+        key={x[0]}
+        primaryText={x[0]}
+        initiallyOpen={false}
+        primaryTogglesNestedList={true}
+        nestedItems={[
+          <ListItem
+            key={x[1]}
+            primaryText={x[1]}
+            disabled={true}
+          />
+        ]}
+      />
+    ));
+    const expertfaqRender = expertFAQs.map(x => (
       <ListItem
         key={x[0]}
         primaryText={x[0]}
@@ -71,10 +86,22 @@ class FAQ extends Component {
       />
     ));
     return (
-      <List>
-        <Subheader>Nested List Items</Subheader>
-        {faqRender}
-      </List>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6 col-md-offset-0">
+            <List>
+              <Subheader>For Curious Users</Subheader>
+              {customerfaqRender}
+            </List>
+          </div>
+          <div className="col-md-6 col-md-offset-0">
+            <List>
+              <Subheader>For Experts</Subheader>
+              {expertfaqRender}
+            </List>
+          </div>
+        </div>
+      </div>
     );
   }
 }
