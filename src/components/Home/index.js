@@ -138,6 +138,7 @@ class Home extends React.Component {
                 <p id="pHelp">Our smart-contract holds Ether payments until the end of the call</p>
               </div>
             </div>
+            <div style={{ fontSize: '19px', paddingTop: '12px' }} ><Link to="/faq">See the Full FAQs</Link></div>
           </Paper>
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
         </div>
