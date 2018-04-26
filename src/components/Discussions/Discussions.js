@@ -25,10 +25,10 @@ class Discussions extends React.Component {
     const { getAccessToken } = this.props.auth;
     if ( isAuthenticated()) {
       const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-      let discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`, { headers })
+      let discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/dps`, { headers })
       this.setState({dps: discussions.data})
     } else {
-      let discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
+      let discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/dps`)
       this.setState({dps: discussions.data})
     }
     this.setState({waiting: false})

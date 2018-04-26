@@ -26,7 +26,7 @@ class Home extends React.Component {
       // TODO: look up if the user has a profile.  If so, redirect to that profile.
       
     }
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions`)
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`)
       .then(response =>
         this.setState({ dps: response.data.slice(0, 4) }))
       .catch(error => console.log(error));
