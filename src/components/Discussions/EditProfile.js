@@ -222,6 +222,9 @@ class EditProfile extends React.Component {
   }
 
   async submit (e) {
+    if (e === 'save'){
+      this.setState({ title: "We saved your work."});
+    }
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {};
@@ -475,7 +478,7 @@ class EditProfile extends React.Component {
                           <RaisedButton
                             style={{ marginTop: 50, marginRight: '4px' }}
                             label="Not done?  Save for your edits for later"
-                            onClick={e => this.submit(e)}
+                            onClick={() => this.submit('save')}
                           />
                         )}
                         <RaisedButton
