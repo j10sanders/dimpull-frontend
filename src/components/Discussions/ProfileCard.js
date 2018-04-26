@@ -29,7 +29,6 @@ class ProfileCard extends React.Component {
             {this.props.host && (
               <Card>
                 <CardMedia
-                  style={{ cursor: 'pointer' }}
                   overlay={<CardTitle title={this.props.host} subtitle={this.props.description} />}
                   // onClick={() => this.props.linkToProfile(this.props.other_profile)}
                 >

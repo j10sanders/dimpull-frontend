@@ -333,7 +333,7 @@ class EditProfile extends React.Component {
                           </div>
                           <div id="editInputs" >
                             <TextField
-                              floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Writer, etc)"
+                              floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Founder, etc)"
                               type="description"
                               value={this.state.description}
                               style={{ marginTop: '8px' }}
