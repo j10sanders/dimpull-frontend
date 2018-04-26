@@ -100,11 +100,10 @@ class FAQ extends Component {
     ));
     return (
       <div className="container-fluid" style={{ paddingTop: '20px' }}>
-      <div>
+        <div style={{ paddingBottom: '42px' }}>
           <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_276/v1524751458/DimpullFAQ.png" alt="faqdimp" className="img-responsive center-block" />
         </div>
         <div className="row">
-        
           <div className="col-md-4 col-md-offset-0">
             <List>
               <Subheader>For Curious Users</Subheader>
