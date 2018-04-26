@@ -51,7 +51,15 @@
     width: 82%;
     margin: 0 auto;
   }
+  #meetExperts{
+    width: 900px;
+    margin: 0 auto;
+  }
 }
+
+#meetExperts{
+    margin-top: 40px;
+  }
 
 #q {
 	padding-left: 18px;
