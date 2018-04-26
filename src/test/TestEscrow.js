@@ -13,13 +13,14 @@ contract('Escrow test', async (accounts) => {
     const instance = await Escrow.deployed({ from: accounts[0] });
     const esc = instance;
     await esc.setFee(18000, { from: accounts[0] });
-    await esc.start(accounts[2], { from: accounts[1], value: 2000000000000000 });
+    await esc.start.sendTransaction(accounts[2], { from: accounts[1], value: 20000000000000000 });
     const balance = await esc.balances.call(accounts[1], accounts[2]);
-    const balNum = balance.toString(10);
-    await esc.end(accounts[2], accounts[1], { from: accounts[0] });
+    const balNum = balance.toNumber();
+    await esc.end.sendTransaction(accounts[1], accounts[2], { from: accounts[0] });
     const bal = await getBal(accounts[2]).toNumber();
-    assert.equal(balNum, 2000000000000000);
-    assert.equal(bal, 100001963636363640000);
+    assert.equal(balNum, 20000000000000000);
+    assert.equal(bal, 100000000000000000000);
+    assert(bal > 100000000000000000000, bal < 100031418181818190000);
   });
 })
 
@@ -29,12 +30,13 @@ contract('Escrow test', async (accounts) => {
 // Escrow.deployed().then(function(instance){return instance.setFee(18000, {from: web3.eth.accounts[0]})})
 
 // Escrow.deployed().then(function(instance){esc = instance})
-// getBal = web3.eth.getBalance
-// const accounts = web3.eth.accounts
-// for (let i of accounts){console.log(getBal(i).toNumber())}
-// esc.setFee(18000, {from: accounts[0]})
-// esc.start(accounts[2], { from: accounts[1], value: 2000000000000000 }); //DON"T .CALL!!!
+getBal = web3.eth.getBalance
+const accounts = web3.eth.accounts
+for (let i of accounts){console.log(getBal(i).toNumber())}
+// // esc.setFee(18000, {from: accounts[0]})
+// // esc.start(accounts[2], { from: accounts[1], value: 2000000000000000 }); //DON"T .CALL!!!
 // esc.balances.call(accounts[1], accounts[2]).then(function(bal){return console.log(bal.toNumber())})
+// esc.balances.call(accounts[0], accounts[1]).then(function(bal){return console.log(bal.toNumber())})
 
 // Escrow.deployed().then(function(instance){esc = instance})
 // esc.setFee(18000, {from: accounts[0]})

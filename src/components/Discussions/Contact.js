@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import Dialog from 'material-ui/Dialog';
+import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 import history from '../../history';
@@ -13,7 +14,6 @@ import EscrowContract from '../../build/contracts/Escrow.json';
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 const allCountries = require('all-countries');
-
 
 const style = {
   marginTop: 50,
@@ -25,42 +25,57 @@ const style = {
 };
 
 class Contact extends React.Component {
+  static noExcepetion (number) {
+    let ret;
+    try {
+      ret = phoneUtil.isValidNumber(number);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      return ret;
+    }
+  }
+  static async getEtherPrice (eth) {
+    const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
+    const wei = (eth / res.data.USD) * 1000000000000000000;
+    return wei;
+  }
   constructor (props) {
     super(props);
     this.state = {
       message: '',
       tel: '',
-      tel_error_text: null,
+      tel_error_text: '',
       disabled: true,
-      // startTime: null,
+      // startTime: '',
       open: false,
-      emailError: null,
       pnf: '',
       country: 'United States',
-      transactionSent: false
+      transactionStatus: 'waiting',
+      emailErrorText: ''
     };
   }
 
   componentWillMount () {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
+    
+  }
+
+  componentDidMount () {
     getWeb3
       .then((results) => {
         if (results.error) {
           this.setState({ web3error: true });
         } else {
           this.setState({
-            web3: results.web3,
-            Fee: 0
+            web3: results.web3
           }, () => this.instantiateContract());
         }
       })
       .catch(() => {
-        this.setState({web3error: true});
+        this.setState({ web3error: true });
       });
-  }
-
-  componentDidMount () {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
@@ -79,26 +94,53 @@ class Contact extends React.Component {
     const walletAndPrice = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/walletandprice/${this.props.location.search.substring(1)}`);
     if (walletAndPrice.data.walletAddress.length === 42 && walletAndPrice.data.price) {
       const walletAddress = walletAndPrice.data.walletAddress;
-      const price = await this.getEtherPrice(Number(walletAndPrice.data.price));
+      const price = await Contact.getEtherPrice(Number(walletAndPrice.data.price));
       const instance = await this.state.escrow.deployed();
       const esc = instance;
       const accounts = await this.state.web3.eth.accounts;
       // const balance = await esc.balances.call(walletAddress, accounts[0]);
       let result;
       try {
-        result = await esc.start(walletAddress, { from: accounts[0], value: price });
+        esc.start.sendTransaction(
+          walletAddress,
+          { from: accounts[0], value: price }
+        ).then((hash) => {
+          this.waitForReceipt(hash, (receipt) => {
+            this.setState({ fromAddress: receipt.from });
+          });
+        // result = await esc.start(walletAddress, { from: accounts[0], value: price });
+        });
       } catch (err) {
         console.log(err);
       }
       console.log(result);
       // debugger;
-      if (result) { //TODO find better way to ensure it was sent
-        this.setState({ transactionSent: true });
-      }
-      
     } else { // TODO: handle inadequate wallet address
       console.log(walletAndPrice.data);
     }
+  }
+
+  waitForReceipt (hash, cb) {
+    // debugger;
+    this.setState({ transactionStatus: 'mining' });
+    const that = this;
+    this.state.web3.eth.getTransactionReceipt(hash, (err, receipt) => {
+      if (err) {
+        console.log(err);
+      }
+      if (receipt !== null) {
+        // Transaction went through
+        this.setState({ transactionStatus: 'mined' }, () => this.isDisabled());
+        if (cb) {
+          cb(receipt);
+        }
+      } else {
+        // Try again in 1 second
+        window.setTimeout(() => {
+          that.waitForReceipt(hash, cb);
+        }, 1000);
+      }
+    });
   }
 
   instantiateContract () {
@@ -108,61 +150,50 @@ class Contact extends React.Component {
     this.setState({ escrow }, () => this.getWallet());
   }
 
-  async getEtherPrice (eth) {
-    const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
-    const wei = (eth/res.data.USD)*1000000000000000000;
-    return wei
-  }
-
-  async isDisabled () {console.log(this.state.transactionSent)
+  async isDisabled () {
     const email = await this.validEmail();
     let telIsValid = false;
     let number = '';
     const country = allCountries.getCountryCodeByCountryName(this.state.country);
     try {
       number = phoneUtil.parse(this.state.tel, country);
-    } catch(error){
+    } catch (error) {
+      console.log(error);
     }
     if (this.state.tel === '' || !this.state.tel) {
       this.setState({
-        tel_error_text: null
+        tel_error_text: ''
       });
-    } else if (this.noExcepetion(number)) {
-      this.setState({
-        tel_error_text: null,
-        pnf: number
-      });
-      telIsValid = true;
+    } else if (number !== '') {
+      if (Contact.noExcepetion(number)) {
+        this.setState({
+          tel_error_text: '',
+          pnf: number
+        });
+        telIsValid = true;
+      }
     } else {
       this.setState({
         tel_error_text: 'Enter a valid phone number'
       });
     }
-    if (telIsValid && email && this.state.transactionSent) {
+    if (telIsValid && email && (this.state.transactionStatus === 'mined')) {
       this.setState({
         disabled: false
       });
     }
   }
 
-  noExcepetion (number) {
-    let ret;
-    try {
-      ret = phoneUtil.isValidNumber(number)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      return ret;
-    }
-  }
-
   validEmail () {
-    const re = /\S+@\S+/;
+    if (!this.state.email || this.state.email.length === 0) {
+      return false;
+    }
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(this.state.email)) {
-      this.setState({ emailError: false });
+      this.setState({ emailErrorText: '' });
       return true;
     }
-    this.setState({ emailError: true });
+    this.setState({ emailErrorText: 'Enter a valid email' });
     return false;
   }
 
@@ -193,70 +224,20 @@ class Contact extends React.Component {
     });
   }
 
-  addProfile () {
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
-        if (profile.given_name) {
-          this.setState({
-            first_name: profile.given_name,
-            last_name: profile.family_name
-          })
-        } else if (profile['https://jonsanders:auth0:com/user_metadata']) {
-          this.setState({
-            // hasName: true,
-            first_name: profile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].given_name,
-            last_name: profile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].family_name
-          });
-        }
-      });
-    } else {
-      this.setState({ profile: userProfile });
-      if (userProfile.given_name) {
-        this.setState({
-          first_name: userProfile.given_name,
-          last_name: userProfile.family_name
-        });
-      } else if (userProfile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`]) {
-        this.setState({
-          first_name: userProfile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].given_name,
-          last_name: userProfile[`${process.env.REACT_APP_AUTH0_DOMAIN}/user_metadata`].family_name
-        });
-      }
-    }
-  }
-
-  async register () {
-    const res = await axios.post(
-      `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
-      {
-        user_id: this.state.profile.sub,
-        phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
-        auth_pic: this.state.profile.picture
-      }
-    );
-    return res;
-  }
-
-  submit (e) {// TODO: pop up meta mask here
+  submit (e) {
     let search = this.props.location.search;
     if (search.charAt(0) === '?') {
       search = search.slice(1);
     }
     e.preventDefault();
     const start = this.props.location.state.startTime;
-
-    //T ODO add real error handling if time is now in the past.
+    // TODO add real error handling if time is now in the past.
     if (start < new Date()) {
       console.log('TOO EARLY');
     } else {
       const { isAuthenticated } = this.props.auth;
       const { getAccessToken } = this.props.auth;
       if (isAuthenticated()) {
-        this.addProfile();
         const headers = { Authorization: `Bearer ${getAccessToken()}` };
         axios.post(
           `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
@@ -264,7 +245,8 @@ class Contact extends React.Component {
             phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
             message: this.state.message,
             email: this.state.email,
-            start_time: new Date(start)
+            start_time: new Date(start),
+            fromAddress: this.state.fromAddress
           }, { headers }
         ).then((response) => {
           if (response.data !== 'whitelisted') {
@@ -285,7 +267,8 @@ class Contact extends React.Component {
             phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
             message: this.state.message,
             email: this.state.email,
-            start_time: new Date(start)
+            start_time: new Date(start),
+            fromAddress: this.state.fromAddress
           }
         ).then((response) => {
           if (response.data !== 'whitelisted') {
@@ -312,11 +295,39 @@ class Contact extends React.Component {
         <div className="col-md-6 col-md-offset-3">
           <Paper style={style}>
             <div className="text-center">
-              <h2>No web3 client found.  Do you have MetaMask running?  If not, <a href="https://metamask.io/">make sure to install it</a>.</h2>
+              <h2>
+                No web3 client found.  Do you have MetaMask running?  If not:
+                <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">
+                  <img style={{ paddingTop: '20px' }} src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1524675881/download-metamask-dark.png" alt="metaMask" />
+                </a>
+              </h2>
             </div>
           </Paper>
         </div>
       );
+    }
+    let transaction;
+    if (this.state.transactionStatus === 'waiting') {
+      transaction = [
+        <div key="waiting">
+          <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605290/icons8-close-window-50.png" alt="no" />
+          {' '}<div>Payment not sent yet.</div>
+        </div>
+      ];
+    } else if (this.state.transactionStatus === 'mining') {
+      transaction = [
+        <div key="mining">
+          <div><CircularProgress /></div>
+          {' '}Please wait for the transaction to be mined...
+        </div>
+      ];
+    } else if (this.state.transactionStatus === 'mined') {
+      transaction = [
+        <div key="mined">
+          <div><img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605282/icons8-ok-50.png" alt="yes" /></div>
+          {' '}Transaction accepted.
+        </div>
+      ];
     }
     return (
       <div className="col-md-6 col-md-offset-3">
@@ -348,11 +359,9 @@ class Contact extends React.Component {
                   hintText="Short message for expert"
                   floatingLabelText="Short message for expert"
                   type="text"
-                  style={{paddingTop: '8px'}}
-                  // errorText={this.state.tel_error_text}
+                  style={{ paddingTop: '8px' }}
                   onChange={e => this.changeValue(e, 'message')}
                   defaultValue="Hi, "
-                  // fullWidth
                 />
               </div>
               <div>
@@ -361,21 +370,11 @@ class Contact extends React.Component {
                   type="email"
                   onChange={e => this.changeValue(e, 'email')}
                   defaultValue=""
-                  errorText={this.state.emailError}
+                  errorText={this.state.emailErrorText}
                 />
               </div>
               <div style={{ paddingTop: '30px' }} >
-                {this.state.transactionSent ? (
-                  <div>
-                    <div><img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605282/icons8-ok-50.png" alt="yes" /></div>
-                    {' '}Transaction accepted.
-                  </div>
-                ) : (
-                  <div>
-                    <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605290/icons8-close-window-50.png" alt="no" />
-                    {' '}<div>Payment not sent yet.</div>
-                  </div>
-                )}
+                {transaction}
               </div>
             </div>
             <RaisedButton

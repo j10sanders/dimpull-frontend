@@ -9,6 +9,7 @@ const AsyncHome = asyncComponent(() => import("../components/Home"));
 const AsyncNewProfile = asyncComponent(() => import("../components/Discussions/NewProfile"));
 const AsyncEditProfile = asyncComponent(() => import("../components/Discussions/EditProfile"));
 const AsyncAvailability = asyncComponent(() => import("../components/Discussions/Availability"));
+const AsyncFAQ = asyncComponent(() => import("../components/FAQ/faq"));
 const AsyncCalendar = asyncComponent(() => import("../Profile/Calendar"));
 const AsyncPay = asyncComponent(() => import("../components/Discussions/Pay"));
 const AsyncDiscussionProfile = asyncComponent(() => import("../components/Discussions/DiscussionProfile"));
@@ -53,6 +54,7 @@ class Routes extends Component {
 						    <Route path="/newProfile" render={(props) => <AsyncNewProfile auth={auth} {...props} />} />
 						    <Route path="/editProfile" render={(props) => <AsyncEditProfile auth={auth} {...props} />} />
 						    <Route path="/availability" render={(props) => <AsyncAvailability auth={auth} {...props} />} />
+						    <Route path="/faq" render={(props) => <AsyncFAQ auth={auth} {...props} />} />
 						    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
 						    <Route path="/pay" render={(props) => <AsyncPay auth={auth} {...props} />} />
 						    <Route path="/profile" render={(props) => (

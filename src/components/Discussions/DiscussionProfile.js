@@ -113,6 +113,7 @@ class DiscussionProfile extends React.Component {
       reviewRender.push(<ListItem
         primaryText={i.comment}
         key={i.comment}
+        disabled={true}
         leftAvatar={<Avatar src={image} />}
         leftIcon={
           <div
