@@ -64,7 +64,7 @@ class Discussions extends React.Component {
                         float: 'right', margin: 'auto', position: 'inherit', width: 'auto'
                       }}
                     >
-                    <div style={{marginTop:'-10px', paddingBottom:'5px', textAlign: 'center' }}>${Number(dp.price).toFixed(0)}</div>
+                    <div style={{ paddingBottom:'5px', textAlign: 'center' }}>${Number(dp.price).toFixed(0)}</div>
                       {dp.averageRating ? (<ReactStars
                         count={5}
                         size={24}
