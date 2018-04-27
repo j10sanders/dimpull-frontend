@@ -45,11 +45,11 @@ class Discussions extends React.Component {
         </div>
         <div id="meetExperts">
           <Paper>
-          <CircularProgress style={{ display: waiting, width: '100%' }} size={80} thickness={5} />
+            <CircularProgress style={{ display: waiting, width: '100%' }} size={80} thickness={5} />
             <List>
               {this.state.dps.map(dp => (
                 <ListItem
-                  leftAvatar={<Avatar src={dp.image.replace('h_509', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
+                  leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
                   key={dp.id}
                   containerElement={<Link to={`/expert/${dp.url}`} key={dp.url} />}
                   primaryText={`${dp.first_name} ${dp.last_name}`}
