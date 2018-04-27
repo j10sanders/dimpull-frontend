@@ -47,7 +47,7 @@ class Discussions extends React.Component {
           <CircularProgress style={{ display: waiting, width: '100%' }} size={80} thickness={5} />
           <List>
             {this.state.dps.map(dp => (
-              <Paper style={{ marginBottom: '12px', marginRight: '4px', marginLeft: '4px' }}>
+              <Paper style={{ marginBottom: '12px', marginRight: '4px', marginLeft: '4px' }} key={dp.id} >
                 <ListItem
                   leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
                   key={dp.id}
