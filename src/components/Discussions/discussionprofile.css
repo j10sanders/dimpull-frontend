@@ -114,3 +114,11 @@
   margin-left: 17px;
   margin-top: -5px;
 }
+
+.fa-times-circle {
+  color: red !important;
+}
+
+.fa-check{
+  color: green !important;
+}

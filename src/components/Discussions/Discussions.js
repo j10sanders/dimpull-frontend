@@ -54,7 +54,7 @@ class Discussions extends React.Component {
                   containerElement={<Link to={`/expert/${dp.url}`} key={dp.url} />}
                   primaryText={`${dp.first_name} ${dp.last_name}`}
                   secondaryText={
-                    <p style={{ lineHeight: '18px' }}><span style={{ color: darkBlack }}>{dp.description} </span><br/>{dp.who}</p>
+                    <p style={{ lineHeight: '18px' }}><span style={{ color: darkBlack }}>{dp.description} </span><br />{dp.who}</p>
                   }
                   style={{ textAlign: 'left' }}
                   secondaryTextLines={2}

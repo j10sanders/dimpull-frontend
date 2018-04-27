@@ -2,6 +2,46 @@ h3 {
 	font-size: 100px;
 }
 
+#exchange {
+	font-size: 64px;
+	text-align: left;
+}
+
+#h3exchange{
+	font-size: 25px;
+	color: #374147fc !important;
+	text-align: left;
+	max-width: 379px;
+}
+
+
+#imgWorks {
+	width: 80px;
+	height: auto;
+}
+
+#pRegister {
+	font-size: 19px;
+}
+
+p{
+	font-size: 17px;
+}
+
+#GridlistID {
+    max-width: 800px;
+    max-height: 266px;
+    height: 300px;
+    text-align: left;
+    margin: 0 auto !important;
+  }
+
+#head{
+	max-width: 800px;
+	margin: 0 auto;
+	padding-bottom: 30px;
+}
+
 #headerRow {
 	margin-left: 23px !important;
 	margin-right: 23px !important;
@@ -71,7 +111,7 @@ h3 {
 	    padding-top: 28px;
 	}
 	#exchange {
-		font-size: 52px;
+		font-size: 58px;
 	}
 }
 
@@ -102,17 +142,13 @@ h3 {
 		padding-top: 10px;
 		font-size: 19px;
 	}
-	#headerTop {
-		/*padding-bottom: 35px;*/
-		/*padding-top: 13vh;*/
-		/*height: 83vh;*/
-	}
 	#howItWorks {
 		margin-top: 20px;
 		margin-bottom: 50px;
 	}
 	#exchange {
 		padding-top: 10px;
+		font-size: 60px;
 	}
 	#h3exchange{
 		padding-top: 15px;
@@ -131,52 +167,23 @@ h3 {
 	#head{
 		padding-left: 10%;
 	}
+}
+
+@media (max-height: 900px){ 
+	#headerTop {
+		padding-top: 6vh;
+	}
+	#howItWorks {
+		margin-top: 20px;
+		margin-bottom: 50px;
+	}
 	#exchange {
-		font-size: 64px;
+		font-size: 50px;
 	}
 }
 
-
-#exchange {
-	font-size: 64px;
-	text-align: left;
+@media (max-height: 660){
+	#headerTop {
+		padding-top: 4vh;
+	}
 }
-
-#h3exchange{
-	font-size: 25px;
-	color: #374147fc !important;
-	text-align: left;
-	max-width: 379px;
-}
-
-
-#imgWorks {
-	width: 80px;
-	height: auto;
-}
-
-#pRegister {
-	font-size: 19px;
-}
-
-p{
-	font-size: 17px;
-}
-
-#GridlistID {
-    max-width: 800px;
-    max-height: 266px;
-    height: 300px;
-    text-align: left;
-    margin: 0 auto !important;
-  }
-
-#head{
-	max-width: 800px;
-	margin: 0 auto;
-	padding-bottom: 30px;
-}
-
-/*#helpRow {
-	margin-left: 
-}*/

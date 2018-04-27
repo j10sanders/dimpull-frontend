@@ -6,10 +6,12 @@ import axios from 'axios';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 import history from '../../history';
 import getWeb3 from '../../utils/getWeb3';
 import EscrowContract from '../../build/contracts/Escrow.json';
+import './discussionprofile.css';
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -54,6 +56,8 @@ class Contact extends React.Component {
       country: 'United States',
       transactionStatus: 'waiting',
       emailErrorText: '',
+      errorTitle: '',
+      hostFirstName: ''
     };
   }
 
@@ -87,7 +91,6 @@ class Contact extends React.Component {
 
   async getWallet () {
     const walletAndPrice = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/walletandprice/${this.props.location.search.substring(1)}`);
-    debugger;
     if (walletAndPrice.data.walletAddress && walletAndPrice.data.price) {
       const walletAddress = walletAndPrice.data.walletAddress;
       const price = await Contact.getEtherPrice(Number(walletAndPrice.data.price));
@@ -110,14 +113,12 @@ class Contact extends React.Component {
         console.log(err);
       }
       console.log(result);
-      // debugger;
     } else { // TODO: handle inadequate wallet address
       console.log(walletAndPrice.data);
     }
   }
 
   waitForReceipt (hash, cb) {
-    // debugger;
     this.setState({ transactionStatus: 'mining' });
     const that = this;
     this.state.web3.eth.getTransactionReceipt(hash, (err, receipt) => {
@@ -231,36 +232,36 @@ class Contact extends React.Component {
     });
   }
 
-  submit (e) {
+  async submit (e) {
     let search = this.props.location.search;
     if (search.charAt(0) === '?') {
       search = search.slice(1);
     }
     e.preventDefault();
     const start = this.props.location.state.startTime;
-    // TODO add real error handling if time is now in the past.
     if ((start - new Date()) / 60000 < 15) {
-      this.handleOpenError();
+      this.setState({errorTitle: `Sorry, that time is now too early.  Timeslots need to be booked at least 15 minutes before they occur.`}, () => this.handleOpenError())
     } else {
       const { isAuthenticated } = this.props.auth;
       const { getAccessToken } = this.props.auth;
       if (isAuthenticated()) {
         const headers = { Authorization: `Bearer ${getAccessToken()}` };
-        axios.post(
-          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
-          {
-            phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
-            message: this.state.message,
-            email: this.state.email,
-            start_time: new Date(start),
-            fromAddress: this.state.fromAddress
-          }, { headers }
-        ).then((response) => {
-          if (response.data !== 'whitelisted') {
-            return 'ERROR, not whitelisted';
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
+            {
+              phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
+              message: this.state.message,
+              email: this.state.email,
+              start_time: new Date(start),
+              fromAddress: this.state.fromAddress
+            }, { headers }
+          )
+          if (!response.data.whitelisted) {
+            throw 'something went wrong with a booking!';
           }
           this.setState({
-            anonymous_phone_number: response.data.anonymous_phone_number
+            anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
           }, () => this.setState({ open: true }));
           this.register().then((newResponse) => {
             if (newResponse.data !== 'updated phone_number') {
@@ -269,28 +270,45 @@ class Contact extends React.Component {
             return 'Updated the phone number';
           });
           return 'number is whitelisted';
-        }).catch(error => this.setState({ tel_error_text: error }));
+        } catch (err) {
+          this.setState({errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong`}, () => this.handleOpenError())
+          await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
+            {
+              err: err,
+              email: this.state.email
+            }
+          );
+        }
       } else {
-        axios.post(
-          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
-          {
-            phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
-            message: this.state.message,
-            email: this.state.email,
-            start_time: new Date(start),
-            fromAddress: this.state.fromAddress
-          }
-        ).then((response) => {
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
+            {
+              phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
+              message: this.state.message,
+              email: this.state.email,
+              start_time: new Date(start),
+              fromAddress: this.state.fromAddress
+            });
           if (!response.data.whitelisted) {
-            return 'ERROR, not whitelisted';
+            throw 'something went wrong with a booking!';
           }
           this.setState({
-            anonymous_phone_number: response.data.anonymous_phone_number,
+            anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
           }, () => this.setState({ open: true }));
           return 'number is whitelisted';
-        }).catch(error => this.setState({ tel_error_text: error }));
+        } catch (err) {
+          this.setState({errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong`}, () => this.handleOpenError())
+          await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
+            {
+              err: err,
+              email: this.state.email
+            }
+          );
+        }
       }
     }
+    return 'number is whitelisted';
   }
 
   render () {
@@ -299,7 +317,7 @@ class Contact extends React.Component {
         label="Okay"
         primary
         keyboardFocused
-        onClick={this.handleClose}
+        onClick={() => this.handleClose}
       />
     ];
     if (this.state.web3error) {
@@ -321,9 +339,13 @@ class Contact extends React.Component {
     let transaction;
     if (this.state.transactionStatus === 'waiting') {
       transaction = [
-        <div key="waiting">
-          <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605290/icons8-close-window-50.png" alt="no" />
-          {' '}<div>Payment not sent yet.</div>
+        <div key="waiting" >
+          <IconButton iconClassName="fas fa-times-circle" disabled />
+          {' '}
+          <div>
+            <div style={{ fontWeight: '600' }}>Payment Not Sent - Open MetaMask</div>
+            <div>If you see multiple transactions pending in MetaMask, reject all and refresh this page</div>
+          </div>
         </div>
       ];
     } else if (this.state.transactionStatus === 'mining') {
@@ -336,8 +358,8 @@ class Contact extends React.Component {
     } else if (this.state.transactionStatus === 'mined') {
       transaction = [
         <div key="mined">
-          <div><img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_34/v1524605282/icons8-ok-50.png" alt="yes" /></div>
-          {' '}Transaction accepted.
+          <div><IconButton iconClassName="fas fa-check" disabled /></div>
+          {' '}Transaction Accepted.
         </div>
       ];
     }
@@ -378,7 +400,7 @@ class Contact extends React.Component {
               </div>
               <div>
                 <TextField
-                  floatingLabelText="Your email address (or login!)"
+                  floatingLabelText="Email address"
                   type="email"
                   onChange={e => this.changeValue(e, 'email')}
                   defaultValue=""
@@ -397,14 +419,15 @@ class Contact extends React.Component {
             />
           </div>
           <Dialog
-            title={`Call is booked.  You can call them at ${this.props.location.state.startTime} using the number ${this.state.anonymous_phone_number}.  Make sure to save it somewhere`}
+            title={`Call is booked.  You can call ${this.state.hostFirstName} at ${this.props.location.state.startTime} at this number: ${this.state.anonymous_phone_number}.
+              Make sure to save it somewhere!  You will also recieve an email with this info.`}
             actions={actions}
             modal={false}
             open={this.state.open}
             onRequestClose={this.handleClose}
           />
           <Dialog
-            title={'Sorry, that time is now too early.  Timeslots need to be booked at least 15 minutes before they occur.'}
+            title={this.state.errorTitle}
             actions={actions}
             modal={false}
             open={this.state.openError}
@@ -415,7 +438,6 @@ class Contact extends React.Component {
     );
   }
 }
-
 
 Contact.propTypes = {
   auth: PropTypes.shape({

@@ -102,19 +102,18 @@ class Availability extends React.Component {
   }
 
   bookTimeslot(){
-    debugger;
     // this.state.event date with time this.state.checked is not in past -- then 
     let checked = this.state.checked
     let start = this.state.event.start
     let startTime = start
     if (!checked) {
-      if ((start - new Date()) / 60000 < 30) {
+      if ((start - new Date()) / 60000 < 60) {
         this.handleOpenError();
       }
     } else {
       startTime = (start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0)
     }
-    if ((start - new Date()) / 60000 < 30) {
+    if ((start - new Date()) / 60000 < 60) {
       this.handleOpenError();
     } else {
       history.push({
@@ -250,7 +249,7 @@ class Availability extends React.Component {
               </RadioButtonGroup>
             </Dialog>
             <Dialog
-              title="Sorry, the timeslot must start at least 30 minutes in the future."
+              title="Sorry, the timeslot must start at least one hour from now."
               actions={errActions}
               modal={false}
               open={this.state.tooEarly}
