@@ -40,12 +40,12 @@ class Discussions extends React.Component {
     const waiting = this.state.waiting ? 'inherit' : 'none';
     return (
       <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-        <CircularProgress style={{ display: waiting, width: '100%' }} size={80} thickness={5} />
         <div style={{ marginTop: '50px' }}>
           <h1>Meet the Experts</h1>
         </div>
         <div id="meetExperts">
           <Paper>
+          <CircularProgress style={{ display: waiting, width: '100%' }} size={80} thickness={5} />
             <List>
               {this.state.dps.map(dp => (
                 <ListItem

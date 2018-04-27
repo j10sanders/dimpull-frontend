@@ -61,7 +61,8 @@ class EditProfile extends React.Component {
       twitter: '',
       github: '',
       medium: '',
-      title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.'
+      title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.',
+      submitFull: false // so server knows if it's a full profile
     };
   }
 
@@ -224,6 +225,8 @@ class EditProfile extends React.Component {
   async submit (e) {
     if (e === 'save'){
       this.setState({ title: "We saved your work."});
+    } else {
+      this.setState({ submitFull: true });
     }
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
@@ -253,10 +256,12 @@ class EditProfile extends React.Component {
       return httpsUrls;
     });
 
+    let pathname = this.props.location.pathname
+    pathname = pathname.endsWith('editProfile') ? `${pathname}/${this.state.url}` : pathname;
     const urlvalid = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/urlcheck/${this.state.url}`, { headers });
     if (urlvalid.data === 'available') {
       if (isAuthenticated()) {
-        const posted = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`, {
+        const posted = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}${pathname}`, {
           user_id: this.state.profile.sub,
           description: this.state.description,
           image_url: this.state.image,
@@ -268,6 +273,7 @@ class EditProfile extends React.Component {
           helps: this.state.helps,
           who: this.state.who,
           url: this.state.url,
+          submitFull: this.state.submitFull,
           walletAddress: this.state.walletAddress,
           linkedin: httpsUrls['linkedin'],
           medium: httpsUrls['medium'],

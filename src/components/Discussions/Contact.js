@@ -49,17 +49,12 @@ class Contact extends React.Component {
       disabled: true,
       // startTime: '',
       open: false,
+      openError: false,
       pnf: '',
       country: 'United States',
       transactionStatus: 'waiting',
-      emailErrorText: ''
+      emailErrorText: '',
     };
-  }
-
-  componentWillMount () {
-    // Get network provider and web3 instance.
-    // See utils/getWeb3 for more info.
-    
   }
 
   componentDidMount () {
@@ -92,7 +87,8 @@ class Contact extends React.Component {
 
   async getWallet () {
     const walletAndPrice = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/walletandprice/${this.props.location.search.substring(1)}`);
-    if (walletAndPrice.data.walletAddress.length === 42 && walletAndPrice.data.price) {
+    debugger;
+    if (walletAndPrice.data.walletAddress && walletAndPrice.data.price) {
       const walletAddress = walletAndPrice.data.walletAddress;
       const price = await Contact.getEtherPrice(Number(walletAndPrice.data.price));
       const instance = await this.state.escrow.deployed();
@@ -217,10 +213,21 @@ class Contact extends React.Component {
     this.setState({ open: true });
   }
 
+  handleOpenError () {
+    this.setState({ openError: true });
+  }
+
   handleClose () {
     this.setState({ open: false });
     history.push({
-      pathname: '/discussions'
+      pathname: '/'
+    });
+  }
+
+  handleErrorClose () {
+    this.setState({ openError: false });
+    history.push({
+      pathname: '/'
     });
   }
 
@@ -232,8 +239,8 @@ class Contact extends React.Component {
     e.preventDefault();
     const start = this.props.location.state.startTime;
     // TODO add real error handling if time is now in the past.
-    if (start < new Date()) {
-      console.log('TOO EARLY');
+    if ((start - new Date()) / 60000 < 15) {
+      this.handleOpenError();
     } else {
       const { isAuthenticated } = this.props.auth;
       const { getAccessToken } = this.props.auth;
@@ -252,6 +259,9 @@ class Contact extends React.Component {
           if (response.data !== 'whitelisted') {
             return 'ERROR, not whitelisted';
           }
+          this.setState({
+            anonymous_phone_number: response.data.anonymous_phone_number
+          }, () => this.setState({ open: true }));
           this.register().then((newResponse) => {
             if (newResponse.data !== 'updated phone_number') {
               return 'ERROR, phone number not updated';
@@ -271,11 +281,13 @@ class Contact extends React.Component {
             fromAddress: this.state.fromAddress
           }
         ).then((response) => {
-          if (response.data !== 'whitelisted') {
+          if (!response.data.whitelisted) {
             return 'ERROR, not whitelisted';
           }
+          this.setState({
+            anonymous_phone_number: response.data.anonymous_phone_number,
+          }, () => this.setState({ open: true }));
           return 'number is whitelisted';
-        // redirect to create profile
         }).catch(error => this.setState({ tel_error_text: error }));
       }
     }
@@ -385,19 +397,25 @@ class Contact extends React.Component {
             />
           </div>
           <Dialog
-            title="A notification was sent to the expert."
+            title={`Call is booked.  You can call them at ${this.props.location.state.startTime} using the number ${this.state.anonymous_phone_number}.  Make sure to save it somewhere`}
             actions={actions}
             modal={false}
             open={this.state.open}
             onRequestClose={this.handleClose}
-          >
-            You will be notified by SMS if/when they accept.
-          </Dialog>
+          />
+          <Dialog
+            title={'Sorry, that time is now too early.  Timeslots need to be booked at least 15 minutes before they occur.'}
+            actions={actions}
+            modal={false}
+            open={this.state.openError}
+            onRequestClose={this.handleErrorClose}
+          />
         </Paper>
       </div>
     );
   }
 }
+
 
 Contact.propTypes = {
   auth: PropTypes.shape({

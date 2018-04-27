@@ -1,6 +1,4 @@
 import React from 'react';
-// import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-// import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -26,32 +24,31 @@ class Availability extends React.Component {
     this.state = {
       events: [],
       open: false,
-      waiting: true
+      waiting: true,
+      tooEarly: false,
     }
-
     this.moveEvent = this.moveEvent.bind(this)
   }
 
-  componentDidMount(){
-  axios.get(`
-    ${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`)
-    .then((response) => {
-      let events = []
-      let index = 0
-      for (let e of response.data) {
-        let start = new Date(e.start)
-        let end = new Date(e.end)
-        let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
-        let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
-        let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
-        events.push(event)
-        index += 1
-      }
-      this.setState({events: events, waiting: false})})
-    .catch(function (error) {
-      console.log(error)
-    })
-
+  componentDidMount () {
+    axios.get(`
+      ${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`)
+      .then((response) => {
+        let events = []
+        let index = 0
+        for (let e of response.data) {
+          let start = new Date(e.start)
+          let end = new Date(e.end)
+          let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
+          let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
+          let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
+          events.push(event)
+          index += 1
+        }
+        this.setState({events: events, waiting: false})})
+      .catch(function (error) {
+        console.log(error)
+      })
   }
 
   formatTime(time){
@@ -74,52 +71,52 @@ class Availability extends React.Component {
 
   moveEvent({ event, start, end }) {
     const { events } = this.state
-
     const idx = events.indexOf(event)
     const updatedEvent = { ...event, start, end }
-
     const nextEvents = [...events]
     nextEvents.splice(idx, 1, updatedEvent)
-
     this.setState({
       events: nextEvents,
     })
-
     alert(`${event.title} was dropped onto ${event.start}`)
   }
 
   resizeEvent = (resizeType, { event, start, end }) => {
     const { events } = this.state
-
     const nextEvents = events.map(existingEvent => {
       return existingEvent.id === event.id
         ? { ...existingEvent, start, end }
         : existingEvent
     })
-
     this.setState({
       events: nextEvents,
     })
   }
 
+  handleOpenError () {
+    this.setState({ tooEarly: true })
+  }
+
+  handleCloseError () {
+    this.setState({ tooEarly: false, open: false })
+  }
+
   bookTimeslot(){
+    debugger;
     // this.state.event date with time this.state.checked is not in past -- then 
     let checked = this.state.checked
     let start = this.state.event.start
     let startTime = start
     if (!checked) {
-      if (start < new Date()){
-        console.log("TOO EARLY")
-        return
+      if ((start - new Date()) / 60000 < 30) {
+        this.handleOpenError();
       }
     } else {
       startTime = (start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0)
     }
-    if (startTime < new Date()){
-      console.log("TOO EARLY")
-    } else{
-      console.log(startTime, "STARTTIME")
-      // save go to next step to save anon number and will need to associate with this time.
+    if ((start - new Date()) / 60000 < 30) {
+      this.handleOpenError();
+    } else {
       history.push({
         pathname: '/requestConversation',
         search: this.props.location.pathname.split('/').pop().trim(),
@@ -139,11 +136,9 @@ class Availability extends React.Component {
   getTimeDate(time) {
     var timeParts = time.split(':');
     var d = new Date();
-
     d.setHours(timeParts[0]);
     d.setMinutes(timeParts[1]);
     d.setSeconds(timeParts[2]);
-
     return d;
 }
 
@@ -184,6 +179,14 @@ class Availability extends React.Component {
         label="Book timeslot"
         primary={true}
         onClick={() => this.bookTimeslot()}
+      />,
+    ];
+
+    const errActions = [
+      <FlatButton
+        label="Ok"
+        primary={true}
+        onClick={() => this.handleCloseError()}
       />,
     ];
 
@@ -236,16 +239,24 @@ class Availability extends React.Component {
               />
             </Paper>
             <Dialog
-              title="Pick your start time for a 30 minute window"
+              title="Confirm your start time for a 30 minute window"
               actions={actions}
               modal={false}
               open={this.state.open}
-              onRequestClose={() => this.handleClose.bind(this)}
-            >   
-              <RadioButtonGroup name="timeslots" defaultSelected={radios.length > 0 ? radios[0].props.value : ""}>
+              onRequestClose={() => this.handleClose()}
+            > 
+            <RadioButtonGroup name="timeslots" defaultSelected={radios.length > 0 ? radios[0].props.value : ""}>
                 {radios}
               </RadioButtonGroup>
             </Dialog>
+            <Dialog
+              title="Sorry, the timeslot must start at least 30 minutes in the future."
+              actions={errActions}
+              modal={false}
+              open={this.state.tooEarly}
+              onRequestClose={() => this.handleCloseError()}
+            />
+              
           </div>
         )
       }
@@ -254,4 +265,4 @@ class Availability extends React.Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(Availability)
+export default DragDropContext(HTML5Backend)(Availability);
