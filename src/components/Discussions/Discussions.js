@@ -44,17 +44,17 @@ class Discussions extends React.Component {
           <h1>Meet the Experts</h1>
         </div>
         <div id="meetExperts">
-          <Paper>
-            <CircularProgress style={{ display: waiting, width: '100%' }} size={80} thickness={5} />
-            <List>
-              {this.state.dps.map(dp => (
+          <CircularProgress style={{ display: waiting, width: '100%' }} size={80} thickness={5} />
+          <List>
+            {this.state.dps.map(dp => (
+              <Paper style={{ marginBottom: '12px', marginRight: '4px', marginLeft: '4px' }}>
                 <ListItem
                   leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
                   key={dp.id}
                   containerElement={<Link to={`/expert/${dp.url}`} key={dp.url} />}
                   primaryText={`${dp.first_name} ${dp.last_name}`}
                   secondaryText={
-                    <p><span style={{ color: darkBlack }}>{dp.description} </span>{dp.who}</p>
+                    <p style={{ lineHeight: '18px' }}><span style={{ color: darkBlack }}>{dp.description} </span><br/>{dp.who}</p>
                   }
                   style={{ textAlign: 'left' }}
                   secondaryTextLines={2}
@@ -79,9 +79,9 @@ class Discussions extends React.Component {
                     </div>
                   }
                 />
-              ))}
-            </List>
-          </Paper>
+              </Paper>
+            ))}
+          </List>
         </div>
       </div>
     );
