@@ -30,7 +30,6 @@ class ProfileCard extends React.Component {
               <Card>
                 <CardMedia
                   overlay={<CardTitle title={this.props.host} subtitle={this.props.description} />}
-                  // onClick={() => this.props.linkToProfile(this.props.other_profile)}
                 >
                   <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
                     {this.props.image && (

@@ -53,6 +53,7 @@ class DiscussionProfile extends React.Component {
         this.setState({ reviewIdConfirmed: true, cid: reviewNeeded.data.cid });
       }
     }
+    // TODO add url matching for vip=
     const url = requestUrl.match(/\/([^/]+)\/?$/)[1];
     this.setState({ url });
     if (!requestUrl.startsWith('/expert')) {
@@ -185,15 +186,6 @@ class DiscussionProfile extends React.Component {
     this.emailClose();
   }
 
-  linkToProfile (profile){
-    // window.open(
-    //   profile,
-    //   '_blank' // <- This is what makes it open in a new window.
-    // );
-    //commented out because we don't need to link in seed profiles.
-  return;
-  }
-
   reviewed () {
     this.setState({ needReview: false, reviewIdConfirmed: false, thanks: true });
   }
@@ -291,7 +283,6 @@ class DiscussionProfile extends React.Component {
             title={title}
             subtitle={subtitle}
             otherProfile={this.state.otherProfile}
-            linkToProfile={() => this.linkToProfile()}
             actions={actions}
             is_users={this.state.is_users}
             dp={this.state.dp}
