@@ -128,7 +128,7 @@ class Availability extends React.Component {
         history.push({
           pathname: '/requestConversation',
           search: conversationID,
-          state: { startTime: startTime, now: Date.now() }
+          state: { startTime: startTime, now: Date.now(), vip: this.props.location.state.vip }
         })
       } else { // TODO: remove that time from availability, or just refresh page.
         this.setState({ errorTitle: `Sorry, someone else just booked that time!  It is no longer available.`}, () => this.handleOpenError());

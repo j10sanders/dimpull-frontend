@@ -24,7 +24,8 @@ class DiscussionProfile extends React.Component {
       etherPrice: '',
       email: '',
       emailOpen: false,
-      waiting: true
+      waiting: true,
+      vip: false
     };
   }
 
@@ -52,8 +53,19 @@ class DiscussionProfile extends React.Component {
       if (reviewNeeded.data.confirmed === 'confirmed') {
         this.setState({ reviewIdConfirmed: true, cid: reviewNeeded.data.cid });
       }
+    } else if (requestUrl.includes('vip=')) {
+      const vip = requestUrl.substring(requestUrl.indexOf('/vip=') + 5);
+      requestUrl = requestUrl.substring(0, requestUrl.indexOf('/vip='));
+      const vipCheck = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/checkvip/${vip}`,
+        {
+          url: requestUrl.match(/\/([^/]+)\/?$/)[1]
+        }
+      );
+      if (vipCheck.data === 'confirmed') {
+        this.setState({ vip: true, vipid: vip });
+      }
     }
-    // TODO add url matching for vip=
+    
     const url = requestUrl.match(/\/([^/]+)\/?$/)[1];
     this.setState({ url });
     if (!requestUrl.startsWith('/expert')) {
@@ -173,6 +185,14 @@ class DiscussionProfile extends React.Component {
 
   changeEmail (e) {
     this.setState({ email: e.target.value });
+  }
+
+  schedule () {
+    history.push({
+      pathname: `/availability/${this.state.dp}`,
+      // search: conversationID,
+      state: { vip: this.state.vip }
+    });
   }
 
   async submitEmail () {
@@ -299,6 +319,7 @@ class DiscussionProfile extends React.Component {
             medium={this.state.medium}
             reviews={this.state.reviewRender}
             averageRating={averageRating}
+            schedule={() => this.schedule()}
           />
         )}
         

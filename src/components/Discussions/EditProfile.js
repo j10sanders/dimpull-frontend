@@ -528,7 +528,7 @@ class EditProfile extends React.Component {
                   <RaisedButton
                     style={{ marginLeft: '10%', marginTop: '30px' }}
                     label="Haven't finished?  Save your edits for later"
-                    onClick={e => this.submit(e)}
+                    onClick={() => this.submit('save')}
                     primary
                   />
                 </div>

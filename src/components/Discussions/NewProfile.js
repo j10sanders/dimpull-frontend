@@ -327,7 +327,7 @@ class newProfile extends React.Component {
           `${process.env.REACT_APP_USERS_SERVICE_URL}/addReferent/${pathName.substr(pathName.length - 7)}`,
           { headers }
         );
-        if (referred.data !== "applied") {
+        if (referred.data !== 'applied') {
           await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
             {
               err: 'referral failed',

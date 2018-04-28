@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 import Countdown from 'react-countdown-now';
+import { Link } from 'react-router-dom';
 import history from '../../history';
 import getWeb3 from '../../utils/getWeb3';
 import EscrowContract from '../../build/contracts/Escrow.json';
@@ -63,30 +64,35 @@ class Contact extends React.Component {
   }
 
   componentDidMount () {
-    getWeb3
-      .then((results) => {
-        if (results.error) {
-          this.setState({ web3error: true });
-        } else {
-          this.setState({
-            web3: results.web3
-          }, () => this.instantiateContract());
-        }
-      })
-      .catch(() => {
-        this.setState({ web3error: true });
-      });
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    if (isAuthenticated()) {
-      const headers = { Authorization: `Bearer ${getAccessToken()}` };
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
-        .then((response) => {
-          if (response.data.phone_number) {
-            this.setState({ tel: response.data.phone_number, telReceived: true });
+    const vip = this.props.location.state.vip;
+    if (vip) {
+      this.vip();
+    } else {
+      getWeb3
+        .then((results) => {
+          if (results.error) {
+            this.setState({ web3error: true });
+          } else {
+            this.setState({
+              web3: results.web3
+            }, () => this.instantiateContract());
           }
         })
-        .catch(error => console.log(error));
+        .catch(() => {
+          this.setState({ web3error: true });
+        });
+      const { isAuthenticated } = this.props.auth;
+      const { getAccessToken } = this.props.auth;
+      if (isAuthenticated()) {
+        const headers = { Authorization: `Bearer ${getAccessToken()}` };
+        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
+          .then((response) => {
+            if (response.data.phone_number) {
+              this.setState({ tel: response.data.phone_number, telReceived: true });
+            }
+          })
+          .catch(error => console.log(error));
+      }
     }
   }
 
@@ -117,6 +123,10 @@ class Contact extends React.Component {
     } else { // TODO: handle inadequate wallet address
       console.log(walletAndPrice.data);
     }
+  }
+
+  vip () {
+    this.setState({ transactionStatus: 'vip', fromAddress: 'vipcaller' }, () => this.isDisabled());
   }
 
   waitForReceipt (hash, cb) {
@@ -175,7 +185,7 @@ class Contact extends React.Component {
         tel_error_text: 'Enter a valid phone number'
       });
     }
-    if (telIsValid && email && (this.state.transactionStatus === 'mined')) {
+    if (telIsValid && email && (this.state.transactionStatus === 'mined' || this.state.transactionStatus === 'vip')) {
       this.setState({
         disabled: false
       });
@@ -233,6 +243,7 @@ class Contact extends React.Component {
     });
   }
 
+
   async submit (e) {
     let search = this.props.location.search;
     if (search.charAt(0) === '?') {
@@ -275,7 +286,7 @@ class Contact extends React.Component {
           this.setState({ errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong` }, () => this.handleOpenError())
           await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
             {
-              err: err.message,
+              err: `${err.message} --THIS WAS IN THE SUBMIT FOR CALL STEP`,
               email: this.state.email
             }
           );
@@ -302,7 +313,7 @@ class Contact extends React.Component {
           this.setState({errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong`}, () => this.handleOpenError())
           await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
             {
-              err: err.message,
+              err: `${err.message} --THIS WAS IN THE SUBMIT FOR CALL STEP`,
               email: this.state.email
             }
           );
@@ -313,7 +324,13 @@ class Contact extends React.Component {
   }
 
   render () {
-    const Completionist = () => <span>Unfortunately, you took too long to book.  Please go back a page and try again.  If your payment already went through, please contact admin@dimpull.com</span>;
+    const Completionist = () => (
+      <div className="col-md-6 col-md-offset-3">
+        <div style={{ textAlign: 'center', paddingTop: '20px' }} >
+          Sorry... time's up.  Please <Link to={`/availability/${this.props.location.search}`}> go back a page and try again</Link>.  If your payment already went through, please contact admin@dimpull.com
+        </div>
+      </div>
+    );
     const renderer = ({ minutes, seconds, completed }) => {
       if (completed) {
         // Render a completed state
@@ -353,7 +370,7 @@ class Contact extends React.Component {
                     hintText="Short message for expert"
                     floatingLabelText="Message for expert (optional)"
                     type="text"
-                    style={{ paddingTop: '8px' }}
+                    // style={{ paddingTop: '8px' }}
                     onChange={e => this.changeValue(e, 'message')}
                   />
                 </div>
@@ -383,14 +400,14 @@ class Contact extends React.Component {
               actions={actions}
               modal={false}
               open={this.state.open}
-              onRequestClose={this.handleClose}
+              onRequestClose={() => this.handleClose()}
             />
             <Dialog
               title={this.state.errorTitle}
               actions={actions}
               modal={false}
               open={this.state.openError}
-              onRequestClose={this.handleErrorClose}
+              onRequestClose={() => this.handleErrorClose()}
             />
           </Paper>
         </div>
@@ -402,7 +419,7 @@ class Contact extends React.Component {
         label="Okay"
         primary
         keyboardFocused
-        onClick={() => this.handleClose}
+        onClick={() => this.handleClose()}
       />
     ];
     if (this.state.web3error) {
@@ -445,6 +462,13 @@ class Contact extends React.Component {
         <div key="mined">
           <div><IconButton iconClassName="fas fa-check" disabled /></div>
           {' '}Transaction Accepted.
+        </div>
+      ];
+    } else if (this.state.transactionStatus === 'vip') {
+      transaction = [
+        <div key="vip">
+          <div><IconButton iconClassName="fas fa-check" disabled /></div>
+          {' '}This is your free call.
         </div>
       ];
     }
