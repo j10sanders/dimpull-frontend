@@ -129,12 +129,10 @@ class ProfileCard extends React.Component {
                           {this.props.host} will be accepting calls VERY soon.
                           To be notified when the platform is ready, please enter your email below.  We promise no spam!
                           <TextField
-                            // hintText="Link to another site's profile"
                             floatingLabelText="Your email"
                             type="email"
                             value={this.props.email}
                             fullWidth
-                            // errorText={this.state.tel_error_text}
                             onChange={e => this.props.changeEmail(e)}
                           />
                         </Dialog>

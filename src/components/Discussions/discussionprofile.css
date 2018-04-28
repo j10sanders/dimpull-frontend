@@ -122,3 +122,8 @@
 .fa-check{
   color: green !important;
 }
+
+#timer{
+  padding-top: 15px;
+  float: left;
+}

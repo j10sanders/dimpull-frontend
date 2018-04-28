@@ -26,6 +26,7 @@ class Availability extends React.Component {
       open: false,
       waiting: true,
       tooEarly: false,
+      errorTitle: ''
     }
     this.moveEvent = this.moveEvent.bind(this)
   }
@@ -101,26 +102,37 @@ class Availability extends React.Component {
     this.setState({ tooEarly: false, open: false })
   }
 
-  bookTimeslot(){
+  async bookTimeslot(){
     // this.state.event date with time this.state.checked is not in past -- then 
     let checked = this.state.checked
     let start = this.state.event.start
     let startTime = start
     if (!checked) {
       if ((start - new Date()) / 60000 < 60) {
-        this.handleOpenError();
+        this.setState({ errorTitle: `Sorry, the timeslot must start at least one hour from now.`}, () => this.handleOpenError());
       }
     } else {
       startTime = (start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0)
     }
     if ((start - new Date()) / 60000 < 60) {
-      this.handleOpenError();
+      this.setState({ errorTitle: `Sorry, the timeslot must start at least one hour from now.`}, () => this.handleOpenError());
     } else {
-      history.push({
-        pathname: '/requestConversation',
-        search: this.props.location.pathname.split('/').pop().trim(),
-        state: { startTime: startTime }
-      })
+      // TODO : send a server request to mark timeslot as pending.
+      const conversationID = this.props.location.pathname.split('/').pop().trim()
+      const result = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/holdtimeslot/${conversationID}`,
+        {
+          start_time: new Date(startTime),
+        }
+      );
+      if (result.data === "added pending"){
+        history.push({
+          pathname: '/requestConversation',
+          search: conversationID,
+          state: { startTime: startTime, now: Date.now() }
+        })
+      } else { // TODO: remove that time from availability, or just refresh page.
+        this.setState({ errorTitle: `Sorry, someone else just booked that time!  It is no longer available.`}, () => this.handleOpenError());
+      }
     }
   }
 
@@ -249,7 +261,7 @@ class Availability extends React.Component {
               </RadioButtonGroup>
             </Dialog>
             <Dialog
-              title="Sorry, the timeslot must start at least one hour from now."
+              title={this.state.errorTitle}
               actions={errActions}
               modal={false}
               open={this.state.tooEarly}

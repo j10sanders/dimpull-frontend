@@ -8,6 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
+import Countdown from 'react-countdown-now';
 import history from '../../history';
 import getWeb3 from '../../utils/getWeb3';
 import EscrowContract from '../../build/contracts/Escrow.json';
@@ -240,7 +241,7 @@ class Contact extends React.Component {
     e.preventDefault();
     const start = this.props.location.state.startTime;
     if ((start - new Date()) / 60000 < 15) {
-      this.setState({errorTitle: `Sorry, that time is now too early.  Timeslots need to be booked at least 15 minutes before they occur.`}, () => this.handleOpenError())
+      this.setState({ errorTitle: `Sorry, that time is now too early.  Timeslots need to be booked at least 15 minutes before they occur.` }, () => this.handleOpenError())
     } else {
       const { isAuthenticated } = this.props.auth;
       const { getAccessToken } = this.props.auth;
@@ -256,9 +257,9 @@ class Contact extends React.Component {
               start_time: new Date(start),
               fromAddress: this.state.fromAddress
             }, { headers }
-          )
+          );
           if (!response.data.whitelisted) {
-            throw 'something went wrong with a booking!';
+            throw new Error('something went wrong with a booking!');
           }
           this.setState({
             anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
@@ -271,10 +272,10 @@ class Contact extends React.Component {
           });
           return 'number is whitelisted';
         } catch (err) {
-          this.setState({errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong`}, () => this.handleOpenError())
+          this.setState({ errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong` }, () => this.handleOpenError())
           await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
             {
-              err: err,
+              err: err.message,
               email: this.state.email
             }
           );
@@ -291,7 +292,7 @@ class Contact extends React.Component {
               fromAddress: this.state.fromAddress
             });
           if (!response.data.whitelisted) {
-            throw 'something went wrong with a booking!';
+            throw new Error('something went wrong with a booking!');
           }
           this.setState({
             anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
@@ -301,7 +302,7 @@ class Contact extends React.Component {
           this.setState({errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong`}, () => this.handleOpenError())
           await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
             {
-              err: err,
+              err: err.message,
               email: this.state.email
             }
           );
@@ -312,6 +313,90 @@ class Contact extends React.Component {
   }
 
   render () {
+    const Completionist = () => <span>Unfortunately, you took too long to book.  Please go back a page and try again.  If your payment already went through, please contact admin@dimpull.com</span>;
+    const renderer = ({ minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <Completionist />;
+      }
+      return (
+        <div className="col-md-6 col-md-offset-3">
+          <div style={{ textAlign: 'center', paddingTop: '20px' }} >
+            <IconButton style={{ float: 'left' }} iconClassName="fas fa-clock" disabled />
+            <p id="timer">{minutes}:{seconds} left to book this call.</p>
+          </div>
+          <Paper style={style}>
+            <div className="text-center">
+              <h2>Enter Your Number and Pay with ETH</h2>
+              <p> A different phone number will show up in caller ID.</p>
+              <div className="col-md-12">
+                {this.state.telReceived &&
+                  <TextField
+                    floatingLabelText="Phone number"
+                    type="tel"
+                    errorText={this.state.tel_error_text}
+                    onChange={e => this.changeValue(e, 'tel')}
+                    value={this.state.tel}
+                  />
+                }
+                {!this.state.telReceived &&
+                  <TextField
+                    floatingLabelText="Phone number"
+                    type="tel"
+                    errorText={this.state.tel_error_text}
+                    onChange={e => this.changeValue(e, 'tel')}
+                    value={this.state.tel}
+                  />
+                }
+                <div>
+                  <TextField
+                    hintText="Short message for expert"
+                    floatingLabelText="Message for expert (optional)"
+                    type="text"
+                    style={{ paddingTop: '8px' }}
+                    onChange={e => this.changeValue(e, 'message')}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    floatingLabelText="Email address"
+                    type="email"
+                    onChange={e => this.changeValue(e, 'email')}
+                    defaultValue=""
+                    errorText={this.state.emailErrorText}
+                  />
+                </div>
+                <div style={{ paddingTop: '30px' }} >
+                  {transaction}
+                </div>
+              </div>
+              <RaisedButton
+                disabled={this.state.disabled}
+                style={{ marginTop: 50 }}
+                label="Submit"
+                onClick={e => this.submit(e)}
+              />
+            </div>
+            <Dialog
+              title={`Call is booked.  You can call ${this.state.hostFirstName} at ${this.props.location.state.startTime} at this number: ${this.state.anonymous_phone_number}.
+                Make sure to save it somewhere!  You will also recieve an email with this info.`}
+              actions={actions}
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            />
+            <Dialog
+              title={this.state.errorTitle}
+              actions={actions}
+              modal={false}
+              open={this.state.openError}
+              onRequestClose={this.handleErrorClose}
+            />
+          </Paper>
+        </div>
+      );
+    };
+
     const actions = [
       <FlatButton
         label="Okay"
@@ -364,77 +449,10 @@ class Contact extends React.Component {
       ];
     }
     return (
-      <div className="col-md-6 col-md-offset-3">
-        <Paper style={style}>
-          <div className="text-center">
-            <h2>Please provide the number you will call from</h2>
-            <p> Don't worry, we aren't sharing this, and a different number will show up in caller ID.</p>
-            <div className="col-md-12">
-              {this.state.telReceived &&
-                <TextField
-                  floatingLabelText="Phone number"
-                  type="tel"
-                  errorText={this.state.tel_error_text}
-                  onChange={e => this.changeValue(e, 'tel')}
-                  value={this.state.tel}
-                />
-              }
-              {!this.state.telReceived &&
-                <TextField
-                  floatingLabelText="Phone number"
-                  type="tel"
-                  errorText={this.state.tel_error_text}
-                  onChange={e => this.changeValue(e, 'tel')}
-                  value={this.state.tel}
-                />
-              }
-              <div>
-                <TextField
-                  hintText="Short message for expert"
-                  floatingLabelText="Short message for expert"
-                  type="text"
-                  style={{ paddingTop: '8px' }}
-                  onChange={e => this.changeValue(e, 'message')}
-                  defaultValue="Hi, "
-                />
-              </div>
-              <div>
-                <TextField
-                  floatingLabelText="Email address"
-                  type="email"
-                  onChange={e => this.changeValue(e, 'email')}
-                  defaultValue=""
-                  errorText={this.state.emailErrorText}
-                />
-              </div>
-              <div style={{ paddingTop: '30px' }} >
-                {transaction}
-              </div>
-            </div>
-            <RaisedButton
-              disabled={this.state.disabled}
-              style={{ marginTop: 50 }}
-              label="Submit"
-              onClick={e => this.submit(e)}
-            />
-          </div>
-          <Dialog
-            title={`Call is booked.  You can call ${this.state.hostFirstName} at ${this.props.location.state.startTime} at this number: ${this.state.anonymous_phone_number}.
-              Make sure to save it somewhere!  You will also recieve an email with this info.`}
-            actions={actions}
-            modal={false}
-            open={this.state.open}
-            onRequestClose={this.handleClose}
-          />
-          <Dialog
-            title={this.state.errorTitle}
-            actions={actions}
-            modal={false}
-            open={this.state.openError}
-            onRequestClose={this.handleErrorClose}
-          />
-        </Paper>
-      </div>
+      <Countdown
+        date={this.props.location.state.now + 720000}
+        renderer={renderer}
+      />
     );
   }
 }
