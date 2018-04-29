@@ -90,7 +90,7 @@ p{
 	}
 	#headerTop {
 		padding-bottom: 208px;
-		padding-top: 17px;
+		padding-top: 0px !important;
 	}
 	.col-sm-3 {
 		width: auto !important;
@@ -187,3 +187,10 @@ p{
 		padding-top: 4vh;
 	}
 }
+/*
+
+@media (max-width: 480px){
+	#headerTop {
+		padding-top: 17px !important;
+	}
+}*/
