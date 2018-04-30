@@ -59,7 +59,7 @@ class Home extends React.Component {
                 <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
                 <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
                 <h3 id="h3exchange">Guaranteed by the Ethereum blockchain</h3>
-                {!isAuthenticated() && (
+              {!isAuthenticated() && (
                   <RaisedButton
                     onClick={() => this.props.auth.login('/newProfile')}
                     label="Become a Dimpull Expert"
@@ -75,12 +75,14 @@ class Home extends React.Component {
                     containerElement={<Link to="/newProfile"  />}
                     label="Become a Dimpull Expert"
                     secondary
+                    labelStyle={{ fontSize: '18px' }}
                     style={{
-                      marginTop: '40px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '230px', minWidth: '175px'
+                      marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px'
                     }}
                   />
                 )}
-              </div>
+                </div>
+
             </div>
             <div className="col-sm-6" id="colGrid">
               {this.state.dps && (
@@ -88,7 +90,7 @@ class Home extends React.Component {
                   id="GridlistID"
                   cols={2}
                   padding={20}
-                  cellHeight={240}
+                  cellHeight={220}
                 >
                   {this.state.dps.map(dp => (
                     <Link to={`/expert/${dp.url}`} key={dp.url}>
@@ -104,11 +106,30 @@ class Home extends React.Component {
                   ))}
                 </GridList>
               )}
+              
               {!this.state.dps && (
-                <CircularProgress size={80} thickness={5} /> 
+                <CircularProgress size={80} thickness={5} />
               )}
             </div>
           </div>
+
+          <div className="container">
+            <div className="row" >
+              <div className="col-sm col-sm-offset-5" id="meetTheExperts">
+                <RaisedButton
+                  containerElement={<Link to="/discussions"  />}
+                  label="Meet the Experts"
+                  // secondary
+                  primary
+                  labelStyle={{ fontSize: '18px' }}
+                  style={{
+                    marginTop: '80px', height: 'auto', lineHeight: '50px', maxWidth: '300px', minWidth: '222px'
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
         </section>
         <div style={{ backgroundColor: '#f7f7f7', marginTop: '100px', marginBottom: '100px' }}>
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
