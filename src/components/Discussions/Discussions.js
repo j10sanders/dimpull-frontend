@@ -67,15 +67,15 @@ class Discussions extends React.Component {
                       <div style={{ paddingBottom: '5px', textAlign: 'center' }}>
                         ${Number(dp.price).toFixed(0)}
                       </div>
-                      {dp.averageRating ? (<ReactStars
+                      {dp.averageRating && (<ReactStars
                         count={5}
                         size={24}
                         color2="#ffd700"
                         value={dp.averageRating}
-                        // half={false}
+                        half
                         edit={false}
                       />
-                      ) : (<div style={{ fontSize: '17px', color: 'darkgray' }}> No reviews yet </div>)}
+                      )}
                     </div>
                   }
                 />
