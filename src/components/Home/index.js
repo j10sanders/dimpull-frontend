@@ -58,15 +58,16 @@ class Home extends React.Component {
               <div id="head">
                 <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
                 <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
-                <h3 id="h3exchange">Guaranteed by the Ethereum blockchain</h3>
+                <h3 id="h3exchange" className="secondH3">Guaranteed by the Ethereum blockchain</h3>
               {!isAuthenticated() && (
                   <RaisedButton
                     onClick={() => this.props.auth.login('/newProfile')}
                     label="Become a Dimpull Expert"
-                    secondary
-                    labelStyle={{ fontSize: '18px' }}
+                    // secondary
+                    primary
+                    labelStyle={{ fontSize: '16px' }}
                     style={{
-                      marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px'
+                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left', marginRight: '4px'
                     }}
                   />
                 )}
@@ -75,12 +76,24 @@ class Home extends React.Component {
                     containerElement={<Link to="/newProfile"  />}
                     label="Become a Dimpull Expert"
                     secondary
-                    labelStyle={{ fontSize: '18px' }}
+                    labelStyle={{ fontSize: '16px' }}
                     style={{
-                      marginTop: '80px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px'
+                      marginTop: '20px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left'
                     }}
                   />
                 )}
+
+                <RaisedButton
+                  containerElement={<Link to="/discussions"  />}
+                  label="Meet the Experts"
+                  secondary
+                  // primary
+                  labelStyle={{ fontSize: '16px' }}
+                  style={{
+                    marginTop: '8px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left'
+                  }}
+                />
+             
                 </div>
 
             </div>
@@ -115,18 +128,7 @@ class Home extends React.Component {
 
           <div className="container">
             <div className="row" >
-              <div className="col-sm col-sm-offset-5" id="meetTheExperts">
-                <RaisedButton
-                  containerElement={<Link to="/discussions"  />}
-                  label="Meet the Experts"
-                  // secondary
-                  primary
-                  labelStyle={{ fontSize: '18px' }}
-                  style={{
-                    marginTop: '80px', height: 'auto', lineHeight: '50px', maxWidth: '300px', minWidth: '222px'
-                  }}
-                />
-              </div>
+
             </div>
           </div>
 
