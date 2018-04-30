@@ -28,12 +28,7 @@ class Header extends Component {
     });
   }
 
-            // <MenuItem
-            //   containerElement={<Link to="/discussions" />}
-            //   onClick={() => this.setState({ open: false })}
-            // >
-            //     Meet the Experts
-            // </MenuItem>
+            
             
   render () {
     const { isAuthenticated } = this.props.auth;
@@ -57,7 +52,12 @@ class Header extends Component {
             >
               {isAuthenticated() ? `Log Out` : `Login` }
             </MenuItem>
-
+            <MenuItem
+              containerElement={<Link to="/experts" />}
+              onClick={() => this.setState({ open: false })}
+            >
+                Meet the Experts
+            </MenuItem>
           </div>
         </Drawer>
         <AppBar

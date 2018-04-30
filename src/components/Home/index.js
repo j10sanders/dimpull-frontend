@@ -84,7 +84,7 @@ class Home extends React.Component {
                 )}
 
                 <RaisedButton
-                  containerElement={<Link to="/discussions"  />}
+                  containerElement={<Link to="/experts"  />}
                   label="Meet the Experts"
                   secondary
                   // primary

@@ -136,7 +136,7 @@ class Calendar extends React.Component {
         user_id: this.state.profile.sub,
         times: this.state.events,
     	})
-    	history.replace('/discussions');
+    	history.replace('/experts');
 	}
 
 	componentWillMount() {

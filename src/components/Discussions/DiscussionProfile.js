@@ -174,7 +174,7 @@ class DiscussionProfile extends React.Component {
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/deleteDiscussion/${this.state.dp}`, { headers })
       .then((response) => {
         this.handleClose();
-        history.replace('/discussions');
+        history.replace('/home');
       })
       .catch(error => console.log(error));
   }
