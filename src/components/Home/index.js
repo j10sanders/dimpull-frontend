@@ -59,7 +59,7 @@ class Home extends React.Component {
                 <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
                 <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
                 <h3 id="h3exchange" className="secondH3">Guaranteed by the Ethereum blockchain</h3>
-              {!isAuthenticated() && (
+                {!isAuthenticated() && (
                   <RaisedButton
                     onClick={() => this.props.auth.login('/newProfile')}
                     label="Become a Dimpull Expert"
@@ -75,10 +75,11 @@ class Home extends React.Component {
                   <RaisedButton
                     containerElement={<Link to="/newProfile"  />}
                     label="Become a Dimpull Expert"
-                    secondary
+                    // secondary
+                    primary
                     labelStyle={{ fontSize: '16px' }}
                     style={{
-                      marginTop: '20px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left'
+                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left', marginRight: '4px'
                     }}
                   />
                 )}
@@ -93,9 +94,7 @@ class Home extends React.Component {
                     marginTop: '8px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left'
                   }}
                 />
-             
-                </div>
-
+              </div>
             </div>
             <div className="col-sm-6" id="colGrid">
               {this.state.dps && (
@@ -118,20 +117,12 @@ class Home extends React.Component {
                     </Link>
                   ))}
                 </GridList>
-              )}
-              
+              )}  
               {!this.state.dps && (
                 <CircularProgress size={80} thickness={5} />
               )}
             </div>
           </div>
-
-          <div className="container">
-            <div className="row" >
-
-            </div>
-          </div>
-
         </section>
         <div style={{ backgroundColor: '#f7f7f7', marginTop: '100px', marginBottom: '100px' }}>
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
