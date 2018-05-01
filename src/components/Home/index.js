@@ -153,24 +153,24 @@ class Home extends React.Component {
             <h2 id="howItWorks"> HOW IT WORKS </h2>
             <div className="row" id="helpRow">
               <div className="col-sm-3">
-                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Expert_Icon.png" alt="expert" id="imgWorks" />
+                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/Expert_Icon.png" alt="expert" id="imgWorks" />
                 <h3 id="hHelp">Find an Expert</h3>
                 <p id="pHelp">
                   Browse our roster to find a crypto expert who matches your interests
                 </p>
               </div>
               <div className="col-sm-3">
-                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Calendar_Icon.png" alt="schedule "id="imgWorks" />
+                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/Calendar_Icon.png" alt="schedule "id="imgWorks" />
                 <h3 id="hHelp">Schedule</h3>
                 <p id="pHelp">Schedule a 30 minute call with an expert</p>
               </div>
               <div className="col-sm-3">
-                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/Phone_Icon.png" alt="phone" id="imgWorks" />
+                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/Phone_Icon.png" alt="phone" id="imgWorks" />
                 <h3 id="hHelp">Have a Conversation</h3>
                 <p id="pHelp">Get one-on-one personalized advice</p>
               </div>
               <div className="col-sm-3">
-                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519824000/ETHExhange_Icon.png" alt="ether"id="imgWorks" />
+                <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/ETHExhange_Icon.png" alt="ether"id="imgWorks" />
                 <h3 id="hHelp">Use the Blockchain</h3>
                 <p id="pHelp">Our smart-contract holds Ether payments until the end of the call</p>
               </div>
