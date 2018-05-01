@@ -22,10 +22,7 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.location.pathname === '/home') {
-      // TODO: look up if the user has a profile.  If so, redirect to that profile.
-      
-    }
+    this.checkExpert();
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`)
       .then(response =>
         this.setState({ dps: response.data.slice(0, 4) }))
@@ -34,6 +31,21 @@ class Home extends React.Component {
 
   changeEmail (e) {
     this.setState({ email: e.target.value });
+  }
+
+  checkExpert () {
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    if (isAuthenticated()) {
+      const headers = { Authorization: `Bearer ${getAccessToken()}` };
+      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers })
+        .then((response) => {
+          if (response.data.expert) {
+            this.setState({ expert: true });
+          }
+        })
+        .catch(error => console.log(error));
+    }
   }
 
   async submitEmail () {
@@ -46,7 +58,6 @@ class Home extends React.Component {
     }
     this.setState({ emailSubmitted: true });
   }
-
 
   render () {
     const { isAuthenticated } = this.props.auth;
@@ -71,15 +82,27 @@ class Home extends React.Component {
                     }}
                   />
                 )}
-                {isAuthenticated() && (
+                {(isAuthenticated() && !this.state.expert) && (
                   <RaisedButton
-                    containerElement={<Link to="/newProfile"  />}
+                    containerElement={<Link to="/newProfile" />}
                     label="Become a Dimpull Expert"
                     // secondary
                     primary
                     labelStyle={{ fontSize: '16px' }}
                     style={{
                       marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left', marginRight: '4px'
+                    }}
+                  />
+                )}
+                {(isAuthenticated() && this.state.expert) && (
+                  <RaisedButton
+                    containerElement={<Link to="/editProfile" />}
+                    label="Edit Your Profile"
+                    // secondary
+                    primary
+                    labelStyle={{ fontSize: '16px' }}
+                    style={{
+                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '190px', float: 'left', marginRight: '4px'
                     }}
                   />
                 )}

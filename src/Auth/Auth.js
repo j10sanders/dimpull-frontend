@@ -11,7 +11,7 @@ export default class Auth {
     clientID: `${process.env.REACT_APP_AUTH0_clientID}`,
     redirectUri: `${process.env.REACT_APP_AUTH0_REDIRECT}`,
     responseType: 'token id_token',
-    scope: 'openid email profile',
+    scope: 'openid email profile user_metadata app_metadata',
     audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`,
   });
 
@@ -84,4 +84,9 @@ export default class Auth {
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
   }
+
+  userHasScopes(scopes) {
+  const grantedScopes = JSON.parse(localStorage.getItem('scopes')).split(' ');
+  return scopes.every(scope => grantedScopes.includes(scope));
+}
 }

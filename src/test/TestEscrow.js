@@ -9,7 +9,7 @@ contract('Escrow test', async (accounts) => {
   // });
 
   it("should transfer to account", async () => {
-    const getBal = web3.eth.getBalance
+    const getBal = web3.eth.getBalance;
     const instance = await Escrow.deployed({ from: accounts[0] });
     const esc = instance;
     await esc.setFee(18000, { from: accounts[0] });
