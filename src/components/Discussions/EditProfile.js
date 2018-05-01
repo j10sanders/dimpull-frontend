@@ -222,7 +222,7 @@ class EditProfile extends React.Component {
     });
   }
 
-  async submit (e) {
+  async save (e) {
     if (e === 'save'){
       this.setState({ title: "We saved your work."});
     } else {
@@ -377,7 +377,7 @@ class EditProfile extends React.Component {
                       <div className="col-md-12">
                         <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
                           <TextField
-                            floatingLabelText="Who are you? (optional)"
+                            floatingLabelText="Who are you? (required)"
                             type="who"
                             fullWidth
                             value={this.state.who}
@@ -490,7 +490,7 @@ class EditProfile extends React.Component {
                         <RaisedButton
                           disabled={this.state.disabled}
                           style={{ marginTop: 50 }}
-                          label="Submit"
+                          label="Save"
                           onClick={e => this.submit(e)}
                         />
                       </div>
