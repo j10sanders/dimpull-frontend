@@ -179,36 +179,38 @@ class Home extends React.Component {
           </Paper>
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
         </div>
-        <div>
-          <h2 style={{ marginBottom: '20px' }}> Are You an Expert? </h2>
-          <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
-            so you can start connecting with crypto enthusiasts.
-          </p>
-          {!isAuthenticated() && (
-            <RaisedButton
-              onClick={() => this.props.auth.login('/newProfile')}
-              label="Become a Dimpull Expert"
-              secondary
-              style={{
-                marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
-              }}
-            />
-          )}
-          {isAuthenticated() && (
-            <RaisedButton
-              containerElement={<Link to="/newProfile"  />}
-              label="Become a Dimpull Expert"
-              secondary
-              style={{
-                marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
-              }}
-            />
-          )}
-        </div>
-        <div style={{ backgroundColor: '#efefef', marginTop: '100px' }}>
+        {!this.state.expert && (
+          <div>
+            <h2 style={{ marginBottom: '20px' }}> Are You an Expert? </h2>
+            <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
+              so you can start connecting with crypto enthusiasts.
+            </p>
+            {!isAuthenticated() && (
+              <RaisedButton
+                onClick={() => this.props.auth.login('/newProfile')}
+                label="Become a Dimpull Expert"
+                secondary
+                style={{
+                  marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
+                }}
+              />
+            )}
+            {isAuthenticated() && (
+              <RaisedButton
+                containerElement={<Link to="/newProfile"  />}
+                label="Become a Dimpull Expert"
+                secondary
+                style={{
+                  marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
+                }}
+              />
+            )}
+          </div>
+        )}
+        <div style={{ backgroundColor: '#efefef', marginTop: this.state.expert ? '-100px' : '100px' }}>
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
           <Paper id="email" zDepth={0} style={{ backgroundColor: '#efefef' }}>
-            <h2 style={{ marginBottom: '20px', paddingTop: '35px' }}> Ready to Connect with an Expert? </h2>
+            {!this.state.expert && (<h2 style={{ marginBottom: '20px', paddingTop: '35px' }}> Ready to Connect with an Expert? </h2>)}
             <p id="pRegister">Dimpull will be live in the next couple weeks.  To be notified of our launch, leave your email below (we promise no spam):
             </p>
             {!this.state.emailSubmitted ? (
