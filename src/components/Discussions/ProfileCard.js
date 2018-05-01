@@ -14,6 +14,8 @@ import { List } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import './discussionprofile.css';
 
+const Markdown = require('react-remarkable');
+
 class ProfileCard extends React.Component {
   constructor (props) {
     super(props);
@@ -80,25 +82,25 @@ class ProfileCard extends React.Component {
                   {this.props.who && (
                     <div>
                       <h3 id="q"> Who are you? </h3>
-                      <p id="answer">{this.props.who}</p>
+                      <p id="answer"> <Markdown source={this.props.who} /></p>
                     </div>
                   )}
                   {this.props.origin && (
                     <div>
                       <h3 id="q"> What is your crypto origin story?</h3>
-                      <p id="answer">{this.props.origin}</p>
+                      <p id="answer"><Markdown source={this.props.origin} /></p>
                     </div>
                   )}
                   {this.props.excites && (
                     <div>
                       <h3 id="q"> What excites you about blockchain technology?</h3>
-                      <p id="answer">{this.props.excites}</p>
+                      <p id="answer"><Markdown source={this.props.excites} /></p>
                     </div>
                   )}
                   {this.props.helps && (
                     <div>
                       <h3 id="q"> What can you help callers with?</h3>
-                      <p id="answer">{this.props.helps}</p>
+                      <p id="answer"><Markdown source={this.props.helps} /></p>
                     </div>
                   )}
                 </div>

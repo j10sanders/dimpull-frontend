@@ -12,6 +12,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PropTypes from 'prop-types';
+
 import menuTimeZones from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';
@@ -222,7 +223,7 @@ class EditProfile extends React.Component {
     });
   }
 
-  async save (e) {
+  async submit (e) {
     if (e === 'save'){
       this.setState({ title: "We saved your work."});
     } else {
@@ -332,7 +333,7 @@ class EditProfile extends React.Component {
                               onDrop={e => this.onImageDrop(e)}
                               style={dropzoneStyle}
                             >
-                              <p className="dropzone">
+                              <p className="dropzone" style={{ fontSize: '14px' }}>
                                 Profile Picture: Drop an image here or click to  upload.
                               </p>
                             </Dropzone>
@@ -364,7 +365,7 @@ class EditProfile extends React.Component {
                               fullWidth
                               onChange={e => this.changeValue(e, 'price')}
                             />
-                            <p> Currently one Ether is {this.state.etherPrice} dollars,
+                            <p style={{ fontSize: '14px' }} > Currently one Ether is {this.state.etherPrice} dollars,
                               so you will earn {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
                               {' '}ETH/half-hour.  It will be set when someone books one of your timeslots.
                             </p>
