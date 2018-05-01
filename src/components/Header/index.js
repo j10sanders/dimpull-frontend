@@ -54,7 +54,13 @@ class Header extends Component {
               containerElement={<Link to="/experts" />}
               onClick={() => this.setState({ open: false })}
             >
-                Meet the Experts
+              Meet the Experts
+            </MenuItem>
+            <MenuItem
+              containerElement={<Link to="/faq" />}
+              onClick={() => this.setState({ open: false })}
+            >
+              FAQs
             </MenuItem>
           </div>
         </Drawer>
