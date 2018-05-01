@@ -111,7 +111,7 @@ class EditProfile extends React.Component {
     }
     if (response.data !== "Not this user's") {
       this.setState({
-        price: response.data.price ? response.data.price : 50,
+        price: response.data.price ? response.data.price : 40,
         image: response.data.image_url ? response.data.image_url : '',
         description: response.data.description ? response.data.description : '',
         // otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
