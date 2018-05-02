@@ -24,14 +24,14 @@ class Home extends React.Component {
 
   componentDidMount () {
     this.checkExpert();
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`)
-      .then(response =>
-        this.setState({ dps: response.data.slice(0, 4) }, () => console.log(response.data)))
-      .catch(error => console.log(error));
+    this.getExperts();
   }
 
-  changeEmail (e) {
-    this.setState({ email: e.target.value });
+  async getExperts () {
+    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`);
+    if (response.data) {
+      this.setState({ dps: response.data.slice(0, 4) }, () => console.log(response.data));
+    }
   }
 
   checkExpert () {
@@ -47,6 +47,10 @@ class Home extends React.Component {
         })
         .catch(error => console.log(error));
     }
+  }
+
+  changeEmail (e) {
+    this.setState({ email: e.target.value });
   }
 
   async submitEmail () {
@@ -107,7 +111,6 @@ class Home extends React.Component {
                     }}
                   />
                 )}
-
                 <RaisedButton
                   containerElement={<Link to="/experts"  />}
                   label="Meet the Experts"
