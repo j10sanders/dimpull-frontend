@@ -119,8 +119,8 @@ class ProfileCard extends React.Component {
                           primary
                           label="Schedule a Call"
                           // containerElement={this.props.vip ? <Link to={`/availability/${this.props.dp}/${this.props.vipid}`} /> : <Link to={`/availability/${this.props.dp}`} />}
-                          onClick={() => this.props.getEmail()}
-                          // onClick={() => this.props.schedule()}
+                          // onClick={() => this.props.getEmail()}
+                          onClick={() => this.props.schedule()}
                           // TODO: add a conditional container element, if this.props.vip
                         />
                         <Dialog

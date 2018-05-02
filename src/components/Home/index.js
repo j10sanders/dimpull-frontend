@@ -4,11 +4,12 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import CircularProgress from 'material-ui/CircularProgress';
+// import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
+import DefaultProfiles from './DefaultProfiles';
 import './landingpage.css';
 
 class Home extends React.Component {
@@ -25,7 +26,7 @@ class Home extends React.Component {
     this.checkExpert();
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`)
       .then(response =>
-        this.setState({ dps: response.data.slice(0, 4) }))
+        this.setState({ dps: response.data.slice(0, 4) }, () => console.log(response.data)))
       .catch(error => console.log(error));
   }
 
@@ -120,7 +121,7 @@ class Home extends React.Component {
               </div>
             </div>
             <div className="col-sm-6" id="colGrid">
-              {this.state.dps && (
+              {this.state.dps ? (
                 <GridList
                   id="GridlistID"
                   cols={2}
@@ -140,10 +141,10 @@ class Home extends React.Component {
                     </Link>
                   ))}
                 </GridList>
-              )}  
-              {!this.state.dps && (
-                <CircularProgress size={80} thickness={5} />
-              )}
+              ) :
+              <DefaultProfiles />
+            }
+              
             </div>
           </div>
         </section>
