@@ -24,7 +24,7 @@ class Home extends React.Component {
 
   componentDidMount () {
     this.checkExpert();
-    // this.getExperts();
+    this.getExperts();
   }
 
   async getExperts () {
@@ -34,18 +34,15 @@ class Home extends React.Component {
     }
   }
 
-  checkExpert () {
+  async checkExpert () {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
       const headers = { Authorization: `Bearer ${getAccessToken()}` };
-      axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers })
-        .then((response) => {
-          if (response.data.expert) {
-            this.setState({ expert: true });
-          }
-        })
-        .catch(error => console.log(error));
+      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
+      if (response.data.expert) {
+        this.setState({ expert: true });
+      }
     }
   }
 
@@ -65,7 +62,15 @@ class Home extends React.Component {
   }
 
   render () {
-    const { isAuthenticated } = this.props.auth;
+    let link = <Link to="/newProfile" />;
+    let label = 'Become a Dimpull Expert';
+    const style = {
+      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
+    };
+    if (this.props.auth.isAuthenticated() && this.state.expert) {
+      link = <Link to="/editProfile" />;
+      label = "Edit Your Profile";
+    }
     return (
       <div style={{ textAlign: 'center' }}>
         <section id="headerTop">
@@ -75,47 +80,29 @@ class Home extends React.Component {
                 <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
                 <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
                 <h3 id="h3exchange" className="secondH3">Guaranteed by the Ethereum blockchain</h3>
-                {!isAuthenticated() && (
+                {!this.props.auth.isAuthenticated() ? (
                   <RaisedButton
                     onClick={() => this.props.auth.login('/newProfile')}
                     label="Become a Dimpull Expert"
-                    // secondary
                     primary
                     labelStyle={{ fontSize: '16px' }}
                     style={{
                       marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left', marginRight: '4px'
                     }}
                   />
-                )}
-                {(isAuthenticated() && !this.state.expert) && (
+                ) :
                   <RaisedButton
-                    containerElement={<Link to="/newProfile" />}
-                    label="Become a Dimpull Expert"
-                    // secondary
+                    containerElement={link}
+                    label={label}
                     primary
                     labelStyle={{ fontSize: '16px' }}
-                    style={{
-                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left', marginRight: '4px'
-                    }}
+                    style={style}
                   />
-                )}
-                {(isAuthenticated() && this.state.expert) && (
-                  <RaisedButton
-                    containerElement={<Link to="/editProfile" />}
-                    label="Edit Your Profile"
-                    // secondary
-                    primary
-                    labelStyle={{ fontSize: '16px' }}
-                    style={{
-                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '190px', float: 'left', marginRight: '4px'
-                    }}
-                  />
-                )}
+                }
                 <RaisedButton
-                  containerElement={<Link to="/experts"  />}
+                  containerElement={<Link to="/experts" />}
                   label="Meet the Experts"
                   secondary
-                  // primary
                   labelStyle={{ fontSize: '16px' }}
                   style={{
                     marginTop: '8px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left'
@@ -137,17 +124,14 @@ class Home extends React.Component {
                         key={dp.id}
                         title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
                         subtitle={dp.description}
-                        // actionIcon={<IconButton></IconButton>}
                       >
                         <img src={dp.image} alt={dp.id} />
                       </GridTile>
                     </Link>
                   ))}
                 </GridList>
-              ) :
-              <DefaultProfiles />
-            }
-              
+              ) : <DefaultProfiles />
+              }
             </div>
           </div>
         </section>
@@ -189,7 +173,7 @@ class Home extends React.Component {
             <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
               so you can start connecting with crypto enthusiasts.
             </p>
-            {!isAuthenticated() && (
+            {!this.props.auth.isAuthenticated() && (
               <RaisedButton
                 onClick={() => this.props.auth.login('/newProfile')}
                 label="Become a Dimpull Expert"
@@ -199,7 +183,7 @@ class Home extends React.Component {
                 }}
               />
             )}
-            {isAuthenticated() && (
+            {this.props.auth.isAuthenticated() && (
               <RaisedButton
                 containerElement={<Link to="/newProfile"  />}
                 label="Become a Dimpull Expert"
