@@ -4,7 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import SelectField from 'material-ui/SelectField';
-// import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader';
 import request from 'superagent';
 import Dropzone from 'react-dropzone';
@@ -12,7 +11,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PropTypes from 'prop-types';
-
 import menuTimeZones from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';

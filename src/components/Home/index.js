@@ -67,7 +67,7 @@ class Home extends React.Component {
       marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
     };
     if (this.props.auth.isAuthenticated() && this.state.expert) {
-      link = <Link to="/editProfile" />;
+      link = <Link to="/profile" />;
       label = "Edit Your Profile";
     }
     return (

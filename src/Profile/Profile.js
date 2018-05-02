@@ -90,7 +90,6 @@ class Profile extends React.Component {
             <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={3} >
               <ListItem innerDivStyle={{ padding: '5px' }}>
                 <ListItem
-                  // leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
                   key="Edit Profile"
                   containerElement={this.state.url ? <Link to={`/editProfile/${this.state.url}`} key={'edit'} /> : <Link to={`/editProfile`} key={'url'} /> }
                   primaryText="Edit Profile"
