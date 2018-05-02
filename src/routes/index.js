@@ -11,7 +11,7 @@ const AsyncEditProfile = asyncComponent(() => import("../components/Discussions/
 const AsyncAvailability = asyncComponent(() => import("../components/Discussions/Availability"));
 const AsyncFAQ = asyncComponent(() => import("../components/FAQ/faq"));
 const AsyncCalendar = asyncComponent(() => import("../Profile/Calendar"));
-const AsyncPay = asyncComponent(() => import("../components/Discussions/Pay"));
+// const AsyncPay = asyncComponent(() => import("../components/Discussions/Pay"));
 const AsyncDiscussionProfile = asyncComponent(() => import("../components/Discussions/DiscussionProfile"));
 const AsyncContact = asyncComponent(() => import("../components/Discussions/Contact"));
 const AsyncMyDiscussions = asyncComponent(() => import("../components/Discussions/MyDiscussions"));
@@ -20,6 +20,7 @@ const AsyncLoginPage = asyncComponent(() => import("../LoginPage/LoginPage"));
 const AsyncGetNumber = asyncComponent(() => import("../LoginPage/GetNumber"));
 const AsyncHeader = asyncComponent(() => import("../components/Header"));
 const AsyncProfile = asyncComponent(() => import("../Profile/Profile"));
+const AsyncBookedTimes = asyncComponent(() => import("../Profile/BookedTimes"));
 
 const handleAuthentication = ({location}) => {
   if (/access_token|id_token|error/.test(location.hash)) {
@@ -57,7 +58,7 @@ class Routes extends Component {
 						    <Route path="/availability" render={(props) => <AsyncAvailability auth={auth} {...props} />} />
 						    <Route path="/faq" render={(props) => <AsyncFAQ auth={auth} {...props} />} />
 						    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
-						    <Route path="/pay" render={(props) => <AsyncPay auth={auth} {...props} />} />
+						    <Route path="/bookedtimes" render={(props) => <AsyncBookedTimes auth={auth} {...props} />} />
 						    <Route path="/profile" render={(props) => (
 					            !auth.isAuthenticated() ? (
 					              <Redirect to="/home"/>
