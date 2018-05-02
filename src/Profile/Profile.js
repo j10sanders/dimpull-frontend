@@ -46,52 +46,60 @@ class Profile extends React.Component {
         <div id="accountButtons">
           <List>
             <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={1} >
-              <ListItem
-                key="Set Your Availability"
-                // containerElement={<Link to={`/calendar`} key={'cal'} />}
-                onClick={() => this.handleOpen()}
-                primaryText="Set Availability"
-                secondaryText={
-                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your calendar</span></p>
-                }
-                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
-                hoverColor="yellow"
-              />
+              <ListItem innerDivStyle={{ padding: '5px' }}>
+                <ListItem
+                  key="Set Your Availability"
+                  // containerElement={<Link to={`/calendar`} key={'cal'} />}
+                  onClick={() => this.handleOpen()}
+                  primaryText="Set Availability"
+                  secondaryText={
+                    <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your calendar</span></p>
+                  }
+                  style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+                  hoverColor="yellow"
+                />
+              </ListItem>
             </Paper>
             <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={2} >
-              <ListItem
-                key="Scheduled Calls"
-                // containerElement={<Link to={`/calendar`} key={'cal'} />}
-                onClick={() => this.handleOpen()}
-                primaryText="Scheduled Calls"
-                secondaryText={
-                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your upcoming calls</span></p>
-                }
-                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
-              />
+              <ListItem innerDivStyle={{ padding: '5px' }}>
+                <ListItem
+                  key="Scheduled Calls"
+                  // containerElement={<Link to={`/calendar`} key={'cal'} />}
+                  onClick={() => this.handleOpen()}
+                  primaryText="Scheduled Calls"
+                  secondaryText={
+                    <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your upcoming calls</span></p>
+                  }
+                  style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+                />
+              </ListItem>
             </Paper>
             <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={4} >
-              <ListItem
-                key="View Profile"
-                containerElement={this.state.url ? <Link to={`/${this.state.url}`} key={'url'} /> : <Link to={`/editProfile`} key={'url'} /> }
-                primaryText={`View Profile`}
-                secondaryText={
-                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >See your public profile</span></p>
-                }
-                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
-              />
+              <ListItem innerDivStyle={{ padding: '5px' }}>
+                <ListItem
+                  key="View Profile"
+                  containerElement={this.state.url ? <Link to={`/${this.state.url}`} key={'url'} /> : <Link to={`/editProfile`} key={'url'} /> }
+                  primaryText={`View Profile`}
+                  secondaryText={
+                    <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >See your public profile</span></p>
+                  }
+                  style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+                />
+              </ListItem>
             </Paper>
             <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={3} >
-              <ListItem
-                // leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
-                key="Edit Profile"
-                containerElement={this.state.url ? <Link to={`/editProfile/${this.state.url}`} key={'edit'} /> : <Link to={`/editProfile`} key={'url'} /> }
-                primaryText="Edit Profile"
-                secondaryText={
-                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Keep your profile up to date</span></p>
-                }
-                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
-              />
+              <ListItem innerDivStyle={{ padding: '5px' }}>
+                <ListItem
+                  // leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
+                  key="Edit Profile"
+                  containerElement={this.state.url ? <Link to={`/editProfile/${this.state.url}`} key={'edit'} /> : <Link to={`/editProfile`} key={'url'} /> }
+                  primaryText="Edit Profile"
+                  secondaryText={
+                    <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Keep your profile up to date</span></p>
+                  }
+                  style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+                />
+              </ListItem>
             </Paper>
           </List>
         </div>
