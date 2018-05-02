@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+import Avatar from 'material-ui/Avatar';
 import history from '../../history';
 // import Divider from 'material-ui/Divider';
 import './header.css';
@@ -12,8 +13,39 @@ class Header extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      picture: null
     };
+  }
+
+  componentDidMount () {
+    this.getProfile();
+  }
+
+  componentWillReceiveProps (nextProps, nextContext) {
+    if (nextProps.location.pathname === '/' && this.props.location.pathname === '/login') {
+      this.getProfile();
+    }
+    if (!this.state.picture) {
+      this.getProfile();
+    }
+    
+  }
+
+  getProfile () {
+    const { isAuthenticated } = this.props.auth;
+    if (isAuthenticated()) {
+      const { userProfile, getProfile } = this.props.auth;
+      if (!userProfile) {
+        getProfile((err, profile) => {
+          this.setState({ picture: profile.picture });
+        });
+      } else {
+        this.setState({ picture: userProfile.picture });
+      }
+    } else {
+      this.setState({ picture: null });
+    }
   }
 
   handleClickOutside () {
@@ -80,16 +112,21 @@ class Header extends Component {
           onTitleClick={() => history.push('/')}
           onLeftIconButtonClick={() => this.openNav()}
           iconElementRight={
-            <Link to={'/home'} >
-              <FlatButton
-                label={
-                  <img
+            <Link to={'/profile'} >
+              {!this.state.picture
+                ? <FlatButton
+                  label={<img
                     src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
                     style={{ width: '40px', height: 'auto' }}
                     alt="logo"
                   />}
-                id="home"
-              />
+                  id="home"
+                />
+                : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
+                  <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
+                  <i style={{ marginLeft: '12px', color: 'white', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
+                </div>
+              }
             </Link>
           }
         />

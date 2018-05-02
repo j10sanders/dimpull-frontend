@@ -2,22 +2,21 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
-
 class LoginPage extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       first_name: ''
-      }
-    }
+    };
+  }
 
-  login() {
+  login () {
     this.props.auth.login();
-  }logout() {
+  }logout () {
     this.props.auth.logout();
   }
 
-  componentDidMount(){
+  componentDidMount () {
     const { isAuthenticated } = this.props.auth;
     if(!isAuthenticated() && process.env.REACT_APP_USERS_SERVICE_URL){
       this.login();
@@ -30,13 +29,13 @@ class LoginPage extends React.Component {
   }
 
 
-  getNames(name){
-    if (name){
+  getNames (name) {
+    if (name) {
       this.setState({hasName: true, 
               first_name: name.split(' ').slice(0, -1).join(' '),
               last_name: name.split(' ').slice(-1).join(' ')
-              })
-      return
+              });
+      return;
     }
     let fullUrl = `https://jonsanders:auth0:com/user_metadata`
     this.setState({ profile: {} });

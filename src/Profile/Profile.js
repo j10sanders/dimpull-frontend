@@ -1,36 +1,106 @@
-import React, { Component } from 'react';
-import Panel from 'react-bootstrap/lib/Panel';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import React from 'react';
+import { List, ListItem } from 'material-ui/List';
+import { Link } from 'react-router-dom';
+import Paper from 'material-ui/Paper';
+import Snackbar from 'material-ui/Snackbar';
+import axios from 'axios';
 import './Profile.css';
 
-class Profile extends Component {
-  componentWillMount () {
-    this.setState({ profile: {} });
-    const { userProfile, getProfile } = this.props.auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
-      });
-    } else {
-      this.setState({ profile: userProfile });
+class Profile extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      open: false,
+      url: null
+    };
+  }
+
+  componentDidMount () {
+    this.getUrl();
+  }
+
+  async getUrl () {
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    let headers = {};
+    if (isAuthenticated()) {
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
+      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/geturl`, { headers });
+      if (response.data.url) {
+        this.setState({ url: response.data.url });
+      }
     }
   }
+
+  handleOpen () {
+    this.setState({ open: true });
+  }
+
+  handleRequestClose () {
+    this.setState({ open: false });
+  }
+
   render () {
-    const { profile } = this.state;
     return (
-      <div className="container">
-        <div className="profile-area">
-          <h1>{profile.name}</h1>
-          <Panel header="Profile">
-            <img src={profile.picture} alt="profile" />
-            <div>
-              <ControlLabel><Glyphicon glyph="user" /> Nickname</ControlLabel>
-              <h3>{profile.nickname}</h3>
-            </div>
-            <pre>{JSON.stringify(profile, null, 2)}</pre>
-          </Panel>
+      <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+        <div id="accountButtons">
+          <List>
+            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={1} >
+              <ListItem
+                key="Set Your Availability"
+                // containerElement={<Link to={`/calendar`} key={'cal'} />}
+                onClick={() => this.handleOpen()}
+                primaryText="Set Availability"
+                secondaryText={
+                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your calendar</span></p>
+                }
+                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+                hoverColor="yellow"
+              />
+            </Paper>
+            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={2} >
+              <ListItem
+                key="Scheduled Calls"
+                // containerElement={<Link to={`/calendar`} key={'cal'} />}
+                onClick={() => this.handleOpen()}
+                primaryText="Scheduled Calls"
+                secondaryText={
+                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your upcoming calls</span></p>
+                }
+                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+              />
+            </Paper>
+            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={4} >
+              <ListItem
+                key="View Profile"
+                containerElement={this.state.url ? <Link to={`/${this.state.url}`} key={'url'} /> : <Link to={`/editProfile`} key={'url'} /> }
+                primaryText={`View Profile`}
+                secondaryText={
+                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >See your public profile</span></p>
+                }
+                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+              />
+            </Paper>
+            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={3} >
+              <ListItem
+                // leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
+                key="Edit Profile"
+                containerElement={this.state.url ? <Link to={`/editProfile/${this.state.url}`} key={'edit'} /> : <Link to={`/editProfile`} key={'url'} /> }
+                primaryText="Edit Profile"
+                secondaryText={
+                  <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Keep your profile up to date</span></p>
+                }
+                style={{ textAlign: 'left', backgroundColor: '#268bd2', color: 'white', fontSize: '20px' }}
+              />
+            </Paper>
+          </List>
         </div>
+        <Snackbar
+          open={this.state.open}
+          message="Will be available on May 22nd..."
+          autoHideDuration={4000}
+          onRequestClose={() => this.handleRequestClose()}
+        />
       </div>
     );
   }

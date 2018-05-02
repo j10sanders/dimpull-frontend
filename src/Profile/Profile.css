@@ -6,3 +6,13 @@
 .panel-body h3 {
   margin-top: 0;
 }
+
+@media (min-width: 500px){ 
+	#accountButtons{
+	    width: 495px;
+	}
+}
+
+#accountButtons{
+    margin: 40px auto;
+}

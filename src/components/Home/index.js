@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
@@ -22,15 +21,15 @@ class Home extends React.Component {
     };
   }
 
-  componentDidMount () {
-    this.checkExpert();
+  async componentDidMount () {
+    await this.checkExpert();
     this.getExperts();
   }
 
   async getExperts () {
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`);
     if (response.data) {
-      this.setState({ dps: response.data.slice(0, 4) }, () => console.log(response.data));
+      this.setState({ dps: response.data.slice(0, 4) });
     }
   }
 
