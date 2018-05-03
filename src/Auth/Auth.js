@@ -96,11 +96,6 @@ export default class Auth {
     return new Date().getTime() < expiresAt;
   }
 
-  userHasScopes(scopes) {
-    const grantedScopes = JSON.parse(localStorage.getItem('scopes')).split(' ');
-    return scopes.every(scope => grantedScopes.includes(scope));
-  }
-
   renewToken() {
     // debugger;
     this.auth0.checkSession({}, (err, result) => {
@@ -117,7 +112,7 @@ export default class Auth {
     // debugger;
     // const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     // const delay1 = expiresAt - Date.now();
-    const delay = 1
+    const delay = 10
     if (delay > 0) {
       this.tokenRenewalTimeout = setTimeout(() => {
         this.renewToken();

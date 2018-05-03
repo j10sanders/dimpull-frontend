@@ -5,6 +5,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
+import axios from 'axios';
 import history from '../../history';
 // import Divider from 'material-ui/Divider';
 import './header.css';
@@ -40,7 +41,7 @@ class Header extends Component {
           if (profile) {
             this.setState({ picture: profile.picture });
           } else {
-            console.log(err);
+            this.getPicFromServer();
           }
         });
       } else {
@@ -48,6 +49,18 @@ class Header extends Component {
       }
     } else {
       this.setState({ picture: null });
+    }
+  }
+
+  async getPicFromServer () {
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    if (isAuthenticated()) {
+      const headers = { Authorization: `Bearer ${getAccessToken()}` };
+      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
+      if (response.data.pic) {
+        this.setState({ picture: response.data.pic });
+      }
     }
   }
 

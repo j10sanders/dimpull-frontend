@@ -42,7 +42,8 @@ class LoginPage extends React.Component {
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
-        this.setState({ profile });
+        if (profile) {
+          this.setState({ profile });
         if (profile.given_name) {
           this.setState({hasName: true, 
             first_name: profile.given_name,
@@ -61,6 +62,9 @@ class LoginPage extends React.Component {
               last_name: profile.name.split(' ').slice(-1).join(' ')
             })
           }
+        } else {
+          console.log(err);
+        }
       });
     } else {
         this.setState({ profile: userProfile });
