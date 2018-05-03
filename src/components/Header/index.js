@@ -35,27 +35,28 @@ class Header extends Component {
   getProfile () {
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
-      const { userProfile, getProfile } = this.props.auth;
-      if (!userProfile) {
-        getProfile((err, profile) => {
-          if (profile) {
-            this.setState({ picture: profile.picture });
-          } else {
-            this.getPicFromServer();
-          }
-        });
-      } else {
-        this.setState({ picture: userProfile.picture });
-      }
+      this.setState({ isAuthenticated: true }, () => {
+        const { userProfile, getProfile } = this.props.auth;
+        if (!userProfile) {
+          getProfile((err, profile) => {
+            if (profile) {
+              this.setState({ picture: profile.picture });
+            } else {
+              this.getPicFromServer();
+            }
+          });
+        } else {
+          this.setState({ picture: userProfile.picture });
+        }
+      })
     } else {
       this.setState({ picture: null });
     }
   }
 
   async getPicFromServer () {
-    const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
-    if (isAuthenticated()) {
+    if (this.state.isAuthenticated) {
       const headers = { Authorization: `Bearer ${getAccessToken()}` };
       const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
       if (response.data.pic) {
@@ -77,7 +78,6 @@ class Header extends Component {
   }
 
   render () {
-    const { isAuthenticated } = this.props.auth;
     return (
       <header>
         <Drawer
@@ -96,7 +96,7 @@ class Header extends Component {
               containerElement={<Link to="/login" />}
               onClick={() => this.setState({ open: false })}
             >
-              {isAuthenticated() ? `Log Out` : `Login` }
+              {this.state.isAuthenticated ? `Log Out` : `Login` }
             </MenuItem>
             <MenuItem
               containerElement={<Link to="/experts" />}

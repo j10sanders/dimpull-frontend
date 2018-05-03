@@ -42,6 +42,7 @@ class Home extends React.Component {
       if (response.data.expert) {
         this.setState({ expert: true });
       }
+      this.setState({ isAuthenticated: true });
     }
   }
 
@@ -66,7 +67,7 @@ class Home extends React.Component {
     const style = {
       marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
     };
-    if (this.props.auth.isAuthenticated() && this.state.expert) {
+    if (this.state.isAuthenticated && this.state.expert) {
       link = <Link to="/profile" />;
       label = "Edit Your Profile";
     }
@@ -79,7 +80,7 @@ class Home extends React.Component {
                 <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
                 <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
                 <h3 id="h3exchange" className="secondH3">Guaranteed by the Ethereum blockchain</h3>
-                {!this.props.auth.isAuthenticated() ? (
+                {!this.state.isAuthenticated ? (
                   <RaisedButton
                     onClick={() => this.props.auth.login('/newProfile')}
                     label="Become a Dimpull Expert"
@@ -172,7 +173,7 @@ class Home extends React.Component {
             <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
               so you can start connecting with crypto enthusiasts.
             </p>
-            {!this.props.auth.isAuthenticated() && (
+            {!this.state.isAuthenticated && (
               <RaisedButton
                 onClick={() => this.props.auth.login('/newProfile')}
                 label="Become a Dimpull Expert"
@@ -182,7 +183,7 @@ class Home extends React.Component {
                 }}
               />
             )}
-            {this.props.auth.isAuthenticated() && (
+            {this.state.isAuthenticated && (
               <RaisedButton
                 containerElement={<Link to="/newProfile"  />}
                 label="Become a Dimpull Expert"
