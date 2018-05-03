@@ -29,7 +29,6 @@ class Header extends Component {
     if (!this.state.picture) {
       this.getProfile();
     }
-    
   }
 
   getProfile () {
@@ -38,7 +37,11 @@ class Header extends Component {
       const { userProfile, getProfile } = this.props.auth;
       if (!userProfile) {
         getProfile((err, profile) => {
-          this.setState({ picture: profile.picture });
+          if (profile) {
+            this.setState({ picture: profile.picture });
+          } else {
+            console.log(err);
+          }
         });
       } else {
         this.setState({ picture: userProfile.picture });
