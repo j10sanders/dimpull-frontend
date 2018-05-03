@@ -97,13 +97,10 @@ export default class Auth {
   }
 
   renewToken() {
-    // debugger;
     this.auth0.checkSession({}, (err, result) => {
         if (err) {
-          debugger;
           console.log(err);
         } else {
-          debugger;
           this.setSession(result);
         }
       }
@@ -111,7 +108,6 @@ export default class Auth {
   }
 
   scheduleRenewal() {
-    debugger;
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     const delay = expiresAt - Date.now();
     // const delay = 10
