@@ -55,7 +55,7 @@ export default class Auth {
 
   setSession(authResult) {
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 100000000) + new Date().getTime());
+    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
@@ -102,6 +102,7 @@ export default class Auth {
   }
 
   renewToken() {
+    // debugger;
     this.auth0.checkSession({}, (err, result) => {
         if (err) {
           console.log(err);
@@ -113,8 +114,10 @@ export default class Auth {
   }
 
   scheduleRenewal() {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    const delay = expiresAt - Date.now();
+    // debugger;
+    // const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    // const delay1 = expiresAt - Date.now();
+    const delay = 1
     if (delay > 0) {
       this.tokenRenewalTimeout = setTimeout(() => {
         this.renewToken();
