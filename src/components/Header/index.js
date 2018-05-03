@@ -7,7 +7,6 @@ import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import axios from 'axios';
 import history from '../../history';
-// import Divider from 'material-ui/Divider';
 import './header.css';
 
 class Header extends Component {
