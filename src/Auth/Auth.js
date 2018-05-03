@@ -18,13 +18,6 @@ export default class Auth {
     audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`,
   });
 
-  async login(redirectUrl) {
-    let url = redirectUrl ? redirectUrl : ''
-    this.auth0.authorize({
-      state:url
-    });
-  }
-
   constructor() {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
@@ -33,6 +26,13 @@ export default class Auth {
     this.getProfile = this.getProfile.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
     this.scheduleRenewal();
+  }
+
+  login(redirectUrl) {
+    let url = redirectUrl ? redirectUrl : ''
+    this.auth0.authorize({
+      state:url
+    });
   }
 
   getAccessToken() {
@@ -47,12 +47,16 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-    }});
+    } else if (err) {
+        history.replace('/home');
+      }
+    });
   }
 
   setSession(authResult) {
+    debugger;
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    let expiresAt = JSON.stringify((authResult.expiresIn * 100000000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);

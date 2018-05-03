@@ -64,7 +64,7 @@ class Profile extends React.Component {
               <ListItem innerDivStyle={{ padding: '5px' }}>
                 <ListItem
                   key="Scheduled Calls"
-                  // containerElement={<Link to={`/calendar`} key={'cal'} />}
+                  // containerElement={<Link to={`/bookedtimes`} key={'booked'} />}
                   onClick={() => this.handleOpen()}
                   primaryText="Scheduled Calls"
                   secondaryText={
