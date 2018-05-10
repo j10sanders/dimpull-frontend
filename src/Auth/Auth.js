@@ -1,9 +1,6 @@
 // import { Route, Redirect } from 'react-router'
 import auth0 from 'auth0-js';
 import history from '../history';
-// import axios from 'axios';
-
-// const paths = ["/newProfile"]
 
 export default class Auth {
   userProfile;
@@ -35,14 +32,6 @@ export default class Auth {
     });
   }
 
-  getAccessToken() {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      throw new Error('No access token found');
-    }
-    return accessToken;
-  }
-
   handleAuthentication() {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -65,6 +54,14 @@ export default class Auth {
     } else{
       history.replace('/');
     }
+  }
+
+  getAccessToken() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('No access token found');
+    }
+    return accessToken;
   }
 
   getProfile(cb) {
@@ -115,8 +112,6 @@ export default class Auth {
       this.tokenRenewalTimeout = setTimeout(() => {
         this.renewToken();
       }, delay);
-    } else {
-      this.renewToken();
     }
   }
 }
