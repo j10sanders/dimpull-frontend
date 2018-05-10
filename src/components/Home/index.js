@@ -8,6 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import DefaultProfiles from './DefaultProfiles';
 import './landingpage.css';
 
@@ -21,9 +23,10 @@ class Home extends React.Component {
     };
   }
 
-  async componentDidMount () {
-    await this.checkExpert();
+  componentDidMount () {
+    this.checkExpert();
     this.getExperts();
+    this.notify();
   }
 
   async getExperts () {
@@ -61,6 +64,12 @@ class Home extends React.Component {
     this.setState({ emailSubmitted: true });
   }
 
+  notify () {
+    toast.info('Launching May 24th!', {
+      position: toast.POSITION.TOP_CENTER
+    });
+  }
+
   render () {
     let link = <Link to="/newProfile" />;
     let label = 'Become a Dimpull Expert';
@@ -71,8 +80,10 @@ class Home extends React.Component {
       link = <Link to="/profile" />;
       label = "Edit Your Profile";
     }
+
     return (
       <div style={{ textAlign: 'center' }}>
+        <ToastContainer autoClose={false} />
         <section id="headerTop">
           <div className="row" id="headerRow">
             <div className="col-sm-6">
