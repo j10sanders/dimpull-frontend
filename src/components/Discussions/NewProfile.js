@@ -3,14 +3,9 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
-// import Divider from 'material-ui/Divider';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
-// import Subheader from 'material-ui/Subheader';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-// import { timezones } from '../../timezones/timezones';
 import history from '../../history';
 import './discussionprofile.css';
 
@@ -32,20 +27,15 @@ const textStyle = {
   width: '80%'
 };
 
-const thanks = `Thanks!  We will review your application right away. In the meantime,
-  feel free to fill out your profile.  It will only be public once you've been verified by the Dimpull admins.`;
-
 class newProfile extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      title: thanks,
       tel_error_text: null,
       otherProfile: '',
       disabled: true,
       email: '',
       message: '',
-      open: false,
       waiting: true,
       tel: '',
       pnf: '',
@@ -66,8 +56,8 @@ class newProfile extends React.Component {
   componentDidMount () {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
-    this.getNames();
     this.getEmail();
+    this.getProfile();
     let headers = {};
     if (isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}`}
@@ -82,72 +72,24 @@ class newProfile extends React.Component {
     this.checkRegistered();
   }
 
-  getNames (name) {
-    if (name) {
-      this.setState({
-        hasName: false,
-        first_name: name.split(' ').slice(0, -1).join(' '),
-        last_name: name.split(' ').slice(-1).join(' ')
-      });
-      return;
-    }
-    const fullUrl = `https://jonsanders:auth0:com/user_metadata`;
-    this.setState({ profile: {} });
+  getProfile () {
     const { userProfile, getProfile } = this.props.auth;
     if (!userProfile) {
       getProfile((err, profile) => {
         this.setState({ profile });
-        if (profile.given_name) {
-          this.setState({
-            hasName: true,
-            first_name: profile.given_name,
-            last_name: profile.family_name
-          });
-        } else if (profile[fullUrl]){
-          if (profile[fullUrl].given_name) {
-            this.setState({
-              hasName: true,
-              first_name: profile[fullUrl].given_name,
-              last_name: profile[fullUrl].family_name
-            })
-          } 
-        } else if (profile.name) {
-            this.setState({
-              hasName: true,
-              first_name: profile.name.split(' ').slice(0, -1).join(' '),
-              last_name: profile.name.split(' ').slice(-1).join(' ')
-            })
-          }
-      });
-    } else {
-      this.setState({ profile: userProfile });
-      if (userProfile.given_name) {
-        this.setState({
-          hasName: true,
-          first_name: userProfile.given_name,
-          last_name: userProfile.family_name
-        });
-      } else if (userProfile[fullUrl]) {
-        if (userProfile[fullUrl].given_name) {
-          this.setState({
-            hasName: true,
-            first_name: userProfile[fullUrl].given_name,
-            last_name: userProfile[fullUrl].family_name
-          });
-        }
-      } else if (userProfile.name) {
-        this.setState({
-          hasName: true,
-          first_name: userProfile.name.split(' ').slice(0, -1).join(' '),
-          last_name: userProfile.name.split(' ').slice(-1).join(' ')
-        });
-      } else {
-        // this.setState({
-        //   // hasName: true,
-        //   first_name: '',
-        //   last_name: ''
-        // });
       }
+    )} else {
+      this.setState({ profile: userProfile });
+    }
+  }
+
+  getNames (name) {
+    if (name) {
+      this.setState({
+        // hasName: false,
+        first_name: name.split(' ').slice(0, -1).join(' '),
+        last_name: name.split(' ').slice(-1).join(' ')
+      });
     }
   }
 
@@ -257,7 +199,7 @@ class newProfile extends React.Component {
         disabled: true
       });
     }
-    if (telIsValid && this.state.otherProfile.length !== 0 && this.state.email.length !== 0) {
+    if (telIsValid && this.state.otherProfile.length !== 0 && this.state.email.length !== 0 && this.state.first_name && this.state.last_name) {
       this.setState({
         disabled: false
       });
@@ -336,18 +278,10 @@ class newProfile extends React.Component {
           );
         }
       }
-      this.setState({
-        waiting: false,
-        open: true
-      });
+      history.replace(`/editProfile/${this.state.editUrl}`);
     } else {
       this.props.auth.login('/newProfile');
     }
-  }
-
-  handleClose () {
-    this.setState({ open: false });
-    history.replace(`/editProfile/${this.state.editUrl}`);
   }
 
   selectCountry (event, index, value) {
@@ -356,13 +290,6 @@ class newProfile extends React.Component {
 
   render () {
     const { isAuthenticated } = this.props.auth;
-    const actions = [
-      <FlatButton
-        label="Edit full profile"
-        primary
-        onClick={() => this.handleClose()}
-      />
-    ];
     const display = this.state.waiting ? 'none' : 'inherit';
     const waiting = this.state.waiting ? 'inherit' : 'none';
     return (
@@ -459,18 +386,11 @@ class newProfile extends React.Component {
                 <RaisedButton
                   disabled={this.state.disabled}
                   style={{ marginTop: 50 }}
-                  label="Submit"
+                  label="Continue"
+                  backgroundColor="#00ff95"
                   onClick={e => this.submit(e)}
                 />
               </div>
-              <Dialog
-                title={this.state.title}
-                actions={actions}
-                modal={false}
-                open={this.state.open}
-                onRequestClose={() => this.handleClose()}
-              >
-              </Dialog>
             </Paper>
           </div>
         )}
