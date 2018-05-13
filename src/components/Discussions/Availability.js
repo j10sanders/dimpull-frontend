@@ -108,7 +108,7 @@ class Availability extends React.Component {
     let start = this.state.event.start
     let startTime = start
     if (!checked) {
-      if ((start - new Date()) / 60000 < 60) {
+      if ((start - new Date()) / 60000 < 0) {
         this.setState({ errorTitle: `Sorry, the timeslot must start at least one hour from now.`}, () => this.handleOpenError());
       }
     } else {
