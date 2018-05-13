@@ -117,7 +117,6 @@ class Availability extends React.Component {
     if ((start - new Date()) / 60000 < 60) {
       this.setState({ errorTitle: `Sorry, the timeslot must start at least one hour from now.`}, () => this.handleOpenError());
     } else {
-      // TODO : send a server request to mark timeslot as pending.
       const conversationID = this.props.location.pathname.split('/').pop().trim()
       const result = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/holdtimeslot/${conversationID}`,
         {
@@ -130,7 +129,7 @@ class Availability extends React.Component {
           search: conversationID,
           state: { startTime: startTime, now: Date.now(), vip: this.props.location.state.vip }
         })
-      } else { // TODO: remove that time from availability, or just refresh page.
+      } else {
         this.setState({ errorTitle: `Sorry, someone else just booked that time!  It is no longer available.`}, () => this.handleOpenError());
       }
     }

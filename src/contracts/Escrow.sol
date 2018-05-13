@@ -41,5 +41,4 @@ contract Escrow {
     payer.transfer(value);
     return true;
   }
-  
 }
