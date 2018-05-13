@@ -114,7 +114,7 @@ class Availability extends React.Component {
     } else {
       startTime = (start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0)
     }
-    if ((start - new Date()) / 60000 < 60) {
+    if ((start - new Date()) / 60000 < 0) {
       this.setState({ errorTitle: `Sorry, the timeslot must start at least one hour from now.`}, () => this.handleOpenError());
     } else {
       const conversationID = this.props.location.pathname.split('/').pop().trim()
