@@ -251,7 +251,7 @@ class Contact extends React.Component {
     }
     e.preventDefault();
     const start = this.props.location.state.startTime;
-    if ((start - new Date()) / 60000 < 0) {
+    if ((start - new Date()) / 60000 < 15) {
       this.setState({ errorTitle: `Sorry, that time is now too early.  Timeslots need to be booked at least 15 minutes before they occur.` }, () => this.handleOpenError())
     } else {
       const { isAuthenticated } = this.props.auth;
