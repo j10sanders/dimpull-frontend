@@ -28,7 +28,6 @@ class LoginPage extends React.Component {
     }
   }
 
-
   getNames (name) {
     if (name) {
       this.setState({hasName: true, 

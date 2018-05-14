@@ -117,10 +117,15 @@ class Header extends Component {
           style={{ position: 'fixed' }}
           title={
             <img
-              src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1523982285/Dimpull_LogoName_wg.png"
-              style={{
+              src={(window.screen.width > 437) ? 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1526318315/Dimpull_LogoName_wg_Launch.png' : 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1526318762/Dimpull_LogoName_wg_Launch_under.png'}
+              style={(window.screen.width > 437) ? {
                 cursor: 'pointer',
-                width: '120px',
+                width: '280px',
+                height: 'auto',
+                imageRendering: 'crisp-edges'
+              } : {
+                cursor: 'pointer',
+                width: '200px',
                 height: 'auto',
                 imageRendering: 'crisp-edges'
               }}
