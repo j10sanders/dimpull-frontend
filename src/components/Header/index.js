@@ -12,8 +12,8 @@ import './header.css';
 class Header extends Component {
   constructor (props) {
     super(props);
-    const { renewToken } = this.props.auth;
-    renewToken();
+    // const { renewToken } = this.props.auth;
+    // renewToken();
     this.state = {
       open: false,
       picture: null

@@ -1,5 +1,6 @@
-var HDWalletProvider = require("truffle-hdwallet-provider");
-var mnemonic ="lens ladder destroy burden scout payment trade alley sorry arrange top earn";
+const HDWalletProvider = require("truffle-hdwallet-provider");
+
+const mnemonic ="lens ladder destroy burden scout payment trade alley sorry arrange top earn";
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -14,7 +15,7 @@ module.exports = {
     },
     ropsten: {
       provider: function() {
-        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/SzMj9kYHCc61XSf9IFDh")
+        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/I5csQZeeCq5xFJFx11J4 ")
       },
       network_id: 3,
       gas: 4612388
