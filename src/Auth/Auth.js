@@ -22,6 +22,7 @@ export default class Auth {
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getProfile = this.getProfile.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
+    this.renewToken = this.renewToken.bind(this);
     this.scheduleRenewal();
   }
 

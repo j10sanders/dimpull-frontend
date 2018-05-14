@@ -243,7 +243,6 @@ class Contact extends React.Component {
     });
   }
 
-
   async submit (e) {
     let search = this.props.location.search;
     if (search.charAt(0) === '?') {
