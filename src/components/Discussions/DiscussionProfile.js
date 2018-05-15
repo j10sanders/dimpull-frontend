@@ -3,11 +3,8 @@ import ReactStars from 'react-stars';
 import Avatar from 'material-ui/Avatar';
 import { ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import Divider from 'material-ui/Divider';
 import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import history from '../../history';
 import NeedReview from './needReview';
@@ -84,7 +81,6 @@ class DiscussionProfile extends React.Component {
           this.setState({ four0four: true });
           return;
         }
-        this.etherPrice();
         this.setState({
           host: `${response.data.first_name} ${response.data.last_name}`,
           image: response.data.image,
@@ -157,11 +153,11 @@ class DiscussionProfile extends React.Component {
     this.setState({ open: false });
   }
 
-  etherPrice () {
-    axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
-      .then((res) => {
-        this.setState({ etherPrice: res.data.USD });
-      });
+  async etherPrice () {
+    const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+    if (res) {
+      this.setState({ etherPrice: res.data.USD });
+    }
   }
 
   deleteProfile () {
@@ -322,17 +318,6 @@ class DiscussionProfile extends React.Component {
             schedule={() => this.schedule()}
           />
         )}
-        
-        <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >
-          <Divider style={{ marginTop: '80px' }} />
-          <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
-          <RaisedButton
-            containerElement={<Link to="/newProfile" />}
-            label="Become a Dimpull Expert"
-            secondary
-            style={{ marginTop: '20px', marginBottom: '20px' }}
-          />
-        </div>
       </div>
     );
   }

@@ -16,145 +16,137 @@ import './discussionprofile.css';
 
 const Markdown = require('react-remarkable');
 
-class ProfileCard extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  render () {
-    return (
-      <div className="container">
-        <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
-          <div className="col-md-6" id="pic">
-            {this.props.host && (
-              <Card>
-                <CardMedia
-                  overlay={<CardTitle title={this.props.host} subtitle={this.props.description} />}
-                >
-                  <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
-                    {this.props.image && (
-                      <img src={this.props.image} alt={this.props.image} style={{ maxWidth: '100%', maxHeight: '500px' }} />
-                    )}
-                  </div>
-                </CardMedia>
-                <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
-                  {this.props.is_users && (
-                    <div>
-                      <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${this.props.name}`} />} />
-                      <FlatButton label="Delete Profile" onClick={() => this.props.handleOpen()} containerElement="Hi" />
-                      <Dialog
-                        title="Delete Discussion Profile"
-                        actions={this.props.actions}
-                        modal={false}
-                        open={this.props.open}
-                        onRequestClose={() => this.props.handleClose()}
-                      >
-                       Are you sure you want to delete this discussion profile?
-                      </Dialog>
-                    </div>
-                  )}
-                  {this.props.github && <IconButton iconClassName="fab fa-github" href={this.props.github} target="_blank" /> }
-                  {this.props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" href={this.props.linkedin} target="_blank" /> }
-                  {this.props.twitter && <IconButton iconClassName="fab fa-twitter" href={this.props.twitter} target="_blank" /> }
-                  {this.props.medium && <IconButton iconClassName="fab fa-medium-m" href={this.props.medium} target="_blank" /> }
-                  {this.props.averageRating && this.props.averageRating}
-                </CardActions>
-              </Card>
-            )}
-            {this.props.reviews &&
-              <div id="reviews">
-                <h1> Reviews </h1>
-                <List>
-                  <Subheader>
-                    Verified Caller Reviews
-                  </Subheader>
-                  {this.props.reviews}
-                </List>
+const ProfileCard = props => (
+  <div className="container">
+    <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
+      <div className="col-md-6" id="pic">
+        {props.host && (
+          <Card>
+            <CardMedia
+              overlay={<CardTitle title={props.host} subtitle={props.description} />}
+            >
+              <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
+                {props.image && (
+                  <img src={props.image} alt={props.image} style={{ maxWidth: '100%', maxHeight: '500px' }} />
+                )}
               </div>
-            }
-          </div>
-          <div className="col-md-6" id="profile" style={{ width: this.props.edit && '30vw', marginLeft: this.props.edit && '10%' }}>
-            {(this.props.who || this.props.origin || this.props.excites || this.props.helps) && (
-              <Paper>
-                <div id="qa">
-                  {this.props.who && (
-                    <div>
-                      <h3 id="q"> Who are you? </h3>
-                      <p id="answer"> <Markdown source={this.props.who} /></p>
-                    </div>
-                  )}
-                  {this.props.origin && (
-                    <div>
-                      <h3 id="q"> What is your crypto origin story?</h3>
-                      <p id="answer"><Markdown source={this.props.origin} /></p>
-                    </div>
-                  )}
-                  {this.props.excites && (
-                    <div>
-                      <h3 id="q"> What excites you about blockchain technology?</h3>
-                      <p id="answer"><Markdown source={this.props.excites} /></p>
-                    </div>
-                  )}
-                  {this.props.helps && (
-                    <div>
-                      <h3 id="q"> What can you help callers with?</h3>
-                      <p id="answer"><Markdown source={this.props.helps} /></p>
-                    </div>
-                  )}
+            </CardMedia>
+            <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
+              {props.is_users && (
+                <div>
+                  <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${props.name}`} />} />
+                  <FlatButton label="Delete Profile" onClick={() => props.handleOpen()} containerElement="Hi" />
+                  <Dialog
+                    title="Delete Discussion Profile"
+                    actions={props.actions}
+                    modal={false}
+                    open={props.open}
+                    onRequestClose={() => props.handleClose()}
+                  >
+                   Are you sure you want to delete this discussion profile?
+                  </Dialog>
                 </div>
-                {!this.props.is_users && (
+              )}
+              {props.github && <IconButton iconClassName="fab fa-github" href={props.github} target="_blank" /> }
+              {props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" href={props.linkedin} target="_blank" /> }
+              {props.twitter && <IconButton iconClassName="fab fa-twitter" href={props.twitter} target="_blank" /> }
+              {props.medium && <IconButton iconClassName="fab fa-medium-m" href={props.medium} target="_blank" /> }
+              {props.averageRating && props.averageRating}
+            </CardActions>
+          </Card>
+        )}
+        {props.reviews &&
+          <div id="reviews">
+            <h1> Reviews </h1>
+            <List>
+              <Subheader>
+                Verified Caller Reviews
+              </Subheader>
+              {props.reviews}
+            </List>
+          </div>
+        }
+      </div>
+      <div className="col-md-6" id="profile" style={{ width: props.edit && '30vw', marginLeft: props.edit && '10%' }}>
+        {(props.who || props.origin || props.excites || props.helps) && (
+          <Paper>
+            <div id="qa">
+              {props.who && (
+                <div>
+                  <h3 id="q"> Who are you? </h3>
+                  <div id="answer"> <Markdown source={props.who} /></div>
+                </div>
+              )}
+              {props.origin && (
+                <div>
+                  <h3 id="q"> What is your crypto origin story?</h3>
+                  <div id="answer"><Markdown source={props.origin} /></div>
+                </div>
+              )}
+              {props.excites && (
+                <div>
+                  <h3 id="q"> What excites you about blockchain technology?</h3>
+                  <div id="answer"><Markdown source={props.excites} /></div>
+                </div>
+              )}
+              {props.helps && (
+                <div>
+                  <h3 id="q"> What can you help callers with?</h3>
+                  <div id="answer"><Markdown source={props.helps} /></div>
+                </div>
+              )}
+            </div>
+            {!props.is_users && (
+              <div>
+                <Divider style={{ marginBottom: '6px' }} />
+                {props.title && (
+                  <CardTitle title={props.title} subtitle={props.subtitle} style={{ marginBottom: '6px' }} />
+                )}
+                {!props.edit && (
                   <div>
-                    <Divider style={{ marginBottom: '6px' }} />
-                    {this.props.title && (
-                      <CardTitle title={this.props.title} subtitle={this.props.subtitle} style={{ marginBottom: '6px' }} />
-                    )}
-                    {!this.props.edit && (
-                      <div>
-                        <RaisedButton
-                          style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
-                          labelStyle={{ fontSize: '20px' }}
-                          fullWidth
-                          primary
-                          label="Schedule a Call"
-                          // containerElement={this.props.vip ? <Link to={`/availability/${this.props.dp}/${this.props.vipid}`} /> : <Link to={`/availability/${this.props.dp}`} />}
-                          onClick={() => this.props.getEmail()}
-                          // onClick={() => this.props.schedule()}
-                          // TODO: add a conditional container element, if this.props.vip
-                        />
-                        <Dialog
-                          title="We aren't ready just yet!"
-                          actions={this.props.ok}
-                          modal={false}
-                          open={this.props.emailOpen}
-                          onRequestClose={() => this.props.emailClose()}
-                        >
-                          {this.props.host} will be accepting calls on May 24th.
-                          To be notified when the platform is ready, please enter your email below.  We promise no spam!
-                          <TextField
-                            floatingLabelText="Your email"
-                            type="email"
-                            value={this.props.email}
-                            fullWidth
-                            onChange={e => this.props.changeEmail(e)}
-                          />
-                        </Dialog>
-                      </div>
-                    )}
+                    <RaisedButton
+                      style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
+                      labelStyle={{ fontSize: '20px' }}
+                      fullWidth
+                      primary
+                      label="Schedule a Call"
+                      // containerElement={props.vip ? <Link to={`/availability/${props.dp}/${props.vipid}`} /> : <Link to={`/availability/${props.dp}`} />}
+                      onClick={() => props.getEmail()}
+                      // onClick={() => props.schedule()}
+                      // TODO: add a conditional container element, if props.vip
+                    />
+                    <Dialog
+                      title="We aren't ready just yet!"
+                      actions={props.ok}
+                      modal={false}
+                      open={props.emailOpen}
+                      onRequestClose={() => props.emailClose()}
+                    >
+                      {props.host} will be accepting calls on May 24th.
+                      To be notified when the platform is ready, please enter your email below.  We promise no spam!
+                      <TextField
+                        floatingLabelText="Your email"
+                        type="email"
+                        value={props.email}
+                        fullWidth
+                        onChange={e => props.changeEmail(e)}
+                      />
+                    </Dialog>
                   </div>
                 )}
-              </Paper>
+              </div>
             )}
-            {!this.props.host && (
-              <CircularProgress size={80} thickness={5} />
-            )}
-          </div>
-        </div>
+          </Paper>
+        )}
+        {!props.host && (
+          <CircularProgress size={80} thickness={5} />
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  </div>
+);
+
+export default ProfileCard;
 
 ProfileCard.propTypes = {
   dp: PropTypes.number,
@@ -190,5 +182,3 @@ ProfileCard.defaultProps = {
   subtitle: '',
   host: ''
 };
-
-export default ProfileCard;

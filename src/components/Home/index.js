@@ -75,7 +75,6 @@ class Home extends React.Component {
     }
     return (
       <div style={{ textAlign: 'center' }}>
-        
         <section id="headerTop">
           <div className="row" id="headerRow">
             <div className="col-sm-6">
