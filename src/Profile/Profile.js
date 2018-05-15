@@ -31,7 +31,7 @@ class Profile extends React.Component {
       headers = { Authorization: `Bearer ${getAccessToken()}` };
       const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/geturl`, { headers });
       if (response.data.url) {
-        this.setState({ url: response.data.url, waiting: false });
+        this.setState({ url: response.data.url, waiting: false, referral: response.data.referral, vip: response.data.vip });
       } else {
         this.setState({ notExpert: true, waiting: false});
       }
@@ -124,6 +124,18 @@ class Profile extends React.Component {
               </ListItem>
             </Paper>
           </List>
+          <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
+            <div style={{ margin: '12px', padding: '12px' }}>
+              <p style={{ fontSize: 'larger', color: 'white' }}>{`Referral Link: dimpull.com/newProfile/ref=${this.state.referral}`}</p>
+              <p style={{ color: '#eaeaea' }}>Refer an expert to earn 5% of their revenues.  They get $10 extra on their first call.</p>
+            </div>
+          </Paper>
+          <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
+            <div style={{ margin: '12px', padding: '12px' }}>
+              <p style={{ fontSize: 'larger', color: 'white' }}>{`Offer Free Calls: dimpull.com/${this.state.url}/vip=${this.state.vip}`}</p>
+              <p style={{ color: '#eaeaea' }}>Helpful for getting initial reviews</p>
+            </div>
+          </Paper>
         </div>
         <Snackbar
           open={this.state.open}
