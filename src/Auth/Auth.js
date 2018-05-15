@@ -99,7 +99,8 @@ export default class Auth {
 
   renewToken() {
     const logged_out = localStorage.getItem('logged_out');
-    if (logged_out) {
+    debugger;
+    if (logged_out === 'true') {
       return;
     }
     this.auth0.checkSession({}, (err, result) => {
