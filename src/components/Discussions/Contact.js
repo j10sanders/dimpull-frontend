@@ -445,7 +445,8 @@ class Contact extends React.Component {
           {' '}
           <div>
             <div style={{ fontWeight: '600' }}>Payment Not Sent - Open MetaMask</div>
-            <div>If you see multiple transactions pending in MetaMask, reject all and refresh this page</div>
+            <div>If MetaMask is not prompting you for a transaction, try refreshing this page.</div>
+            <div>If you see multiple transactions pending in MetaMask, reject all and refresh this page.</div>
           </div>
         </div>
       ];

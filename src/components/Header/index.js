@@ -12,8 +12,6 @@ import './header.css';
 class Header extends Component {
   constructor (props) {
     super(props);
-    // const { renewToken } = this.props.auth;
-    // renewToken();
     this.state = {
       open: false,
       picture: null
@@ -21,6 +19,7 @@ class Header extends Component {
   }
 
   componentDidMount () {
+    this.props.auth.renewToken();
     this.getProfile();
   }
 
@@ -51,7 +50,7 @@ class Header extends Component {
         }
       })
     } else {
-      this.setState({ picture: null });
+      this.setState({ picture: null, isAuthenticated: false });
     }
   }
 
@@ -144,9 +143,11 @@ class Header extends Component {
                   />}
                   id="home"
                 />
-                : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
-                  <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
-                  <i style={{ marginLeft: '12px', color: 'white', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
+                : <div style={{ paddingTop: '5px', paddingRight: '15px', hover: 'red'}}>
+                {this.state.picture === 'https://s.gravatar.com/avatar/b7eb0bea5420aa6a566d3cebe69e2a15?s=480&r=pg&d=none' ? <i className="far fa-user fa-2x" style={{marginTop: '6px'}}/>: 
+                <div> <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} /><i style={{ marginLeft: '12px', color: 'white', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" /> </div>
+                }
+                  
                 </div>
               }
             </Link>

@@ -22,7 +22,7 @@ export default class Auth {
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getProfile = this.getProfile.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
-    // this.renewToken = this.renewToken.bind(this);
+    this.renewToken = this.renewToken.bind(this);
     this.scheduleRenewal();
   }
 
@@ -31,6 +31,7 @@ export default class Auth {
     this.auth0.authorize({
       state:url
     });
+    localStorage.setItem('logged_out', false);
   }
 
   handleAuthentication() {
@@ -49,6 +50,7 @@ export default class Auth {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    localStorage.setItem('logged_out', false);
     this.scheduleRenewal();
     if (authResult.state.substring(0,11) === '/newProfile' || authResult.state.substring(0,12) === '/editProfile'){
       history.replace(authResult.state)
@@ -81,6 +83,7 @@ export default class Auth {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('scopes');
+    localStorage.setItem('logged_out', true);
     this.userProfile = null;
     clearTimeout(this.tokenRenewalTimeout);
     // navigate to the home route
@@ -95,6 +98,10 @@ export default class Auth {
   }
 
   renewToken() {
+    const logged_out = localStorage.getItem('logged_out');
+    if (logged_out) {
+      return;
+    }
     this.auth0.checkSession({}, (err, result) => {
         if (err) {
           console.log(err);

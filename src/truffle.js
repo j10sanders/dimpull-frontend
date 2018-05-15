@@ -15,9 +15,16 @@ module.exports = {
     },
     ropsten: {
       provider: function() {
-        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/I5csQZeeCq5xFJFx11J4 ")
+        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/SzMj9kYHCc61XSf9IFDh")
       },
       network_id: 3,
+      gas: 4612388
+    },
+    rinkeby: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/I5csQZeeCq5xFJFx11J4 ")
+      },
+      network_id: 4,
       gas: 4612388
     }
 
