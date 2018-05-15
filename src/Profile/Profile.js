@@ -3,6 +3,8 @@ import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
+import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 import './Profile.css';
 
@@ -11,7 +13,9 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       open: false,
-      url: null
+      url: null,
+      waiting: true,
+      notExpert: false
     };
   }
 
@@ -27,7 +31,9 @@ class Profile extends React.Component {
       headers = { Authorization: `Bearer ${getAccessToken()}` };
       const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/geturl`, { headers });
       if (response.data.url) {
-        this.setState({ url: response.data.url });
+        this.setState({ url: response.data.url, waiting: false });
+      } else {
+        this.setState({ notExpert: true, waiting: false});
       }
     }
   }
@@ -41,6 +47,23 @@ class Profile extends React.Component {
   }
 
   render () {
+    if (this.state.waiting) {
+      return(
+        <CircularProgress size={80} thickness={5} />
+      )
+    } else if (this.state.notExpert) {
+      return (
+        <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >
+          <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
+          <RaisedButton
+            containerElement={<Link to="/newProfile" />}
+            label="Become a Dimpull Expert"
+            secondary
+            style={{ marginTop: '20px', marginBottom: '20px' }}
+          />
+        </div>
+      )
+    }
     return (
       <div style={{ textAlign: 'center', marginBottom: '80px' }}>
         <div id="accountButtons">

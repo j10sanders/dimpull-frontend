@@ -8,7 +8,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
-// import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import DefaultProfiles from './DefaultProfiles';
 import './landingpage.css';
@@ -26,7 +25,6 @@ class Home extends React.Component {
   componentDidMount () {
     this.checkExpert();
     this.getExperts();
-    // this.notify();
   }
 
   async getExperts () {
@@ -40,12 +38,12 @@ class Home extends React.Component {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
+      this.setState({ isAuthenticated: true });
       const headers = { Authorization: `Bearer ${getAccessToken()}` };
       const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
       if (response.data.expert) {
         this.setState({ expert: true });
       }
-      this.setState({ isAuthenticated: true });
     }
   }
 
@@ -64,12 +62,6 @@ class Home extends React.Component {
     this.setState({ emailSubmitted: true });
   }
 
-  // notify () {
-  //   toast.info('Launching May 24th!', {
-  //     position: toast.POSITION.TOP_CENTER
-  //   });
-  // }
-  //<ToastContainer autoClose={false} />
 
   render () {
     let link = <Link to="/newProfile" />;
@@ -81,7 +73,6 @@ class Home extends React.Component {
       link = <Link to="/profile" />;
       label = "Edit Your Profile";
     }
-
     return (
       <div style={{ textAlign: 'center' }}>
         
@@ -99,7 +90,7 @@ class Home extends React.Component {
                     primary
                     labelStyle={{ fontSize: '16px' }}
                     style={{
-                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', maxWidth: '300px', minWidth: '255px', float: 'left', marginRight: '4px'
+                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
                     }}
                   />
                 ) :
