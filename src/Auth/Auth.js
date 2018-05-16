@@ -56,9 +56,9 @@ export default class Auth {
     localStorage.setItem('logged_out', false);
     this.scheduleRenewal();
     try {
-      const a = authResult;
-      if (a.state.substring(0,11) === '/newProfile' || a.state.substring(0,12) === '/editProfile'){
-        history.replace(authResult.state)
+      const a = authResult.state;
+      if (a.substring(0,11) === '/newProfile' || a.substring(0,12) === '/editProfile'){
+        history.replace(a)
       } else {
         history.replace('/');
       }
