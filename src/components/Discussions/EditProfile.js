@@ -60,7 +60,7 @@ class EditProfile extends React.Component {
       twitter: '',
       github: '',
       medium: '',
-      title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.',
+      title: 'Looks great!  Make sure to set your availability too.',
       submitFull: false // so server knows if it's a full profile
     };
   }

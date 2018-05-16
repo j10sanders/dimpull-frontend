@@ -96,46 +96,44 @@ const ProfileCard = props => (
                 </div>
               )}
             </div>
-            {!props.is_users && (
-              <div>
-                <Divider style={{ marginBottom: '6px' }} />
-                {props.title && (
-                  <CardTitle title={props.title} subtitle={props.subtitle} style={{ marginBottom: '6px' }} />
-                )}
-                {!props.edit && (
-                  <div>
-                    <RaisedButton
-                      style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
-                      labelStyle={{ fontSize: '20px' }}
+            <div>
+              <Divider style={{ marginBottom: '6px' }} />
+              {props.title && (
+                <CardTitle title={props.title} subtitle={props.subtitle} style={{ marginBottom: '6px' }} />
+              )}
+              {(!props.edit && !props.is_users) && (
+                <div>
+                  <RaisedButton
+                    style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
+                    labelStyle={{ fontSize: '20px' }}
+                    fullWidth
+                    primary
+                    label="Schedule a Call"
+                    // containerElement={props.vip ? <Link to={`/availability/${props.dp}/${props.vipid}`} /> : <Link to={`/availability/${props.dp}`} />}
+                    onClick={() => props.getEmail()}
+                    // onClick={() => props.schedule()}
+                    // TODO: add a conditional container element, if props.vip
+                  />
+                  <Dialog
+                    title="We aren't ready just yet!"
+                    actions={props.ok}
+                    modal={false}
+                    open={props.emailOpen}
+                    onRequestClose={() => props.emailClose()}
+                  >
+                    {props.host} will be accepting calls on May 24th.
+                    To be notified when the platform is ready, please enter your email below.  We promise no spam!
+                    <TextField
+                      floatingLabelText="Your email"
+                      type="email"
+                      value={props.email}
                       fullWidth
-                      primary
-                      label="Schedule a Call"
-                      // containerElement={props.vip ? <Link to={`/availability/${props.dp}/${props.vipid}`} /> : <Link to={`/availability/${props.dp}`} />}
-                      onClick={() => props.getEmail()}
-                      // onClick={() => props.schedule()}
-                      // TODO: add a conditional container element, if props.vip
+                      onChange={e => props.changeEmail(e)}
                     />
-                    <Dialog
-                      title="We aren't ready just yet!"
-                      actions={props.ok}
-                      modal={false}
-                      open={props.emailOpen}
-                      onRequestClose={() => props.emailClose()}
-                    >
-                      {props.host} will be accepting calls on May 24th.
-                      To be notified when the platform is ready, please enter your email below.  We promise no spam!
-                      <TextField
-                        floatingLabelText="Your email"
-                        type="email"
-                        value={props.email}
-                        fullWidth
-                        onChange={e => props.changeEmail(e)}
-                      />
-                    </Dialog>
-                  </div>
-                )}
-              </div>
-            )}
+                  </Dialog>
+                </div>
+              )}
+            </div>
           </Paper>
         )}
         {!props.host && (
