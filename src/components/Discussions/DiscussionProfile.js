@@ -27,17 +27,17 @@ class DiscussionProfile extends React.Component {
   }
 
   componentDidMount () {
+    this.getDiscussion();
+  }
+
+  async getDiscussion () {
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     let headers = {};
+    this.etherPrice();
     if (isAuthenticated()) {
       headers = { Authorization: `Bearer ${getAccessToken()}` };
     }
-    this.getDiscussion(headers);
-  }
-
-  async getDiscussion (headers) {
-    this.etherPrice();
     let requestUrl = this.props.location.pathname;
     if (requestUrl.includes('review=')) {
       const reviewId = requestUrl.substring(requestUrl.indexOf('/review=') + 8);
@@ -68,44 +68,41 @@ class DiscussionProfile extends React.Component {
     if (!requestUrl.startsWith('/expert')) {
       requestUrl = `/expert${requestUrl}`;
     }
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${requestUrl}`, { headers })
-      .then((response) => {
-        if (response.data === 'not an expert yet') {
-          this.setState({ notExpert: true });
-        } else if (response.data === 'does not exist') {
-          this.setState({ nonExistant: true });
-          return;
-        } else if (response.data === 'editProfile') {
-          history.push(`/editProfile${this.props.location.pathname}`);
-        } else if (response.data === 404) {
-          this.setState({ four0four: true });
-          return;
-        }
-        this.setState({
-          host: `${response.data.first_name} ${response.data.last_name}`,
-          image: response.data.image,
-          description: response.data.description,
-          is_users: response.data.is_users,
-          price: response.data.price,
-          needReview: response.data.needReview,
-          origin: response.data.origin,
-          who: response.data.who,
-          excites: response.data.excites,
-          helps: response.data.helps,
-          linkedin: response.data.linkedin,
-          medium: response.data.medium,
-          twitter: response.data.twitter,
-          github: response.data.github,
-          dp: response.data.id
-        });
-        this.setState({ waiting: false });
-        if (response.data.reviewlist) {
-          this.setState({
-            averageRating: response.data.averageRating
-          }, () => this.reviews(response.data.reviewlist));
-        }
-      }).catch(error => console.log(error));
-    
+    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${requestUrl}`, { headers });
+    if (response.data === 'not an expert yet') {
+      this.setState({ notExpert: true });
+    } else if (response.data === 'does not exist') {
+      this.setState({ nonExistant: true });
+      return;
+    } else if (response.data === 'editProfile') {
+      history.push(`/editProfile${this.props.location.pathname}`);
+    } else if (response.data === 404) {
+      this.setState({ four0four: true });
+      return;
+    }
+    this.setState({
+      host: `${response.data.first_name} ${response.data.last_name}`,
+      image: response.data.image,
+      description: response.data.description,
+      is_users: response.data.is_users,
+      price: response.data.price,
+      needReview: response.data.needReview,
+      origin: response.data.origin,
+      who: response.data.who,
+      excites: response.data.excites,
+      helps: response.data.helps,
+      linkedin: response.data.linkedin,
+      medium: response.data.medium,
+      twitter: response.data.twitter,
+      github: response.data.github,
+      dp: response.data.id
+    });
+    this.setState({ waiting: false });
+    if (response.data.reviewlist) {
+      this.setState({
+        averageRating: response.data.averageRating
+      }, () => this.reviews(response.data.reviewlist));
+    }
   }
 
   getEmail () {

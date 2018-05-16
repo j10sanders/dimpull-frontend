@@ -52,12 +52,20 @@ export default class Auth {
     localStorage.setItem('expires_at', expiresAt);
     localStorage.setItem('logged_out', false);
     this.scheduleRenewal();
-    if (authResult.state.substring(0,11) === '/newProfile' || authResult.state.substring(0,12) === '/editProfile'){
-      history.replace(authResult.state)
-    } else{
-      history.replace('/');
+    try {
+      const a = authResult;
+      if (a.state.substring(0,11) === '/newProfile' || a.state.substring(0,12) === '/editProfile'){
+        history.replace(authResult.state)
+      } else {
+        history.replace('/');
+      }
+    } catch (e) {
+      if (e instanceof ReferenceError){
+        return;
+      }
     }
   }
+  
 
   getAccessToken() {
     const accessToken = localStorage.getItem('access_token');

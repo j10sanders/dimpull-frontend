@@ -14,7 +14,6 @@ class Pay extends React.Component {
   }
 
   componentWillMount () {
-    debugger;
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
     getWeb3
@@ -37,7 +36,6 @@ class Pay extends React.Component {
     const payeeAddress = '0x1C34D277B51ec49536FE7843E289933e0f8020ED';
     const result = await escrowinstance.start(payeeAddress, { from: account[0], value: 2000000000000000000 });
     console.log(result);
-    debugger;
   }
 
   instantiateContract () {
