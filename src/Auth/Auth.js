@@ -40,8 +40,9 @@ export default class Auth {
         this.setSession(authResult);
     } else if (err) {
       if (err.message != 'nothing to see here') {
-        history.replace('/home');
+        return;
       }
+      history.replace('/home');
     }
     });
   }
@@ -63,7 +64,7 @@ export default class Auth {
       }
     } catch (e) {
       if (e instanceof ReferenceError){
-        const x = Error('nothing to see here');
+        throw new Error('nothing to see here');
         return x
       }
     }
