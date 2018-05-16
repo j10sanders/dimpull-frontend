@@ -282,7 +282,7 @@ class DiscussionProfile extends React.Component {
             />
           </div>
         }
-        {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
+        {this.state.waiting ? <div style={{ position: 'fixed', top: '20%', left: '50%' }}><CircularProgress size={80} thickness={5} /> </div>: (
           <ProfileCard
             host={this.state.host}
             description={this.state.description}

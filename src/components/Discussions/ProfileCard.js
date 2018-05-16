@@ -137,7 +137,9 @@ const ProfileCard = props => (
           </Paper>
         )}
         {!props.host && (
-          <CircularProgress size={80} thickness={5} />
+          <div style={{ position: 'fixed', top: '20%', left: '50%' }}>
+            <CircularProgress size={80} thickness={5} />
+          </div>
         )}
       </div>
     </div>

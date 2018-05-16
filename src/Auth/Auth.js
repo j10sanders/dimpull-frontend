@@ -99,7 +99,6 @@ export default class Auth {
 
   renewToken() {
     const logged_out = localStorage.getItem('logged_out');
-    debugger;
     if (logged_out === 'true') {
       return;
     }
