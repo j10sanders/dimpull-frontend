@@ -60,6 +60,8 @@ export default class Auth {
       const a = authResult.state;
       if (a.substring(0,11) === '/newProfile' || a.substring(0,12) === '/editProfile'){
         history.replace(a)
+      } else if (a.a.location.pathname) {
+        return;
       } else {
         history.replace('/');
       }
