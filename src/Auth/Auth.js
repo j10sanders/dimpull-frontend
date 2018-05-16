@@ -39,7 +39,8 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
     } else if (err) {
-      if (err.message != 'nothing to see here') {
+      if (err.message !== 'nothing to see here') {
+        console.log(err)
         return;
       }
       history.replace('/home');
@@ -65,7 +66,6 @@ export default class Auth {
     } catch (e) {
       if (e instanceof ReferenceError){
         throw new Error('nothing to see here');
-        return x
       }
     }
   }
