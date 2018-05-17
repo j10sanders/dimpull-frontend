@@ -19,10 +19,6 @@ class Header extends Component {
   }
 
   componentWillMount () {
-    this.props.auth.renewToken();
-  }
-
-  componentDidMount () {
     this.getProfile();
   }
 
@@ -35,7 +31,8 @@ class Header extends Component {
     }
   }
 
-  getProfile () {
+  async getProfile () {
+    await this.props.auth.renewToken();
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
       this.setState({ isAuthenticated: true }, () => {
