@@ -4,6 +4,7 @@ import asyncComponent from "../components/AsyncComponent";
 import Auth from '../Auth/Auth.js';
 import history from '../history';
 import Callback from '../Callback/Callback';
+import Header from '../components/Header'
 const auth = new Auth();
 const AsyncHome = asyncComponent(() => import("../components/Home"));
 const AsyncNewProfile = asyncComponent(() => import("../components/Discussions/NewProfile"));
@@ -18,7 +19,7 @@ const AsyncMyDiscussions = asyncComponent(() => import("../components/Discussion
 const AsyncDiscussions = asyncComponent(() => import("../components/Discussions/Discussions"));
 const AsyncLoginPage = asyncComponent(() => import("../LoginPage/LoginPage"));
 const AsyncGetNumber = asyncComponent(() => import("../LoginPage/GetNumber"));
-const AsyncHeader = asyncComponent(() => import("../components/Header"));
+// const AsyncHeader = asyncComponent(() => import("../components/Header"));
 const AsyncProfile = asyncComponent(() => import("../Profile/Profile"));
 const AsyncBookedTimes = asyncComponent(() => import("../Profile/BookedTimes"));
 
@@ -34,7 +35,7 @@ class Routes extends Component {
 			<Router history={history}>
 				<div>
 					
-					<Route render={(props) => <AsyncHeader auth={auth} {...props} />} />
+					<Route render={(props) => <Header auth={auth} {...props} />} />
 					<div
 						className="container"
             style={{ 
