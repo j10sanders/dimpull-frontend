@@ -18,8 +18,11 @@ class Header extends Component {
     };
   }
 
-  componentDidMount () {
+  componentWillMount () {
     this.props.auth.renewToken();
+  }
+
+  componentDidMount () {
     this.getProfile();
   }
 
