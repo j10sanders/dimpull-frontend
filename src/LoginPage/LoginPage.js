@@ -11,7 +11,7 @@ class LoginPage extends React.Component {
   }
 
   login () {
-    this.props.auth.login();
+    this.props.auth.login('/home');
   }logout () {
     this.props.auth.logout();
   }

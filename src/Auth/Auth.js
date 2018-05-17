@@ -39,7 +39,7 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
     } else if (err) {
-      if (err.message !== 'nothing to see here') {
+      if (err.message === 'nothing to see here') {
         console.log(err)
         return;
       }
@@ -58,7 +58,7 @@ export default class Auth {
     this.scheduleRenewal();
     try {
       const a = authResult.state;
-      if (a.substring(0,11) === '/newProfile' || a.substring(0,12) === '/editProfile'){
+      if (a.substring(0,11) === '/newProfile' || a.substring(0,12) === '/editProfile' || a.substring(0,5) === '/home'){
         history.replace(a)
       } else if (a.a.location.pathname) {
         return;
