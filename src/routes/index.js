@@ -34,7 +34,6 @@ class Routes extends Component {
 		return (
 			<Router history={history}>
 				<div>
-					
 					<Route render={(props) => <Header auth={auth} {...props} />} />
 					<div
 						className="container"
@@ -61,13 +60,12 @@ class Routes extends Component {
 						    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
 						    <Route path="/bookedtimes" render={(props) => <AsyncBookedTimes auth={auth} {...props} />} />
 						    <Route path="/profile" render={(props) => (
-					            !auth.isAuthenticated() ? (
-					              <Redirect to="/home"/>
-					            ) : (
-					              <AsyncProfile auth={auth} {...props} />
-					            )
-					          )} />
-						    
+				            !auth.isAuthenticated() ? (
+				              <Redirect to="/home"/>
+				            ) : (
+				              <AsyncProfile auth={auth} {...props} />
+				            )
+				          )} />
 						    <Route path="/callback" render={(props) => {
 					          handleAuthentication(props);
 					          return <Callback {...props} /> 
