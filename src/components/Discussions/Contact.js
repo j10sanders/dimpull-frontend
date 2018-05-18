@@ -213,14 +213,6 @@ class Contact extends React.Component {
     });
   }
 
-  _handleKeyPress (e) {
-    if (e.key === 'Enter') {
-      if (!this.state.disabled) {
-        this.login(e);
-      }
-    }
-  }
-
   handleOpen () {
     this.setState({ open: true });
   }

@@ -31,8 +31,8 @@ class Header extends Component {
     }
   }
 
-  async getProfile () {
-    await this.props.auth.renewToken();
+  getProfile () {
+    // await this.props.auth.renewToken();
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
       this.setState({ isAuthenticated: true }, () => {
