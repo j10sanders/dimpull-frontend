@@ -66,6 +66,9 @@ class DiscussionProfile extends React.Component {
     const url = requestUrl.match(/\/([^/]+)\/?$/)[1];
     this.setState({ url });
     if (!requestUrl.startsWith('/expert')) {
+      if (requestUrl.length === 0) {
+        history.push('/home');
+      }
       requestUrl = `/expert${requestUrl}`;
     }
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${requestUrl}`, { headers });
@@ -184,7 +187,7 @@ class DiscussionProfile extends React.Component {
     history.push({
       pathname: `/availability/${this.state.dp}`,
       // search: conversationID,
-      state: { vip: this.state.vip }
+      state: { vip: this.state.vip, host: this.state.host }
     });
   }
 
@@ -294,6 +297,8 @@ class DiscussionProfile extends React.Component {
             handleClose={() => this.handleClose()}
             deleteProfile={() => this.deleteProfile()}
             title={title}
+            halfOff={`$${Number((this.state.price).toFixed(0)) / 2} on May 24th and 25th (half off)!`}
+            halfSubtitle={`${Number((Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')/2)} Ether`}
             subtitle={subtitle}
             otherProfile={this.state.otherProfile}
             actions={actions}

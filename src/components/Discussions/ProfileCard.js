@@ -16,6 +16,8 @@ import './discussionprofile.css';
 
 const Markdown = require('react-remarkable');
 
+// <CardTitle title={props.halfOff} subtitle={props.halfSubtitle} style={{ marginBottom: '6px' }} titleColor='green' />
+
 const ProfileCard = props => (
   <div className="container">
     <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
@@ -99,7 +101,10 @@ const ProfileCard = props => (
             <div>
               <Divider style={{ marginBottom: '6px' }} />
               {props.title && (
-                <CardTitle title={props.title} subtitle={props.subtitle} style={{ marginBottom: '6px' }} />
+                <div>
+                  <CardTitle title={props.title} subtitle={props.subtitle} style={{ marginBottom: '6px' }} />
+                
+                </div>
               )}
               {(!props.edit && !props.is_users) && (
                 <div>
@@ -109,7 +114,6 @@ const ProfileCard = props => (
                     fullWidth
                     primary
                     label="Schedule a Call"
-                    // containerElement={props.vip ? <Link to={`/availability/${props.dp}/${props.vipid}`} /> : <Link to={`/availability/${props.dp}`} />}
                     onClick={() => props.getEmail()}
                     // onClick={() => props.schedule()}
                     // TODO: add a conditional container element, if props.vip
