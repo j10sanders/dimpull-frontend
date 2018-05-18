@@ -27,7 +27,7 @@ class Header extends Component {
     if (!this.state.picture) {
       window.setTimeout(() => {
         this.getProfile();
-      }, 0);
+      }, 1000);
     }
   }
 
