@@ -12,6 +12,8 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
+import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 import history from '../../history';
 import '../../Profile/calendar.css'
 
@@ -26,33 +28,40 @@ class Availability extends React.Component {
       open: false,
       waiting: true,
       tooEarly: false,
-      errorTitle: ''
+      errorTitle: '',
+      requestAvailability: false,
+      email: '',
+      message: '',
+      requested: false
     }
     this.moveEvent = this.moveEvent.bind(this)
   }
 
   componentDidMount () {
-    axios.get(`
-      ${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`)
-      .then((response) => {
-        let events = []
-        let index = 0
-        for (let e of response.data) {
-          let start = new Date(e.start)
-          let end = new Date(e.end)
-          let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
-          let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
-          let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
-          events.push(event)
-          index += 1
-        }
-        this.setState({events: events, waiting: false})})
-      .catch(function (error) {
-        console.log(error)
-      })
+    this.getTimes();
   }
 
-  formatTime(time){
+  async getTimes () {
+    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`)
+    if (response.data === 'No availability') {
+      this.setState({ noAvailability: true });
+      return;
+    }
+    let events = []
+    let index = 0
+    for (let e of response.data) {
+      let start = new Date(e.start)
+      let end = new Date(e.end)
+      let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
+      let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
+      let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
+      events.push(event)
+      index += 1
+    }
+    this.setState({events: events, waiting: false})
+  }
+
+  formatTime(time) {
     let NumTime = Number(time)
     if (NumTime < 10) {
       time = "0" + time
@@ -167,7 +176,87 @@ class Availability extends React.Component {
     return slots;
   }
 
+  changeEmail (e) {
+    this.setState({ email: e.target.value });
+  }
+
+  changeMessage (e) {
+    this.setState({ message: e.target.value });
+  }
+
+
+
+  requestAvailability () {
+    console.log("Reuq")
+    this.setState({ requestAvailability: true });
+  }
+
+  async submitEmail () {
+    await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/requestavailability`, {
+      email: this.state.email,
+      message: this.state.message,
+      host: this.props.location.state.host
+    });
+    this.setState({ requestAvailability: false, requested: true })
+  }
+
+  handleCloseAvailability () {
+    this.setState({ requestAvailability: false })
+  }
+  
+
   render() {
+    const submitEmail = [
+       <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={() => this.handleCloseAvailability()}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onClick={() => this.submitEmail()}
+      />
+    ]
+    if (this.state.noAvailability) {
+      return ( 
+        <div style={{ textAlign: 'center', paddingTop: '50px' }}>
+          <h2>{`Sorry, ${this.props.location.state.host} does not have any availability set.`}</h2>
+          <FlatButton
+            label={`Let ${this.props.location.state.host} know you want to talk`} 
+            primary={true}
+            onClick={() => this.requestAvailability()}
+          />
+          <Dialog
+            title={`Let ${this.props.location.state.host} know you want to talk`}
+            actions={submitEmail}
+            modal={false}
+            open={this.state.requestAvailability}
+            onRequestClose={() => this.handleCloseAvailability.bind(this)}
+          >
+            <TextField
+              floatingLabelText="Your email"
+              type="email"
+              value={this.state.email}
+              fullWidth
+              onChange={e => this.changeEmail(e)}
+            />
+            <TextField
+              floatingLabelText="short message"
+              type="message"
+              value={this.state.message}
+              fullWidth
+              onChange={e => this.changeMessage(e)}
+            />
+          </Dialog>
+          <Snackbar
+            open={this.state.requested}
+            message={`Thanks! We will let ${this.props.location.state.host} know.  You will hear back from us shortly...`}
+            autoHideDuration={8000}
+          />
+        </div>
+      )
+    } 
     const settings = {
       timeSlotGap: 30,
       minTime: this.state.startTime,
@@ -265,8 +354,7 @@ class Availability extends React.Component {
               modal={false}
               open={this.state.tooEarly}
               onRequestClose={() => this.handleCloseError()}
-            />
-              
+            />     
           </div>
         )
       }
