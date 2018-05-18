@@ -25,6 +25,11 @@ class Home extends React.Component {
   componentDidMount () {
     this.checkExpert();
     this.getExperts();
+    if (!this.state.expert) {
+      window.setTimeout(() => {
+        this.checkExpert();
+      }, 0);
+    }
   }
 
   async getExperts () {

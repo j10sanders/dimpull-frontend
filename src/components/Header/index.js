@@ -23,6 +23,14 @@ class Header extends Component {
     this.getProfile();
   }
 
+  componentDidMount () {
+    if (!this.state.picture) {
+      window.setTimeout(() => {
+        this.getProfile();
+      }, 0);
+    }
+  }
+
   componentWillReceiveProps (nextProps, nextContext) {
     if (nextProps.location.pathname === '/' && this.props.location.pathname === '/login') {
       this.getProfile();
@@ -33,7 +41,7 @@ class Header extends Component {
   }
 
   getProfile () {
-    // await this.props.auth.renewToken();
+    this.props.auth.renewToken();
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
       this.setState({ isAuthenticated: true }, () => {

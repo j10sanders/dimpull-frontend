@@ -40,8 +40,6 @@ class Routes extends Component {
             style={{ 
               paddingBottom: '65px',
               marginTop: '64px',
-              // height: '100%',
-              // minHeight: '88vh'
             }}
         	>
 						<Switch>
