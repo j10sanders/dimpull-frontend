@@ -28,7 +28,6 @@ class Header extends Component {
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
-    console.log(nextProps, "NEXTPROPS")
     if (nextProps.location.pathname === '/' && this.props.location.pathname === '/login') {
       this.getProfile();
     }
