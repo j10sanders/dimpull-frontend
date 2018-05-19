@@ -254,7 +254,17 @@ class DiscussionProfile extends React.Component {
 
     // `${Number(Math.round((this.state.price/this.state.etherPrice)+'e2')+'e-2')} Ether`
     const title = `$${Number(this.state.price).toFixed(0)} per half hour`;
-    const subtitle = `${Number(Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')} Ether`;
+    const subtitle = `${Number(Math.round((this.state.price / this.state.etherPrice) + 'e3') + 'e-3')} Ether`;
+    const price = this.state.price ? this.state.price : 1
+    const halfOff = ((Number(price.toFixed(0))) < 80 ? true : false);
+    const etherPrice = this.state.etherPrice !== "" ? this.state.etherPrice : 1;
+
+    const halfOffAmount = halfOff ? `$${Number((price).toFixed(0)) / 2} on May 24th and 25th (50% off)`
+      : `$${Number((price).toFixed(0)) - 40} on May 24th and 25th (50% off, up to $40 discount)`;
+
+    const halfSubtitle = halfOff ? `${Number((Math.round((price / etherPrice) + 'e3') + 'e-3') / 2)} Ether`
+      : `${Number(Math.round(((price - 40) / this.state.etherPrice) + 'e3') + 'e-3')} Ether`;
+
     if (this.state.notExpert) {
       return (
         <div id="unconfirmed">
@@ -297,8 +307,8 @@ class DiscussionProfile extends React.Component {
             handleClose={() => this.handleClose()}
             deleteProfile={() => this.deleteProfile()}
             title={title}
-            halfOff={`$${Number((this.state.price).toFixed(0)) / 2} on May 24th and 25th (half off)!`}
-            halfSubtitle={`${Number((Math.round((this.state.price/this.state.etherPrice)+'e3')+'e-3')/2)} Ether`}
+            halfOff={halfOffAmount}
+            halfSubtitle={halfSubtitle}
             subtitle={subtitle}
             otherProfile={this.state.otherProfile}
             actions={actions}
