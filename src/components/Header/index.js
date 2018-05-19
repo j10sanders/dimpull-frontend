@@ -24,14 +24,11 @@ class Header extends Component {
   }
 
   componentDidMount () {
-    if (!this.state.picture) {
-      window.setTimeout(() => {
-        this.getProfile();
-      }, 1000);
-    }
+    this.timeOutPic();
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
+    console.log(nextProps, "NEXTPROPS")
     if (nextProps.location.pathname === '/' && this.props.location.pathname === '/login') {
       this.getProfile();
     }
@@ -40,8 +37,8 @@ class Header extends Component {
     }
   }
 
-  getProfile () {
-    this.props.auth.renewToken();
+  async getProfile () {
+    await this.props.auth.renewToken();
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated()) {
       this.setState({ isAuthenticated: true }, () => {
@@ -71,6 +68,14 @@ class Header extends Component {
       if (response.data.pic) {
         this.setState({ picture: response.data.pic });
       }
+    }
+  }
+
+  timeOutPic () {
+    if (!this.state.picture) {
+      window.setTimeout(() => {
+        this.getProfile();
+      }, 1000);
     }
   }
 

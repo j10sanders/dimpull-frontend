@@ -18,24 +18,29 @@ class Home extends React.Component {
     this.state = {
       dps: null,
       email: '',
-      emailSubmitted: false
+      emailSubmitted: false,
+      expert: false
     };
   }
 
   componentDidMount () {
     this.checkExpert();
     this.getExperts();
-    if (!this.state.expert) {
-      window.setTimeout(() => {
-        this.checkExpert();
-      }, 1000);
-    }
+    this.timeoutCheckExpert();
   }
 
   async getExperts () {
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`);
     if (response.data) {
       this.setState({ dps: response.data.slice(0, 4) });
+    }
+  }
+
+  timeoutCheckExpert () {
+    if (!this.state.expert) {
+      window.setTimeout(() => {
+        this.checkExpert();
+      }, 1000);
     }
   }
 
