@@ -90,7 +90,6 @@ class Header extends Component {
   }
 
   render () {
-    debugger;
     return (
       <header>
         <Drawer
