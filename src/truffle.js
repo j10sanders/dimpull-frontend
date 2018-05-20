@@ -1,5 +1,6 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
-
+const Web3 = require("web3");
+const web3 = new Web3();
 const mnemonic ="lens ladder destroy burden scout payment trade alley sorry arrange top earn";
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
       host: "localhost",
       port: 9545,
       network_id: "*",
-      gas: 30000000 // Match any network id
+      gas: 30000000
     },
     ropsten: {
       provider: function() {
@@ -22,12 +23,11 @@ module.exports = {
     },
     rinkeby: {
       provider: function() {
-        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/I5csQZeeCq5xFJFx11J4 ")
+        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/I5csQZeeCq5xFJFx11J4")
       },
       network_id: 4,
       gas: 4612388
     }
-
   },
   solc: { optimizer: { enabled: true, runs: 200 } }
 };
