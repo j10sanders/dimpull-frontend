@@ -106,6 +106,7 @@ class Contact extends React.Component {
       const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
       const price = (Number(walletAndPrice.data.price) / res.data.USD) * 1000000000000000000;
       debugger;
+      console.log(price);
       const instance = await this.state.escrow.deployed();
       const esc = instance;
       const accounts = await this.state.web3.eth.accounts;
