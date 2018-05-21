@@ -42,8 +42,10 @@ class Contact extends React.Component {
   static async getEtherPrice (eth) {
     const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
     const wei = (eth / res.data.USD) * 1000000000000000000;
+    debugger;
     return wei;
   }
+
   constructor (props) {
     super(props);
     this.state = {
@@ -101,6 +103,7 @@ class Contact extends React.Component {
     if (walletAndPrice.data.walletAddress && walletAndPrice.data.price) {
       const walletAddress = walletAndPrice.data.walletAddress;
       const price = await Contact.getEtherPrice(Number(walletAndPrice.data.price));
+      debugger;
       const instance = await this.state.escrow.deployed();
       const esc = instance;
       const accounts = await this.state.web3.eth.accounts;
