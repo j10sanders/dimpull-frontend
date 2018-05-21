@@ -318,7 +318,7 @@ class Contact extends React.Component {
     const Completionist = () => (
       <div className="col-md-6 col-md-offset-3">
         <div style={{ textAlign: 'center', paddingTop: '20px' }} >
-          Sorry... time's up.  Please <Link to={`/availability/${this.props.location.search}`}> go back a page and try again</Link>.  If your payment already went through, please contact admin@dimpull.com
+          Sorry... time's up.  Please <Link to={`/availability/${this.props.location.search.substr(1)}`}> go back a page and try again</Link>.  If your payment already went through, please contact admin@dimpull.com
         </div>
       </div>
     );
