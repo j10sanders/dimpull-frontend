@@ -27,6 +27,13 @@ module.exports = {
       },
       network_id: 4,
       gas: 4612388
+    },
+    live: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, "https://mainnet.infura.io/nymbljHPRamRw5ArzSGB")
+      },
+      network_id: 1,
+      gas: 4612388
     }
   },
   solc: { optimizer: { enabled: true, runs: 200 } }
