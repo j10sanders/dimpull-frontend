@@ -113,8 +113,8 @@ const ProfileCard = props => (
                     fullWidth
                     primary
                     label="Schedule a Call"
-                    onClick={() => props.getEmail()}
-                    // onClick={() => props.schedule()}
+                    // onClick={() => props.getEmail()}
+                    onClick={() => props.schedule()}
                     // TODO: add a conditional container element, if props.vip
                   />
                   <Dialog
