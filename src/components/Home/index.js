@@ -40,7 +40,7 @@ class Home extends React.Component {
     if (!this.state.expert) {
       window.setTimeout(() => {
         this.checkExpert();
-      }, 1000);
+      }, 2000);
     }
   }
 
