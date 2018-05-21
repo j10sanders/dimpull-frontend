@@ -1,7 +1,7 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
 const Web3 = require("web3");
 const web3 = new Web3();
-const mnemonic ="lens ladder destroy burden scout payment trade alley sorry arrange top earn";
+const mnemonic = "lens ladder destroy burden scout payment trade alley sorry arrange top earn";
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
