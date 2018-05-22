@@ -210,13 +210,6 @@ class Availability extends React.Component {
     this.setState({ tc: true });
   }
 
-  handleScroll(e) {
-    console.log(e, "e")
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if (bottom) {this.setState({scrolled: true})}
-  }
-  
-
   render() {
     const submitEmail = [
        <FlatButton
@@ -303,8 +296,6 @@ class Availability extends React.Component {
       <FlatButton
         label="I Accept the Terms of Service"
         primary={true}
-        disabled={this.state.scrolled}
-        // onClick={() => this.bookTimeslot()}
         onClick={() => this.bookTimeslot()}
       />,
     ];

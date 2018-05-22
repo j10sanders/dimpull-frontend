@@ -352,7 +352,7 @@ class EditProfile extends React.Component {
       <FlatButton
         label="I Accept the Terms of Service"
         primary
-        disabled={this.state.initialsErrorText}
+        disabled={this.state.initialsErrorText.length > 1}
         onClick={() => this.accept()}
       />
     ];

@@ -58,7 +58,7 @@ export default class Auth {
     this.scheduleRenewal();
     try {
       const a = authResult.state;
-      if (a.substring(0,11) === '/newProfile' || a.substring(0,12) === '/editProfile' || a.substring(0,5) === '/home'){
+      if (a.substring(0,11) === '/newProfile' || a.substring(0,12) === '/editProfile' || a.substring(0,5) === '/home' || a.substring(0,9) === '/calendar' || a.substring(0,8) === '/profile'){
         history.replace(a)
       } else if (a.a.location.pathname) {
         return;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect, Router, Route, Switch} from 'react-router-dom';
+import {Router, Route, Switch} from 'react-router-dom';
 import asyncComponent from "../components/AsyncComponent";
 import Auth from '../Auth/Auth.js';
 import history from '../history';
@@ -57,13 +57,7 @@ class Routes extends Component {
 						    <Route path="/faq" render={(props) => <AsyncFAQ auth={auth} {...props} />} />
 						    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
 						    <Route path="/bookedtimes" render={(props) => <AsyncBookedTimes auth={auth} {...props} />} />
-						    <Route path="/profile" render={(props) => (
-				            !auth.isAuthenticated() ? (
-				              <Redirect to="/home"/>
-				            ) : (
-				              <AsyncProfile auth={auth} {...props} />
-				            )
-				          )} />
+						    <Route path="/profile" render={(props) => <AsyncProfile auth={auth} {...props} />} />
 						    <Route path="/callback" render={(props) => {
 					          handleAuthentication(props);
 					          return <Callback {...props} /> 

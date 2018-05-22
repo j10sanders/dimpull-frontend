@@ -6,6 +6,7 @@ import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
+import history from './../history';
 import './Profile.css';
 
 class Profile extends React.Component {
@@ -31,10 +32,15 @@ class Profile extends React.Component {
       headers = { Authorization: `Bearer ${getAccessToken()}` };
       const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/geturl`, { headers });
       if (response.data.url) {
+        if (!response.data.expert) {
+          history.push('/editProfile');
+        }
         this.setState({ url: response.data.url, waiting: false, referral: response.data.referral, vip: response.data.vip });
       } else {
-        this.setState({ notExpert: true, waiting: false});
+        this.setState({ notExpert: true, waiting: false });
       }
+    } else {
+      this.props.auth.login('/profile');
     }
   }
 

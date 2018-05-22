@@ -56,6 +56,8 @@ class Calendar extends React.Component {
     let headers = {}
     if ( isAuthenticated()) {
       headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    } else {
+      this.props.auth.login('/calendar')
     }
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/getmytimeslots`, {headers})
     if (response.data === 'terms') {
@@ -236,7 +238,7 @@ class Calendar extends React.Component {
       <FlatButton
         label="I Accept the Terms of Service"
         primary
-        disabled={this.state.initialsErrorText}
+        disabled={this.state.initialsErrorText.length > 1}
         onClick={() => this.accept()}
       />,
     ];
