@@ -164,14 +164,6 @@ class Calendar extends React.Component {
     });
   };
 
-	// handleOpen(evt) {
- //    // console.log(evt)
- //    this.setState({open: true, event: evt});
-	// }
-	// handleClose() {
- //  	this.setState({open: false});
-	// }
-
 	removeTimeslot (event) {
 		let events = this.state.events
 		var filtered = events.filter(function(el) { return el.id !== event.id });

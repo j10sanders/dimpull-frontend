@@ -282,7 +282,6 @@ class Availability extends React.Component {
       <FlatButton
         label="Book timeslot"
         primary={true}
-        // onClick={() => this.bookTimeslot()}
         onClick={() => this.acceptTerms()}
       />,
     ];

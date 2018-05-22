@@ -132,7 +132,7 @@ class Contact extends React.Component {
   }
 
   waitForReceipt (hash, cb) {
-    this.setState({ transactionStatus: 'mining' });
+    this.setState({ transactionStatus: 'mining', now: Date.now() + 720000 });
     const that = this;
     this.state.web3.eth.getTransactionReceipt(hash, (err, receipt) => {
       if (err) {
