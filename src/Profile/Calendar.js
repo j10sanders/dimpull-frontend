@@ -238,7 +238,7 @@ class Calendar extends React.Component {
       <FlatButton
         label="I Accept the Terms of Service"
         primary
-        disabled={this.state.initialsErrorText.length > 1}
+        disabled={this.state.initialsErrorText !== null}
         onClick={() => this.accept()}
       />,
     ];
