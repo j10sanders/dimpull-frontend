@@ -451,6 +451,7 @@ class Contact extends React.Component {
         <div key="mining">
           <div><CircularProgress /></div>
           {' '}Please wait for the transaction to be mined...
+          {' '}(added 12 minutes to your time left to book)
         </div>
       ];
     } else if (this.state.transactionStatus === 'mined') {

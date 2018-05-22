@@ -293,7 +293,7 @@ class Availability extends React.Component {
         onClick={() => this.handleClose()}
       />,
       <FlatButton
-        label="I Accept the Terms of Service"
+        label="I Accept"
         primary={true}
         onClick={() => this.bookTimeslot()}
       />,
