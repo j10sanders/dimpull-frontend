@@ -605,40 +605,35 @@ class EditProfile extends React.Component {
       >
         <Markdown>{`
 **DIMPULL INC.**
-**EXPERT
-AGREEMENT**
 
-**THIS
-EXPERT AGREEMENT**
-(the “Agreement”) is made and entered into as of ________________
-the date you submit your initial availability schedule (the
-“Effective Date”) by and between Dimpull Inc., a [Delaware
-corporation] with its principal place of business in New York
-(“Dimpull” or the “Company”), and
-______________________________, a individual with a residence at
-____________________ (the
+**EXPERT AGREEMENT**
+
+**THIS EXPERT AGREEMENT**
+(the “Agreement”) is made and entered into as of the date you
+submit your initial availability schedule (the “Effective Date”)
+by and between Dimpull Inc., a Delaware corporation with its
+principal place of business in New York (“Dimpull” or the
+“Company”), and you, a individual (the
 “Expert”) (herein referred to collectively as the “Parties”).
 This Agreement incorporates by reference The Company Expert
 Marketplace Legal Terms & Conditions, outlined below.
 
-**Definition
-of Services**
+**Definition of Services**
 
 The
 Company allows its users to pay to book consultations with experts in
 Blockchain technology, including, but not limited to, Blockchain
 asset technical review, ICO roadmapping, software code analysis (the
-“Services”) and pay via Ethereum cryptoassets
-via The Company’s website (currently located at www.[dimpull].com)
-and any successor and affiliated websites (the “Website”).
-Website includes profiles of Experts and user reviews to help users
-select a Expert based on their needs. The Company is a third-party in
-this transaction, connecting Company users with experts such as
-Expert, who is operating independently as a contractor subject to our
-limited rules and restrictions.
+“Services”) and pay via Ethereum via The Company’s website
+(currently located at www.dimpull.com) and any successor and
+affiliated websites (the “Website”). Website includes profiles of
+Experts and user reviews to help users select a Expert based on their
+needs. The Company is a third-party in this transaction, connecting
+Company users with experts such as Expert, who is operating
+independently as a contractor subject to our limited rules and
+restrictions.
 
-**Expert
-Service Delivery**
+**Expert Service Delivery**
 
 Expert
 will provide all Services booked via Company virtually to users
@@ -647,8 +642,7 @@ meetings are strictly prohibited, void all warranty under this
 Agreement as it relates to that client, and may result in the
 immediate termination of this Agreement.
 
-**Expert
-Code of Conduct**
+**Expert Code of Conduct**
 
 Professionalism
 is at the heart of all we do at Company, and giving our users a
@@ -663,26 +657,26 @@ with Company, Expert recognizes the following Code of Conduct:
   information to which they are privy while performing the Services,
   except as may be required by a court or governmental authority. 
 - Expert
-  will reply to user requests within 2 business days and keep their
-  availability up to date on Company Website to avoid over-booking.
-  Canceling or over-booking users may lead to Expert being removed
-  from Company Website and termination of this Agreement. 
+  will keep their availability up to date on Company Website to avoid
+  over-booking. Canceling or over-booking users may lead to Expert
+  being removed from Company Website and termination of this
+  Agreement. 
 - Experts
   will not conduct in person meeting with users. 
 - Experts
   will reframe from providing any financial advice as more fully
   described in Section 4 of the Legal Terms & Conditions. 
+- Expert
+  may not consider an Expert Sessions “missed’ by a Client unless
+  and until the Client is more than 15 minutes late without
+  explanation. 
 
-**Pricing
-and Payment Terms**
+**Pricing and Payment Terms**
 
 Company’s
-Eethereum based smart contract will only pay Expert for Services
+Ethereum based smart contract will only pay Expert for Services
 completed according to the Service Details and Pricing Plan (Exhibit
-A), which is subject to change at any time, with notice to Expert.
-Expert agrees to pay the gas prices for processing and mining the
-ethereum smart contract onto the ethereum blockchain (defined in
-Exhibit A).
+A), which is subject to change at any time, with notice to Expert. 
 
 Prices
 on the Website may differ from Expert pricing on other platforms.
@@ -737,9 +731,9 @@ and Non-Competition **
 
 Any
 action by Expert to avoid transacting with Company users via Company
-Website is considered fee avoidance, violating section [3] of the
-Legal Terms & Conditions, and is strictly prohibited by Company.
-This includes, for example, encouraging or allowing users to purchase
+Website is considered fee avoidance, violating section 3 of the Legal
+Terms & Conditions, and is strictly prohibited by Company. This
+includes, for example, encouraging or allowing users to purchase
 Services offered by Expert on Company through another venue. Expert
 may only take Company users on as clients through another venue for
 Services which Company does not allow Expert to list. Any
@@ -755,28 +749,6 @@ the case of a dispute between Expert and user, Company will have sole
 discretion in the resolution of the matter, and whether or not the
 Services were completed and will be paid out. 
 
-[]()[signatures
-to follow]
-
-**IN
-WITNESS WHEREOF**, the
-Parties hereto have executed this Expert Agreement as
-of the Effective Date.
-
-**EXPERT    Dimpull
-Inc.**
-
-By:   By: 
-
-Name:
-_________________________________   Name: Jonathan Sanders
-
-      Title:
-CEO
-
-Address
-for NoticeEmail Address for Notices:
-
 **EXHIBIT
 A**
 
@@ -785,48 +757,17 @@ DETAILS AND PRICING PLAN**
 
 Dimpull
 Inc. (the “Company”) will pay Expert only for Services actually
-completed according to the Service Details and Pricing Plan below:
+completed, or otherwise not completed through no fault of the Expert,
+according to the Service Details and Pricing Plan below:
 
 Company’s
-Eethereum based smart contract will distribute payment for Services
-as follows:
+Ethereum based smart contract will distribute payment for Services as
+follows:
 
 1. 18%
   to Dimpull 
 2. balance
-  to the Expert, [less mining fees and gas]. 
-
-**ONBOARDING
-FORM**
-
-**Expert
-Information**
-
-Name
-of Expert as it will be publicly displayed on Dimpull Website: 
-
-_________________________________________________________________________________
-
-Primary
-email (for Dimpull team correspondence):
-______________________________________
-
-Email
-for Dimpull user correspondence (if different from
-above):___________________________
-
-Primary
-phone number:
-_____________________________________________________________
-
-Skype
-username (optional):
-__________________________________________________________
-
-**Ethereum
-wallet public key Expert Payment**
-
-[_________________________]
+  to the Expert. 
 
 **DIMPULL
 EXPERTING MARKETPLACE LEGAL TERMS**
@@ -942,8 +883,8 @@ furnished by such party to the other is original and will infringe
 upon the rights of any third-parties.  _
 
 _Expert
-represents and warrants that (i) Expert has read the [Coinbase
-Securities GuidanceA Securities Law Framework for Blockchain Tokens
+represents and warrants that (i) Expert has read the Coinbase A
+Securities Law Framework for Blockchain Tokens
 (https://www.coinbase.com/legal/securities-law-framework.pdf), (ii)
 Expert understands that certain Blockchain assets may be considered
 securities by the SEC; (iii) Expert understands that to give an

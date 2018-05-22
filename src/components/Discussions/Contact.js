@@ -60,7 +60,8 @@ class Contact extends React.Component {
       transactionStatus: 'waiting',
       emailErrorText: '',
       errorTitle: '',
-      hostFirstName: ''
+      hostFirstName: '',
+      now: this.props.location.state.now + 720000
     };
   }
 
@@ -467,7 +468,7 @@ class Contact extends React.Component {
     }
     return (
       <Countdown
-        date={this.props.location.state.now + 720000}
+        date={this.state.now}
         renderer={renderer}
       />
     );
