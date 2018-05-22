@@ -270,12 +270,6 @@ class Contact extends React.Component {
           this.setState({
             anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
           }, () => this.setState({ open: true }));
-          this.register().then((newResponse) => {
-            if (newResponse.data !== 'updated phone_number') {
-              return 'ERROR, phone number not updated';
-            }
-            return 'Updated the phone number';
-          });
           return 'number is whitelisted';
         } catch (err) {
           this.setState({ errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong` }, () => this.handleOpenError())

@@ -49,6 +49,7 @@ class Discussions extends React.Component {
             {this.state.dps.map(dp => (
               <Paper style={{ marginBottom: '12px', marginRight: '4px', marginLeft: '4px' }} key={dp.id} >
                 <ListItem
+
                   leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
                   key={dp.id}
                   containerElement={<Link to={`/expert/${dp.url}`} key={dp.url} />}
@@ -67,15 +68,22 @@ class Discussions extends React.Component {
                       <div style={{ paddingBottom: '5px', textAlign: 'center' }}>
                         ${Number(dp.price).toFixed(0)}
                       </div>
-                      {dp.averageRating && (<ReactStars
-                        count={5}
-                        size={24}
-                        color2="#ffd700"
-                        value={dp.averageRating}
-                        half
-                        edit={false}
-                      />
+                      {dp.averageRating && (
+                        <div style={{ paddingLeft: '17px' }}>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            color2="#ffd700"
+                            value={dp.averageRating}
+                            half
+                            edit={false}
+                          />
+                        </div>
                       )}
+                      {dp.timeslots !== 0
+                        ? <div style={{ paddingTop: '10px', fontWeight: 'bold' }}>{`${dp.timeslots} available times`}</div>
+                        : <div style={{ paddingTop: '10px' }}>Request Times?</div>
+                      }
                     </div>
                   }
                 />
