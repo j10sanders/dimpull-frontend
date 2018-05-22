@@ -48,9 +48,9 @@ class Profile extends React.Component {
 
   render () {
     if (this.state.waiting) {
-      return(
+      return (
         <CircularProgress size={80} thickness={5} />
-      )
+      );
     } else if (this.state.notExpert) {
       return (
         <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >
@@ -62,7 +62,7 @@ class Profile extends React.Component {
             style={{ marginTop: '20px', marginBottom: '20px' }}
           />
         </div>
-      )
+      );
     }
     return (
       <div style={{ textAlign: 'center', marginBottom: '80px' }}>

@@ -14,7 +14,6 @@ import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
-import BottomScrollListener from 'react-bottom-scroll-listener';
 import history from '../../history';
 import '../../Profile/calendar.css'
 
@@ -394,7 +393,7 @@ class Availability extends React.Component {
               onRequestClose={this.handleCloseTC}
               autoScrollBodyContent={true}
             >
-              <Markdown onScroll={e => this.handleScroll(e)}><BottomScrollListener onBottom={e => this.handleScroll(e)} />{`
+              <Markdown onScroll={e => this.handleScroll(e)}>{`
 
 **DIMPULL TERMS OF SERVICE**
 

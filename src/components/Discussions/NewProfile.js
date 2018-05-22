@@ -150,7 +150,7 @@ class newProfile extends React.Component {
       return;
     }
   }
-  
+
   changeValue (e, type) {
     if (type === 'name') {
       this.getNames(e.target.value);
@@ -335,7 +335,7 @@ class newProfile extends React.Component {
                   <SelectField
                     floatingLabelText="Country"
                     value={this.state.country}
-                    onChange={(event, index, value) => this.selectCountry(event, index, value, "id")}
+                    onChange={(event, index, value) => this.selectCountry(event, index, value, 'id')}
                     maxHeight={200}
                     // fullWidth={true}
                     style={textStyle}

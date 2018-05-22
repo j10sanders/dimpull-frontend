@@ -13,6 +13,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
+import TextField from 'material-ui/TextField';
 
 const Markdown = require('react-remarkable');
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
@@ -27,7 +28,8 @@ class Calendar extends React.Component {
 	      event: '',
 	      snackOpen: false,
         waiting: true,
-        tc: false
+        tc: false,
+        initialsErrorText: 'Initialize form in order to accept'
 	    }
     this.moveEvent = this.moveEvent.bind(this)
   }
@@ -199,17 +201,28 @@ class Calendar extends React.Component {
       this.setState({ tc: false, waiting: false })
     }
   }
+
+  changeValue (e, type) {
+    const nextState = {};
+    nextState[type] = e.target.value;
+    if (type === 'initials'){
+      if (e.target.value.length > 1){
+        this.setState({ initialsErrorText: null });
+      }
+    }
+    this.setState(nextState);
+  }
   	
   render() {
 		const actions = [
 			<FlatButton
 				label="Cancel"
-				primary={true}
+				primary
 				onClick={() => this.handleClose()}
 			/>,
 			<FlatButton
 				label="Remove"
-				primary={true}
+				primary
 				onClick={() => this.removeTimeslot()}
 			/>,
 		];
@@ -217,14 +230,13 @@ class Calendar extends React.Component {
     const tAndC = [
       <FlatButton
         label="I Do Not Acccept"
-        primary={true}
+        primary
         onClick={() => this.handleClose()}
       />,
       <FlatButton
         label="I Accept the Terms of Service"
-        primary={true}
-        disabled={this.state.scrolled}
-        // onClick={() => this.bookTimeslot()}
+        primary
+        disabled={this.state.initialsErrorText}
         onClick={() => this.accept()}
       />,
     ];
@@ -688,7 +700,15 @@ Non-Disparagement. Neither party will disparage the other or its
 products or services to customers, potential customers, or the
 public._
 `}
-</Markdown> </Dialog>
+
+</Markdown>
+<TextField
+  floatingLabelText="Initials"
+  type="initials"
+  value={this.state.initials}
+  errorText={this.state.initialsErrorText}
+  onChange={e => this.changeValue(e, 'initials')}
+/> </Dialog>
           }
 
           </div>
