@@ -114,7 +114,7 @@ class Contact extends React.Component {
           { from: accounts[0], value: price }
         ).then((hash) => {
           this.waitForReceipt(hash, (receipt) => {
-            this.setState({ fromAddress: receipt.from, now: Date.now() + 720000 });
+            this.setState({ fromAddress: receipt.from });
           });
         // result = await esc.start(walletAddress, { from: accounts[0], value: price });
         });
@@ -132,7 +132,9 @@ class Contact extends React.Component {
   }
 
   waitForReceipt (hash, cb) {
-    this.setState({ transactionStatus: 'mining' });
+    if (this.state.transactionStatus !== 'mining') {
+      this.setState({ transactionStatus: 'mining', now: Date.now() + 720000 });
+    }
     const that = this;
     this.state.web3.eth.getTransactionReceipt(hash, (err, receipt) => {
       if (err) {
