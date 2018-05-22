@@ -370,7 +370,7 @@ class EditProfile extends React.Component {
                         <h2>Fill Out Your Expert Profile:</h2>
                         {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
                           <div className="col-md-12">
-                            <div style={{ color: this.state.image ? 'black' : 'red', width: '50%', margin: 'auto', height: '100px', paddingTop: '30px', marginBottom: '30px'}}>
+                            <div style={{ color: this.state.image ? 'black' : 'red', width: '50%', margin: 'auto', height: '100px', paddingTop: '30px', marginBottom: '30px' }}>
                               <Dropzone
                                 multiple={false}
                                 accept="image/*"
