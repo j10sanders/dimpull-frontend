@@ -31,13 +31,7 @@ class DiscussionProfile extends React.Component {
   }
 
   async getDiscussion () {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    let headers = {};
     this.etherPrice();
-    if (isAuthenticated()) {
-      headers = { Authorization: `Bearer ${getAccessToken()}` };
-    }
     let requestUrl = this.props.location.pathname;
     if (requestUrl.includes('review=')) {
       const reviewId = requestUrl.substring(requestUrl.indexOf('/review=') + 8);
@@ -70,6 +64,12 @@ class DiscussionProfile extends React.Component {
         history.push('/home');
       }
       requestUrl = `/expert${requestUrl}`;
+    }
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    let headers = {};
+    if (isAuthenticated()) {
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
     }
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${requestUrl}`, { headers });
     if (response.data === 'not an expert yet') {

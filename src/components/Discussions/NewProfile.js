@@ -99,20 +99,20 @@ class newProfile extends React.Component {
     if (!userProfile) {
       getProfile((err, profile) => {
         if (profile.email) {
-          this.setState({email: profile.email})
-        } else if (profile[fullUrl]){
+          this.setState({ email: profile.email });
+        } else if (profile[fullUrl]) {
           if (profile[fullUrl].email) {
-            this.setState({email: profile[fullUrl].email})
-          } 
-        } 
+            this.setState({ email: profile[fullUrl].email });
+          }
+        }
       });
     } else {
       if (userProfile.email) {
-        this.setState({ email: userProfile.email })
+        this.setState({ email: userProfile.email });
       } else if (userProfile[fullUrl]) {
-          if (userProfile[fullUrl].email) {
-            this.setState({ email: userProfile[fullUrl].email})
-          }
+        if (userProfile[fullUrl].email) {
+          this.setState({ email: userProfile[fullUrl].email });
+        }
       }
     }
   }
@@ -150,17 +150,7 @@ class newProfile extends React.Component {
       return;
     }
   }
-
-  _handleKeyPress (e) {
-    if (e.key === 'Enter') {
-      if (!this.state.disabled) {
-        // this.login(e);
-        // return;
-      }
-      // return;
-    }
-  }
-
+  
   changeValue (e, type) {
     if (type === 'name') {
       this.getNames(e.target.value);

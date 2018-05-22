@@ -72,8 +72,8 @@ class Profile extends React.Component {
               <ListItem innerDivStyle={{ padding: '5px' }}>
                 <ListItem
                   key="Set Your Availability"
-                  // containerElement={<Link to={`/calendar`} key={'cal'} />}
-                  onClick={() => this.handleOpen()}
+                  containerElement={<Link to={`/calendar`} key={'cal'} />}
+                  // onClick={() => this.handleOpen()}
                   primaryText="Set Availability"
                   secondaryText={
                     <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your calendar</span></p>
@@ -87,8 +87,8 @@ class Profile extends React.Component {
               <ListItem innerDivStyle={{ padding: '5px' }}>
                 <ListItem
                   key="Scheduled Calls"
-                  // containerElement={<Link to={`/bookedtimes`} key={'booked'} />}
-                  onClick={() => this.handleOpen()}
+                  containerElement={<Link to={`/bookedtimes`} key={'booked'} />}
+                  //onClick={() => this.handleOpen()}
                   primaryText="Scheduled Calls"
                   secondaryText={
                     <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your upcoming calls</span></p>
