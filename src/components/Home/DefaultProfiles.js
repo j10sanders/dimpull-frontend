@@ -13,8 +13,11 @@ export default function DefaultProfiles () {
     {
       id: 3, url: 'baselismail', first_name: 'Basel', last_name: 'Ismail', description: 'Co-Founder and CEO of Blockgram; Blockchain Technology and Cryptocurrencies; Data Scientist', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1523895908/experts/abjd6gteupdspx5t22dg.jpg'
     },
+    // {
+    //   id: 4, url: 'nikhilwins', first_name: 'Nikhil', last_name: 'Bhaskar', description: 'Founder & CEO of Ulixir Inc', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1525173789/experts/zpgc4a6ggaocwffdjeue.jpg'
+    // },
     {
-      id: 4, url: 'nikhilwins', first_name: 'Nikhil', last_name: 'Bhaskar', description: 'Founder & CEO of Ulixir Inc', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1525173789/experts/zpgc4a6ggaocwffdjeue.jpg'
+      id: 4, url: 'zb', first_name: 'Zach', last_name: 'Burks', description: 'CTO Harvest.Networks, Dapp Developer, full-time trader', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1524000202/experts/ndq8b8oyjeuwd7sbd58k.jpg'
     }
   ];
   return (
