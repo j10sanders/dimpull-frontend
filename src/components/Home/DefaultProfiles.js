@@ -7,8 +7,11 @@ export default function DefaultProfiles () {
     {
       id: 1, url: 'tlc', first_name: 'Toni', last_name: 'Lane', description: 'Founder @ Cultu.re / Co-founder @ CoinTelegraph | Blockchain Pioneer | Entrepreneur | Investor | Empath | Board Member | Transformational Evangelist | Happy Lady.', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,f_auto,h_595,q_auto:eco/v1523635339/experts/sdo9fgjmzhsjvm2xyqhm.jpg'
     },
+    // {
+    //   id: 2, url: 'ben-way', first_name: 'Ben', last_name: 'Way', description: 'Crypto/ICO expert with extensive technical background', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1523898203/experts/byfzhf14drmapbugfq7n.png'
+    // },
     {
-      id: 2, url: 'ben-way', first_name: 'Ben', last_name: 'Way', description: 'Crypto/ICO expert with extensive technical background', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1523898203/experts/byfzhf14drmapbugfq7n.png'
+      id: 2, url: 'nathan-leung', first_name: 'Nathan', last_name: 'Leung', description: 'YouTube Influencer & Educational Platform', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1527118756/tall.jpg'
     },
     {
       id: 3, url: 'baselismail', first_name: 'Basel', last_name: 'Ismail', description: 'Co-Founder and CEO of Blockgram; Blockchain Technology and Cryptocurrencies; Data Scientist', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1523895908/experts/abjd6gteupdspx5t22dg.jpg'
@@ -18,7 +21,8 @@ export default function DefaultProfiles () {
     // },
     {
       id: 4, url: 'zb', first_name: 'Zach', last_name: 'Burks', description: 'CTO Harvest.Networks, Dapp Developer, full-time trader', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1524000202/experts/ndq8b8oyjeuwd7sbd58k.jpg'
-    }
+    },
+
   ];
   return (
     <GridList

@@ -61,7 +61,7 @@ class Home extends React.Component {
     };
     if (this.state.isAuthenticated && this.state.expert) {
       link = <Link to="/profile" />;
-      label = "Edit Your Profile";
+      label = 'Edit Your Profile';
     }
     return (
       <div style={{ textAlign: 'center' }}>
