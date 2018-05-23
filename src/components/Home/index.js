@@ -1,7 +1,5 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
-import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -17,8 +15,6 @@ class Home extends React.Component {
     super(props);
     this.state = {
       dps: null,
-      email: '',
-      emailSubmitted: false,
       expert: false
     };
   }
@@ -56,22 +52,6 @@ class Home extends React.Component {
       }
     }
   }
-
-  changeEmail (e) {
-    this.setState({ email: e.target.value });
-  }
-
-  async submitEmail () {
-    try {
-      await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/addemail`, {
-        email: this.state.email
-      });
-    } catch (err) {
-      this.setState({ emailSubmitted: true });
-    }
-    this.setState({ emailSubmitted: true });
-  }
-
 
   render () {
     let link = <Link to="/newProfile" />;
@@ -147,7 +127,7 @@ class Home extends React.Component {
             </div>
           </div>
         </section>
-        <div style={{ backgroundColor: '#f7f7f7', marginTop: '100px', marginBottom: '100px' }}>
+        <div style={{ backgroundColor: '#f7f7f7', marginTop: '100px', marginBottom: this.state.expert ? '0px' : '100px' }}>
           <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
           <Paper id="help" zDepth={1}>
             <h2 id="howItWorks"> HOW IT WORKS </h2>
@@ -177,7 +157,7 @@ class Home extends React.Component {
             </div>
             <div style={{ fontSize: '19px', paddingTop: '12px' }} ><Link to="/faq">See the Full FAQs</Link></div>
           </Paper>
-          <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
+          <Divider style={{ marginTop: '30px', marginBottom: this.state.expert ? '0px' : '30px' }} />
         </div>
         {!this.state.expert && (
           <div>
@@ -207,31 +187,6 @@ class Home extends React.Component {
             )}
           </div>
         )}
-        <div style={{ backgroundColor: '#efefef', marginTop: this.state.expert ? '-100px' : '100px' }}>
-          <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
-          <Paper id="email" zDepth={0} style={{ backgroundColor: '#efefef' }}>
-            {!this.state.expert && (<h2 style={{ marginBottom: '20px', paddingTop: '35px' }}> Ready to Connect with an Expert? </h2>)}
-            <p id="pRegister">Dimpull will be live in the next couple weeks.  To be notified of our launch, leave your email below (we promise no spam):
-            </p>
-            {!this.state.emailSubmitted ? (
-              <div style={{ paddingBottom: '50px' }}>
-                <TextField
-                  floatingLabelText="Email"
-                  type="email"
-                  value={this.state.email}
-                  style={{ marginTop: '-20px' }}
-                  onChange={e => this.changeEmail(e)}
-                />
-                <FlatButton
-                  label="Submit"
-                  primary
-                  onClick={() => this.submitEmail()}
-                />
-              </div>
-            ) : <div style={{ paddingBottom: '50px' }}>Thanks!  We'll let you know soon!</div>
-            }
-          </Paper>
-        </div>
       </div>
     );
   }
