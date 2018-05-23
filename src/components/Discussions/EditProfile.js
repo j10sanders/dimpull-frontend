@@ -326,7 +326,7 @@ class EditProfile extends React.Component {
 
   handleClose () {
     this.setState({ open: false });
-    history.replace('/');
+    history.replace('/calendar');
   }
 
   selectTimezone (event, index, value) {

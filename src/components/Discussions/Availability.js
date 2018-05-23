@@ -119,14 +119,14 @@ class Availability extends React.Component {
     let start = this.state.event.start
     let startTime = start
     if (!checked) {
-      if ((start - new Date()) / 60000 < 60) {
-        this.setState({ errorTitle: `Sorry, the timeslot must start at least one hour from now.`}, () => this.handleOpenError());
+      if ((start - new Date()) / 60000 < 120) {
+        this.setState({ errorTitle: `Sorry, the timeslot must start at least two hours from now.`}, () => this.handleOpenError());
       }
     } else {
       startTime = (start).setHours(Number(checked.substring(0,2)), Number(checked.substring(3, checked.length)), 0)
     }
-    if ((start - new Date()) / 60000 < 60) {
-      this.setState({ errorTitle: `Sorry, the timeslot must start at least one hour from now.`}, () => this.handleOpenError());
+    if ((start - new Date()) / 60000 < 120) {
+      this.setState({ errorTitle: `Sorry, the timeslot must start at least two hours from now.`}, () => this.handleOpenError());
     } else {
       const conversationID = this.props.location.pathname.split('/').pop().trim()
       const result = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/holdtimeslot/${conversationID}`,

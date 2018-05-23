@@ -246,67 +246,63 @@ class Contact extends React.Component {
     }
     e.preventDefault();
     const start = this.props.location.state.startTime;
-    if ((start - new Date()) / 60000 < 15) {
-      this.setState({ errorTitle: `Sorry, that time is now too early.  Timeslots need to be booked at least 15 minutes before they occur.` }, () => this.handleOpenError())
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    if (isAuthenticated()) {
+      const headers = { Authorization: `Bearer ${getAccessToken()}` };
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
+          {
+            phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
+            message: this.state.message,
+            email: this.state.email,
+            start_time: new Date(start),
+            fromAddress: this.state.fromAddress
+          }, { headers }
+        );
+        if (!response.data.whitelisted) {
+          throw new Error('something went wrong with a booking!');
+        }
+        this.setState({
+          anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
+        }, () => this.setState({ open: true }));
+        return 'number is whitelisted';
+      } catch (err) {
+        this.setState({ errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong` }, () => this.handleOpenError())
+        await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
+          {
+            err: `${err.message} --THIS WAS IN THE SUBMIT FOR CALL STEP`,
+            email: this.state.email
+          }
+        );
+      }
     } else {
-      const { isAuthenticated } = this.props.auth;
-      const { getAccessToken } = this.props.auth;
-      if (isAuthenticated()) {
-        const headers = { Authorization: `Bearer ${getAccessToken()}` };
-        try {
-          const response = await axios.post(
-            `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
-            {
-              phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
-              message: this.state.message,
-              email: this.state.email,
-              start_time: new Date(start),
-              fromAddress: this.state.fromAddress
-            }, { headers }
-          );
-          if (!response.data.whitelisted) {
-            throw new Error('something went wrong with a booking!');
-          }
-          this.setState({
-            anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
-          }, () => this.setState({ open: true }));
-          return 'number is whitelisted';
-        } catch (err) {
-          this.setState({ errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong` }, () => this.handleOpenError())
-          await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
-            {
-              err: `${err.message} --THIS WAS IN THE SUBMIT FOR CALL STEP`,
-              email: this.state.email
-            }
-          );
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
+          {
+            phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
+            message: this.state.message,
+            email: this.state.email,
+            start_time: new Date(start),
+            fromAddress: this.state.fromAddress
+          });
+        if (!response.data.whitelisted) {
+          throw new Error('something went wrong with a booking!');
         }
-      } else {
-        try {
-          const response = await axios.post(
-            `${process.env.REACT_APP_USERS_SERVICE_URL}/conversations/${search}`,
-            {
-              phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
-              message: this.state.message,
-              email: this.state.email,
-              start_time: new Date(start),
-              fromAddress: this.state.fromAddress
-            });
-          if (!response.data.whitelisted) {
-            throw new Error('something went wrong with a booking!');
+        this.setState({
+          anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
+        }, () => this.setState({ open: true }));
+        return 'number is whitelisted';
+      } catch (err) {
+        this.setState({errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong`}, () => this.handleOpenError())
+        await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
+          {
+            err: `${err.message} --THIS WAS IN THE SUBMIT FOR CALL STEP`,
+            email: this.state.email
           }
-          this.setState({
-            anonymous_phone_number: response.data.anonymous_phone_number, hostFirstName: response.data.hostFirstName
-          }, () => this.setState({ open: true }));
-          return 'number is whitelisted';
-        } catch (err) {
-          this.setState({errorTitle: `Something went wrong.  But don't worry, we just got a notification and will make sure to reach out if anything is wrong`}, () => this.handleOpenError())
-          await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
-            {
-              err: `${err.message} --THIS WAS IN THE SUBMIT FOR CALL STEP`,
-              email: this.state.email
-            }
-          );
-        }
+        );
       }
     }
     return 'number is whitelisted';
