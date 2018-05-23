@@ -25,7 +25,7 @@ class Home extends React.Component {
 
   componentDidMount () {
     this.checkExpert();
-    this.getExperts();
+    // this.getExperts();
     this.timeoutCheckExpert();
   }
 
