@@ -113,7 +113,7 @@ class Availability extends React.Component {
   }
 
   async bookTimeslot(){
-    this.setState({tc: })
+    this.setState({tc: false})
     // TODO: terms and conditions.
     // this.state.event date with time this.state.checked is not in past -- then 
     let checked = this.state.checked
