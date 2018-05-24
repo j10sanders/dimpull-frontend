@@ -61,7 +61,7 @@ class Contact extends React.Component {
       emailErrorText: '',
       errorTitle: '',
       hostFirstName: '',
-      now: this.props.location.state.now + 720000
+      now: this.props.location.state.now + 1800000
     };
   }
 
@@ -133,7 +133,12 @@ class Contact extends React.Component {
 
   waitForReceipt (hash, cb) {
     if (this.state.transactionStatus !== 'mining') {
-      this.setState({ transactionStatus: 'mining', now: Date.now() + 720000 });
+      axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/addpending/${this.props.location.search.substring(1)}`,
+        {
+          start_time: new Date(this.props.location.state.startTime)
+        }
+      );
+      this.setState({ transactionStatus: 'mining', now: Date.now() + 1800000 });
     }
     const that = this;
     this.state.web3.eth.getTransactionReceipt(hash, (err, receipt) => {
@@ -441,7 +446,7 @@ class Contact extends React.Component {
         <div key="mining">
           <div><CircularProgress /></div>
           {' '}Please wait for the transaction to be mined...
-          {' '}(added 12 minutes to your time left to book)
+          {' '}(added 30 minutes to your time left to book)
         </div>
       ];
     } else if (this.state.transactionStatus === 'mined') {

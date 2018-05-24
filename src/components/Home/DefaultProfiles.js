@@ -21,7 +21,7 @@ export default function DefaultProfiles () {
     // },
     {
       id: 4, url: 'zb', first_name: 'Zach', last_name: 'Burks', description: 'CTO Harvest.Networks, Dapp Developer, full-time trader', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1524000202/experts/ndq8b8oyjeuwd7sbd58k.jpg'
-    },
+    }
   ];
   return (
     <GridList
