@@ -208,7 +208,7 @@ class Availability extends React.Component {
   }
 
   acceptTerms () {
-    this.setState({ tc: false });
+    this.setState({ tc: true });
   }
 
   render() {
