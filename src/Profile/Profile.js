@@ -14,6 +14,7 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       open: false,
+      vipupdated: false,
       url: null,
       waiting: true,
       notExpert: false
@@ -49,7 +50,20 @@ class Profile extends React.Component {
   }
 
   handleRequestClose () {
-    this.setState({ open: false });
+    this.setState({ open: false, vipupdated: false });
+  }
+
+  async newVipId () {
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
+    let headers = {};
+    if (isAuthenticated()) {
+      headers = { Authorization: `Bearer ${getAccessToken()}` };
+      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/newvip`, { headers });
+      if (response.data.vipid) {
+        this.setState({vip: response.data.vipid, vipupdated: true})
+      }
+    }
   }
 
   render () {
@@ -79,7 +93,6 @@ class Profile extends React.Component {
                 <ListItem
                   key="Set Your Availability"
                   containerElement={<Link to={`/calendar`} key={'cal'} />}
-                  // onClick={() => this.handleOpen()}
                   primaryText="Set Availability"
                   secondaryText={
                     <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your calendar</span></p>
@@ -139,13 +152,25 @@ class Profile extends React.Component {
           <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
             <div style={{ margin: '12px', padding: '12px' }}>
               <p style={{ fontSize: 'larger', color: 'white' }}>{`Offer Free Calls: dimpull.com/${this.state.url}/vip=${this.state.vip}`}</p>
-              <p style={{ color: '#eaeaea' }}>Helpful for getting initial reviews</p>
+              <p style={{ color: '#eaeaea' }}>"VIP link" is helpful for getting initial reviews</p>
             </div>
+            <RaisedButton
+              onClick={() => this.newVipId()}
+              label="Change VIP link (in case free calls are getting overused)"
+              secondary
+              style={{ marginBottom: '2px' }}
+            />
           </Paper>
         </div>
         <Snackbar
           open={this.state.open}
           message="Will be available on May 22nd..."
+          autoHideDuration={4000}
+          onRequestClose={() => this.handleRequestClose()}
+        />
+        <Snackbar
+          open={this.state.vipupdated}
+          message="Updated vip link"
           autoHideDuration={4000}
           onRequestClose={() => this.handleRequestClose()}
         />

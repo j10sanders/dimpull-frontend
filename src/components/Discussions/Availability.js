@@ -187,8 +187,6 @@ class Availability extends React.Component {
     this.setState({ message: e.target.value });
   }
 
-
-
   requestAvailability () {
     console.log("Reuq")
     this.setState({ requestAvailability: true });
