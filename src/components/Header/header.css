@@ -10,3 +10,16 @@
 .fa-user:hover {
 	color: #cacaca;
 }
+
+#patriclemargin{
+	padding-top: 65px;
+	height: 0;
+	/*display: flex;*/
+}
+
+#particles{
+/*	height: 120px;
+	display: flex;*/
+	/*min-width: 100vw;*/
+	/*margin-left: -80px;*/
+}

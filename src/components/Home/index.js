@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
-import Particles from 'react-particles-js';
+// import Particles from 'react-particles-js';
 import 'react-toastify/dist/ReactToastify.min.css';
 import DefaultProfiles from './DefaultProfiles';
 import './landingpage.css';
@@ -110,35 +110,6 @@ class Home extends React.Component {
                 </div>
               </div>
               <div className="col-sm-6" id="colGrid">
-                <div id="particles" >
-                  <Particles
-                    params={{
-                      particles: {
-                        number: {
-                          value: 40,
-                          density: {
-                            enable: true,
-                            value_area: 200
-                          }
-                        },
-                        color: {
-                          value: '#268bd2'
-                        },
-                        line_linked: {
-                          enable: true,
-                          distance: 150,
-                          color: '#268bd2',
-                          opacity: 1,
-                          width: 1
-                        },
-                        move: {
-                          enable: true,
-                          speed: 1
-                        }
-                      }
-                    }}
-                  />
-                </div>
                 {this.state.dps ? (
                   <GridList
                     id="GridlistID"
