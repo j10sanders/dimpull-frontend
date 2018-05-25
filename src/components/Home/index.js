@@ -71,53 +71,32 @@ class Home extends React.Component {
             params={{
               particles: {
                 number: {
-                  value: 40,
+                  value: 20,
                   density: {
                     enable: true,
-                    value_area: 800
+                    value_area: 200
                   }
                 },
                 color: {
                   value: '#268bd2'
                 },
-                shape: {
-                  type: 'circle',
-                  stroke: {
-                    width: 0,
-                    color: '#000000'
-                  },
-                  polygon: {
-                    nb_sides: 5
-                  }
-                },
                 line_linked: {
                   enable: true,
                   distance: 150,
                   color: '#268bd2',
-                  opacity: 0.5,
+                  opacity: .5,
                   width: 1
                 },
                 move: {
                   enable: true,
                   speed: 1,
-                  direction: 'none',
-                  random: false,
-                  straight: false,
-                  out_mode: 'out',
-                  bounce: false,
-                  attract: {
-                    enable: false,
-                    rotateX: 600,
-                    rotateY: 1200
-                  }
                 }
               }
             }}
-            style={{
-              width: '100%',
-              height: '20px'
-              // marginBottom: '-100px'
-            }}
+            // style={{
+            //   width: '100%',
+            //   height: '20px'
+            // }}
           />
         </div>
         <section id="headerTop">
