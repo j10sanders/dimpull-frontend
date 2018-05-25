@@ -84,19 +84,15 @@ class Home extends React.Component {
                   enable: true,
                   distance: 150,
                   color: '#268bd2',
-                  opacity: .5,
+                  opacity: 0.5,
                   width: 1
                 },
                 move: {
                   enable: true,
-                  speed: 1,
+                  speed: 1
                 }
               }
             }}
-            // style={{
-            //   width: '100%',
-            //   height: '20px'
-            // }}
           />
         </div>
         <section id="headerTop">
