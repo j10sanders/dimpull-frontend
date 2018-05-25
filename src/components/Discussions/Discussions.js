@@ -69,7 +69,7 @@ class Discussions extends React.Component {
                         ${Number(dp.price).toFixed(0)}
                       </div>
                       {dp.averageRating && (
-                        <div style={{ paddingLeft: '17px' }}>
+                        <div >
                           <ReactStars
                             count={5}
                             size={24}
@@ -81,7 +81,7 @@ class Discussions extends React.Component {
                         </div>
                       )}
                       {dp.timeslots !== 0
-                        ? <div style={{ paddingTop: '10px', fontWeight: 'bold' }}>{`${dp.timeslots} available times`}</div>
+                        ? <div style={{ paddingTop: '10px', fontWeight: 'bold', textAlign: 'center'}}>{`Book Now`}</div>
                         : <div style={{ paddingTop: '10px' }}>Request Times?</div>
                       }
                     </div>
