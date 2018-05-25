@@ -165,24 +165,21 @@ class Header extends Component {
             }
           />
         </header>
-        <div id='patriclemargin'>
+        {this.props.location.pathname === '/' && <div id="patriclemargin">
           <Particles
-            height='120px'
+            height='70px'
             params={{
               particles: {
                 number: {
-                  value: 20,
+                  value: 50,
                   density: {
                     enable: true,
-                    value_area: 400
+                    value_area: 100
                   }
-                },
-                color: {
-                  value: '#268bd2'
                 },
                 line_linked: {
                   enable: true,
-                  // distance: 150,
+                  distance: 150,
                   color: '#268bd2',
                   opacity: 0.4,
                   width: 1
@@ -190,12 +187,27 @@ class Header extends Component {
                 move: {
                   enable: true,
                   speed: 1,
-                  direction: 'right'
                 }
+              },
+              interactivity: {
+                detect_on: 'canvas',
+                events: {
+                  onhover: {
+                    enable: true,
+                    mode: 'grab'
+                  },
+                  onclick: {
+                    enable: true,
+                    mode: 'push'
+                  },
+
+                },
+
               }
             }}
           />
         </div>
+      }
       </div>
     );
   }
