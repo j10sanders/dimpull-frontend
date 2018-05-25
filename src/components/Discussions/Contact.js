@@ -263,7 +263,8 @@ class Contact extends React.Component {
             message: this.state.message,
             email: this.state.email,
             start_time: new Date(start),
-            fromAddress: this.state.fromAddress
+            fromAddress: this.state.fromAddress,
+            transactionStatus: this.state.transactionStatus
           }, { headers }
         );
         if (!response.data.whitelisted) {
@@ -291,7 +292,8 @@ class Contact extends React.Component {
             message: this.state.message,
             email: this.state.email,
             start_time: new Date(start),
-            fromAddress: this.state.fromAddress
+            fromAddress: this.state.fromAddress,
+            transactionStatus: this.state.transactionStatus
           });
         if (!response.data.whitelisted) {
           throw new Error('something went wrong with a booking!');

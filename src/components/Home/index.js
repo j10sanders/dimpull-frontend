@@ -118,7 +118,7 @@ class Home extends React.Component {
                           value: 40,
                           density: {
                             enable: true,
-                            value_area: 600
+                            value_area: 200
                           }
                         },
                         color: {
@@ -128,7 +128,7 @@ class Home extends React.Component {
                           enable: true,
                           distance: 150,
                           color: '#268bd2',
-                          opacity: 0.5,
+                          opacity: 1,
                           width: 1
                         },
                         move: {
