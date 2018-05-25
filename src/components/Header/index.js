@@ -165,13 +165,14 @@ class Header extends Component {
             }
           />
         </header>
-        {this.props.location.pathname === '/' && <div id="patriclemargin">
+        {this.props.location.pathname === '/' &&
+        <div id="patriclemargin">
           <Particles
             height='70px'
             params={{
               particles: {
                 number: {
-                  value: 50,
+                  value: 10,
                   density: {
                     enable: true,
                     value_area: 100
@@ -186,7 +187,7 @@ class Header extends Component {
                 },
                 move: {
                   enable: true,
-                  speed: 1,
+                  speed: 0.5,
                 }
               },
               interactivity: {
@@ -200,7 +201,7 @@ class Header extends Component {
                     enable: true,
                     mode: 'push'
                   },
-
+                  resize: true
                 },
 
               }
