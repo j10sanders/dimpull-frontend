@@ -69,7 +69,7 @@ class Home extends React.Component {
           <div className="row" id="headerRow">
             <div className="col-sm-6">
               <div id="head">
-                <h1 id="exchange">Exchange your crypto knowledge for ETH</h1>
+                <h1 id="exchange">Talk Before You Trade</h1>
                 <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
                 <h3 id="h3exchange" className="secondH3">Guaranteed by the Ethereum blockchain</h3>
                 {!this.state.isAuthenticated ? (
