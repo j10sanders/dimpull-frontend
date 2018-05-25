@@ -57,7 +57,7 @@ class Home extends React.Component {
     let link = <Link to="/newProfile" />;
     let label = 'Become a Dimpull Expert';
     const style = {
-      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
+      marginTop: '30px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
     };
     if (this.state.isAuthenticated && this.state.expert) {
       link = <Link to="/profile" />;
@@ -70,8 +70,8 @@ class Home extends React.Component {
             <div className="col-sm-6">
               <div id="head">
                 <h1 id="exchange">Talk Before You Trade</h1>
-                <h3 id="h3exchange">Connect with new crypto traders and blockchain enthusiasts, and get paid for your time</h3>
-                <h3 id="h3exchange" className="secondH3">Guaranteed by the Ethereum blockchain</h3>
+                <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
+                <h3 id="h3exchange" className="secondH3">Book your call with Ethereum</h3>
                 {!this.state.isAuthenticated ? (
                   <RaisedButton
                     onClick={() => this.props.auth.login('/newProfile')}
@@ -79,7 +79,7 @@ class Home extends React.Component {
                     primary
                     labelStyle={{ fontSize: '16px' }}
                     style={{
-                      marginTop: '8px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
+                      marginTop: '30px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
                     }}
                   />
                 ) :
@@ -97,7 +97,7 @@ class Home extends React.Component {
                   secondary
                   labelStyle={{ fontSize: '16px' }}
                   style={{
-                    marginTop: '8px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left'
+                    marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left'
                   }}
                 />
               </div>
