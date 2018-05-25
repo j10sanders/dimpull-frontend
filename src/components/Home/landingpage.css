@@ -13,6 +13,11 @@ h3 {
 	max-width: 379px;
 }
 
+#particles{
+	height: 0px;
+	margin-left: -80px;
+}
+
 #imgWorks {
 	width: 80px;
 	height: auto;
@@ -111,6 +116,9 @@ p{
 	}
 	#meetTheExperts{
 		padding-top: 200px;
+	}
+	#particles{
+		display: none;
 	}
 }
 
@@ -221,3 +229,4 @@ p{
 		margin-top: -3vh;
 	}
 }
+
