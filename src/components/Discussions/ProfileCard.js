@@ -102,7 +102,6 @@ const ProfileCard = props => (
               {props.title && (
                 <div>
                   <CardTitle title={props.title} subtitle={props.subtitle} style={{ marginBottom: '6px' }} />
-                  <CardTitle title={props.halfOff} subtitle={props.halfSubtitle} style={{ marginBottom: '6px' }} titleColor='green' />
                 </div>
               )}
               {(!props.edit && !props.is_users) && (
