@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
+import Particles from 'react-particles-js';
 import 'react-toastify/dist/ReactToastify.min.css';
 import DefaultProfiles from './DefaultProfiles';
 import './landingpage.css';
@@ -65,9 +66,66 @@ class Home extends React.Component {
     }
     return (
       <div style={{ textAlign: 'center' }}>
+        <div style={{height: '0'}} >
+          <Particles 
+            params={{
+              particles: {
+                "number": {
+                  "value": 40,
+                  "density": {
+                    "enable": true,
+                    "value_area": 800
+                  }
+                },
+                "color": {
+                  "value": "#268bd2"
+                },
+                "shape": {
+                  "type": "circle",
+                  "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                  },
+                  "polygon": {
+                    "nb_sides": 5
+                  },
+                },
+                "line_linked": {
+                  "enable": true,
+                  "distance": 150,
+                  "color": "#268bd2",
+                  "opacity": 0.4,
+                  "width": 1
+                },
+                "move": {
+                  "enable": true,
+                  "speed": 2,
+                  "direction": "none",
+                  "random": false,
+                  "straight": false,
+                  "out_mode": "out",
+                  "bounce": false,
+                  "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                  }
+                }
+              },
+            }}
+            style={{
+              width: '100%',
+              height: '20px'
+              // backgroundImage: `url(${logo})` 
+            }}
+          />
+        </div>
         <section id="headerTop">
+
           <div className="row" id="headerRow">
+
             <div className="col-sm-6">
+
               <div id="head">
                 <h1 id="exchange">Talk Before You Trade</h1>
                 <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
