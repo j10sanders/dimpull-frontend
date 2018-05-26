@@ -5,7 +5,6 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
-import Particles from 'react-particles-js';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import history from '../../history';
@@ -89,10 +88,9 @@ class Header extends Component {
       open: true
     });
   }
-
+//background: 'transparent', boxShadow: 'none' 
   render () {
     return (
-      <div >
         <header>
           <Drawer
             open={this.state.open}
@@ -127,7 +125,7 @@ class Header extends Component {
             </div>
           </Drawer>
           <AppBar
-            style={{ position: 'fixed' }}
+            style={{ position: 'fixed',  }}
             title={
               <img
                 src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1523982285/Dimpull_LogoName_wg.png"
@@ -165,50 +163,6 @@ class Header extends Component {
             }
           />
         </header>
-        {this.props.location.pathname === '/' &&
-        <div id="patriclemargin">
-          <Particles
-            height="70px"
-            params={{
-              particles: {
-                number: {
-                  value: 14,
-                  density: {
-                    enable: true,
-                    value_area: 100
-                  }
-                },
-                line_linked: {
-                  enable: true,
-                  distance: 150,
-                  color: '#268bd2',
-                  opacity: 0.7,
-                  width: 1
-                },
-                move: {
-                  enable: true,
-                  speed: 0.5
-                }
-              },
-              interactivity: {
-                detect_on: 'canvas',
-                events: {
-                  onhover: {
-                    enable: true,
-                    mode: 'grab'
-                  },
-                  onclick: {
-                    enable: true,
-                    mode: 'push'
-                  },
-                  resize: true
-                }
-              }
-            }}
-          />
-        </div>
-      }
-      </div>
     );
   }
 }
