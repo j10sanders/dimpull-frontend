@@ -23,3 +23,8 @@
 	/*min-width: 100vw;*/
 	/*margin-left: -80px;*/
 }
+
+.fa-bars {
+	color: grey !important;
+	cursor: pointer;
+}

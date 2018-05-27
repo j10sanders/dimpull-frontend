@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import IconButton from 'material-ui/IconButton';
 import history from '../../history';
 import './header.css';
 
@@ -88,81 +89,82 @@ class Header extends Component {
       open: true
     });
   }
-//background: 'transparent', boxShadow: 'none' 
+
   render () {
     return (
-        <header>
-          <Drawer
-            open={this.state.open}
-            docked={false}
-            onRequestChange={open => this.setState({ open })}
-          >
-            <div>
-              <MenuItem
-                containerElement={<Link to="/newProfile"  />}
-                onClick={() => this.setState({ open: false })}
-              >
-                Become a Dimpull Expert
-              </MenuItem>
-              <MenuItem
-                containerElement={<Link to="/login" />}
-                onClick={() => this.setState({ open: false })}
-              >
-                {this.state.isAuthenticated ? `Log Out` : `Login` }
-              </MenuItem>
-              <MenuItem
-                containerElement={<Link to="/experts" />}
-                onClick={() => this.setState({ open: false })}
-              >
-                Meet the Experts
-              </MenuItem>
-              <MenuItem
-                containerElement={<Link to="/faq" />}
-                onClick={() => this.setState({ open: false })}
-              >
-                FAQs
-              </MenuItem>
-            </div>
-          </Drawer>
-          <AppBar
-            style={{ position: 'fixed',  }}
-            title={
-              <img
-                src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1523982285/Dimpull_LogoName_wg.png"
-                style={{
-                  cursor: 'pointer',
-                  width: '120px',
-                  height: 'auto',
-                  imageRendering: 'crisp-edges'
-                }}
-                alt="logo"
-              />}
-            onTitleClick={() => history.push('/')}
-            onLeftIconButtonClick={() => this.openNav()}
-            iconElementRight={
-              <Link to={'/profile'} >
-                {!this.state.picture
-                  ? <FlatButton
-                    label={<img
-                      src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
-                      style={{ width: '40px', height: 'auto' }}
-                      alt="logo"
-                    />}
-                    id="home"
-                  />
-                  : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
-                    {this.state.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
-                      <div>
-                        <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
-                        <i style={{ marginLeft: '12px', color: 'white', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
-                      </div>
-                    }
-                  </div>
-                }
-              </Link>
-            }
-          />
-        </header>
+      <header>
+        <Drawer
+          open={this.state.open}
+          docked={false}
+          onRequestChange={open => this.setState({ open })}
+        >
+          <div>
+            <MenuItem
+              containerElement={<Link to="/newProfile"  />}
+              onClick={() => this.setState({ open: false })}
+            >
+              Become a Dimpull Expert
+            </MenuItem>
+            <MenuItem
+              containerElement={<Link to="/login" />}
+              onClick={() => this.setState({ open: false })}
+            >
+              {this.state.isAuthenticated ? `Log Out` : `Login` }
+            </MenuItem>
+            <MenuItem
+              containerElement={<Link to="/experts" />}
+              onClick={() => this.setState({ open: false })}
+            >
+              Meet the Experts
+            </MenuItem>
+            <MenuItem
+              containerElement={<Link to="/faq" />}
+              onClick={() => this.setState({ open: false })}
+            >
+              FAQs
+            </MenuItem>
+          </div>
+        </Drawer>
+        <AppBar
+          style={{ position: 'fixed', boxShadow: 'none', opacity:'.9', background: '#f2f2f2' }}
+          title={
+            <img
+              src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1527437848/Dimpull_LogoName_Blue.png"
+              style={{
+                cursor: 'pointer',
+                width: '120px',
+                height: 'auto',
+                imageRendering: 'crisp-edges'
+              }}
+              alt="logo"
+            />}
+          onTitleClick={() => history.push('/')}
+          onLeftIconButtonClick={() => this.openNav()}
+          iconElementLeft={<div style={{cursor: 'pointer'}} ><IconButton iconClassName="fas fa-bars" /></div>}
+          iconElementRight={
+            <Link to={'/profile'} >
+              {!this.state.picture
+                ? <FlatButton
+                  label={<img
+                    src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
+                    style={{ width: '40px', height: 'auto', cursor: 'pointer',}}
+                    alt="logo"
+                  />}
+                  id="home"
+                />
+                : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
+                  {this.state.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
+                    <div>
+                      <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
+                      <i style={{ marginLeft: '12px', color: 'white', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
+                    </div>
+                  }
+                </div>
+              }
+            </Link>
+          }
+        />
+      </header>
     );
   }
 }
