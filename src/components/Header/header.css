@@ -7,6 +7,14 @@
 	color: grey;
 }
 
+.fa-angle-down {
+	color: grey;
+}
+
+.fa-user:hover {
+	color: white;
+}
+
 .fa-user:hover {
 	color: white;
 }
