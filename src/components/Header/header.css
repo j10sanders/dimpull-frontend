@@ -11,28 +11,19 @@
 	color: grey;
 }
 
-.fa-user:hover {
-	color: white;
+.fa-angle-down:hover {
+	color: #268bd2;
 }
 
 .fa-user:hover {
-	color: white;
-}
-
-#patriclemargin{
-	padding-top: 65px;
-	height: 0;
-	/*display: flex;*/
-}
-
-#particles{
-/*	height: 120px;
-	display: flex;*/
-	/*min-width: 100vw;*/
-	/*margin-left: -80px;*/
+	color: #268bd2;
 }
 
 .fa-bars {
 	color: grey !important;
 	cursor: pointer;
+}
+
+.fa-bars:hover {
+	color: #268bd2 !important;
 }

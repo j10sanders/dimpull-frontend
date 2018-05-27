@@ -126,7 +126,7 @@ class Header extends Component {
           </div>
         </Drawer>
         <AppBar
-          style={{ position: 'fixed', boxShadow: 'none', opacity:'.9', background: '#f2f2f2' }}
+          style={{ position: 'fixed', boxShadow: 'none', opacity:'.9', background: '#f7f7f7' }}
           title={
             <img
               src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1527437848/Dimpull_LogoName_Blue.png"
@@ -156,7 +156,7 @@ class Header extends Component {
                   {this.state.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
                     <div>
                       <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
-                      <i style={{ marginLeft: '12px', color: 'white', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
+                      <i style={{ marginLeft: '12px', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
                     </div>
                   }
                 </div>
