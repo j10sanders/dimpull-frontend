@@ -66,36 +66,8 @@ class Contact extends React.Component {
   }
 
   componentDidMount () {
-    const vip = this.props.location.state.vip;
-    if (vip) {
-      this.vip();
-    } else {
-      getWeb3
-        .then((results) => {
-          if (results.error) {
-            this.setState({ web3error: true });
-          } else {
-            this.setState({
-              web3: results.web3
-            }, () => this.instantiateContract());
-          }
-        })
-        .catch(() => {
-          this.setState({ web3error: true });
-        });
-      const { isAuthenticated } = this.props.auth;
-      const { getAccessToken } = this.props.auth;
-      if (isAuthenticated()) {
-        const headers = { Authorization: `Bearer ${getAccessToken()}` };
-        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
-          .then((response) => {
-            if (response.data.phone_number) {
-              this.setState({ tel: response.data.phone_number, telReceived: true });
-            }
-          })
-          .catch(error => console.log(error));
-      }
-    }
+    this.findWeb3();
+    this.timeOutWeb3();
   }
 
   async getWallet () {
@@ -127,6 +99,28 @@ class Contact extends React.Component {
     }
   }
 
+  async findWeb3 () {
+    const vip = this.props.location.state.vip;
+    if (vip) {
+      this.vip();
+    } else {
+      const results = await getWeb3;
+      if (results.error) {
+        this.setState({ web3error: true });
+      } else {
+        this.setState({
+          web3: results.web3
+        }, () => this.instantiateContract());
+      }
+    }
+  }
+
+  timeOutWeb3 () {
+    window.setTimeout(() => {
+      if (!this.state.web3) {this.findWeb3()};
+    }, 1000);
+  }
+  
   vip () {
     this.setState({ transactionStatus: 'vip', fromAddress: 'vipcaller' }, () => this.isDisabled());
   }
