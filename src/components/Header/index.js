@@ -12,11 +12,21 @@ import history from '../../history';
 import './header.css';
 
 class Header extends Component {
+  static onMouseEnter () {
+    const x = window.document.getElementsByClassName('fa-angle-down');
+    x[0].style.color = '#268bd2';
+  }
+
+  static onMouseLeave () {
+    const x = window.document.getElementsByClassName('fa-angle-down');
+    x[0].style.color = 'gray';
+  }
   constructor (props) {
     super(props);
     this.state = {
       open: false,
-      picture: null
+      picture: null,
+      over: false
     };
   }
 
@@ -90,6 +100,7 @@ class Header extends Component {
     });
   }
 
+  
   render () {
     return (
       <header>
@@ -126,7 +137,7 @@ class Header extends Component {
           </div>
         </Drawer>
         <AppBar
-          style={{ position: 'fixed', boxShadow: 'none', opacity:'.9', background: '#f8f8f8' }}
+          style={{ position: 'fixed', boxShadow: 'none', opacity: '.9', background: '#f8f8f8' }}
           title={
             <img
               src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1527437848/Dimpull_LogoName_Blue.png"
@@ -154,9 +165,9 @@ class Header extends Component {
                 />
                 : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
                   {this.state.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
-                    <div>
+                    <div onMouseOver={() => Header.onMouseEnter()}  onMouseOut={() => Header.onMouseLeave()} style={{color: this.state.over ? 'blue' : 'gray'}}>
                       <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
-                      <i style={{ marginLeft: '12px', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
+                      <i style={{ marginLeft: '12px', marginBottom: '-5px', fontSize: '22px', color: this.state.over ? 'blue' : 'gray' }} className="fas fa-angle-down" />
                     </div>
                   }
                 </div>

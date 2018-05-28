@@ -50,8 +50,9 @@ class Profile extends React.Component {
     this.setState({ vipupdated: false });
   }
 
-  handleExpand () {
-    this.setState({ expanded: true });
+  handleExpand (e) {
+
+    this.setState({ [e]: true });
   }
 
   async newVipId () {
@@ -87,9 +88,10 @@ class Profile extends React.Component {
     }
     return (
       <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-
         <div id="accountButtons">
-         <div style={{ marginBottom: '16px' }}><h3 style={{ display: !this.state.url ? 'none' : 'initial'}}>{`dimpull.com/${this.state.url}`}</h3></div>
+          <div style={{ marginBottom: '16px' }}>
+            <h2 style={{ display: !this.state.url ? 'none' : 'initial'}}>{`dimpull.com/${this.state.url}`}</h2>
+          </div>
           <List>
             <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={1} >
               <ListItem innerDivStyle={{ padding: '5px' }}>
@@ -110,7 +112,6 @@ class Profile extends React.Component {
                 <ListItem
                   key="Scheduled Calls"
                   containerElement={<Link to={`/bookedtimes`} key={'booked'} />}
-                  //onClick={() => this.handleOpen()}
                   primaryText="Scheduled Calls"
                   secondaryText={
                     <p style={{ lineHeight: '17px' }}><span style={{ color: '#eaeaea' }} >Your upcoming calls</span></p>
@@ -146,31 +147,38 @@ class Profile extends React.Component {
               </ListItem>
             </Paper>
           </List>
-          <div style={{marginTop: '20px' }}>
-            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
-              <div style={{ margin: '12px', padding: '12px' }}>
-                <p style={{ fontSize: 'larger', color: 'white' }}>{`Referral Link: dimpull.com/newProfile/ref=${this.state.referral}`}</p>
-                <p style={{ color: '#eaeaea' }}>Refer an expert to earn 5% of their revenues.  They get $10 extra on their first call.</p>
-              </div>
-            </Paper>
-            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
-              <div style={{ margin: '12px', padding: '12px' }}>
-                <p style={{ fontSize: 'larger', color: 'white' }}>{`Offer Free Calls: dimpull.com/${this.state.url}/vip=${this.state.vip}`}</p>
-                <p style={{ color: '#eaeaea' }}>"VIP link" is helpful for getting initial reviews</p>
-              </div>
-              <RaisedButton
-                onClick={() => this.newVipId()}
-                label="Change VIP link (in case free calls are getting overused)"
-                secondary
-                style={{ marginBottom: '2px' }}
-              />
-            </Paper>
-            <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-              <CardText expandable={true}>
+          <div style={{ marginTop: '20px' }}>
+            <Card expanded={this.state.callsExpanded} style={{ marginBottom: '30px' }}>
+              <CardText expandable>
                 <p style={{ fontSize: 'larger', textAlign: 'left' }}>{`Put a link to your public profile (dimpull.com/${this.state.url}) on your homepage and in your LinkedIn and Twitter bios. Visitors can now pay for a conversation.`}</p>
               </CardText>
               <CardActions>
-                <FlatButton label="How To Get More Calls" onClick={() => this.handleExpand()} style={{display: this.state.expanded ? 'none' : 'initial' }}/>
+                <FlatButton label="How To Get More Calls" onClick={() => this.handleExpand('callsExpanded')} style={{ display: this.state.callsExpanded ? 'none' : 'initial' }} />
+              </CardActions>
+            </Card>
+            <Card expanded={this.state.refExpanded} style={{ marginBottom: '30px' }}>
+              <CardText expandable>
+                <p style={{ fontSize: 'larger', textAlign: 'left' }}>
+                  {`Referral Link: dimpull.com/newProfile/ref=${this.state.referral}`}</p>
+                <p style={{ color: 'dark-grey' }}>Refer an expert to earn 5% of their revenues.  They get $10 extra on their first call.</p>
+              </CardText>
+              <CardActions>
+                <FlatButton label="Referral Link" onClick={() => this.handleExpand('refExpanded')} style={{ display: this.state.refExpanded ? 'none' : 'initial' }} />
+              </CardActions>
+            </Card>
+            <Card expanded={this.state.vipExpanded} style={{ marginBottom: '30px' }}>
+              <CardText expandable>
+                <p style={{ fontSize: 'larger', textAlign: 'left' }}>{`Offer Free Calls: dimpull.com/${this.state.url}/vip=${this.state.vip}`}</p>
+                <p style={{ color: 'dark-grey' }}>"VIP link" is helpful for getting initial reviews</p>
+                <RaisedButton
+                  onClick={() => this.newVipId()}
+                  label="Change VIP link (in case free calls are getting overused)"
+                  // primary
+                  style={{ marginTop: '12px' }}
+                />
+              </CardText>
+              <CardActions>
+                <FlatButton label="Give Free Calls" onClick={() => this.handleExpand('vipExpanded')} style={{ display: this.state.vipExpanded ? 'none' : 'initial' }} />
               </CardActions>
             </Card>
           </div>

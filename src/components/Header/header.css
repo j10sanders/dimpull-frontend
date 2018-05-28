@@ -11,9 +11,9 @@
 	color: grey;
 }
 
-.fa-angle-down:hover {
+/*.fa-angle-down:hover {
 	color: #268bd2;
-}
+}*/
 
 .fa-user:hover {
 	color: #268bd2;
@@ -27,3 +27,4 @@
 .fa-bars:hover {
 	color: #268bd2 !important;
 }
+
