@@ -126,7 +126,7 @@ class Header extends Component {
           </div>
         </Drawer>
         <AppBar
-          style={{ position: 'fixed', boxShadow: 'none', opacity:'.9', background: '#f7f7f7' }}
+          style={{ position: 'fixed', boxShadow: 'none', opacity:'.9', background: '#f8f8f8' }}
           title={
             <img
               src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1527437848/Dimpull_LogoName_Blue.png"
