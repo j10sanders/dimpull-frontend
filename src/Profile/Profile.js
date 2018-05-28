@@ -3,8 +3,10 @@ import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
+import { Card, CardActions, CardText } from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
 import history from './../history';
 import './Profile.css';
@@ -13,7 +15,6 @@ class Profile extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      open: false,
       vipupdated: false,
       url: null,
       waiting: true,
@@ -45,12 +46,12 @@ class Profile extends React.Component {
     }
   }
 
-  handleOpen () {
-    this.setState({ open: true });
+  handleRequestClose () {
+    this.setState({ vipupdated: false });
   }
 
-  handleRequestClose () {
-    this.setState({ open: false, vipupdated: false });
+  handleExpand () {
+    this.setState({ expanded: true });
   }
 
   async newVipId () {
@@ -61,7 +62,7 @@ class Profile extends React.Component {
       headers = { Authorization: `Bearer ${getAccessToken()}` };
       const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/newvip`, { headers });
       if (response.data.vipid) {
-        this.setState({vip: response.data.vipid, vipupdated: true})
+        this.setState({ vip: response.data.vipid, vipupdated: true });
       }
     }
   }
@@ -86,7 +87,9 @@ class Profile extends React.Component {
     }
     return (
       <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+
         <div id="accountButtons">
+         <div style={{ marginBottom: '16px' }}><h3 style={{ display: !this.state.url ? 'none' : 'initial'}}>{`dimpull.com/${this.state.url}`}</h3></div>
           <List>
             <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px' }} zDepth={2} key={1} >
               <ListItem innerDivStyle={{ padding: '5px' }}>
@@ -143,31 +146,35 @@ class Profile extends React.Component {
               </ListItem>
             </Paper>
           </List>
-          <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
-            <div style={{ margin: '12px', padding: '12px' }}>
-              <p style={{ fontSize: 'larger', color: 'white' }}>{`Referral Link: dimpull.com/newProfile/ref=${this.state.referral}`}</p>
-              <p style={{ color: '#eaeaea' }}>Refer an expert to earn 5% of their revenues.  They get $10 extra on their first call.</p>
-            </div>
-          </Paper>
-          <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
-            <div style={{ margin: '12px', padding: '12px' }}>
-              <p style={{ fontSize: 'larger', color: 'white' }}>{`Offer Free Calls: dimpull.com/${this.state.url}/vip=${this.state.vip}`}</p>
-              <p style={{ color: '#eaeaea' }}>"VIP link" is helpful for getting initial reviews</p>
-            </div>
-            <RaisedButton
-              onClick={() => this.newVipId()}
-              label="Change VIP link (in case free calls are getting overused)"
-              secondary
-              style={{ marginBottom: '2px' }}
-            />
-          </Paper>
+          <div style={{marginTop: '20px' }}>
+            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
+              <div style={{ margin: '12px', padding: '12px' }}>
+                <p style={{ fontSize: 'larger', color: 'white' }}>{`Referral Link: dimpull.com/newProfile/ref=${this.state.referral}`}</p>
+                <p style={{ color: '#eaeaea' }}>Refer an expert to earn 5% of their revenues.  They get $10 extra on their first call.</p>
+              </div>
+            </Paper>
+            <Paper style={{ marginBottom: '24px', marginRight: '4px', marginLeft: '4px', backgroundColor: '#268bd2' }}>
+              <div style={{ margin: '12px', padding: '12px' }}>
+                <p style={{ fontSize: 'larger', color: 'white' }}>{`Offer Free Calls: dimpull.com/${this.state.url}/vip=${this.state.vip}`}</p>
+                <p style={{ color: '#eaeaea' }}>"VIP link" is helpful for getting initial reviews</p>
+              </div>
+              <RaisedButton
+                onClick={() => this.newVipId()}
+                label="Change VIP link (in case free calls are getting overused)"
+                secondary
+                style={{ marginBottom: '2px' }}
+              />
+            </Paper>
+            <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+              <CardText expandable={true}>
+                <p style={{ fontSize: 'larger', textAlign: 'left' }}>{`Put a link to your public profile (dimpull.com/${this.state.url}) on your homepage and in your LinkedIn and Twitter bios. Visitors can now pay for a conversation.`}</p>
+              </CardText>
+              <CardActions>
+                <FlatButton label="How To Get More Calls" onClick={() => this.handleExpand()} style={{display: this.state.expanded ? 'none' : 'initial' }}/>
+              </CardActions>
+            </Card>
+          </div>
         </div>
-        <Snackbar
-          open={this.state.open}
-          message="Will be available on May 22nd..."
-          autoHideDuration={4000}
-          onRequestClose={() => this.handleRequestClose()}
-        />
         <Snackbar
           open={this.state.vipupdated}
           message="Updated vip link"
