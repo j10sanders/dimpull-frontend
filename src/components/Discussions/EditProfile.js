@@ -144,6 +144,7 @@ class EditProfile extends React.Component {
   }
 
   handleImageUpload (file) {
+    this.setState({ waiting: true });
     const upload = request.post(CLOUDINARY_UPLOAD_URL)
       .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
       .field('file', file);
@@ -156,7 +157,7 @@ class EditProfile extends React.Component {
         const n = image.indexOf('upload');
         const scaledImage = `${image.substring(0, n + 7)}c_scale,h_595/${image.substring(n + 7)}`;
         this.setState({
-          image: scaledImage
+          image: scaledImage, waiting: false
         });
       }
     });
