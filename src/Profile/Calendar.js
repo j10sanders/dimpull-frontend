@@ -24,12 +24,13 @@ class Calendar extends React.Component {
     super(props)
     this.state = {
       events: [], 
-      open: false,
       event: '',
       snackOpen: false,
       waiting: true,
       tc: false,
-      initialsErrorText: 'Initialize form in order to accept'
+      initialsErrorText: 'Initialize form in order to accept',
+      openedTime: false,
+      reminder: false,
     }
   this.moveEvent = this.moveEvent.bind(this)
   }
@@ -153,23 +154,16 @@ class Calendar extends React.Component {
           newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
         }
         events.push(newEvent)
-        this.setState({events: events})
       }
+      this.setState({events: events, reminder: true})
 		}
 	}
 
   handleRequestClose = () => {
     this.setState({
-      snackOpen: false,
+      snackOpen: false, reminder: false
     });
   };
-
-	removeTimeslot (event) {
-		let events = this.state.events
-		var filtered = events.filter(function(el) { return el.id !== event.id });
-		this.setState({events: filtered})
-		this.setState({open: false})
-	}
 
 	submit () {
 		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
@@ -206,8 +200,58 @@ class Calendar extends React.Component {
     }
     this.setState(nextState);
   }
+
+  handleClose () {
+   this.setState({openedTime: false});
+  }
+
+  selectEvent (event) {
+    this.setState({ selectedEvent: event, openedTime: true})
+  }
+
+  setRecurring () {
+    let events = this.state.events;
+    const start = new Date(this.state.selectedEvent.start);
+    const end = new Date(this.state.selectedEvent.end);
+    for (let i = 1; i < 17; i++) {
+      const s = new Date(+start);
+      const e = new Date(+end);
+      const star = new Date(s.setDate(s.getDate() + i*7))
+      const newEnd = new Date(e.setDate(e.getDate() + i*7))
+      const newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
+      events.push(newEvent)
+    }
+    this.setState({ events: events, openedTime: false, reminder: true })
+  }
+
+  removeTimeslot () {
+    const event = this.state.selectedEvent;
+    const start = new Date(this.state.selectedEvent.start);
+    const events = this.state.events
+    let filtered = events.filter(function(el) { return el.id !== event.id });
+    let recurring = true;
+    let i = 1
+    while (recurring) {
+      let lenFiltered = filtered.length
+      const s = new Date(+start);
+      const star = new Date(s.setDate(s.getDate() + i*7))
+      filtered = filtered.filter(function(el) { return el.start.getTime() !== star.getTime() });
+      if (filtered.length === lenFiltered){
+        recurring = false;
+      } else{
+        i += 1
+      }
+    }
+    this.setState({events: filtered, reminder: true});
+    this.handleClose();
+  }
   	
   render() {
+    let formats = {
+      dayFormat: (date, culture, localizer) =>
+        localizer.format(date, 'M/D', culture)
+    }
+
 		const actions = [
 			<FlatButton
 				label="Cancel"
@@ -219,6 +263,11 @@ class Calendar extends React.Component {
 				primary
 				onClick={() => this.removeTimeslot()}
 			/>,
+      <FlatButton
+        label="Set Recurring (4 months)"
+        primary
+        onClick={() => this.setRecurring()}
+      />,
 		];
 
     const tAndC = [
@@ -249,6 +298,12 @@ class Calendar extends React.Component {
               autoHideDuration={4000}
               onRequestClose={this.handleRequestClose}
             />
+            <Snackbar
+              open={this.state.reminder}
+              message="Make sure to click 'Submit Timeslots' at the bottom to save"
+              autoHideDuration={3000}
+              onRequestClose={this.handleRequestClose}
+            />
             <Paper style={{ marginTop: '10px', marginBotton: '20px' }} >
               <DragAndDropCalendar
                 selectable
@@ -258,21 +313,21 @@ class Calendar extends React.Component {
                 onEventResize={this.resizeEvent}
                 defaultView="week"
                 defaultDate={new Date()}
-                onSelectEvent={event => this.removeTimeslot(event)}
+                onSelectEvent={event => this.selectEvent(event)}
                 onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
+                formats={formats}
               />
-              <Dialog
-                title="Remove this timeslot?"
-                actions={actions}
-                modal={false}
-                open={this.state.open}
-                onRequestClose={() => this.handleClose.bind(this)}
-              >
-              </Dialog>
-                 <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
-                    onClick={() => this.submit()}
-                  />
+              <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
+                onClick={() => this.submit()}
+              />
             </Paper>
+            <Dialog
+            title="Remove? Or set timeslot to reoccur?"
+              actions={actions}
+              modal={false}
+              open={this.state.openedTime}
+              // onRequestClose={this.handleRequestClose}
+            /> 
             </div>
             :        
             <Dialog
