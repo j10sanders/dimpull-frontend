@@ -1,6 +1,8 @@
 /* global styles */
 @import url(//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,cyrillic-ext);
 @import url(//fonts.googleapis.com/icon?family=Material+Icons);
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+
 /*@import 'typography';*/
 /*@import 'links';*/
 

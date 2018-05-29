@@ -107,7 +107,7 @@ export default class Auth {
   isAuthenticated() {
     // Check whether the current time is past the 
     // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    let expiresAt = localStorage.getItem('expires_at') ? JSON.parse(localStorage.getItem('expires_at')) : new Date();
     return new Date().getTime() < expiresAt;
   }
 

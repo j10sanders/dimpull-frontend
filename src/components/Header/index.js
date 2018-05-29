@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
+// import Drawer from 'material-ui/Drawer';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import IconButton from 'material-ui/IconButton';
+// import IconButton from 'material-ui/IconButton';
+// import { withStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 import history from '../../history';
 import './header.css';
+
 
 class Header extends Component {
   static onMouseEnter () {
@@ -100,40 +105,55 @@ class Header extends Component {
     });
   }
 
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open,
+    });
+  };
   
   render () {
+    const fullList = (
+      <div>
+        {!this.state.picture && <MenuItem
+          containerElement={<Link to="/newProfile"  />}
+          onClick={() => this.setState({ open: false })}
+        >
+          Become a Dimpull Expert
+        </MenuItem>
+      }
+        <MenuItem
+          containerElement={<Link to="/login" />}
+          onClick={() => this.setState({ open: false })}
+        >
+          {this.state.isAuthenticated ? `Log Out` : `Login` }
+        </MenuItem>
+        <MenuItem
+          containerElement={<Link to="/experts" />}
+          onClick={() => this.setState({ open: false })}
+        >
+          Meet the Experts
+        </MenuItem>
+        <MenuItem
+          containerElement={<Link to="/faq" />}
+          onClick={() => this.setState({ open: false })}
+        >
+          FAQs
+        </MenuItem>
+      </div>
+    )
+
+
     return (
       <header>
-        <Drawer
-          open={this.state.open}
-          docked={false}
-          onRequestChange={open => this.setState({ open })}
-        >
-          <div>
-            <MenuItem
-              containerElement={<Link to="/newProfile"  />}
-              onClick={() => this.setState({ open: false })}
-            >
-              Become a Dimpull Expert
-            </MenuItem>
-            <MenuItem
-              containerElement={<Link to="/login" />}
-              onClick={() => this.setState({ open: false })}
-            >
-              {this.state.isAuthenticated ? `Log Out` : `Login` }
-            </MenuItem>
-            <MenuItem
-              containerElement={<Link to="/experts" />}
-              onClick={() => this.setState({ open: false })}
-            >
-              Meet the Experts
-            </MenuItem>
-            <MenuItem
-              containerElement={<Link to="/faq" />}
-              onClick={() => this.setState({ open: false })}
-            >
-              FAQs
-            </MenuItem>
+
+        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={this.toggleDrawer('left', false)}
+            onKeyDown={this.toggleDrawer('left', false)}
+          >
+            {fullList}
           </div>
         </Drawer>
         <AppBar
@@ -145,20 +165,22 @@ class Header extends Component {
                 cursor: 'pointer',
                 width: '120px',
                 height: 'auto',
-                imageRendering: 'crisp-edges'
+                imageRendering: 'crisp-edges',
+                marginTop: '-6px', 
+                marginBottom: '-6px'
               }}
               alt="logo"
             />}
           onTitleClick={() => history.push('/')}
-          onLeftIconButtonClick={() => this.openNav()}
-          iconElementLeft={<div style={{cursor: 'pointer'}} ><IconButton iconClassName="fas fa-bars" /></div>}
+          // onLeftIconButtonClick={this.toggleDrawer('left', true)}
+          iconElementLeft={<Button onClick={this.toggleDrawer('left', true)} style={{color: 'white', marginTop: '4px'}}><MenuIcon style={{color: 'white'}} /></Button>}
           iconElementRight={
-            <Link to={'/profile'} >
+            <Link to={'/profile'} style={{ marginTop: '-12px', marginBottom: '-6px'}}>
               {!this.state.picture
                 ? <FlatButton
                   label={<img
                     src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
-                    style={{ width: '40px', height: 'auto', cursor: 'pointer',}}
+                    style={{ width: '40px', height: 'auto', cursor: 'pointer', marginTop: '-8px', marginBottom: '-6px'}}
                     alt="logo"
                   />}
                   id="home"

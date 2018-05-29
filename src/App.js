@@ -4,8 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './App.css';
 import Routes from './routes';
 import { Footer } from './components/Footer';
-
-require('bootstrap-webpack');
+// require('bootstrap-webpack');
 
 const styles = {
   container: {
