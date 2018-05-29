@@ -8,7 +8,6 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
-import history from '../history';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
@@ -31,6 +30,8 @@ class Calendar extends React.Component {
       initialsErrorText: 'Initialize form in order to accept',
       openedTime: false,
       reminder: false,
+      saved: false,
+      saving: false
     }
   this.moveEvent = this.moveEvent.bind(this)
   }
@@ -161,17 +162,20 @@ class Calendar extends React.Component {
 
   handleRequestClose = () => {
     this.setState({
-      snackOpen: false, reminder: false
+      snackOpen: false, reminder: false, saved: false
     });
   };
 
-	submit () {
-		axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
+	async submit () {
+    this.setState({saving: true})
+
+		await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
       {
         user_id: this.state.profile.sub,
         times: this.state.events,
     	})
-    	history.replace('/experts');
+    debugger;
+    this.setState({ saved: true, saving: false })
 	}
 
   async accept () {
@@ -304,6 +308,12 @@ class Calendar extends React.Component {
               autoHideDuration={3000}
               onRequestClose={this.handleRequestClose}
             />
+            <Snackbar
+              open={this.state.saved}
+              message="Success.  Your times are saved."
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
             <Paper style={{ marginTop: '10px', marginBotton: '20px' }} >
               <DragAndDropCalendar
                 selectable
@@ -317,9 +327,12 @@ class Calendar extends React.Component {
                 onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
                 formats={formats}
               />
-              <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}
-                onClick={() => this.submit()}
-              />
+              
+              {this.state.saving ? <div style={{ paddingLeft: '50%' }}>
+                <CircularProgress />
+              </div> :
+              <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}onClick={() => this.submit()}/>
+              }
             </Paper>
             <Dialog
             title="Remove? Or set timeslot to reoccur?"
