@@ -127,7 +127,7 @@ export default class Auth {
   }
 
   scheduleRenewal() {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    const expiresAt = localStorage.getItem('expires_at') ? JSON.parse(localStorage.getItem('expires_at')) : new Date();
     const delay = expiresAt - Date.now();
     // const delay = 10
     if (delay > 0) {
