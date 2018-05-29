@@ -1,5 +1,337 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Clock component renders the clock correctly renders correctly 1`] = `
+<div
+  id="othersection"
+>
+  <section
+    id="section"
+  >
+    <div>
+      <header>
+        <div
+          className={undefined}
+          style={
+            Object {
+              "WebkitTapHighlightColor": "rgba(0,0,0,0)",
+              "background": "#629EF9",
+              "backgroundColor": "#268bd2",
+              "borderRadius": "0px",
+              "boxShadow": "none",
+              "boxSizing": "border-box",
+              "color": "rgba(0, 0, 0, 0.87)",
+              "display": "flex",
+              "fontFamily": "Roboto, sans-serif",
+              "muiPrepared": true,
+              "opacity": ".9",
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "position": "fixed",
+              "transition": "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+              "width": "100%",
+              "zIndex": 1100,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "marginLeft": -16,
+                "marginRight": 8,
+                "marginTop": 8,
+                "muiPrepared": true,
+              }
+            }
+          >
+            <button
+              className="MuiButtonBase-root-30 MuiButton-root-14"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={
+                Object {
+                  "color": "white",
+                  "marginTop": "4px",
+                }
+              }
+              tabIndex="0"
+              type="button"
+            >
+              <span
+                className="MuiButton-label-15"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="MuiSvgIcon-root-33"
+                  color={undefined}
+                  focusable="false"
+                  style={
+                    Object {
+                      "color": "white",
+                    }
+                  }
+                  viewBox="0 0 24 24"
+                >
+                  <g>
+                    <path
+                      d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+                    />
+                  </g>
+                </svg>
+              </span>
+              <span
+                className="MuiTouchRipple-root-39"
+              />
+            </button>
+          </div>
+          <div
+            onClick={[Function]}
+            style={
+              Object {
+                "boxFlex": 1,
+                "color": "#ffffff",
+                "flex": "1",
+                "fontSize": 24,
+                "fontWeight": 400,
+                "height": 64,
+                "letterSpacing": 0,
+                "lineHeight": "64px",
+                "margin": 0,
+                "muiPrepared": true,
+                "overflow": "hidden",
+                "paddingTop": 0,
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+              }
+            }
+          >
+            <img
+              alt="logo"
+              src="http://res.cloudinary.com/dtvc9q04c/image/upload/q_100/v1527550775/Dimpull_LogoName_ww.png"
+              style={
+                Object {
+                  "cursor": "pointer",
+                  "height": "auto",
+                  "imageRendering": "crisp-edges",
+                  "marginBottom": "-6px",
+                  "marginTop": "-6px",
+                  "width": "120px",
+                }
+              }
+            />
+          </div>
+          <div
+            style={
+              Object {
+                "marginLeft": "auto",
+                "marginRight": -16,
+                "marginTop": 8,
+                "muiPrepared": true,
+              }
+            }
+          >
+            <a
+              href="/profile"
+              onClick={[Function]}
+              style={
+                Object {
+                  "marginBottom": "-6px",
+                  "marginTop": "-12px",
+                }
+              }
+            >
+              <button
+                disabled={false}
+                id="home"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                onTouchStart={[Function]}
+                style={
+                  Object {
+                    "WebkitTapHighlightColor": "rgba(0, 0, 0, 0)",
+                    "backgroundColor": "rgba(0, 0, 0, 0)",
+                    "border": 10,
+                    "borderRadius": 2,
+                    "boxSizing": "border-box",
+                    "color": "rgba(0, 0, 0, 0.87)",
+                    "cursor": "pointer",
+                    "display": "inline-block",
+                    "fontFamily": "Roboto, sans-serif",
+                    "fontSize": "inherit",
+                    "fontWeight": "inherit",
+                    "height": 36,
+                    "lineHeight": "36px",
+                    "margin": 0,
+                    "minWidth": 88,
+                    "muiPrepared": true,
+                    "outline": "none",
+                    "overflow": "hidden",
+                    "padding": 0,
+                    "position": "relative",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "transition": "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+                    "userSelect": "none",
+                    "verticalAlign": null,
+                  }
+                }
+                tabIndex={0}
+                type="button"
+              >
+                <div
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchStart={[Function]}
+                >
+                  <span
+                    style={
+                      Object {
+                        "fontSize": 14,
+                        "fontWeight": 500,
+                        "letterSpacing": 0,
+                        "muiPrepared": true,
+                        "paddingLeft": 16,
+                        "paddingRight": 16,
+                        "position": "relative",
+                        "textTransform": "uppercase",
+                        "verticalAlign": "middle",
+                      }
+                    }
+                  >
+                    <img
+                      alt="logo"
+                      src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                          "height": "auto",
+                          "marginBottom": "-6px",
+                          "marginTop": "-8px",
+                          "width": "40px",
+                        }
+                      }
+                    />
+                  </span>
+                </div>
+              </button>
+            </a>
+          </div>
+        </div>
+      </header>
+      <div
+        className="container"
+        style={
+          Object {
+            "marginTop": "64px",
+            "paddingBottom": "65px",
+          }
+        }
+      />
+    </div>
+  </section>
+  <div
+    style={
+      Object {
+        "marginTop": "143px",
+      }
+    }
+  >
+    <div
+      className="footer"
+      style={
+        Object {
+          "height": "160px",
+          "marginTop": "20px",
+        }
+      }
+    >
+      <p
+        style={
+          Object {
+            "bottom": "0",
+            "float": "left",
+            "fontSize": "14px",
+            "position": "absolute",
+          }
+        }
+      >
+        <a
+          href="https://sites.google.com/view/dimpull/home"
+          style={
+            Object {
+              "color": "#464545",
+            }
+          }
+        >
+          Privacy Policy
+        </a>
+      </p>
+      <img
+        alt="logo"
+        id="logo"
+        src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
+      />
+      <div
+        id="links"
+      >
+        <div
+          style={
+            Object {
+              "paddingBottom": "4px",
+              "paddingLeft": "19px",
+            }
+          }
+        >
+          <a
+            href="mailto:admin@dimpull.com"
+          >
+            admin@dimpull.com
+          </a>
+        </div>
+        <div
+          style={
+            Object {
+              "paddingBottom": "12px",
+              "paddingLeft": "19px",
+            }
+          }
+        >
+          <a
+            href="https://medium.com/@dimpull"
+          >
+            <img
+              alt="medium"
+              src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,w_77/v1520797682/mediumcropped.png"
+            />
+          </a>
+        </div>
+        <div
+          id="twitter"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`renders correctly 1`] = `
 <div
   id="othersection"

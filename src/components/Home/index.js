@@ -75,7 +75,7 @@ class Home extends React.Component {
               <div className="col-sm-6">
 
                 <div id="head">
-                  <h1 id="exchange">Talk Before You Trade</h1>
+                  <h1 id="exchange">Talk Bedasddsaasddasdasfore You Trade</h1>
                   <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
                   <h3 id="h3exchange" className="secondH3">Use Ethereum to book your call</h3>
 

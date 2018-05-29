@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
-// import Drawer from 'material-ui/Drawer';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import MenuItem from 'material-ui/MenuItem';
@@ -9,11 +8,12 @@ import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-// import IconButton from 'material-ui/IconButton';
-// import { withStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'; //Have to use @material-ui's because drawer and header are updated for react 16
 import MenuIcon from '@material-ui/icons/Menu';
 import history from '../../history';
 import './header.css';
+
+const theme = createMuiTheme();
 
 
 class Header extends Component {
@@ -144,6 +144,7 @@ class Header extends Component {
 
 
     return (
+      <MuiThemeProvider theme={theme}>
       <header>
 
         <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
@@ -198,6 +199,7 @@ class Header extends Component {
           }
         />
       </header>
+      </MuiThemeProvider>
     );
   }
 }
@@ -215,3 +217,6 @@ Header.defaultProps = {
 };
 
 export default Header;
+
+
+
