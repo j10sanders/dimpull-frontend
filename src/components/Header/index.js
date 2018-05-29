@@ -161,7 +161,7 @@ class Header extends Component {
           style={{ position: 'fixed', boxShadow: 'none', opacity: '.9', background: '#629EF9' }}
           title={
             <img
-              src="http://res.cloudinary.com/dtvc9q04c/image/upload/q_100/v1527550775/Dimpull_LogoName_ww.png"
+              src="https://res.cloudinary.com/dtvc9q04c/image/upload/q_100/v1527550775/Dimpull_LogoName_ww.png"
               style={{
                 cursor: 'pointer',
                 width: '120px',
