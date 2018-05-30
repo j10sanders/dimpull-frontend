@@ -1,14 +1,13 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.min.css';
 import DefaultProfiles from './DefaultProfiles';
-import { withRouter } from 'react-router'
 import './landingpage.css';
 
 class H extends React.Component {

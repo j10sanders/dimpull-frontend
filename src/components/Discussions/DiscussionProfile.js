@@ -2,6 +2,7 @@ import React from 'react';
 import ReactStars from 'react-stars';
 import Avatar from 'material-ui/Avatar';
 import { ListItem } from 'material-ui/List';
+import { withRouter } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
@@ -9,7 +10,6 @@ import axios from 'axios';
 import history from '../../history';
 import NeedReview from './needReview';
 import ProfileCard from './ProfileCard';
-import { withRouter } from 'react-router'
 import './discussionprofile.css';
 
 const colors = ['FF9A57', '01B48F', 'D0D2D3', 'C879B2', '44C7F4'];

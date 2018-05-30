@@ -4,7 +4,8 @@ import asyncComponent from "../components/AsyncComponent";
 import Auth from '../Auth/Auth.js';
 import history from '../history';
 import Callback from '../Callback/Callback';
-import Header from '../components/Header'
+import Header from '../components/Header';
+import ScrollToTop from './scrollToTop';
 const auth = new Auth();
 const AsyncHome = asyncComponent(() => import("../components/Home"));
 const AsyncNewProfile = asyncComponent(() => import("../components/Discussions/NewProfile"));
@@ -42,29 +43,31 @@ class Routes extends Component {
               marginTop: '64px',
             }}
         	>
+        	<ScrollToTop>
 						<Switch>
-						<Route exact path="/" render={(props) => <AsyncHome auth={auth} {...props} />} />
-						<Route exact path="/home" render={(props) => <AsyncHome auth={auth} {...props} />} />
+							<Route exact path="/" render={(props) => <AsyncHome auth={auth} {...props} />} />
+							<Route exact path="/home" render={(props) => <AsyncHome auth={auth} {...props} />} />
 							<Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
 							<Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
-						    <Route exact path="/experts" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
-						    <Route exact path="/mydiscussions" render={(props) => <AsyncMyDiscussions auth={auth} {...props} />} />
-						    <Route path="/expert" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
-						    <Route path="/requestConversation" render={(props) => <AsyncContact auth={auth} {...props} />} />
-						    <Route path="/newProfile" render={(props) => <AsyncNewProfile auth={auth} {...props} />} />
-						    <Route path="/editProfile" render={(props) => <AsyncEditProfile auth={auth} {...props} />} />
-						    <Route path="/availability" render={(props) => <AsyncAvailability auth={auth} {...props} />} />
-						    <Route path="/faq" render={(props) => <AsyncFAQ auth={auth} {...props} />} />
-						    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
-						    <Route path="/bookedtimes" render={(props) => <AsyncBookedTimes auth={auth} {...props} />} />
-						    <Route path="/profile" render={(props) => <AsyncProfile auth={auth} {...props} />} />
-						    <Route path="/callback" render={(props) => {
-					          handleAuthentication(props);
-					          return <Callback {...props} /> 
-					        }}/>
+					    <Route exact path="/experts" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
+					    <Route exact path="/mydiscussions" render={(props) => <AsyncMyDiscussions auth={auth} {...props} />} />
+					    <Route path="/expert" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
+					    <Route path="/requestConversation" render={(props) => <AsyncContact auth={auth} {...props} />} />
+					    <Route path="/newProfile" render={(props) => <AsyncNewProfile auth={auth} {...props} />} />
+					    <Route path="/editProfile" render={(props) => <AsyncEditProfile auth={auth} {...props} />} />
+					    <Route path="/availability" render={(props) => <AsyncAvailability auth={auth} {...props} />} />
+					    <Route path="/faq" render={(props) => <AsyncFAQ auth={auth} {...props} />} />
+					    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
+					    <Route path="/bookedtimes" render={(props) => <AsyncBookedTimes auth={auth} {...props} />} />
+					    <Route path="/profile" render={(props) => <AsyncProfile auth={auth} {...props} />} />
+					    <Route path="/callback" render={(props) => {
+				          handleAuthentication(props);
+				          return <Callback {...props} /> 
+				        }}/>
 					      <Route path="*" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
 					    </Switch>
-				    </div>
+					  </ScrollToTop>
+				  </div>
 				</div>
 			</Router>
 		);
