@@ -99,7 +99,7 @@ class Home extends React.Component {
                   }
                   <RaisedButton
                     containerElement={<Link to="/experts" />}
-                    label="Meet the Experts"
+                    label="Find Your Expert"
                     secondary
                     labelStyle={{ fontSize: '16px' }}
                     style={{
