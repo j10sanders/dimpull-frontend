@@ -98,6 +98,7 @@ class DP extends React.Component {
       linkedin: response.data.linkedin,
       medium: response.data.medium,
       twitter: response.data.twitter,
+      youtube: response.data.youtube,
       github: response.data.github,
       dp: response.data.id
     });
@@ -313,6 +314,7 @@ class DP extends React.Component {
             linkedin={this.state.linkedin}
             github={this.state.github}
             twitter={this.state.twitter}
+            youtube={this.state.youtube}
             medium={this.state.medium}
             reviews={this.state.reviewRender}
             averageRating={averageRating}

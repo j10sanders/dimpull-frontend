@@ -60,6 +60,7 @@ class EditProfile extends React.Component {
       open: false,
       linkedin: '',
       twitter: '',
+      youtube: '',
       github: '',
       medium: '',
       title: 'Looks great!  Make sure to set your availability too.',
@@ -127,6 +128,7 @@ class EditProfile extends React.Component {
         url: response.data.url ? response.data.url : '',
         linkedin: response.data.linkedin,
         twitter: response.data.twitter,
+        youtube: response.data.youtube,
         github: response.data.github,
         medium: response.data.medium,
         walletAddress: response.data.walletAddress ? response.data.walletAddress : '',
@@ -271,6 +273,7 @@ class EditProfile extends React.Component {
     const urls = {
       github: this.state.github,
       twitter: this.state.twitter,
+      youtube: this.state.youtube,
       linkedin: this.state.linkedin,
       medium: this.state.medium
     };
@@ -308,6 +311,7 @@ class EditProfile extends React.Component {
           linkedin: httpsUrls['linkedin'],
           medium: httpsUrls['medium'],
           twitter: httpsUrls['twitter'],
+          youtube: httpsUrls['youtube'],
           github: httpsUrls['github']
         }, { headers });
         if (posted.data === 'success') {
@@ -519,6 +523,13 @@ class EditProfile extends React.Component {
                             onChange={e => this.changeValue(e, 'twitter')}
                           />
                           <TextField
+                            floatingLabelText="YouTube URL"
+                            type="otherProfile"
+                            value={this.state.youtube}
+                            style={{ marginLeft: '2px', marginRight: '2px' }}
+                            onChange={e => this.changeValue(e, 'youtube')}
+                          />
+                          <TextField
                             floatingLabelText="Medium URL"
                             type="medium"
                             value={this.state.medium}
@@ -564,6 +575,7 @@ class EditProfile extends React.Component {
                   handleClose={() => this.handleClose()}
                   deleteProfile={() => this.deleteProfile()}
                   twitter={this.state.twitter}
+                  youtube={this.state.youtube}
                   github={this.state.github}
                   medium={this.state.medium}
                   linkedin={this.state.linkedin}

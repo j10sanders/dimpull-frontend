@@ -51,6 +51,7 @@ const ProfileCard = props => (
               {props.github && <IconButton iconClassName="fab fa-github" href={props.github} target="_blank" /> }
               {props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" href={props.linkedin} target="_blank" /> }
               {props.twitter && <IconButton iconClassName="fab fa-twitter" href={props.twitter} target="_blank" /> }
+              {props.youtube && <IconButton iconClassName="fab fa-youtube" href={props.youtube} target="_blank" /> }
               {props.medium && <IconButton iconClassName="fab fa-medium-m" href={props.medium} target="_blank" /> }
               {props.averageRating && props.averageRating}
             </CardActions>
