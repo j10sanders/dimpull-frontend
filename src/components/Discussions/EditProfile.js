@@ -192,7 +192,7 @@ class EditProfile extends React.Component {
         priceIsValid && validWallet && this.state.url.length !== 0) {
         this.setState({
           disabled: false,
-          title: 'Thanks!  We will review your profile, and let you know when we are ready to make it public.'
+          title: 'Looks great!  Make sure to set your availability too.'
         });
       } else if (this.state.disabled === false) {
         this.setState({
