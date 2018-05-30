@@ -9,11 +9,12 @@ import axios from 'axios';
 import history from '../../history';
 import NeedReview from './needReview';
 import ProfileCard from './ProfileCard';
+import { withRouter } from 'react-router'
 import './discussionprofile.css';
 
 const colors = ['FF9A57', '01B48F', 'D0D2D3', 'C879B2', '44C7F4'];
 
-class DiscussionProfile extends React.Component {
+class DP extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -323,4 +324,5 @@ class DiscussionProfile extends React.Component {
   }
 }
 
+const DiscussionProfile = withRouter(DP);
 export default DiscussionProfile;

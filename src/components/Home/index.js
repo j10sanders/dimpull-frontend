@@ -8,9 +8,10 @@ import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.min.css';
 import DefaultProfiles from './DefaultProfiles';
+import { withRouter } from 'react-router'
 import './landingpage.css';
 
-class Home extends React.Component {
+class H extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -200,7 +201,7 @@ class Home extends React.Component {
   }
 }
 
-Home.propTypes = {
+H.propTypes = {
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func,
     getAccessToken: PropTypes.func,
@@ -208,8 +209,9 @@ Home.propTypes = {
   })
 };
 
-Home.defaultProps = {
+H.defaultProps = {
   auth: PropTypes.object
 };
 
+const Home = withRouter(H);
 export default Home;
