@@ -11,10 +11,12 @@ import axios from 'axios';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
+import filter from 'lodash/filter';
 import CircularProgress from 'material-ui/CircularProgress';
 import TextField from 'material-ui/TextField';
 import { agreement } from '../utils/agreements'
 import history from '../history';
+
 
 const Markdown = require('react-remarkable');
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
@@ -152,15 +154,18 @@ class Calendar extends React.Component {
         star.setMinutes(split[1]);
         const newEnd = moment(star).add(30, 'm').toDate();
         let newEvent = {};
-        if (events.length === 0) {
-          newEvent = {id: 0, title: "Available", allDay: false, start: star, end: newEnd}
-        } else {
-          newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
+        const exists = filter(events, e => e["start"].getTime() === star.getTime()).length === 0;
+        if (exists) {
+          if (events.length === 0) {
+            newEvent = {id: 0, title: "Available", allDay: false, start: star, end: newEnd}
+          } else {
+            newEvent = {id: events[events.length - 1].id + 1, title: "Available", allDay: false, start: star, end: newEnd}
+          }
+          events.push(newEvent)
         }
-        events.push(newEvent)
       }
       this.setState({events: events, reminder: true})
-		}
+    }
 	}
 
   handleRequestClose = () => {
