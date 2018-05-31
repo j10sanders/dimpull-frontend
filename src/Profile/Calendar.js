@@ -14,6 +14,7 @@ import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
 import TextField from 'material-ui/TextField';
 import { agreement } from '../utils/agreements'
+import history from '../history';
 
 const Markdown = require('react-remarkable');
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
@@ -60,6 +61,10 @@ class Calendar extends React.Component {
   async fetchTimes () {
     const { getAccessToken } = this.props.auth;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    const expert = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
+    if (!expert.data.expert) {
+      history.push('/newProfile')
+    }
     const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/getmytimeslots`, {headers})
     if (response.data === 'terms') {
       this.setState({ tc: true, waiting: false })
@@ -284,7 +289,7 @@ class Calendar extends React.Component {
         onClick={() => this.accept()}
       />,
     ];
-    
+
     return (
       <div id="calendarDiv">
       {this.state.waiting ? <CircularProgress />
