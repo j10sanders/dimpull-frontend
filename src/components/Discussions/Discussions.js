@@ -5,7 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import CircularProgress from 'material-ui/CircularProgress';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
-import ReactStars from 'react-stars';
+// import ReactStars from 'react-stars';
 import { darkBlack } from 'material-ui/styles/colors';
 import './discussionprofile.css';
 
@@ -35,6 +35,19 @@ class Discussions extends React.Component {
     }
     this.setState({ waiting: false });
   }
+
+  // {dp.averageRating && (
+  //                       <div >
+  //                         <ReactStars
+  //                           count={5}
+  //                           size={24}
+  //                           color2="#ffd700"
+  //                           value={dp.averageRating}
+  //                           half
+  //                           edit={false}
+  //                         />
+  //                       </div>
+  //                     )}
 
   render () {
     const waiting = this.state.waiting ? 'inherit' : 'none';
@@ -68,18 +81,7 @@ class Discussions extends React.Component {
                       <div style={{ paddingBottom: '5px', textAlign: 'center' }}>
                         ${Number(dp.price).toFixed(0)}
                       </div>
-                      {dp.averageRating && (
-                        <div >
-                          <ReactStars
-                            count={5}
-                            size={24}
-                            color2="#ffd700"
-                            value={dp.averageRating}
-                            half
-                            edit={false}
-                          />
-                        </div>
-                      )}
+                      
                       {dp.timeslots !== 0
                         ? <div style={{ paddingTop: '10px', fontWeight: 'bold', textAlign: 'center'}}>{`Book Now`}</div>
                         : <div style={{ paddingTop: '10px' }}>Request Times?</div>
