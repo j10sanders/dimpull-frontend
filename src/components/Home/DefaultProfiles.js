@@ -1,6 +1,7 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import history from '../../history';
 
 export default function DefaultProfiles () {
   const dps = [
@@ -23,6 +24,7 @@ export default function DefaultProfiles () {
       id: 4, url: 'zb', first_name: 'Zach', last_name: 'Burks', description: 'CTO Harvest.Networks, Dapp Developer, full-time trader', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_595/v1524000202/experts/ndq8b8oyjeuwd7sbd58k.jpg'
     }
   ];
+
   return (
     <GridList
       id="GridlistID"
@@ -31,15 +33,15 @@ export default function DefaultProfiles () {
       cellHeight={220}
     >
       {dps.map(dp => (
-        <Link to={`/expert/${dp.url}`} key={dp.url}>
-          <GridTile
-            key={dp.id}
-            title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
-            subtitle={dp.description}
-          >
-            <img src={dp.image} alt={dp.id} />
-          </GridTile>
-        </Link>
+        <GridTile
+          onClick={() => history.push({ pathname: `/${dp.url}` })}
+          key={dp.id}
+          title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
+          subtitle={dp.description}
+          style={{ cursor: 'pointer' }}
+        >
+          <img src={dp.image} alt={dp.id} />
+        </GridTile>
       ))}
     </GridList>
   );

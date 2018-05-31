@@ -19,7 +19,7 @@
 }
 
 @media (max-width: 1060px){ 
-	#pic {
+	#leftcol {
     /*max-width: 80vw;*/
     margin: auto;
   }
@@ -36,7 +36,7 @@
 }
 
 @media (min-width: 1060px){ 
-	#pic {
+	#leftcol {
     max-width: 30vw;
     margin-left: 10%;
   }
@@ -86,7 +86,7 @@
   padding-bottom: 30px;
 }
 
-#pic {
+#leftcol {
   padding-top: 30px;
   width: fit-content;
 }
@@ -126,4 +126,13 @@
 #timer{
   padding-top: 15px;
   float: left;
+}
+
+#pic {
+  width: fit-content;
+  margin: auto;
+}
+
+.hi{
+  cursor: pointer;
 }

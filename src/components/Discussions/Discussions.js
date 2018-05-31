@@ -62,10 +62,9 @@ class Discussions extends React.Component {
             {this.state.dps.map(dp => (
               <Paper style={{ marginBottom: '12px', marginRight: '4px', marginLeft: '4px' }} key={dp.id} >
                 <ListItem
-
                   leftAvatar={<Avatar src={dp.image.replace('h_595', 'h_100')} style={{ border: 0, objectFit: 'cover' }} />}
                   key={dp.id}
-                  containerElement={<Link to={`/expert/${dp.url}`} key={dp.url} />}
+                  containerElement={<Link to={`/${dp.url}`} key={dp.url} />}
                   primaryText={`${dp.first_name} ${dp.last_name}`}
                   secondaryText={
                     <p style={{ lineHeight: '18px' }}><span style={{ color: darkBlack }}>{dp.description} </span><br />{dp.who}</p>

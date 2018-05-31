@@ -16,47 +16,48 @@ import './discussionprofile.css';
 
 const Markdown = require('react-remarkable');
 
-
 const ProfileCard = props => (
   <div className="container">
     <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
-      <div className="col-md-6" id="pic">
-        {props.host && (
-          <Card>
-            <CardMedia
-              overlay={<CardTitle title={props.host} subtitle={props.description} />}
-            >
-              <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
-                {props.image && (
-                  <img src={props.image} alt={props.image} style={{ maxWidth: '100%', maxHeight: '500px' }} />
-                )}
-              </div>
-            </CardMedia>
-            <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
-              {props.is_users && (
-                <div>
-                  <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${props.name}`} />} />
-                  <FlatButton label="Delete Profile" onClick={() => props.handleOpen()} containerElement="Hi" />
-                  <Dialog
-                    title="Delete Discussion Profile"
-                    actions={props.actions}
-                    modal={false}
-                    open={props.open}
-                    onRequestClose={() => props.handleClose()}
-                  >
-                   Are you sure you want to delete this discussion profile?
-                  </Dialog>
+      <div className="col-md-6" id="leftcol">
+        <div id="pic">
+          {props.host && (
+            <Card>
+              <CardMedia
+                overlay={<CardTitle title={props.host} subtitle={props.description} />}
+              >
+                <div id="holdImage" style={{ maxWidth: 'inherit', minWidth: 'inherit' }}>
+                  {props.image && (
+                    <img src={props.image} alt={props.image} style={{ maxWidth: '100%', maxHeight: '500px' }} />
+                  )}
                 </div>
-              )}
-              {props.github && <IconButton iconClassName="fab fa-github" href={props.github} target="_blank" /> }
-              {props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" href={props.linkedin} target="_blank" /> }
-              {props.twitter && <IconButton iconClassName="fab fa-twitter" href={props.twitter} target="_blank" /> }
-              {props.youtube && <IconButton iconClassName="fab fa-youtube" href={props.youtube} target="_blank" /> }
-              {props.medium && <IconButton iconClassName="fab fa-medium-m" href={props.medium} target="_blank" /> }
-              {props.averageRating && props.averageRating}
-            </CardActions>
-          </Card>
-        )}
+              </CardMedia>
+              <CardActions style={{ padding: '0px', marginRight: '-9px', marginTop: '6px' }} >
+                {props.is_users && (
+                  <div>
+                    <FlatButton label="Edit Profile" containerElement={<Link to={`/editProfile/${props.name}`} />} />
+                    <FlatButton label="Delete Profile" onClick={() => props.handleOpen()} containerElement="Hi" />
+                    <Dialog
+                      title="Delete Discussion Profile"
+                      actions={props.actions}
+                      modal={false}
+                      open={props.open}
+                      onRequestClose={() => props.handleClose()}
+                    >
+                     Are you sure you want to delete this discussion profile?
+                    </Dialog>
+                  </div>
+                )}
+                {props.github && <IconButton iconClassName="fab fa-github" href={props.github} target="_blank" /> }
+                {props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" href={props.linkedin} target="_blank" /> }
+                {props.twitter && <IconButton iconClassName="fab fa-twitter" href={props.twitter} target="_blank" /> }
+                {props.youtube && <IconButton iconClassName="fab fa-youtube" href={props.youtube} target="_blank" /> }
+                {props.medium && <IconButton iconClassName="fab fa-medium-m" href={props.medium} target="_blank" /> }
+                {props.averageRating && props.averageRating}
+              </CardActions>
+            </Card>
+          )}
+          </div>
         {props.reviews &&
           <div id="reviews">
             <h1> Reviews </h1>
