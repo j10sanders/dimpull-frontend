@@ -181,7 +181,7 @@ class Header extends Component {
                 ? <FlatButton
                   label={<img
                     src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
-                    style={{ width: '40px', height: 'auto', cursor: 'pointer', marginTop: '-8px', marginBottom: '-6px'}}
+                    style={{ width: '40px', height: 'auto', cursor: 'pointer', marginTop: '-6px', marginBottom: '-6px'}}
                     alt="logo"
                   />}
                   id="home"
