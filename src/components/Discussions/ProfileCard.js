@@ -48,11 +48,11 @@ const ProfileCard = props => (
                     </Dialog>
                   </div>
                 )}
-                {props.github && <IconButton iconClassName="fab fa-github" href={props.github} target="_blank" /> }
-                {props.linkedin && <IconButton iconClassName="fab fa-linkedin-in" href={props.linkedin} target="_blank" /> }
-                {props.twitter && <IconButton iconClassName="fab fa-twitter" href={props.twitter} target="_blank" /> }
-                {props.youtube && <IconButton iconClassName="fab fa-youtube" href={props.youtube} target="_blank" /> }
-                {props.medium && <IconButton iconClassName="fab fa-medium-m" href={props.medium} target="_blank" /> }
+                {props.github && <a href={props.github} target="_blank"><IconButton className="fab fa-github" /></a> }
+                {props.linkedin && <a href={props.linkedin} target="_blank"><IconButton className="fab fa-linkedin-in" /></a>}
+                {props.twitter && <a href={props.twitter} target="_blank"><IconButton className="fab fa-twitter" /></a>}
+                {props.youtube && <a href={props.youtube} target="_blank"><IconButton className="fab fa-youtube" /></a>}
+                {props.medium && <a href={props.medium} target="_blank" ><IconButton className="fab fa-medium-m" /></a> }
                 {props.averageRating && props.averageRating}
               </CardActions>
             </Card>

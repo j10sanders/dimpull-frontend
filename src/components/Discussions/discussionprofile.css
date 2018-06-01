@@ -145,3 +145,7 @@
 .hi{
   cursor: pointer;
 }
+
+.fa-twitter, .fa-youtube, .fa-github, .fa-linkedin-in, .fa-medium-m{
+  color: black;
+}
