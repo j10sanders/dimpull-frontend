@@ -1,6 +1,6 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
+// import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import { Card, CardActions, CardMedia, CardTitle } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -8,10 +8,12 @@ import { Link } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import { List } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
+import 'react-awesome-button/dist/themes/theme-blue.css';
 import './discussionprofile.css';
 
 const Markdown = require('react-remarkable');
@@ -100,6 +102,7 @@ const ProfileCard = props => (
               )}
             </div>
             <div>
+            
               <Divider style={{ marginBottom: '6px' }} />
               {props.title && (
                 <div>
@@ -108,33 +111,8 @@ const ProfileCard = props => (
               )}
               {(!props.edit && !props.is_users) && (
                 <div>
-                  <RaisedButton
-                    style={{ lineHeight: '56px', height: '56px', boxShadow: 'rgba(0, 0, 0, 1) 0px 3px 10px, rgba(0, 0, 0, 0.12) 0px 2px 1px' }}
-                    labelStyle={{ fontSize: '20px' }}
-                    fullWidth
-                    primary
-                    label="Schedule a Call"
-                    // onClick={() => props.getEmail()}
-                    onClick={() => props.schedule()}
-                    // TODO: add a conditional container element, if props.vip
-                  />
-                  <Dialog
-                    title="We aren't ready just yet!"
-                    actions={props.ok}
-                    modal={false}
-                    open={props.emailOpen}
-                    onRequestClose={() => props.emailClose()}
-                  >
-                    {props.host} will be accepting calls on May 24th.
-                    To be notified when the platform is ready, please enter your email below.  We promise no spam!
-                    <TextField
-                      floatingLabelText="Your email"
-                      type="email"
-                      value={props.email}
-                      fullWidth
-                      onChange={e => props.changeEmail(e)}
-                    />
-                  </Dialog>
+                  <AwesomeButton type="primary" style={{width: '100%', fontSize: '20px' }} action={() => props.schedule()}>Schedule a Call</AwesomeButton>
+
                 </div>
               )}
             </div>

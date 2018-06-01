@@ -2,12 +2,16 @@ import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
 import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
+// import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
+import 'react-awesome-button/dist/themes/theme-blue.css';
 import DefaultProfiles from './DefaultProfiles';
+import history from '../../history';
 import './landingpage.css';
 
 class H extends React.Component {
@@ -54,59 +58,45 @@ class H extends React.Component {
   }
 
   render () {
-    let link = <Link to="/newProfile" />;
+    // let link = <Link to="/newProfile" />;
+    let link = () => history.push('/newProfile');
     let label = 'Become a Dimpull Expert';
     const style = {
-      marginTop: '30px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
+      fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
     };
     if (this.state.isAuthenticated && this.state.expert) {
-      link = <Link to="/profile" />;
+      link = () => history.push('/profile');
       label = 'Edit Your Profile';
     }
     return (
       <div style={{ textAlign: 'center' }}>
-        
         <div>
           <section id="headerTop">
-
             <div className="row" id="headerRow">
-
               <div className="col-sm-6">
-
                 <div id="head">
                   <h1 id="exchange">Talk Before You Trade</h1>
                   <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
                   <h3 id="h3exchange" className="secondH3">Experts are available now - use Ethereum to book your call</h3>
-
                   {!this.state.isAuthenticated ? (
-                    <RaisedButton
-                      onClick={() => this.props.auth.login('/newProfile')}
-                      label="Become a Dimpull Expert"
-                      primary
-                      labelStyle={{ fontSize: '16px' }}
-                      style={{
-                        marginTop: '30px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
-                      }}
-                    />
-                  ) :
-                    <RaisedButton
-                      containerElement={link}
-                      label={label}
-                      primary
-                      labelStyle={{ fontSize: '16px' }}
+                    <AwesomeButton
+                      type="primary"
+                      action={link}
                       style={style}
-                    />
+                    >
+                      {label}
+                    </AwesomeButton>
+                  ) :
+                    <AwesomeButton
+                      type="primary"
+                      action={link}
+                      style={style}
+                    >
+                      {label}
+                    </AwesomeButton>
                   }
                   <div id='findAbove'>
-                  <RaisedButton
-                    containerElement={<Link to="/experts" />}
-                    label="Find Your Expert"
-                    secondary
-                    labelStyle={{ fontSize: '16px' }}
-                    style={{
-                      marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left'
-                    }}
-                  />
+                    <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left' }} >Find Your Expert</AwesomeButton>
                   </div>
                 </div>
               </div>
@@ -130,15 +120,13 @@ class H extends React.Component {
                       </Link>
                     ))}
                   </GridList>
-                ) : <div><DefaultProfiles /> <div id='findBelow'><RaisedButton
-                    containerElement={<Link to="/experts" />}
-                    label="Find Your Expert"
-                    secondary
-                    labelStyle={{ fontSize: '16px' }}
-                    style={{
-                      marginTop: '220px', height: 'auto', lineHeight: '50px', minWidth: '190px', width: '10%'
-                    }}
-                  /></div></div>
+                ) :
+                  <div>
+                    <DefaultProfiles />
+                    <div id='findBelow'>
+                      <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '225px', height: 'auto', lineHeight: '50px', minWidth: '190px', width: '10%' }} >Find Your Expert</AwesomeButton>
+                    </div>
+                  </div>
                 }
               </div>
 
@@ -183,24 +171,10 @@ class H extends React.Component {
                 so you can start connecting with crypto enthusiasts.
               </p>
               {!this.state.isAuthenticated && (
-                <RaisedButton
-                  onClick={() => this.props.auth.login('/newProfile')}
-                  label="Become a Dimpull Expert"
-                  secondary
-                  style={{
-                    marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
-                  }}
-                />
+                <AwesomeButton type="reddit" action={() => this.props.auth.login('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
               )}
               {this.state.isAuthenticated && (
-                <RaisedButton
-                  containerElement={<Link to="/newProfile"  />}
-                  label="Become a Dimpull Expert"
-                  secondary
-                  style={{
-                    marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px'
-                  }}
-                />
+                <AwesomeButton type="reddit" action={() => history.push('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
               )}
             </div>
           )}
