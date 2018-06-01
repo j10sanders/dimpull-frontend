@@ -333,9 +333,9 @@ class EditProfile extends React.Component {
   handleClose () {
     this.setState({ open: false });
     if (this.state.disabled) {
-      history.push('/calendar');
-    } else {
       history.push('/home');
+    } else {
+      history.push('/calendar');
     }
   }
 
