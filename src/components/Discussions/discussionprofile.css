@@ -149,3 +149,19 @@
 .fa-twitter, .fa-youtube, .fa-github, .fa-linkedin-in, .fa-medium-m{
   color: black;
 }
+
+.fa-twitter:hover{
+  color: #55acee;
+}
+
+.fa-youtube:hover{
+  color: #ff0000;
+}
+
+.fa-linkedin-in:hover{
+  color: #007bb5;
+}
+
+.fa-github:hover, .fa-medium-m:hover{
+  color: #606060;
+}
