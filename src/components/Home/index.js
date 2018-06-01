@@ -75,8 +75,8 @@ class H extends React.Component {
 
                 <div id="head">
                   <h1 id="exchange">Talk Before You Trade</h1>
-                  <h3 id="h3exchange">Looking for advice about BTC, BCH, ETH, or LTC?  Or anything blockchain related?</h3>
-                  <h3 id="h3exchange" className="secondH3">Use Ethereum to book your call</h3>
+                  <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
+                  <h3 id="h3exchange" className="secondH3">Experts are available now - use Ethereum to book your call</h3>
 
                   {!this.state.isAuthenticated ? (
                     <RaisedButton
@@ -97,6 +97,7 @@ class H extends React.Component {
                       style={style}
                     />
                   }
+                  <div id='findAbove'>
                   <RaisedButton
                     containerElement={<Link to="/experts" />}
                     label="Find Your Expert"
@@ -106,6 +107,7 @@ class H extends React.Component {
                       marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left'
                     }}
                   />
+                  </div>
                 </div>
               </div>
               <div className="col-sm-6" id="colGrid">
@@ -128,7 +130,15 @@ class H extends React.Component {
                       </Link>
                     ))}
                   </GridList>
-                ) : <DefaultProfiles />
+                ) : <div><DefaultProfiles /> <div id='findBelow'><RaisedButton
+                    containerElement={<Link to="/experts" />}
+                    label="Find Your Expert"
+                    secondary
+                    labelStyle={{ fontSize: '16px' }}
+                    style={{
+                      marginTop: '220px', height: 'auto', lineHeight: '50px', minWidth: '190px', width: '10%'
+                    }}
+                  /></div></div>
                 }
               </div>
 
