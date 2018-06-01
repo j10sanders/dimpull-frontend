@@ -16,7 +16,6 @@ const AsyncCalendar = asyncComponent(() => import("../Profile/Calendar"));
 // const AsyncPay = asyncComponent(() => import("../components/Discussions/Pay"));
 const AsyncDiscussionProfile = asyncComponent(() => import("../components/Discussions/DiscussionProfile"));
 const AsyncContact = asyncComponent(() => import("../components/Discussions/Contact"));
-const AsyncMyDiscussions = asyncComponent(() => import("../components/Discussions/MyDiscussions"));
 const AsyncDiscussions = asyncComponent(() => import("../components/Discussions/Discussions"));
 const AsyncLoginPage = asyncComponent(() => import("../LoginPage/LoginPage"));
 const AsyncGetNumber = asyncComponent(() => import("../LoginPage/GetNumber"));
@@ -47,7 +46,6 @@ const Routes = () => (
 					<Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
 					<Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
 			    <Route exact path="/experts" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
-			    <Route exact path="/mydiscussions" render={(props) => <AsyncMyDiscussions auth={auth} {...props} />} />
 			    <Route path="/expert" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
 			    <Route path="/requestConversation" render={(props) => <AsyncContact auth={auth} {...props} />} />
 			    <Route path="/newProfile" render={(props) => <AsyncNewProfile auth={auth} {...props} />} />
