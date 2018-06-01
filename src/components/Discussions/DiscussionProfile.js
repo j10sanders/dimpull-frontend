@@ -23,7 +23,8 @@ class DP extends React.Component {
       email: '',
       emailOpen: false,
       waiting: true,
-      vip: false
+      vip: false,
+      wrongVip: false
     };
   }
 
@@ -55,6 +56,9 @@ class DP extends React.Component {
       );
       if (vipCheck.data === 'confirmed') {
         this.setState({ vip: true, vipid: vip });
+      }
+      else {
+        this.setState({ wrongVip: true })
       }
     }
     
@@ -271,6 +275,16 @@ class DP extends React.Component {
 
     return (
       <div style={{ paddingBottom: '10px' }}>
+        {this.state.vip && (
+          <div id="referralAccepted">
+            VIP code accepted.  You can schedule a free call.
+          </div>
+        )}
+        {this.state.wrongVip && (
+          <div id="referralWrong">
+            {`VIP code is incorrect.  Recheck with ${this.state.host} to be sure you have the right link`}
+          </div>
+        )}
         {this.state.thanks && (
           <h2>Thanks for your review!</h2>
         )}
