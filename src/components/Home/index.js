@@ -37,11 +37,11 @@ class H extends React.Component {
   }
 
   timeoutCheckExpert () {
-    if (!this.state.expert) {
-      window.setTimeout(() => {
+    window.setTimeout(() => {
+      if (!this.state.expert) {
         this.checkExpert();
-      }, 2000);
-    }
+      }
+    }, 2000);
   }
 
   async checkExpert () {
@@ -58,7 +58,6 @@ class H extends React.Component {
   }
 
   render () {
-    // let link = <Link to="/newProfile" />;
     let link = () => history.push('/newProfile');
     let label = 'Become a Dimpull Expert';
     const style = {
@@ -132,7 +131,7 @@ class H extends React.Component {
 
             </div>
           </section>
-          <div style={{ backgroundColor: '#f7f7f7', marginTop: '100px', marginBottom: this.state.expert ? '0px' : '100px' }}>
+          <div style={{ backgroundColor: '#f7f7f7', marginTop: '100px', marginBottom: '100px' }}>
             <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
             <Paper id="help" zDepth={1}>
               <h2 id="howItWorks"> HOW IT WORKS </h2>
@@ -162,22 +161,29 @@ class H extends React.Component {
               </div>
               <div style={{ fontSize: '19px', paddingTop: '12px' }} ><Link to="/faq">See the Full FAQs</Link></div>
             </Paper>
-            <Divider style={{ marginTop: '30px', marginBottom: this.state.expert ? '0px' : '30px' }} />
+            <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
           </div>
-          {!this.state.expert && (
+          {this.state.expert ? (
             <div>
-              <h2 style={{ marginBottom: '20px' }}> Are You an Expert? </h2>
-              <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
-                so you can start connecting with crypto enthusiasts.
+              <h2 style={{ marginBottom: '20px' }}> How to get more calls: </h2>
+              <p id="pRegister"> Share your profile link on your homepage, LinkedIn, and Twitter.  Find more tips in your profile settings page:
               </p>
-              {!this.state.isAuthenticated && (
-                <AwesomeButton type="reddit" action={() => this.props.auth.login('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
-              )}
-              {this.state.isAuthenticated && (
-                <AwesomeButton type="reddit" action={() => history.push('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
-              )}
-            </div>
-          )}
+              <AwesomeButton type="primary" action={() => history.push('/profile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Settings</AwesomeButton>
+            </div>)
+            : (
+              <div>
+                <h2 style={{ marginBottom: '20px' }}> Are You an Expert? </h2>
+                <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
+                  so you can start connecting with crypto enthusiasts.
+                </p>
+                {!this.state.isAuthenticated && (
+                  <AwesomeButton type="reddit" action={() => this.props.auth.login('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
+                )}
+                {this.state.isAuthenticated && (
+                  <AwesomeButton type="reddit" action={() => history.push('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
+                )}
+              </div>
+            )}
         </div>
       </div>
     );

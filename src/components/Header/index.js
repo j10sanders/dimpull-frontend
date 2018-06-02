@@ -86,11 +86,11 @@ class Header extends Component {
   }
 
   timeOutPic () {
-    if (!this.state.picture) {
-      window.setTimeout(() => {
+    window.setTimeout(() => {
+      if (!this.state.picture) {
         this.getProfile();
-      }, 2000);
-    }
+      }
+    }, 2000);
   }
 
   handleClickOutside () {
@@ -146,7 +146,6 @@ class Header extends Component {
     return (
       <MuiThemeProvider theme={theme}>
       <header>
-
         <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
           <div
             tabIndex={0}
