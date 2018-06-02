@@ -53,24 +53,27 @@ class Header extends Component {
   }
 
   getProfile () {
-    const { isAuthenticated } = this.props.auth;
-    if (isAuthenticated()) {
-      this.setState({ isAuthenticated: true }, () => {
-        const { userProfile, getProfile } = this.props.auth;
-        if (!userProfile) {
-          getProfile((err, profile) => {
-            if (profile) {
-              this.setState({ picture: profile.picture });
-            } else {
-              this.getPicFromServer();
-            }
-          });
-        } else {
-          this.setState({ picture: userProfile.picture });
-        }
-      });
-    } else {
-      this.setState({ picture: null, isAuthenticated: false });
+    console.log("GET")
+    if (!this.state.picture) {
+      const { isAuthenticated } = this.props.auth;
+      if (isAuthenticated()) {
+        this.setState({ isAuthenticated: true }, () => {
+          const { userProfile, getProfile } = this.props.auth;
+          if (!userProfile) {
+            getProfile((err, profile) => {
+              if (profile) {
+                this.setState({ picture: profile.picture });
+              } else {
+                this.getPicFromServer();
+              }
+            });
+          } else {
+            this.setState({ picture: userProfile.picture });
+          }
+        });
+      } else {
+        this.setState({ picture: null, isAuthenticated: false });
+      }
     }
   }
 
@@ -87,9 +90,7 @@ class Header extends Component {
 
   timeOutPic () {
     window.setTimeout(() => {
-      if (!this.state.picture) {
-        this.getProfile();
-      }
+      this.getProfile();
     }, 2000);
   }
 
