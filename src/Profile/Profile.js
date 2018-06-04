@@ -8,6 +8,9 @@ import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
+import 'react-awesome-button/dist/themes/theme-blue.css';
 import history from './../history';
 import './Profile.css';
 
@@ -77,12 +80,7 @@ class Profile extends React.Component {
       return (
         <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >
           <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
-          <RaisedButton
-            containerElement={<Link to="/newProfile" />}
-            label="Become a Dimpull Expert"
-            secondary
-            style={{ marginTop: '20px', marginBottom: '20px' }}
-          />
+          <AwesomeButton type="reddit" action={() => this.props.auth.login('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
         </div>
       );
     }

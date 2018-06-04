@@ -1,6 +1,5 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import SelectField from 'material-ui/SelectField';
@@ -11,6 +10,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PropTypes from 'prop-types';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
+import 'react-awesome-button/dist/themes/theme-blue.css';
 import menuTimeZones from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';
@@ -543,18 +545,9 @@ class EditProfile extends React.Component {
                           />
                           <br />
                           {this.state.disabled && (
-                            <RaisedButton
-                              style={{ marginTop: 50, marginRight: '4px' }}
-                              label="Not done?  Save for your edits for later"
-                              onClick={() => this.submit('save')}
-                            />
+                            <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginTop: '50px' }}>Save your edits for later</AwesomeButton>
                           )}
-                          <RaisedButton
-                            disabled={this.state.disabled}
-                            style={{ marginTop: 50 }}
-                            label="Save"
-                            onClick={e => this.submit(e)}
-                          />
+                          <AwesomeButton type="primary" action={(e) => this.submit(e)} style={{ marginLeft: '2px', marginTop: '50px' }} disabled={this.state.disabled}>Save full profile</AwesomeButton>
                         </div>
                       </div>
                     </Paper>
@@ -588,12 +581,7 @@ class EditProfile extends React.Component {
                 />
                 {this.state.disabled && (
                   <div style={{ paddingLeft: '15px' }} id="saveForLater">
-                    <RaisedButton
-                      style={{ marginLeft: '10%', marginTop: '30px' }}
-                      label="Haven't finished?  Save your edits for later"
-                      onClick={() => this.submit('save')}
-                      primary
-                    />
+                  <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginLeft: '10%', marginTop: '30px' }}>Haven't finished?  Save your edits for later</AwesomeButton>
                   </div>
                 )}
               </div>

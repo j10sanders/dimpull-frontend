@@ -1,11 +1,13 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 import CircularProgress from 'material-ui/CircularProgress';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
+import 'react-awesome-button/dist/themes/theme-blue.css';
 import history from '../../history';
 import './discussionprofile.css';
 
@@ -373,13 +375,7 @@ class newProfile extends React.Component {
                     // value={this.state.tel}
                   />
                 </div>
-                <RaisedButton
-                  disabled={this.state.disabled}
-                  style={{ marginTop: 50 }}
-                  label="Continue"
-                  backgroundColor="#00ff95"
-                  onClick={e => this.submit(e)}
-                />
+                <AwesomeButton type="primary" action={e => this.submit(e)} style={{ marginLeft: '2px', marginTop: '50px' }} disabled={this.state.disabled}>Continue</AwesomeButton>
               </div>
             </Paper>
           </div>
