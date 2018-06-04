@@ -35,7 +35,7 @@ class Discussions extends React.Component {
     this.setState({ waiting: false });
   }
 
-  // {dp.averageRating && (
+  // {dp.averageRating && (   // TODO add when more reviews come in.
   //                       <div >
   //                         <ReactStars
   //                           count={5}

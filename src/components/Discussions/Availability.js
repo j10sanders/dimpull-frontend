@@ -15,7 +15,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import history from '../../history';
-import '../../Profile/calendar.css'
+import '../Profile/calendar.css'
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)

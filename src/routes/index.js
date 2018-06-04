@@ -12,15 +12,15 @@ const AsyncNewProfile = asyncComponent(() => import("../components/Discussions/N
 const AsyncEditProfile = asyncComponent(() => import("../components/Discussions/EditProfile"));
 const AsyncAvailability = asyncComponent(() => import("../components/Discussions/Availability"));
 const AsyncFAQ = asyncComponent(() => import("../components/FAQ/faq"));
-const AsyncCalendar = asyncComponent(() => import("../Profile/Calendar"));
+const AsyncCalendar = asyncComponent(() => import("../components/Profile/Calendar"));
 // const AsyncPay = asyncComponent(() => import("../components/Discussions/Pay"));
 const AsyncDiscussionProfile = asyncComponent(() => import("../components/Discussions/DiscussionProfile"));
 const AsyncContact = asyncComponent(() => import("../components/Discussions/Contact"));
 const AsyncDiscussions = asyncComponent(() => import("../components/Discussions/Discussions"));
 const AsyncLoginPage = asyncComponent(() => import("../LoginPage/LoginPage"));
 const AsyncGetNumber = asyncComponent(() => import("../LoginPage/GetNumber"));
-const AsyncProfile = asyncComponent(() => import("../Profile/Profile"));
-const AsyncBookedTimes = asyncComponent(() => import("../Profile/BookedTimes"));
+const AsyncProfile = asyncComponent(() => import("../components/Profile"));
+const AsyncBookedTimes = asyncComponent(() => import("../components/Profile/BookedTimes"));
 
 const handleAuthentication = ({location}) => {
   if (/access_token|id_token|error/.test(location.hash)) {

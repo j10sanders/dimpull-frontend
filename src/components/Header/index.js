@@ -173,7 +173,6 @@ class Header extends Component {
               alt="logo"
             />}
           onTitleClick={() => history.push('/')}
-          // onLeftIconButtonClick={this.toggleDrawer('left', true)}
           iconElementLeft={<Button onClick={this.toggleDrawer('left', true)} style={{color: 'white', marginTop: '4px'}}><MenuIcon style={{color: 'white'}} /></Button>}
           iconElementRight={
             <Link to={'/profile'} style={{ marginTop: '-12px', marginBottom: '-6px'}}>

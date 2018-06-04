@@ -14,9 +14,8 @@ import Snackbar from 'material-ui/Snackbar';
 import filter from 'lodash/filter';
 import CircularProgress from 'material-ui/CircularProgress';
 import TextField from 'material-ui/TextField';
-import { agreement } from '../utils/agreements'
-import history from '../history';
-
+import { agreement } from '../../utils/agreements'
+import history from '../../history';
 
 const Markdown = require('react-remarkable');
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
@@ -358,18 +357,18 @@ class Calendar extends React.Component {
               onRequestClose={this.handleCloseTC}
               autoScrollBodyContent={true}
             >
-              <Markdown>{agreement}
-
-</Markdown>
-<TextField
-  floatingLabelText="Initials"
-  type="initials"
-  value={this.state.initials}
-  errorText={this.state.initialsErrorText}
-  onChange={e => this.changeValue(e, 'initials')}
-/> </Dialog>
+              <Markdown>
+                {agreement}
+              </Markdown>
+              <TextField
+                floatingLabelText="Initials"
+                type="initials"
+                value={this.state.initials}
+                errorText={this.state.initialsErrorText}
+                onChange={e => this.changeValue(e, 'initials')}
+              /> 
+            </Dialog>
           }
-
           </div>
         )
       }

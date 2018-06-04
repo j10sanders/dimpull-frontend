@@ -2,7 +2,6 @@ import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
 import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
-// import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
