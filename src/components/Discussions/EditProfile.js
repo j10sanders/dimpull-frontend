@@ -258,8 +258,8 @@ class EditProfile extends React.Component {
   }
 
   async submit (e) {
-    if (e === 'save'){
-      this.setState({ title: "We saved your work."});
+    if (e === 'save') {
+      this.setState({ title: 'We saved your work.' });
     } else {
       this.setState({ submitFull: true });
     }
@@ -292,7 +292,7 @@ class EditProfile extends React.Component {
       return httpsUrls;
     });
 
-    let pathname = this.props.location.pathname
+    let pathname = this.props.location.pathname;
     pathname = pathname.endsWith('editProfile') ? `${pathname}/${this.state.url}` : pathname;
     const urlvalid = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/urlcheck/${this.state.url}`, { headers });
     if (urlvalid.data === 'available') {
@@ -427,7 +427,6 @@ class EditProfile extends React.Component {
                           </div>
                         )}
                       </div>
-
                       <div className="text-center">
                         <div className="col-md-12">
                           <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
@@ -545,7 +544,7 @@ class EditProfile extends React.Component {
                           {this.state.disabled && (
                             <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginTop: '50px' }}>Save your edits for later</AwesomeButton>
                           )}
-                          <AwesomeButton type="primary" action={(e) => this.submit(e)} style={{ marginLeft: '2px', marginTop: '50px' }} disabled={this.state.disabled}>Save full profile</AwesomeButton>
+                          <AwesomeButton type="primary" action={e => this.submit(e)} style={{ marginLeft: '2px', marginTop: '50px' }} disabled={this.state.disabled}>Save full profile</AwesomeButton>
                         </div>
                       </div>
                     </Paper>
@@ -579,11 +578,10 @@ class EditProfile extends React.Component {
                 />
                 {this.state.disabled && (
                   <div style={{ paddingLeft: '15px' }} id="saveForLater">
-                  <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginLeft: '10%', marginTop: '30px' }}>Haven't finished?  Save your edits for later</AwesomeButton>
+                    <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginLeft: '10%', marginTop: '30px' }}>Haven't finished?  Save your edits for later</AwesomeButton>
                   </div>
                 )}
-              </div>
-              
+              </div>        
             </div>
           </div>
           <Dialog
@@ -592,8 +590,7 @@ class EditProfile extends React.Component {
             modal={false}
             open={this.state.open}
             onRequestClose={() => this.handleClose.bind(this)}
-          >
-          </Dialog>
+          />
         </div>
       );
     }
@@ -605,17 +602,19 @@ class EditProfile extends React.Component {
         modal={false}
         open={this.state.tc}
         onRequestClose={this.handleCloseTC}
-        autoScrollBodyContent={true}
+        autoScrollBodyContent
       >
-        <Markdown>{expertAgreement}
-</Markdown> 
-<TextField
-  floatingLabelText="Initials"
-  type="initials"
-  value={this.state.initials}
-  errorText={this.state.initialsErrorText}
-  onChange={e => this.changeValue(e, 'initials')}
-/></Dialog>
+        <Markdown>
+          {expertAgreement}
+        </Markdown>
+        <TextField
+          floatingLabelText="Initials"
+          type="initials"
+          value={this.state.initials}
+          errorText={this.state.initialsErrorText}
+          onChange={e => this.changeValue(e, 'initials')}
+        />
+      </Dialog>
     );
   }
 }

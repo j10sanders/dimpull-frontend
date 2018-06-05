@@ -1,11 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import CircularProgress from 'material-ui/CircularProgress';
-import Options from './Options'
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/styles.css';
 import 'react-awesome-button/dist/themes/theme-blue.css';
 import history from '../../history';
+import Options from './Options';
 
 class Profile extends React.Component {
   constructor (props) {
@@ -65,22 +65,51 @@ class Profile extends React.Component {
 
   render () {
     if (this.state.waiting) {
-      return <CircularProgress size={80} thickness={5} />
+      return <CircularProgress size={80} thickness={5} />;
     } else if (this.state.notExpert) {
       return (
-        <div style={{ width: '100%', margin: '0 auto', textAlign: 'center', paddingBottom: '35px' }} >
+        <div
+          style={{
+            width: '100%',
+            margin: '0 auto',
+            textAlign: 'center',
+            paddingBottom: '35px'
+          }}
+        >
           <h2 style={{ paddingTop: '40px' }}>Are You an Expert?</h2>
-          <AwesomeButton type="reddit" action={() => this.props.auth.login('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
+          <AwesomeButton
+            type="reddit"
+            action={() => this.props.auth.login('/newProfile')}
+            style={{
+              fontSize: '18px',
+              marginTop: '30px',
+              marginBottom: '30px',
+              height: 'auto',
+              lineHeight: '45px'
+            }}
+          >
+            Become a Dimpull Expert
+          </AwesomeButton>
         </div>
-      )
-    } 
-    return <Options 
-      status={this.state}
-      auth={this.props.auth}
-      handleRequestClose={() => this.handleRequestClose()}
-      newVipId={() => this.newVipId()} 
-      handleExpand={(e) => this.handleExpand(e)}
-    />
+      );
+    }
+    const status = {
+      vipExpanded: this.state.vipExpanded,
+      refExpanded: this.state.refExpanded,
+      callsExpanded: this.state.callsExpanded
+    };
+    return (
+      <Options
+        vipupdated={this.state.vipupdated}
+        vip={this.state.vip}
+        url={this.state.url}
+        status={status}
+        auth={this.props.auth}
+        handleRequestClose={() => this.handleRequestClose()}
+        newVipId={() => this.newVipId()}
+        handleExpand={e => this.handleExpand(e)}
+      />
+    );
   }
 }
 
