@@ -6,8 +6,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { AwesomeButton } from 'react-awesome-button';
-import 'react-awesome-button/dist/styles.css';
-import 'react-awesome-button/dist/themes/theme-blue.css';
+// import 'react-awesome-button/dist/styles.css';
+// import 'react-awesome-button/dist/themes/theme-blue.css';
 import history from '../../history';
 import './discussionprofile.css';
 

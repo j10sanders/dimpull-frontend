@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import CircularProgress from 'material-ui/CircularProgress';
 import { AwesomeButton } from 'react-awesome-button';
-import 'react-awesome-button/dist/styles.css';
-import 'react-awesome-button/dist/themes/theme-blue.css';
+// import 'react-awesome-button/dist/styles.css';
+// import 'react-awesome-button/dist/themes/theme-blue.css';
 import history from '../../history';
 import Options from './Options';
 
@@ -108,6 +108,7 @@ class Profile extends React.Component {
         handleRequestClose={() => this.handleRequestClose()}
         newVipId={() => this.newVipId()}
         handleExpand={e => this.handleExpand(e)}
+        referral={this.state.referral}
       />
     );
   }

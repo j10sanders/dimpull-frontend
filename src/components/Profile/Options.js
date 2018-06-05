@@ -6,6 +6,7 @@ import Snackbar from 'material-ui/Snackbar';
 import { Card, CardActions, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import PropTypes from 'prop-types';
 import './Profile.css';
 
 const style = {
@@ -57,7 +58,7 @@ const Options = props => (
             />
           </ListItem>
         </Paper>
-        <Paper style={paperStyle} zDepth={2} key={4} >
+        <Paper style={paperStyle} zDepth={2} key={3} >
           <ListItem innerDivStyle={innerDivStyle}>
             <ListItem
               key="View Profile"
@@ -70,7 +71,7 @@ const Options = props => (
             />
           </ListItem>
         </Paper>
-        <Paper style={paperStyle} zDepth={2} key={3} >
+        <Paper style={paperStyle} zDepth={2} key={4} >
           <ListItem innerDivStyle={innerDivStyle}>
             <ListItem
               key="Edit Profile"
@@ -96,7 +97,8 @@ const Options = props => (
         <Card expanded={props.status.refExpanded} style={{ marginBottom: '30px' }}>
           <CardText expandable>
             <p style={{ fontSize: 'larger', textAlign: 'left' }}>
-              {`Referral Link: dimpull.com/newProfile/ref=${props.referral}`}</p>
+              {`Referral Link: dimpull.com/newProfile/ref=${props.referral}`}
+            </p>
             <p style={{ color: 'dark-grey' }}>Refer an expert to earn 5% of their revenues.  They get $10 extra on their first call.</p>
           </CardText>
           <CardActions>
@@ -128,5 +130,33 @@ const Options = props => (
     />
   </div>
 );
+
+Options.propTypes = {
+  status: PropTypes.shape,
+  newVipId: PropTypes.func,
+  vipupdated: PropTypes.bool,
+  vipExpanded: PropTypes.bool,
+  refExpanded: PropTypes.bool,
+  callsExpanded: PropTypes.bool,
+  handleRequestClose: PropTypes.func,
+  handleExpand: PropTypes.func,
+  referral: PropTypes.string,
+  vip: PropTypes.string,
+  url: PropTypes.string
+};
+
+Options.defaultProps = {
+  status: {},
+  newVipId: () => {},
+  handleRequestClose: () => {},
+  handleExpand: () => {},
+  vipupdated: false,
+  referral: '',
+  refExpanded: false,
+  callsExpanded: false,
+  vip: '',
+  vipExpanded: false,
+  url: ''
+};
 
 export default Options;

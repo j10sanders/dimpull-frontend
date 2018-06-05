@@ -12,8 +12,6 @@ import IconButton from 'material-ui/IconButton';
 import { List } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import { AwesomeButton } from 'react-awesome-button';
-import 'react-awesome-button/dist/styles.css';
-import 'react-awesome-button/dist/themes/theme-blue.css';
 import './discussionprofile.css';
 
 const Markdown = require('react-remarkable');
@@ -131,7 +129,6 @@ const ProfileCard = props => (
 export default ProfileCard;
 
 ProfileCard.propTypes = {
-  dp: PropTypes.number,
   edit: PropTypes.bool,
   actions: PropTypes.arrayOf(PropTypes.object),
   open: PropTypes.bool.isRequired,
@@ -159,8 +156,9 @@ ProfileCard.defaultProps = {
   image: '',
   description: '',
   edit: false,
-  dp: 0,
   actions: [{}],
   subtitle: '',
-  host: ''
+  host: '',
+  handleClose: () => {},
+  handleOpen: () => {}
 };

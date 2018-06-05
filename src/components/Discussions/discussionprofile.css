@@ -165,3 +165,13 @@
 .fa-github:hover, .fa-medium-m:hover{
   color: #606060;
 }
+
+.socials{
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+#editInputs{
+  text-align: left;
+  padding-top: 30px;
+}

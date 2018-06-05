@@ -1,25 +1,10 @@
-import './calendar.css'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-import 'react-big-calendar/lib/addons/dragAndDrop/styles.less'
 import React from 'react';
 import moment from 'moment';
-import BigCalendar from 'react-big-calendar'
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
-import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
-import axios from 'axios';
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import Snackbar from 'material-ui/Snackbar';
+import axios from 'axios';
 import filter from 'lodash/filter';
-import CircularProgress from 'material-ui/CircularProgress';
-import TextField from 'material-ui/TextField';
-import { agreement } from '../../utils/agreements'
 import history from '../../history';
-
-const Markdown = require('react-remarkable');
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
-const DragAndDropCalendar = withDragAndDrop(BigCalendar)
+import DisplayCal from './DisplayCal';
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -101,13 +86,11 @@ class Calendar extends React.Component {
 
   resizeEvent = (resizeType, { event, start, end }) => {
     const { events } = this.state
-
     const nextEvents = events.map(existingEvent => {
       return existingEvent.id === event.id
         ? { ...existingEvent, start, end }
         : existingEvent
     })
-
     this.setState({
       events: nextEvents,
     })
@@ -119,9 +102,9 @@ class Calendar extends React.Component {
     let intervalMillis = interval * 60 * 1000;
     while (startDate < endDate) {
         // So that you get "00" if we're on the hour.
-        const mins = (startDate.getMinutes() + '0').slice(0, 2);
-        slots.push(startDate.getHours() + ':' + mins);
-        startDate.setTime(startDate.getTime() + intervalMillis);
+      const mins = (startDate.getMinutes() + '0').slice(0, 2);
+      slots.push(startDate.getHours() + ':' + mins);
+      startDate.setTime(startDate.getTime() + intervalMillis);
     }
     return slots;
   }
@@ -257,28 +240,23 @@ class Calendar extends React.Component {
   }
   	
   render() {
-    let formats = {
-      dayFormat: (date, culture, localizer) =>
-        localizer.format(date, 'M/D', culture)
-    }
-
-		const actions = [
-			<FlatButton
-				label="Cancel"
-				primary
-				onClick={() => this.handleClose()}
-			/>,
-			<FlatButton
-				label="Remove"
-				primary
-				onClick={() => this.removeTimeslot()}
-			/>,
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary
+        onClick={() => this.handleClose()}
+      />,
+      <FlatButton
+        label="Remove"
+        primary
+        onClick={() => this.removeTimeslot()}
+      />,
       <FlatButton
         label="Set Recurring (4 months)"
         primary
         onClick={() => this.setRecurring()}
       />,
-		];
+    ];
 
     const tAndC = [
       <FlatButton
@@ -294,85 +272,30 @@ class Calendar extends React.Component {
       />,
     ];
 
-    return (
-      <div id="calendarDiv">
-      {this.state.waiting ? <CircularProgress />
-      :
-        (
-          <div>
-          {!this.state.tc ? 
-            <div>
-            <Snackbar
-              open={this.state.snackOpen}
-              message="You can't set past availability."
-              autoHideDuration={4000}
-              onRequestClose={this.handleRequestClose}
-            />
-            <Snackbar
-              open={this.state.reminder}
-              message="Make sure to click 'Submit Timeslots' at the bottom to save"
-              autoHideDuration={3000}
-              onRequestClose={this.handleRequestClose}
-            />
-            <Snackbar
-              open={this.state.saved}
-              message="Success.  Your times are saved."
-              autoHideDuration={4000}
-              onRequestClose={this.handleRequestClose}
-            />
-            <Paper style={{ marginTop: '10px', marginBotton: '20px' }} >
-              <DragAndDropCalendar
-                selectable
-                events={this.state.events}
-                onEventDrop={this.moveEvent}
-                resizable
-                onEventResize={this.resizeEvent}
-                defaultView="week"
-                defaultDate={new Date()}
-                onSelectEvent={event => this.selectEvent(event)}
-                onSelectSlot={slotInfo => this.addEvent(slotInfo.start, slotInfo.end)}
-                formats={formats}
-              />
-              
-              {this.state.saving ? <div style={{ paddingLeft: '50%' }}>
-                <CircularProgress />
-              </div> :
-              <RaisedButton label="Submit Timeslots" fullWidth={true} primary={true}onClick={() => this.submit()}/>
-              }
-            </Paper>
-            <Dialog
-            title="Remove? Or set timeslot to reoccur?"
-              actions={actions}
-              modal={false}
-              open={this.state.openedTime}
-              // onRequestClose={this.handleRequestClose}
-            /> 
-            </div>
-            :        
-            <Dialog
-              title="Terms and Conditions"
-              actions={tAndC}
-              modal={false}
-              open={this.state.tc}
-              onRequestClose={this.handleCloseTC}
-              autoScrollBodyContent={true}
-            >
-              <Markdown>
-                {agreement}
-              </Markdown>
-              <TextField
-                floatingLabelText="Initials"
-                type="initials"
-                value={this.state.initials}
-                errorText={this.state.initialsErrorText}
-                onChange={e => this.changeValue(e, 'initials')}
-              /> 
-            </Dialog>
-          }
-          </div>
-        )
-      }
-      </div>
+    return(
+      <DisplayCal 
+        tAndC={tAndC}
+        actions={actions}
+        snackOpen={this.state.snackOpen}
+        reminder={this.state.reminder}
+        saved={this.state.saved}
+        events={this.state.events}
+        saving={this.state.saving}
+        openedTime={this.state.openedTime}
+        initials={this.state.initials}
+        initialsErrorText={this.state.initialsErrorText}
+        moveEvent={this.moveEvent}
+        resizeEvent={this.resizeEvent}
+        selectedEvent={this.selectedEvent}
+        selectEvent={this.selectEvent.bind(this)}
+        addEvent={this.addEvent.bind(this)}
+        submit={() => this.submit()}
+        handleClose={this.handleClose}
+        handleRequestClose={this.handleRequestClose}
+        handleCloseTC={this.handleCloseTC}
+        changeValue={e => this.changeValue(e, 'initials')}
+        waiting={this.state.waiting}
+      />
     )
   }
 }

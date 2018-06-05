@@ -15,7 +15,6 @@ import './header.css';
 
 const theme = createMuiTheme();
 
-
 class Header extends Component {
   static onMouseEnter () {
     const x = window.document.getElementsByClassName('fa-angle-down');
@@ -53,7 +52,6 @@ class Header extends Component {
   }
 
   getProfile () {
-    console.log("GET")
     if (!this.state.picture) {
       const { isAuthenticated } = this.props.auth;
       if (isAuthenticated()) {
@@ -146,58 +144,58 @@ class Header extends Component {
 
     return (
       <MuiThemeProvider theme={theme}>
-      <header>
-        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
-          >
-            {fullList}
-          </div>
-        </Drawer>
-        <AppBar
-          style={{ position: 'fixed', boxShadow: 'none', opacity: '.9', background: '#629EF9' }}
-          title={
-            <img
-              src="https://res.cloudinary.com/dtvc9q04c/image/upload/q_100/v1527550775/Dimpull_LogoName_ww.png"
-              style={{
-                cursor: 'pointer',
-                width: '120px',
-                height: 'auto',
-                imageRendering: 'crisp-edges',
-                marginTop: '-6px', 
-                marginBottom: '-6px'
-              }}
-              alt="logo"
-            />}
-          onTitleClick={() => history.push('/')}
-          iconElementLeft={<Button onClick={this.toggleDrawer('left', true)} style={{color: 'white', marginTop: '4px'}}><MenuIcon style={{color: 'white'}} /></Button>}
-          iconElementRight={
-            <Link to={'/profile'} style={{ marginTop: '-12px', marginBottom: '-6px'}}>
-              {!this.state.picture
-                ? <FlatButton
-                  label={<img
-                    src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
-                    style={{ width: '40px', height: 'auto', cursor: 'pointer', marginTop: '-6px', marginBottom: '-6px'}}
-                    alt="logo"
-                  />}
-                  id="home"
-                />
-                : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
-                  {this.state.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
-                    <div onMouseOver={() => Header.onMouseEnter()}  onMouseOut={() => Header.onMouseLeave()}>
-                      <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
-                      <i style={{ marginLeft: '12px', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
-                    </div>
-                  }
-                </div>
-              }
-            </Link>
-          }
-        />
-      </header>
+        <header>
+          <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={this.toggleDrawer('left', false)}
+              onKeyDown={this.toggleDrawer('left', false)}
+            >
+              {fullList}
+            </div>
+          </Drawer>
+          <AppBar
+            style={{ position: 'fixed', boxShadow: 'none', opacity: '.9', background: '#629EF9' }}
+            title={
+              <img
+                src="https://res.cloudinary.com/dtvc9q04c/image/upload/q_100/v1527550775/Dimpull_LogoName_ww.png"
+                style={{
+                  cursor: 'pointer',
+                  width: '120px',
+                  height: 'auto',
+                  imageRendering: 'crisp-edges',
+                  marginTop: '-6px', 
+                  marginBottom: '-6px'
+                }}
+                alt="logo"
+              />}
+            onTitleClick={() => history.push('/')}
+            iconElementLeft={<Button onClick={this.toggleDrawer('left', true)} style={{color: 'white', marginTop: '4px'}}><MenuIcon style={{color: 'white'}} /></Button>}
+            iconElementRight={
+              <Link to={'/profile'} style={{ marginTop: '-12px', marginBottom: '-6px'}}>
+                {!this.state.picture
+                  ? <FlatButton
+                    label={<img
+                      src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
+                      style={{ width: '40px', height: 'auto', cursor: 'pointer', marginTop: '-6px', marginBottom: '-6px'}}
+                      alt="logo"
+                    />}
+                    id="home"
+                  />
+                  : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
+                    {this.state.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
+                      <div onMouseOver={() => Header.onMouseEnter()}  onMouseOut={() => Header.onMouseLeave()}>
+                        <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
+                        <i style={{ marginLeft: '12px', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
+                      </div>
+                    }
+                  </div>
+                }
+              </Link>
+            }
+          />
+        </header>
       </MuiThemeProvider>
     );
   }

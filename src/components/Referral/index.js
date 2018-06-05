@@ -1,7 +1,5 @@
 import React from 'react';
-import axios from 'axios';
 import CircularProgress from 'material-ui/CircularProgress';
-import history from '../history';
 
 class Ref extends React.Component {
   constructor (props) {

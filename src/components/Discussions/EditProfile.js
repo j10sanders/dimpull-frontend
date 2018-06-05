@@ -11,8 +11,8 @@ import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PropTypes from 'prop-types';
 import { AwesomeButton } from 'react-awesome-button';
-import 'react-awesome-button/dist/styles.css';
-import 'react-awesome-button/dist/themes/theme-blue.css';
+// import 'react-awesome-button/dist/styles.css';
+// import 'react-awesome-button/dist/themes/theme-blue.css';
 import menuTimeZones from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';
@@ -49,7 +49,6 @@ class EditProfile extends React.Component {
       initialsErrorText: 'Initialize form in order to accept',
       description: '',
       image: '',
-      // otherProfile: '',
       price: '',
       disabled: true,
       timezone: 'America/New_York',
@@ -123,7 +122,6 @@ class EditProfile extends React.Component {
         price: response.data.price ? response.data.price : 30,
         image: response.data.image_url ? response.data.image_url : '',
         description: response.data.description ? response.data.description : '',
-        // otherProfile: response.data.otherProfile ? response.data.otherProfile : '',
         origin: response.data.origin ? response.data.origin : '',
         excites: response.data.excites ? response.data.excites : '',
         helps: response.data.helps ? response.data.helps : '',
@@ -367,6 +365,8 @@ class EditProfile extends React.Component {
       />
     ];
 
+    const subStyle = { paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' };
+
     if (!this.state.tc) {
       return (
         <div className="container">
@@ -429,7 +429,7 @@ class EditProfile extends React.Component {
                       </div>
                       <div className="text-center">
                         <div className="col-md-12">
-                          <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
+                          <div id="editInputs">
                             <TextField
                               floatingLabelText="Who are you? (required)"
                               type="who"
@@ -440,9 +440,9 @@ class EditProfile extends React.Component {
                               rowsMax={6}
                               onChange={e => this.changeValue(e, 'who')}
                             />
-                            <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
+                            <Subheader style={subStyle}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
                           </div>
-                          <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
+                          <div id="editInputs">
                             <TextField
                               floatingLabelText="What is your crypto origin story? (optional)"
                               type="origin"
@@ -453,9 +453,9 @@ class EditProfile extends React.Component {
                               rowsMax={6}
                               onChange={e => this.changeValue(e, 'origin')}
                             />
-                            <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Let newer crypto enthusiasts know what got you started.</Subheader>
+                            <Subheader style={subStyle}>Let newer crypto enthusiasts know what got you started.</Subheader>
                           </div>
-                          <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
+                          <div id="editInputs">
                             <TextField
                               floatingLabelText="What excites you about blockchain tech? (optional)"
                               type="excites"
@@ -466,9 +466,9 @@ class EditProfile extends React.Component {
                               rowsMax={6}
                               onChange={e => this.changeValue(e, 'excites')}
                             />
-                            <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
+                            <Subheader style={subStyle}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
                           </div>
-                          <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
+                          <div id="editInputs">
                             <TextField
                               floatingLabelText="What can you help callers with? (required)"
                               type="helps"
@@ -479,11 +479,10 @@ class EditProfile extends React.Component {
                               rowsMax={6}
                               onChange={e => this.changeValue(e, 'helps')}
                             />
-                            <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
+                            <Subheader style={subStyle}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
                           </div>
-                          <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
+                          <div id="editInputs">
                             <TextField
-                              // hintText="What can you help callers with?"
                               floatingLabelText="Ethereum Wallet Address"
                               type="walletAddress"
                               value={this.state.walletAddress}
@@ -492,7 +491,7 @@ class EditProfile extends React.Component {
                               onChange={e => this.changeValue(e, 'walletAddress')}
                             />
                           </div>
-                          <div style={{ textAlign: 'left', paddingTop: '30px' }} id="editInputs">
+                          <div id="editInputs">
                             <TextField
                               floatingLabelText="Public URL"
                               type="url"
@@ -500,7 +499,7 @@ class EditProfile extends React.Component {
                               errorText={this.state.urlError}
                               onChange={e => this.changeValue(e, 'url')}
                             />
-                            <Subheader style={{ paddingLeft: '0px', marginTop: '-4px', lineHeight: '23px' }}>dimpull.com/{this.state.url}</Subheader>
+                            <Subheader style={subStyle}>dimpull.com/{this.state.url}</Subheader>
                           </div>
                           <br />
                           <h4>Optional social links</h4>
@@ -508,14 +507,14 @@ class EditProfile extends React.Component {
                             floatingLabelText="Github URL"
                             type="github"
                             value={this.state.github}
-                            style={{ marginLeft: '2px', marginRight: '2px' }}
+                            className="socials"
                             onChange={e => this.changeValue(e, 'github')}
                           />
                           <TextField
                             floatingLabelText="LinkedIn URL"
                             type="linkedin"
                             value={this.state.linkedin}
-                            style={{ marginLeft: '2px', marginRight: '2px' }}
+                            className="socials"
                             onChange={e => this.changeValue(e, 'linkedin')}
                           />
                           <br />
@@ -523,21 +522,21 @@ class EditProfile extends React.Component {
                             floatingLabelText="Twitter URL"
                             type="otherProfile"
                             value={this.state.twitter}
-                            style={{ marginLeft: '2px', marginRight: '2px' }}
+                            className="socials"
                             onChange={e => this.changeValue(e, 'twitter')}
                           />
                           <TextField
                             floatingLabelText="YouTube URL"
                             type="otherProfile"
                             value={this.state.youtube}
-                            style={{ marginLeft: '2px', marginRight: '2px' }}
+                            className="socials"
                             onChange={e => this.changeValue(e, 'youtube')}
                           />
                           <TextField
                             floatingLabelText="Medium URL"
                             type="medium"
                             value={this.state.medium}
-                            style={{ marginLeft: '2px', marginRight: '2px' }}
+                            className="socials"
                             onChange={e => this.changeValue(e, 'medium')}
                           />
                           <br />
