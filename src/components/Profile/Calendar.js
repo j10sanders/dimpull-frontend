@@ -45,13 +45,19 @@ class Calendar extends React.Component {
   }
 
   async fetchTimes () {
+    let url;
+    if (!this.props.location.pathname.endsWith('calendar')) {
+      const fullurl = this.props.location.pathname.split('/');
+      url = '/' + fullurl[fullurl.length - 1]
+      this.setState({ url: url })
+    }
     const { getAccessToken } = this.props.auth;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
     const expert = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
     if (!expert.data.expert) {
       history.push('/newProfile')
     }
-    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/getmytimeslots`, {headers})
+    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/getmytimeslots${url ? url : ''}`, {headers})
     if (response.data === 'terms') {
       this.setState({ tc: true, waiting: false })
     } else {
@@ -158,12 +164,12 @@ class Calendar extends React.Component {
 
 	async submit () {
     this.setState({saving: true})
-
-		await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots`,
+    const { getAccessToken } = this.props.auth;
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+		await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/savetimeslots${this.state.url ? this.state.url : ''}`,
       {
-        user_id: this.state.profile.sub,
         times: this.state.events,
-    	})
+    	}, {headers})
     this.setState({ saved: true, saving: false })
 	}
 

@@ -58,7 +58,7 @@ class DP extends React.Component {
         this.setState({ vip: true, vipid: vip });
       }
       else {
-        this.setState({ wrongVip: true })
+        this.setState({ wrongVip: true });
       }
     }
     
