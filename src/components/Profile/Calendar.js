@@ -292,9 +292,9 @@ class Calendar extends React.Component {
         submit={() => this.submit()}
         handleClose={this.handleClose}
         handleRequestClose={this.handleRequestClose}
-        handleCloseTC={this.handleCloseTC}
         changeValue={e => this.changeValue(e, 'initials')}
         waiting={this.state.waiting}
+        tc={this.state.tc}
       />
     )
   }

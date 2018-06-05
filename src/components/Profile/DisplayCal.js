@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
+import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
 import { AwesomeButton } from 'react-awesome-button';
@@ -65,7 +66,7 @@ const DisplayCal = props => (
               <div style={{ paddingLeft: '50%' }}>
                 <CircularProgress />
               </div> :
-              <AwesomeButton progress={props.saving} type="primary" style={{ width: '50%', fontSize: '20px', marginLeft: '25%', marginTop: '-2px' }} action={() => props.submit()}>Submit Timeslots</AwesomeButton>
+              <AwesomeButton type="primary" style={{ width: '50%', fontSize: '20px', marginLeft: '25%', marginTop: '-2px' }} action={() => props.submit()}>Submit Timeslots</AwesomeButton>
             }
             <Dialog
               title="Remove? Or set timeslot to reoccur?"
@@ -80,7 +81,6 @@ const DisplayCal = props => (
             actions={props.tAndC}
             modal={false}
             open={props.tc}
-            onRequestClose={this.handleCloseTC}
             autoScrollBodyContent
           >
             <Markdown>
@@ -91,7 +91,7 @@ const DisplayCal = props => (
               type="initials"
               value={props.initials}
               errorText={props.initialsErrorText}
-              onChange={e => this.changeValue(e, 'initials')}
+              onChange={e => props.changeValue(e, 'initials')}
             />
           </Dialog>
         }
@@ -99,5 +99,45 @@ const DisplayCal = props => (
     )}
   </div>
 );
+
+DisplayCal.propTypes = {
+  tc: PropTypes.bool,
+  changeValue: PropTypes.func,
+  initials: PropTypes.string,
+  initialsErrorText: PropTypes.string,
+  tAndC: PropTypes.arrayOf(PropTypes.node),
+  actions: PropTypes.arrayOf(PropTypes.node),
+  openedTime: PropTypes.bool,
+  saving: PropTypes.bool,
+  addEvent: PropTypes.func,
+  resizeEvent: PropTypes.func,
+  moveEvent: PropTypes.func,
+  events: PropTypes.arrayOf(PropTypes.shape),
+  selectEvent: PropTypes.func,
+  saved: PropTypes.bool,
+  reminder: PropTypes.bool,
+  snackOpen: PropTypes.bool,
+  waiting: PropTypes.bool
+};
+
+DisplayCal.defaultProps = {
+  changeValue: () => {},
+  initials: '',
+  initialsErrorText: '',
+  tAndC: [<div />],
+  actions: [<div />],
+  openedTime: false,
+  saving: false,
+  tc: true,
+  addEvent: () => {},
+  resizeEvent: () => {},
+  moveEvent: () => {},
+  events: [{}],
+  selectEvent: () => {},
+  saved: false,
+  reminder: false,
+  snackOpen: false,
+  waiting: false
+};
 
 export default DisplayCal;
