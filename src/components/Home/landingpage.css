@@ -118,6 +118,12 @@ p{
 	#findBelow{
 		display: none;
 	}
+	#slider{
+		display: none;
+	}
+	#allFour{
+		display: initial;
+	}
 }
 
 @media (min-height: 622px) and (min-width: 955px) {
@@ -171,7 +177,7 @@ p{
 	}
 
 	#GridlistID {
-	    padding-right: 10%;
+	    /*padding-right: 10%;*/
 	    padding-top: 0px;
 	}
 
@@ -182,11 +188,17 @@ p{
 		margin-top: -153px;
 	}
 	#findBelow{
-		padding-right: 10%;
+		/*padding-right: 10%;*/
 		display: initial;
 	}
 	#findAbove{
 		display: none;
+	}
+	#allFour{
+		display: none;
+	}
+	#slider{
+		display: inherit;
 	}
 }
 
@@ -236,5 +248,13 @@ p{
 }
 
 #findBelow{
-	padding-right: 10%;
+	/*padding-right: 10%;*/
+}
+
+.slider-list{
+	height: 450px !important;
+}
+
+.slider-control-centerleft, .slider-control-centerright, .slider-control-bottomcenter{ 
+	display: none;
 }

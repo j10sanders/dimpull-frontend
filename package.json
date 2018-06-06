@@ -25,6 +25,7 @@
     "material-ui": "^0.20.1",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.17",
+    "nuka-carousel": "^4.2.1",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-awesome-button": "^4.2.1",
