@@ -2,11 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import filter from 'lodash/filter';
 import history from '../../history';
 import DisplayCal from './DisplayCal';
 
-class Calendar extends React.Component {
+class Cal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -306,4 +307,5 @@ class Calendar extends React.Component {
   }
 }
 
+const Calendar = withRouter(Cal);
 export default Calendar;

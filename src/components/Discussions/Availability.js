@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
+import { withRouter } from 'react-router-dom';
 import BigCalendar from 'react-big-calendar'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import moment from 'moment'
@@ -20,7 +21,7 @@ import '../Profile/calendar.css'
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
 
-class Availability extends React.Component {
+class Avail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -390,4 +391,5 @@ class Availability extends React.Component {
   }
 }
 
+const Availability = withRouter(Avail)
 export default DragDropContext(HTML5Backend)(Availability);
