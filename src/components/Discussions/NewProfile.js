@@ -6,13 +6,10 @@ import CircularProgress from 'material-ui/CircularProgress';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { AwesomeButton } from 'react-awesome-button';
-// import 'react-awesome-button/dist/styles.css';
-// import 'react-awesome-button/dist/themes/theme-blue.css';
+import { checkNumber, toPnf } from '../../utils/phone_number';
 import history from '../../history';
 import './discussionprofile.css';
 
-const PNF = require('google-libphonenumber').PhoneNumberFormat;
-const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 const allCountries = require('all-countries');
 
 const style = {
@@ -166,21 +163,19 @@ class newProfile extends React.Component {
 
   isDisabled () {
     let telIsValid = false;
-    let number = '';
-    const country = allCountries.getCountryCodeByCountryName(this.state.country);
-    try {
-      number = phoneUtil.parse(this.state.tel, country);
-    } catch (error){
+    let number = 'error';
+    if (this.state.tel) {
+      number = checkNumber(this.state.tel, this.state.country);
     }
     if (this.state.tel === '' || !this.state.tel) {
       this.setState({
         tel_error_text: null,
         disabled: true
       });
-    } else if (this.noExcepetion(number)) {
+    } else if (number !== 'error') {
       this.setState({
         tel_error_text: null,
-        pnf: number
+        pnf: toPnf(number)
       });
       telIsValid = true;
     } else if (this.state.email.length === 0) {
@@ -200,17 +195,6 @@ class newProfile extends React.Component {
     }
   }
 
-  noExcepetion (number) {
-    let ret;
-    try {
-      ret = phoneUtil.isValidNumber(number)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      return ret;
-    }
-  }
-
   async submit () {
     const message = this.state.message ? this.state.message : 'empty';
     // e.preventDefault();
@@ -223,7 +207,7 @@ class newProfile extends React.Component {
         `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
         {
           // user_id: this.state.profile.sub,
-          phone_number: phoneUtil.format(this.state.pnf, PNF.E164),
+          phone_number: this.state.pnf,
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           auth_pic: this.state.profile.picture

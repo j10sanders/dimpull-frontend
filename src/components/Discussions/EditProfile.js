@@ -11,13 +11,13 @@ import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import PropTypes from 'prop-types';
 import { AwesomeButton } from 'react-awesome-button';
-// import 'react-awesome-button/dist/styles.css';
-// import 'react-awesome-button/dist/themes/theme-blue.css';
+import Divider from 'material-ui/Divider';
 import menuTimeZones from '../../timezones/timezones';
 import ProfileCard from './ProfileCard';
 import history from '../../history';
 import './discussionprofile.css';
 import { expertAgreement } from '../../utils/agreements';
+import { checkNumber, toPnf } from '../../utils/phone_number';
 
 const Markdown = require('react-remarkable');
 const WAValidator = require('wallet-address-validator');
@@ -106,6 +106,8 @@ class EditProfile extends React.Component {
   }
 
   async fillForms (headers) {
+    const ipinfo = await axios.get("https://ipinfo.io");
+    this.setState({ country: ipinfo.data.country });
     const terms = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/checkTerms`, { headers });
     if (terms.data === 'terms') {
       this.setState({ tc: true, waiting: false });
@@ -134,7 +136,8 @@ class EditProfile extends React.Component {
         medium: response.data.medium,
         walletAddress: response.data.walletAddress ? response.data.walletAddress : '',
         first_name: response.data.first_name,
-        last_name: response.data.last_name
+        last_name: response.data.last_name,
+        phone_number: response.data.phone_number
       }, () => this.isDisabled());
     } else {
       this.setState({ title: "Doesn't look like your profile.  Please contact admin@dimpull.com if you are sure you logged in with the same profile", open: true });
@@ -167,6 +170,18 @@ class EditProfile extends React.Component {
   }
 
   async isDisabled () {
+    const number = checkNumber(this.state.phone_number, this.state.country);
+    if (number === 'error') {
+      this.setState({
+        phone_number_error_text: 'Enter a valid phone number',
+        disabled: true
+      });
+    } else {
+      this.setState({
+        phone_number_error_text: null,
+        pnf: toPnf(number)
+      });
+    }
     const validWallet = await this.validWallet();
     this.setState({ waiting: false });
     let priceIsValid = false;
@@ -189,7 +204,7 @@ class EditProfile extends React.Component {
     } else {
       this.setState({ urlError: 'enter a URL' });
     }
-    if (this.state.description && this.state.image) {
+    if (this.state.description && this.state.image && number !== 'error') {
       if (this.state.description.length !== 0 &&
         this.state.image.length !== 0 &&
         priceIsValid && validWallet && this.state.url.length !== 0) {
@@ -203,7 +218,7 @@ class EditProfile extends React.Component {
           title: "Come back anytime to finish your profile.  We won't make it public in the meantime."
         });
       }
-    } else if (this.state.disabled === false) {
+    } else if (this.state.disabled === false || number === 'error') {
       this.setState({
         disabled: true,
         title: "Come back anytime to finish your profile.  We won't make it public in the meantime."
@@ -313,7 +328,8 @@ class EditProfile extends React.Component {
           medium: httpsUrls['medium'],
           twitter: httpsUrls['twitter'],
           youtube: httpsUrls['youtube'],
-          github: httpsUrls['github']
+          github: httpsUrls['github'],
+          phone_number: this.state.pnf
         }, { headers });
         if (posted.data === 'success') {
           this.setState({ open: true });
@@ -429,7 +445,9 @@ class EditProfile extends React.Component {
                       </div>
                       <div className="text-center">
                         <div className="col-md-12">
+                          <Divider style={{ marginTop: '60px', height: '3px', backgroundColor: '#268bd2'}} />
                           <div id="editInputs">
+
                             <TextField
                               floatingLabelText="Who are you? (required)"
                               type="who"
@@ -481,6 +499,7 @@ class EditProfile extends React.Component {
                             />
                             <Subheader style={subStyle}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
                           </div>
+                          <Divider style={{ marginTop: '80px', height: '3px', backgroundColor: '#268bd2'}} />
                           <div id="editInputs">
                             <TextField
                               floatingLabelText="Ethereum Wallet Address"
@@ -501,8 +520,18 @@ class EditProfile extends React.Component {
                             />
                             <Subheader style={subStyle}>dimpull.com/{this.state.url}</Subheader>
                           </div>
-                          <br />
-                          <h4>Optional social links</h4>
+                          <div id="editInputs">
+                            <TextField
+                              floatingLabelText="Phone Number"
+                              type="phone_number"
+                              value={this.state.phone_number}
+                              errorText={this.state.phone_number_error_text}
+                              onChange={e => this.changeValue(e, 'phone_number')}
+                            />
+                            <Subheader style={subStyle}>We will never share your number with anyone!</Subheader>
+                          </div>
+                          <Divider style={{ marginTop: '60px', marginBottom: '60px', height: '3px', backgroundColor: '#268bd2' }} />
+                          <h4>Optional Social Links</h4>
                           <TextField
                             floatingLabelText="Github URL"
                             type="github"

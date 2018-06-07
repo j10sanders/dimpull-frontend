@@ -7,11 +7,8 @@ import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { AwesomeButton } from 'react-awesome-button';
-// import 'react-awesome-button/dist/styles.css';
-// import 'react-awesome-button/dist/themes/theme-blue.css';
 import Carousel from 'nuka-carousel';
-
-import DefaultProfiles from './DefaultProfiles';
+import { DefaultProfiles, sliderList } from './DefaultProfiles';
 import history from '../../history';
 import './landingpage.css';
 
@@ -59,33 +56,6 @@ class H extends React.Component {
   }
 
   render () {
-    const dps = [
-      {
-        id: 1, url: 'tlc', first_name: 'Toni', last_name: 'Lane', description: 'Founder @ Cultu.re / Co-founder @ CoinTelegraph | Blockchain Pioneer | Entrepreneur | Investor | Empath | Board Member | Transformational Evangelist | Happy Lady.', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,f_auto,h_600,q_auto:eco/v1523635339/experts/sdo9fgjmzhsjvm2xyqhm.jpg'
-      },
-      // {
-      //   id: 2, url: 'ben-way', first_name: 'Ben', last_name: 'Way', description: 'Crypto/ICO expert with extensive technical background', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_600/v1523898203/experts/byfzhf14drmapbugfq7n.png'
-      // },
-      {
-        id: 2, url: 'paul-foley', first_name: 'Paul', last_name: 'Foley', description: 'Founder & Investor', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1528327456/paulw.jpg'
-      },
-      // {
-      //   id: 4, url: 'nikhilwins', first_name: 'Nikhil', last_name: 'Bhaskar', description: 'Founder & CEO of Ulixir Inc', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_600/v1525173789/experts/zpgc4a6ggaocwffdjeue.jpg'
-      // },
-      {
-        id: 3, url: 'zb', first_name: 'Zach', last_name: 'Burks', description: 'CTO Harvest.Networks, Dapp Developer, full-time trader', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_600/v1524000202/experts/ndq8b8oyjeuwd7sbd58k.jpg'
-      },
-      {
-        id: 4, url: 'baselismail', first_name: 'Basel', last_name: 'Ismail', description: 'Co-Founder and CEO of Blockgram; Blockchain Technology and Cryptocurrencies; Data Scientist', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1528326667/whiteb.jpg'
-      },
-      {
-        id: 5, url: 'zaytoken', first_name: 'Ashonzay', last_name: 'Matlock', description: 'Crypto Coach', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1528327259/zay.jpg'
-      }
-      // {
-      //   id: 6, url: 'capt_crypto', first_name: 'Nathan', last_name: 'Leung', description: 'YouTube Influencer & Educational Platform', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_600/v1527118756/tall.jpg'
-      // }
-    ];
-
     let link = () => history.push('/newProfile');
     let label = 'Become a Dimpull Expert';
     const style = {
@@ -161,7 +131,7 @@ class H extends React.Component {
                         // width="675px"
                         speed={800}
                       >
-                        {dps.map(dp => (
+                        {sliderList.map(dp => (
                           <GridList
                             id="GridlistID"
                             cols={1}
