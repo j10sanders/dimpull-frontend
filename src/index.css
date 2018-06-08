@@ -73,4 +73,5 @@ body {
   padding-left: inherit !important;
   padding-right: inherit !important;
   width: 100% !important;
+  background: linear-gradient(to bottom right, #e0e9fa 0%, #ffffff 30%);
 }

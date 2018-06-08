@@ -68,34 +68,38 @@ class H extends React.Component {
     return (
       <div style={{ textAlign: 'center' }}>
         <div>
+        
           <section id="headerTop">
+          
             <div className="row" id="headerRow">
               <div className="col-sm-6">
-                <div id="head">
-                  <h1 id="exchange">Talk Before You Trade</h1>
-                  <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
-                  <h3 id="h3exchange" className="secondH3">Experts are available now - use Ethereum to book your call</h3>
-                  {!this.state.isAuthenticated ? (
-                    <AwesomeButton
-                      type="primary"
-                      action={link}
-                      style={style}
-                    >
-                      {label}
-                    </AwesomeButton>
-                  ) :
-                    <AwesomeButton
-                      type="primary"
-                      action={link}
-                      style={style}
-                    >
-                      {label}
-                    </AwesomeButton>
-                  }
-                  <div id='findAbove'>
-                    <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left' }} >Find Your Expert</AwesomeButton>
+                <Paper id="headerPaper" zDepth={1}>
+                  <div id="head">
+                    <h1 id="exchange">Talk Before You Trade</h1>
+                    <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
+                    <h3 id="h3exchange" className="secondH3">Experts are available now - use Ethereum to book your call</h3>
+                    {!this.state.isAuthenticated ? (
+                      <AwesomeButton
+                        type="primary"
+                        action={link}
+                        style={style}
+                      >
+                        {label}
+                      </AwesomeButton>
+                    ) :
+                      <AwesomeButton
+                        type="primary"
+                        action={link}
+                        style={style}
+                      >
+                        {label}
+                      </AwesomeButton>
+                    }
+                    <div id='findAbove'>
+                      <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left' }} >Find Your Expert</AwesomeButton>
+                    </div>
                   </div>
-                </div>
+                </Paper>
               </div>
               <div className="col-sm-6" id="colGrid">
                 {this.state.dps ? (
@@ -144,11 +148,12 @@ class H extends React.Component {
                                 key={dp.id}
                                 title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
                                 subtitle={dp.description}
-                                style={{ height: 450, width: '675px', margin: '0px auto'}}
+                                style={{ height: 450, width: '675px', margin: '0px auto' }}
                               >
-                                <img src={dp.image} alt={dp.id} onLoad={() => {window.dispatchEvent(new Event('resize'));}}/>
+                                <img src={dp.image} alt={dp.id} />
                               </GridTile>
                             </Link>
+
                           </GridList>
                         ))}
                       </Carousel>
@@ -215,6 +220,7 @@ class H extends React.Component {
                 )}
               </div>
             )}
+            
         </div>
       </div>
     );
