@@ -3,7 +3,8 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 // import MobileTearSheet from '../../../MobileTearSheet';
 
-const style = { lineHeight: '24px' }
+const style = { lineHeight: '24px' };
+const subStyle = { fontWeight: 600, fontSize:'17px' };
 
 
 
@@ -113,19 +114,19 @@ class FAQ extends Component {
         <div className="row">
           <div className="col-md-4 col-md-offset-0">
             <List>
-              <Subheader>For Curious Users</Subheader>
+              <Subheader style={subStyle}>For Curious Users</Subheader>
               {customerfaqRender}
             </List>
           </div>
           <div className="col-md-4 col-md-offset-0">
             <List>
-              <Subheader>For Experts</Subheader>
+              <Subheader style={subStyle}>For Experts</Subheader>
               {expertfaqRender}
             </List>
           </div>
           <div className="col-md-4 col-md-offset-0">
             <List>
-              <Subheader>Blockchain</Subheader>
+              <Subheader style={subStyle}>Blockchain</Subheader>
               {blockchainfaqRender}
             </List>
           </div>
