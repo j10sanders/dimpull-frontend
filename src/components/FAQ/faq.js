@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-// import MobileTearSheet from '../../../MobileTearSheet';
 
 const style = { lineHeight: '24px' };
-const subStyle = { fontWeight: 600, fontSize:'17px' };
-
-
-
+const subStyle = { fontWeight: 600, fontSize: '17px' };
 
 const customerFAQs = [
   [`What is Dimpull?`,
@@ -46,8 +42,7 @@ const blockchainFAQs = [
   [`How can I get Ether (ETH)?`,
     `If you are a US citizen, you can purchase Ether through MetaMask (with Coinbase).  Just click the "Buy" button in MetaMask.  If you are not a US citizen, you will need to purchase Ether through an exchange and transfer it to your MetaMask wallet.`],
   [`Why is Dimpull using the blockchain?`,
-    `Blockchains provide trust.  Using an escrow contract on the blockchain allows payments to go from callers to experts without either user needing to trust Dimpull to hold those funds.  In other words, there is no way for Dimpull to take funds from callers or experts.  You don't need to trust us; trust the blockchain.`],
-
+    `Blockchains provide trust.  Using an escrow contract on the blockchain allows payments to go from callers to experts without either user needing to trust Dimpull to hold those funds.  In other words, there is no way for Dimpull to take funds from callers or experts.  You don't need to trust us; trust the blockchain.`]
 ];
 
 class FAQ extends Component {
@@ -63,12 +58,12 @@ class FAQ extends Component {
         key={x[0]}
         primaryText={x[0]}
         initiallyOpen={false}
-        primaryTogglesNestedList={true}
+        primaryTogglesNestedList
         nestedItems={[
           <ListItem
             key={x[1]}
             primaryText={x[1]}
-            disabled={true}
+            disabled
             style={style}
           />
         ]}
@@ -79,12 +74,12 @@ class FAQ extends Component {
         key={x[0]}
         primaryText={x[0]}
         initiallyOpen={false}
-        primaryTogglesNestedList={true}
+        primaryTogglesNestedList
         nestedItems={[
           <ListItem
             key={x[1]}
             primaryText={x[1]}
-            disabled={true}
+            disabled
             style={style}
           />
         ]}
@@ -95,12 +90,12 @@ class FAQ extends Component {
         key={x[0]}
         primaryText={x[0]}
         initiallyOpen={false}
-        primaryTogglesNestedList={true}
+        primaryTogglesNestedList
         nestedItems={[
           <ListItem
             key={x[1]}
             primaryText={x[1]}
-            disabled={true}
+            disabled
             style={style}
           />
         ]}
