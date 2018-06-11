@@ -68,9 +68,7 @@ class H extends React.Component {
     return (
       <div style={{ textAlign: 'center' }}>
         <div>
-        
           <section id="headerTop">
-          
             <div className="row" id="headerRow">
               <div className="col-sm-6">
                 <Paper id="headerPaper" zDepth={1}>
@@ -95,7 +93,7 @@ class H extends React.Component {
                         {label}
                       </AwesomeButton>
                     }
-                    <div id='findAbove'>
+                    <div id="findAbove">
                       <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left' }} >Find Your Expert</AwesomeButton>
                     </div>
                   </div>
@@ -128,7 +126,7 @@ class H extends React.Component {
                     </div>
                     <div id="slider">
                       <Carousel
-                        initialSlideHeight={450}
+                        // initialSlideHeight={450}
                         autoplay
                         autoplayInterval={5000}
                         wrapAround
@@ -158,7 +156,7 @@ class H extends React.Component {
                         ))}
                       </Carousel>
                     </div>
-                    <div id='findBelow'>
+                    <div id="findBelow">
                       <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '20px', height: 'auto', lineHeight: '50px', minWidth: '190px', width: '10%' }} >Find Your Expert</AwesomeButton>
                     </div>
                   </div>
