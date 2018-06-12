@@ -127,7 +127,7 @@ class H extends React.Component {
                     <div id="slider" >
                       <Carousel
                         // initialSlideHeight={450}
-                        // autoplay
+                        autoplay
                         autoplayInterval={5000}
                         wrapAround
                         // width="675px"
