@@ -118,7 +118,6 @@ const ProfileCard = props => (
             )}
           </div>
           <div>
-          
             <Divider style={{ marginBottom: '6px' }} />
             {props.title && (
               <div>
@@ -128,7 +127,6 @@ const ProfileCard = props => (
             {(!props.edit && !props.is_users) && (
               <div>
                 <AwesomeButton type="primary" style={{ width: '100%', fontSize: '20px' }} action={() => props.schedule()}>Schedule a Call</AwesomeButton>
-
               </div>
             )}
           </div>

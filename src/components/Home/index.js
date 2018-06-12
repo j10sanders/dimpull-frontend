@@ -18,7 +18,6 @@ class H extends React.Component {
     this.state = {
       dps: null,
       expert: false,
-      display: 'none'
     };
   }
 
@@ -44,7 +43,6 @@ class H extends React.Component {
   }
 
   async checkExpert () {
-
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
