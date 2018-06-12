@@ -190,6 +190,6 @@ ProfileCard.defaultProps = {
   medium: '',
   linkedin: '',
   averageRating: false,
-  reviews: [],
+  reviews: null,
   schedule: () => {}
 };
