@@ -77,10 +77,15 @@ const ProfileCard = props => (
       </div>
       {props.web3 !== null && (
         <div>
-          {!props.web3 ?
-            <div id="web3error"><p>Make sure you have <a href="https://metamask.io/?utm_source=dimpull.com&utm_medium=referral" target="_blank" rel="noopener noreferrer">MetaMask</a> installed</p></div>:
-            <div id="web3success">Web3 client detected <i className="fas fa-wifi" /></div>
-          }
+          {!props.web3 ? (
+            <div id="web3error">
+              <p>Make sure you have <a href="https://metamask.io/?utm_source=dimpull.com&utm_medium=referral" target="_blank" rel="noopener noreferrer">MetaMask</a> installed</p>
+            </div>
+          ) : (
+            <div id="web3success">
+              Web3 client detected <i className="fas fa-wifi" />
+            </div>
+          )}
         </div>
       )}
       {props.reviews &&
