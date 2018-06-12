@@ -385,232 +385,230 @@ class EditProfile extends React.Component {
 
     if (!this.state.tc) {
       return (
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 col-md-offset-0">
-              <div id="editSection" >
-                {isAuthenticated() && (
-                  <div className="">
-                    <Paper style={style}>
-                      <div className="text-center">
-                        <h2>Fill Out Your Expert Profile:</h2>
-                        {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
-                          <div className="col-md-12">
-                            <div style={{ color: this.state.image ? 'black' : 'red', width: '50%', margin: 'auto', height: '100px', paddingTop: '30px', marginBottom: '30px' }}>
-                              <Dropzone
-                                multiple={false}
-                                accept="image/*"
-                                onDrop={e => this.onImageDrop(e)}
-                                style={dropzoneStyle}
-                              >
-                                <p className="dropzone" style={{ fontSize: '14px' }}>
-                                  Profile Picture: Drop an image here or click to  upload.
-                                </p>
-                              </Dropzone>
-                            </div>
-                            <div id="editInputs" >
-                              <TextField
-                                floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Founder, etc)"
-                                type="description"
-                                value={this.state.description}
-                                style={{ marginTop: '8px' }}
-                                onChange={e => this.changeValue(e, 'description')}
-                                fullWidth
-                              />
-                              <SelectField
-                                floatingLabelText="Timezone"
-                                value={this.state.timezone}
-                                onChange={(event, index, value) => this.selectTimezone(event, index, value, 'id')}
-                                maxHeight={200}
-                                fullWidth
-                                style={{ textAlign: 'start' }}
-                              >
-                                {menuTimeZones}
-                              </SelectField>
-                              <TextField
-                                floatingLabelText="Price Per 30 Minutes (in dollars)"
-                                type="price"
-                                value={this.state.price}
-                                errorText={this.state.priceErrorText}
-                                fullWidth
-                                onChange={e => this.changeValue(e, 'price')}
-                              />
-                              <p style={{ fontSize: '14px' }} > Currently one Ether is {this.state.etherPrice} dollars,
-                                so you will earn {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
-                                {' '}ETH/half-hour.  It will be set when someone books one of your timeslots.
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="text-center">
+        <div className="row">
+          <div className="col-md-6 col-md-offset-0">
+            <div id="editSection" >
+              {isAuthenticated() && (
+                <div className="">
+                  <Paper style={style}>
+                    <div className="text-center">
+                      <h2>Fill Out Your Expert Profile:</h2>
+                      {this.state.waiting ? <CircularProgress size={80} thickness={5} /> : (
                         <div className="col-md-12">
-                          <Divider style={{ marginTop: '60px', height: '3px', backgroundColor: '#268bd2'}} />
-                          <div id="editInputs">
-
+                          <div style={{ color: this.state.image ? 'black' : 'red', width: '50%', margin: 'auto', height: '100px', paddingTop: '30px', marginBottom: '30px' }}>
+                            <Dropzone
+                              multiple={false}
+                              accept="image/*"
+                              onDrop={e => this.onImageDrop(e)}
+                              style={dropzoneStyle}
+                            >
+                              <p className="dropzone" style={{ fontSize: '14px' }}>
+                                Profile Picture: Drop an image here or click to  upload.
+                              </p>
+                            </Dropzone>
+                          </div>
+                          <div id="editInputs" >
                             <TextField
-                              floatingLabelText="Who are you? (required)"
-                              type="who"
+                              floatingLabelText="Your Title (Full-Time Trader, Dapp Developer, Founder, etc)"
+                              type="description"
+                              value={this.state.description}
+                              style={{ marginTop: '8px' }}
+                              onChange={e => this.changeValue(e, 'description')}
                               fullWidth
-                              value={this.state.who}
-                              multiLine
-                              rows={2}
-                              rowsMax={6}
-                              onChange={e => this.changeValue(e, 'who')}
                             />
-                            <Subheader style={subStyle}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
-                          </div>
-                          <div id="editInputs">
-                            <TextField
-                              floatingLabelText="What is your crypto origin story? (optional)"
-                              type="origin"
+                            <SelectField
+                              floatingLabelText="Timezone"
+                              value={this.state.timezone}
+                              onChange={(event, index, value) => this.selectTimezone(event, index, value, 'id')}
+                              maxHeight={200}
                               fullWidth
-                              value={this.state.origin}
-                              multiLine
-                              rows={2}
-                              rowsMax={6}
-                              onChange={e => this.changeValue(e, 'origin')}
-                            />
-                            <Subheader style={subStyle}>Let newer crypto enthusiasts know what got you started.</Subheader>
-                          </div>
-                          <div id="editInputs">
+                              style={{ textAlign: 'start' }}
+                            >
+                              {menuTimeZones}
+                            </SelectField>
                             <TextField
-                              floatingLabelText="What excites you about blockchain tech? (optional)"
-                              type="excites"
-                              value={this.state.excites}
+                              floatingLabelText="Price Per 30 Minutes (in dollars)"
+                              type="price"
+                              value={this.state.price}
+                              errorText={this.state.priceErrorText}
                               fullWidth
-                              multiLine
-                              rows={2}
-                              rowsMax={6}
-                              onChange={e => this.changeValue(e, 'excites')}
+                              onChange={e => this.changeValue(e, 'price')}
                             />
-                            <Subheader style={subStyle}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
+                            <p style={{ fontSize: '14px' }} > Currently one Ether is {this.state.etherPrice} dollars,
+                              so you will earn {Number(Math.round((this.state.price / this.state.etherPrice)+'e3')+'e-3')}
+                              {' '}ETH/half-hour.  It will be set when someone books one of your timeslots.
+                            </p>
                           </div>
-                          <div id="editInputs">
-                            <TextField
-                              floatingLabelText="What can you help callers with? (required)"
-                              type="helps"
-                              value={this.state.helps}
-                              fullWidth
-                              multiLine
-                              rows={2}
-                              rowsMax={6}
-                              onChange={e => this.changeValue(e, 'helps')}
-                            />
-                            <Subheader style={subStyle}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
-                          </div>
-                          <Divider style={{ marginTop: '80px', height: '3px', backgroundColor: '#268bd2'}} />
-                          <div id="editInputs">
-                            <TextField
-                              floatingLabelText="Ethereum Wallet Address"
-                              type="walletAddress"
-                              value={this.state.walletAddress}
-                              fullWidth
-                              errorText={this.state.walletError}
-                              onChange={e => this.changeValue(e, 'walletAddress')}
-                            />
-                          </div>
-                          <div id="editInputs">
-                            <TextField
-                              floatingLabelText="Public URL"
-                              type="url"
-                              value={this.state.url}
-                              errorText={this.state.urlError}
-                              onChange={e => this.changeValue(e, 'url')}
-                            />
-                            <Subheader style={subStyle}>dimpull.com/{this.state.url}</Subheader>
-                          </div>
-                          <div id="editInputs">
-                            <TextField
-                              floatingLabelText="Phone Number"
-                              type="phone_number"
-                              value={this.state.phone_number}
-                              errorText={this.state.phone_number_error_text}
-                              onChange={e => this.changeValue(e, 'phone_number')}
-                            />
-                            <Subheader style={subStyle}>We will never share your number with anyone!</Subheader>
-                          </div>
-                          <Divider style={{ marginTop: '60px', marginBottom: '60px', height: '3px', backgroundColor: '#268bd2' }} />
-                          <h4>Optional Social Links</h4>
-                          <TextField
-                            floatingLabelText="Github URL"
-                            type="github"
-                            value={this.state.github}
-                            className="socials"
-                            onChange={e => this.changeValue(e, 'github')}
-                          />
-                          <TextField
-                            floatingLabelText="LinkedIn URL"
-                            type="linkedin"
-                            value={this.state.linkedin}
-                            className="socials"
-                            onChange={e => this.changeValue(e, 'linkedin')}
-                          />
-                          <br />
-                          <TextField
-                            floatingLabelText="Twitter URL"
-                            type="otherProfile"
-                            value={this.state.twitter}
-                            className="socials"
-                            onChange={e => this.changeValue(e, 'twitter')}
-                          />
-                          <TextField
-                            floatingLabelText="YouTube URL"
-                            type="otherProfile"
-                            value={this.state.youtube}
-                            className="socials"
-                            onChange={e => this.changeValue(e, 'youtube')}
-                          />
-                          <TextField
-                            floatingLabelText="Medium URL"
-                            type="medium"
-                            value={this.state.medium}
-                            className="socials"
-                            onChange={e => this.changeValue(e, 'medium')}
-                          />
-                          <br />
-                          {this.state.disabled && (
-                            <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginTop: '50px' }}>Save your edits for later</AwesomeButton>
-                          )}
-                          <AwesomeButton type="primary" action={e => this.submit(e)} style={{ marginLeft: '2px', marginTop: '50px' }} disabled={this.state.disabled}>Save full profile</AwesomeButton>
                         </div>
+                      )}
+                    </div>
+                    <div className="text-center">
+                      <div className="col-md-12">
+                        <Divider style={{ marginTop: '60px', height: '3px', backgroundColor: '#268bd2'}} />
+                        <div id="editInputs">
+
+                          <TextField
+                            floatingLabelText="Who are you? (required)"
+                            type="who"
+                            fullWidth
+                            value={this.state.who}
+                            multiLine
+                            rows={2}
+                            rowsMax={6}
+                            onChange={e => this.changeValue(e, 'who')}
+                          />
+                          <Subheader style={subStyle}>This is a good place to brag of your success and convince users that it is worth their ETH to speak to you.</Subheader>
+                        </div>
+                        <div id="editInputs">
+                          <TextField
+                            floatingLabelText="What is your crypto origin story? (optional)"
+                            type="origin"
+                            fullWidth
+                            value={this.state.origin}
+                            multiLine
+                            rows={2}
+                            rowsMax={6}
+                            onChange={e => this.changeValue(e, 'origin')}
+                          />
+                          <Subheader style={subStyle}>Let newer crypto enthusiasts know what got you started.</Subheader>
+                        </div>
+                        <div id="editInputs">
+                          <TextField
+                            floatingLabelText="What excites you about blockchain tech? (optional)"
+                            type="excites"
+                            value={this.state.excites}
+                            fullWidth
+                            multiLine
+                            rows={2}
+                            rowsMax={6}
+                            onChange={e => this.changeValue(e, 'excites')}
+                          />
+                          <Subheader style={subStyle}>Privacy, Voting, Contracts, Finance, Patents/Copyrights, Collectibles, Investing, etc...</Subheader>
+                        </div>
+                        <div id="editInputs">
+                          <TextField
+                            floatingLabelText="What can you help callers with? (required)"
+                            type="helps"
+                            value={this.state.helps}
+                            fullWidth
+                            multiLine
+                            rows={2}
+                            rowsMax={6}
+                            onChange={e => this.changeValue(e, 'helps')}
+                          />
+                          <Subheader style={subStyle}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
+                        </div>
+                        <Divider style={{ marginTop: '80px', height: '3px', backgroundColor: '#268bd2'}} />
+                        <div id="editInputs">
+                          <TextField
+                            floatingLabelText="Ethereum Wallet Address"
+                            type="walletAddress"
+                            value={this.state.walletAddress}
+                            fullWidth
+                            errorText={this.state.walletError}
+                            onChange={e => this.changeValue(e, 'walletAddress')}
+                          />
+                        </div>
+                        <div id="editInputs">
+                          <TextField
+                            floatingLabelText="Public URL"
+                            type="url"
+                            value={this.state.url}
+                            errorText={this.state.urlError}
+                            onChange={e => this.changeValue(e, 'url')}
+                          />
+                          <Subheader style={subStyle}>dimpull.com/{this.state.url}</Subheader>
+                        </div>
+                        <div id="editInputs">
+                          <TextField
+                            floatingLabelText="Phone Number"
+                            type="phone_number"
+                            value={this.state.phone_number}
+                            errorText={this.state.phone_number_error_text}
+                            onChange={e => this.changeValue(e, 'phone_number')}
+                          />
+                          <Subheader style={subStyle}>We will never share your number with anyone!</Subheader>
+                        </div>
+                        <Divider style={{ marginTop: '60px', marginBottom: '60px', height: '3px', backgroundColor: '#268bd2' }} />
+                        <h4>Optional Social Links</h4>
+                        <TextField
+                          floatingLabelText="Github URL"
+                          type="github"
+                          value={this.state.github}
+                          className="socials"
+                          onChange={e => this.changeValue(e, 'github')}
+                        />
+                        <TextField
+                          floatingLabelText="LinkedIn URL"
+                          type="linkedin"
+                          value={this.state.linkedin}
+                          className="socials"
+                          onChange={e => this.changeValue(e, 'linkedin')}
+                        />
+                        <br />
+                        <TextField
+                          floatingLabelText="Twitter URL"
+                          type="otherProfile"
+                          value={this.state.twitter}
+                          className="socials"
+                          onChange={e => this.changeValue(e, 'twitter')}
+                        />
+                        <TextField
+                          floatingLabelText="YouTube URL"
+                          type="otherProfile"
+                          value={this.state.youtube}
+                          className="socials"
+                          onChange={e => this.changeValue(e, 'youtube')}
+                        />
+                        <TextField
+                          floatingLabelText="Medium URL"
+                          type="medium"
+                          value={this.state.medium}
+                          className="socials"
+                          onChange={e => this.changeValue(e, 'medium')}
+                        />
+                        <br />
+                        {this.state.disabled && (
+                          <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginTop: '50px' }}>Save your edits for later</AwesomeButton>
+                        )}
+                        <AwesomeButton type="primary" action={e => this.submit(e)} style={{ marginLeft: '2px', marginTop: '50px' }} disabled={this.state.disabled}>Save full profile</AwesomeButton>
                       </div>
-                    </Paper>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="col-md-6 col-md-offset-0">
-              <div style={{ marginTop: '50px' }} >
-                <div>
-                  <h2> Preview: </h2>
+                    </div>
+                  </Paper>
                 </div>
-                <ProfileCard
-                  host={this.state.first_name ? `${this.state.first_name} ${this.state.last_name}` : ' '}
-                  image={this.state.image ? this.state.image : 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1523630798/grey.jpg'}
-                  description={this.state.description ? this.state.description : ' '}
-                  who={this.state.who}
-                  origin={this.state.origin}
-                  excites={this.state.excites}
-                  helps={this.state.helps}
-                  open={this.state.open}
-                  search={this.props.location.search}
-                  handleClose={() => this.handleClose()}
-                  deleteProfile={() => this.deleteProfile()}
-                  twitter={this.state.twitter}
-                  youtube={this.state.youtube}
-                  github={this.state.github}
-                  medium={this.state.medium}
-                  linkedin={this.state.linkedin}
-                  edit
-                />
-                {this.state.disabled && (
-                  <div style={{ paddingLeft: '15px' }} id="saveForLater">
-                    <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginLeft: '10%', marginTop: '30px' }}>Haven't finished?  Save your edits for later</AwesomeButton>
-                  </div>
-                )}
-              </div>        
+              )}
             </div>
+          </div>
+          <div className="col-md-6 col-md-offset-0">
+            <div style={{ marginTop: '50px' }} >
+              <div>
+                <h2> Preview: </h2>
+              </div>
+              <ProfileCard
+                host={this.state.first_name ? `${this.state.first_name} ${this.state.last_name}` : ' '}
+                image={this.state.image ? this.state.image : 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1523630798/grey.jpg'}
+                description={this.state.description ? this.state.description : ' '}
+                who={this.state.who}
+                origin={this.state.origin}
+                excites={this.state.excites}
+                helps={this.state.helps}
+                open={this.state.open}
+                search={this.props.location.search}
+                handleClose={() => this.handleClose()}
+                deleteProfile={() => this.deleteProfile()}
+                twitter={this.state.twitter}
+                youtube={this.state.youtube}
+                github={this.state.github}
+                medium={this.state.medium}
+                linkedin={this.state.linkedin}
+                edit
+              />
+              {this.state.disabled && (
+                <div style={{ paddingLeft: '15px' }} id="saveForLater">
+                  <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginLeft: '10%', marginTop: '30px' }}>Haven't finished?  Save your edits for later</AwesomeButton>
+                </div>
+              )}
+            </div>        
           </div>
           <Dialog
             title={this.state.title}

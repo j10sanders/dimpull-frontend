@@ -49,13 +49,13 @@ export function DefaultProfiles () {
 
 export const sliderList = [
   {
-    id: 1, url: 'tlc', first_name: 'Toni', last_name: 'Lane', description: 'Founder @ Cultu.re / Co-founder @ CoinTelegraph | Blockchain Pioneer | Entrepreneur | Investor | Empath | Board Member | Transformational Evangelist | Happy Lady.', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,f_auto,h_600,q_auto:eco/v1523635339/experts/sdo9fgjmzhsjvm2xyqhm.jpg'
+    id: 1, url: 'zb', first_name: 'Zach', last_name: 'Burks', description: 'CTO Harvest.Networks, Dapp Developer, full-time trader', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_600/v1524000202/experts/ndq8b8oyjeuwd7sbd58k.jpg'
   },
   {
-    id: 2, url: 'paul-foley', first_name: 'Paul', last_name: 'Foley', description: 'Founder & Investor', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1528327456/paulw.jpg'
+    id: 2, url: 'tlc', first_name: 'Toni', last_name: 'Lane', description: 'Founder @ Cultu.re / Co-founder @ CoinTelegraph | Blockchain Pioneer | Entrepreneur | Investor | Empath | Board Member | Transformational Evangelist | Happy Lady.', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,f_auto,h_600,q_auto:eco/v1523635339/experts/sdo9fgjmzhsjvm2xyqhm.jpg'
   },
   {
-    id: 3, url: 'zb', first_name: 'Zach', last_name: 'Burks', description: 'CTO Harvest.Networks, Dapp Developer, full-time trader', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_600/v1524000202/experts/ndq8b8oyjeuwd7sbd58k.jpg'
+    id: 3, url: 'paul-foley', first_name: 'Paul', last_name: 'Foley', description: 'Founder & Investor', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1528327456/paulw.jpg'
   },
   {
     id: 4, url: 'baselismail', first_name: 'Basel', last_name: 'Ismail', description: 'Co-Founder and CEO of Blockgram; Blockchain Technology and Cryptocurrencies; Data Scientist', image: 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1528326667/whiteb.jpg'

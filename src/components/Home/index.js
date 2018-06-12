@@ -17,7 +17,8 @@ class H extends React.Component {
     super(props);
     this.state = {
       dps: null,
-      expert: false
+      expert: false,
+      display: 'none'
     };
   }
 
@@ -43,6 +44,7 @@ class H extends React.Component {
   }
 
   async checkExpert () {
+
     const { isAuthenticated } = this.props.auth;
     const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
@@ -124,10 +126,10 @@ class H extends React.Component {
                     <div id="allFour">
                       <DefaultProfiles />
                     </div>
-                    <div id="slider">
+                    <div id="slider" >
                       <Carousel
                         // initialSlideHeight={450}
-                        autoplay
+                        // autoplay
                         autoplayInterval={5000}
                         wrapAround
                         // width="675px"

@@ -17,7 +17,6 @@ import './discussionprofile.css';
 const Markdown = require('react-remarkable');
 
 const ProfileCard = props => (
-  <div className="container">
     <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >
       <div className="col-md-6" id="leftcol">
         <div id="pic">
@@ -123,7 +122,6 @@ const ProfileCard = props => (
         )}
       </div>
     </div>
-  </div>
 );
 
 export default ProfileCard;
