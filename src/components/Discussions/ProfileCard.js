@@ -1,6 +1,5 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-// import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import { Card, CardActions, CardMedia, CardTitle } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -76,6 +75,14 @@ const ProfileCard = props => (
           </Card>
         )}
       </div>
+      {props.web3 !== null && (
+        <div>
+          {!props.web3 ?
+            <div id="web3error"><p>Make sure you have <a href="https://metamask.io/?utm_source=dimpull.com&utm_medium=referral" target="_blank" rel="noopener noreferrer">MetaMask</a> installed</p></div>:
+            <div id="web3success">Web3 client detected <i className="fas fa-wifi" /></div>
+          }
+        </div>
+      )}
       {props.reviews &&
         <div id="reviews">
           <h1> Reviews </h1>
@@ -166,7 +173,8 @@ ProfileCard.propTypes = {
   twitter: PropTypes.string,
   medium: PropTypes.string,
   linkedin: PropTypes.string,
-  schedule: PropTypes.func
+  schedule: PropTypes.func,
+  web3: PropTypes.bool
 };
 
 ProfileCard.defaultProps = {
@@ -191,5 +199,6 @@ ProfileCard.defaultProps = {
   linkedin: '',
   averageRating: false,
   reviews: null,
-  schedule: () => {}
+  schedule: () => {},
+  web3: null
 };

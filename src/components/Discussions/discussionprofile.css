@@ -175,3 +175,17 @@
   text-align: left;
   padding-top: 30px;
 }
+
+#web3error{
+  padding-top: 20px;
+  color: #930d0d;
+  text-align: center;
+  font-size: 16px;
+}
+
+#web3success{
+  padding-top: 20px;
+  color: green;
+  text-align: center;
+  font-size: 16px;
+}

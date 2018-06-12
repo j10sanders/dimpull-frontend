@@ -10,6 +10,7 @@ import axios from 'axios';
 import history from '../../history';
 import NeedReview from './needReview';
 import ProfileCard from './ProfileCard';
+import getWeb3 from '../../utils/getWeb3';
 import './discussionprofile.css';
 
 const colors = ['FF9A57', '01B48F', 'D0D2D3', 'C879B2', '44C7F4'];
@@ -24,13 +25,17 @@ class DP extends React.Component {
       emailOpen: false,
       waiting: true,
       vip: false,
-      wrongVip: false
+      wrongVip: false,
+      web3: false
     };
   }
 
   componentDidMount () {
     this.getDiscussion();
+    this.findWeb3();
   }
+
+  
 
   async getDiscussion () {
     this.etherPrice();
@@ -116,6 +121,15 @@ class DP extends React.Component {
 
   getEmail () {
     this.setState({ emailOpen: true });
+  }
+
+  async findWeb3 () {
+    const results = await getWeb3;
+    if (results.error) {
+      this.setState({ web3: false });
+    } else {
+      this.setState({ web3: true });
+    }
   }
 
   reviews (reviews) {
@@ -334,6 +348,7 @@ class DP extends React.Component {
             reviews={this.state.reviewRender}
             averageRating={averageRating}
             schedule={() => this.schedule()}
+            web3={this.state.web3}
           />
         )}
       </div>
