@@ -130,7 +130,7 @@ class H extends React.Component {
                         autoplay
                         autoplayInterval={5000}
                         wrapAround
-                        // width="675px"
+                        // width="520px"
                         speed={800}
                       >
                         {sliderList.map(dp => (
@@ -146,7 +146,7 @@ class H extends React.Component {
                                 key={dp.id}
                                 title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
                                 subtitle={dp.description}
-                                style={{ height: 375, width: 500, margin: '0px auto' }}
+                                style={{ height: 405, width: '540px', margin: '0px auto' }}
                               >
                                 <img src={dp.image} alt={dp.id} />
                               </GridTile>
