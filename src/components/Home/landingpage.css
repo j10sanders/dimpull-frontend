@@ -273,11 +273,13 @@ p{
 }
 
 .slider-list{
-	height: 450px !important;
+	height: 400px !important;
 }
 
 .slider-control-centerleft, .slider-control-centerright, .slider-control-bottomcenter{ 
 	display: none;
 }
 
-
+#slider{
+	margin-top: 20px;
+}

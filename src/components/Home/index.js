@@ -146,7 +146,7 @@ class H extends React.Component {
                                 key={dp.id}
                                 title={<span><b>{`${dp.first_name} ${dp.last_name}`}</b></span>}
                                 subtitle={dp.description}
-                                style={{ height: 450, width: '675px', margin: '0px auto' }}
+                                style={{ height: 375, width: 500, margin: '0px auto' }}
                               >
                                 <img src={dp.image} alt={dp.id} />
                               </GridTile>
