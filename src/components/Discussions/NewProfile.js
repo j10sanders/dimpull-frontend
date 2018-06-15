@@ -41,7 +41,8 @@ class newProfile extends React.Component {
       country: 'United States',
       hasName: false,
       codeAccepted: false,
-      noCode: false
+      noCode: false,
+      name:'',
     };
   }
 
@@ -53,21 +54,21 @@ class newProfile extends React.Component {
   }
 
   componentDidMount () {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
+    // const { isAuthenticated } = this.props.auth;
+    // const { getAccessToken } = this.props.auth;
     this.getEmail();
     this.getProfile();
-    let headers = {};
-    if (isAuthenticated()) {
-      headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-    }
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
-      .then((response) => {
-        this.setState({ expert: response.data.expert, tel: response.data.phone_number });
-      })
-      .catch(function (error) {
-        console.log(error)
-      });
+    // let headers = {};
+    // if (isAuthenticated()) {
+    //   headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    // }
+    // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
+    //   .then((response) => {
+    //     this.setState({ expert: response.data.expert, tel: response.data.phone_number });
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //   });
     this.checkRegistered();
   }
 
@@ -85,9 +86,9 @@ class newProfile extends React.Component {
   getNames (name) {
     if (name) {
       this.setState({
-        // hasName: false,
         first_name: name.split(' ').slice(0, -1).join(' '),
-        last_name: name.split(' ').slice(-1).join(' ')
+        last_name: name.split(' ').slice(-1).join(' '),
+        name
       });
     }
   }
@@ -289,41 +290,25 @@ class newProfile extends React.Component {
               <div className="text-center">
                 <h2>Become a Dimpull Expert</h2>
                 <div className="col-md-12">
-                  {(this.state.hasName) && (
-                    <TextField
-                      defaultValue={`${this.state.first_name} ${this.state.last_name}`}
-                      type="name"
-                      style={textStyle}
-                      // fullWidth={true}
-                      floatingLabelText="First and last name"
-                      onChange={e => this.changeValue(e, 'name')}
-                    />
-                  )}
-                  {(!this.state.hasName) && (
-                    <TextField
-                      type="name"
-                      style={textStyle}
-                      // fullWidth={true}
-                      floatingLabelText="First and last name"
-                      onChange={e => this.changeValue(e, 'name')}
-                    />
-                  )}
                   <TextField
-                    // hintText="Email (so we can notify you if you get accepted)"
+                    type="name"
+                    style={textStyle}
+                    floatingLabelText="First and last name"
+                    onChange={e => this.changeValue(e, 'name')}
+                    value={this.state.name}
+                  />
+                  <TextField
                     floatingLabelText="Email"
                     type="email"
-                    // defaultValue={this.state.email}
                     value={this.state.email}
                     style={textStyle}
                     onChange={e => this.changeValue(e, 'email')}
-                    // fullWidth={true}
                   />
                   <SelectField
                     floatingLabelText="Country"
                     value={this.state.country}
                     onChange={(event, index, value) => this.selectCountry(event, index, value, 'id')}
                     maxHeight={200}
-                    // fullWidth={true}
                     style={textStyle}
                   >
                     {allCountries.all.sort().map(country =>
@@ -331,13 +316,11 @@ class newProfile extends React.Component {
                     }
                   </SelectField>
                   <TextField
-                    // hintText="Comma separated if you want to show multiple links"
                     floatingLabelText="Post a link that best showcases your expertise"
                     type="otherProfile"
-                    // fullWidth={true}
                     style={textStyle}
-                    // errorText={this.state.tel_error_text}
                     onChange={e => this.changeValue(e, 'otherProfile')}
+                    value={this.state.otherProfile}
                   />
                   <TextField
                     floatingLabelText="Message for the dimpull admins (optional)"
@@ -348,7 +331,6 @@ class newProfile extends React.Component {
                     rows={1}
                     rowsMax={6}
                     style={textStyle}
-                    // fullWidth={true}
                   />
                   <TextField
                     floatingLabelText="Phone number"
@@ -356,7 +338,7 @@ class newProfile extends React.Component {
                     errorText={this.state.tel_error_text}
                     onChange={e => this.changeValue(e, 'tel')}
                     style={textStyle}
-                    // value={this.state.tel}
+                    value={this.state.tel}
                   />
                 </div>
                 <AwesomeButton type="primary" action={e => this.submit(e)} style={{ marginLeft: '2px', marginTop: '50px' }} disabled={this.state.disabled}>Continue</AwesomeButton>
