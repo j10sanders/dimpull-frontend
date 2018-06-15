@@ -344,7 +344,7 @@ class Avail extends React.Component {
         (
           <div>
             <div style={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>
-              <h3 style={{fontSize: '17px'}}>{`Don't see a time that works (below)?`}</h3>
+              <h3 style={{fontSize: '19px'}}>{`Don't see a time that works (below)?`}</h3>
               <FlatButton
                 label={`Ask ${this.props.location.state.host} for other times`} 
                 primary={true}
