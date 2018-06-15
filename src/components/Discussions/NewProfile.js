@@ -41,7 +41,7 @@ class newProfile extends React.Component {
       country: 'United States',
       codeAccepted: false,
       noCode: false,
-      name:''
+      name: ''
     };
   }
 

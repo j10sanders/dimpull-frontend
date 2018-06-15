@@ -15,6 +15,7 @@ import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
+import Divider from 'material-ui/Divider';
 import history from '../../history';
 import '../Profile/calendar.css'
 
@@ -342,7 +343,39 @@ class Avail extends React.Component {
       :
         (
           <div>
-            <Paper style={{marginTop: '10px'}}>
+            <div style={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>
+              <h3>{`Don't see a time that works (below)?`}</h3>
+              <FlatButton
+                label={`Ask ${this.props.location.state.host} for other times`} 
+                primary={true}
+                onClick={() => this.requestAvailability()}
+                style={{ marginBottom: '20px' }}
+              />
+              <Divider />
+              <Dialog
+                title={`Let ${this.props.location.state.host} know you want to talk`}
+                actions={submitEmail}
+                modal={false}
+                open={this.state.requestAvailability}
+                onRequestClose={() => this.handleCloseAvailability.bind(this)}
+              >
+                <TextField
+                  floatingLabelText="Your email"
+                  type="email"
+                  value={this.state.email}
+                  fullWidth
+                  onChange={e => this.changeEmail(e)}
+                />
+                <TextField
+                  floatingLabelText="short message"
+                  type="message"
+                  value={this.state.message}
+                  fullWidth
+                  onChange={e => this.changeMessage(e)}
+                />
+              </Dialog>
+            </div>
+            <Paper style={{marginTop: '30px'}}>
               <DragAndDropCalendar
                 selectable
                 events={this.state.events}
