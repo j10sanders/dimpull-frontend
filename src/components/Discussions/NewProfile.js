@@ -39,10 +39,9 @@ class newProfile extends React.Component {
       tel: '',
       pnf: '',
       country: 'United States',
-      hasName: false,
       codeAccepted: false,
       noCode: false,
-      name:'',
+      name:''
     };
   }
 
@@ -119,7 +118,7 @@ class newProfile extends React.Component {
 
   async checkRegistered () {
     const { getAccessToken } = this.props.auth;
-    let headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+    const headers = { Authorization: `Bearer ${getAccessToken()}` };
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
