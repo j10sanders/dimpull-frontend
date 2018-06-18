@@ -17,7 +17,7 @@ class H extends React.Component {
     super(props);
     this.state = {
       dps: null,
-      expert: false,
+      expert: false
     };
   }
 
