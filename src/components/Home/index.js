@@ -180,7 +180,7 @@ class H extends React.Component {
                 <div className="col-sm-3">
                   <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/Calendar_Icon.png" alt="schedule "id="imgWorks" />
                   <h3 id="hHelp">Schedule</h3>
-                  <p id="pHelp">Schedule a 30 minute call with an expert</p>
+                  <p id="pHelp">Schedule call with an expert</p>
                 </div>
                 <div className="col-sm-3">
                   <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/Phone_Icon.png" alt="phone" id="imgWorks" />

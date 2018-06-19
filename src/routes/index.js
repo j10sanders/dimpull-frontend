@@ -55,10 +55,7 @@ const Routes = () => (
   			    <Route path="/calendar" render={(props) => <AsyncCalendar auth={auth} {...props} />} />
   			    <Route path="/bookedtimes" render={(props) => <AsyncBookedTimes auth={auth} {...props} />} />
   			    <Route path="/profile" render={(props) => <AsyncProfile auth={auth} {...props} />} />
-  			    <Route path="/callback" render={(props) => {
-  		          handleAuthentication(props);
-  		          return <Callback {...props} /> 
-  		        }}/>
+  			    <Route path="/callback" render={(props) => { handleAuthentication(props); return <Callback {...props} /> }}/>
   			    <Route path="*" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
   			  </Switch>
   			</ScrollToTop>
