@@ -52,7 +52,6 @@ class Contact extends React.Component {
       tel: '',
       tel_error_text: '',
       disabled: true,
-      // startTime: '',
       open: false,
       openError: false,
       pnf: '',

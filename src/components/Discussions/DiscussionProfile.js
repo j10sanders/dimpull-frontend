@@ -35,8 +35,6 @@ class DP extends React.Component {
     this.findWeb3();
   }
 
-  
-
   async getDiscussion () {
     this.etherPrice();
     let requestUrl = this.props.location.pathname;
