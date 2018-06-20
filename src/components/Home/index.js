@@ -165,7 +165,7 @@ class H extends React.Component {
 
             </div>
           </section>
-          <div style={{ backgroundColor: '#f7f7f7', marginTop: '100px', marginBottom: '100px' }}>
+          <div style={{ backgroundColor: '#f7f7f7', marginTop: '48px', marginBottom: '100px' }}>
             <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
             <Paper id="help" zDepth={1}>
               <h2 id="howItWorks"> HOW IT WORKS </h2>
