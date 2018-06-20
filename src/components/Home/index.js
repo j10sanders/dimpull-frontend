@@ -157,7 +157,7 @@ class H extends React.Component {
                       </Carousel>
                     </div>
                     <div id="findBelow">
-                      <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '20px', height: 'auto', lineHeight: '50px', minWidth: '190px', width: '10%' }} >Find Your Expert</AwesomeButton>
+                      <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '40px', height: 'auto', lineHeight: '50px', minWidth: '190px', width: '10%' }} >Find Your Expert</AwesomeButton>
                     </div>
                   </div>
                 }

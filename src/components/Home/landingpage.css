@@ -101,6 +101,7 @@ p{
 	}
 	#head{
 		padding-left: 10px;
+		padding-right: 10px;
 	}
 	#GridlistID {
 	    /*padding-right: 10%;*/
@@ -192,7 +193,8 @@ p{
 	}
 
 	#head{
-		padding-left: 10%;
+		padding-left: 7%;
+		padding-right: 7%;
 	}
 	#meetTheExperts{
 		margin-top: -153px;
@@ -237,7 +239,7 @@ p{
 
 @media (max-height: 900px){ 
 	#headerTop {
-		padding-top: 6vh;
+		padding-top: 10vh;
 	}
 	#howItWorks {
 		margin-top: 20px;
@@ -277,8 +279,12 @@ p{
 	height: 400px !important;
 }
 
-.slider-control-centerleft, .slider-control-centerright, .slider-control-bottomcenter{ 
+.slider-control-centerleft, .slider-control-centerright{ 
 	display: none;
+}
+
+.slider-control-bottomcenter{
+	bottom: -56px !important;
 }
 
 #slider{

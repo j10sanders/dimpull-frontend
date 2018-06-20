@@ -5,7 +5,7 @@ import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 import Auth from './Auth/Auth';
 
-require('./index.css') ;
+require('./index.css');
 const auth = new Auth();
 async function start () {
   await auth.renewToken();
