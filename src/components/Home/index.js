@@ -71,31 +71,31 @@ class H extends React.Component {
           <section id="headerTop">
             <div className="row" id="headerRow">
               <div className="col-sm-6">
-                  <div id="head">
-                    <h1 id="exchange">Talk Before You Trade</h1>
-                    <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
-                    <h3 id="h3exchange" className="secondH3">Use Ethereum to book your call</h3>
-                    {!this.state.isAuthenticated ? (
-                      <AwesomeButton
-                        type="primary"
-                        action={link}
-                        style={style}
-                      >
-                        {label}
-                      </AwesomeButton>
-                    ) :
-                      <AwesomeButton
-                        type="primary"
-                        action={link}
-                        style={style}
-                      >
-                        {label}
-                      </AwesomeButton>
-                    }
-                    <div id="findAbove">
-                      <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left' }} >Find Your Expert</AwesomeButton>
-                    </div>
+                <div id="head">
+                  <h1 id="exchange">Talk Before You Trade</h1>
+                  <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
+                  <h3 id="h3exchange" className="secondH3">Use Ethereum to book your call</h3>
+                  {!this.state.isAuthenticated ? (
+                    <AwesomeButton
+                      type="primary"
+                      action={link}
+                      style={style}
+                    >
+                      {label}
+                    </AwesomeButton>
+                  ) : (
+                    <AwesomeButton
+                      type="primary"
+                      action={link}
+                      style={style}
+                    >
+                      {label}
+                    </AwesomeButton>
+                  )}
+                  <div id="findAbove">
+                    <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left' }} >Find Your Expert</AwesomeButton>
                   </div>
+                </div>
               </div>
               <div className="col-sm-6" id="colGrid">
                 {this.state.dps ? (
