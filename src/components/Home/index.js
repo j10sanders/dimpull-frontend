@@ -71,7 +71,6 @@ class H extends React.Component {
           <section id="headerTop">
             <div className="row" id="headerRow">
               <div className="col-sm-6">
-                <Paper id="headerPaper" zDepth={1}>
                   <div id="head">
                     <h1 id="exchange">Talk Before You Trade</h1>
                     <h3 id="h3exchange">Have a 30 minute conversation with a blockchain expert</h3>
@@ -97,7 +96,6 @@ class H extends React.Component {
                       <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', minWidth: '190px', float: 'left' }} >Find Your Expert</AwesomeButton>
                     </div>
                   </div>
-                </Paper>
               </div>
               <div className="col-sm-6" id="colGrid">
                 {this.state.dps ? (
