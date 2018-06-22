@@ -26,5 +26,4 @@ export const Footer = () => (
       </div>
     </div>
   </div>
-)
-// <a href="mailto:admin@dimpull.com">Contact</a>
+);

@@ -9,11 +9,10 @@ import Dialog from 'material-ui/Dialog';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import { List } from 'material-ui/List';
+import Markdown from 'react-remarkable';
 import Subheader from 'material-ui/Subheader';
 import { AwesomeButton } from 'react-awesome-button';
 import './discussionprofile.css';
-
-const Markdown = require('react-remarkable');
 
 const ProfileCard = props => (
   <div className="row" style={{ marginRight: '0px', marginLeft: '0px' }} >

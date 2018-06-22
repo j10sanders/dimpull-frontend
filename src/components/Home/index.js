@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { AwesomeButton } from 'react-awesome-button';
 import Carousel from 'nuka-carousel';
+import smalleth from '../../utils/ethlb.png';
 import { DefaultProfiles, sliderList } from './DefaultProfiles';
 import history from '../../history';
 import './landingpage.css';
@@ -74,7 +75,12 @@ class H extends React.Component {
                 <div id="head">
                   <h1 id="exchange">Talk Before You Trade</h1>
                   <h3 id="h3exchange">Have a conversation with a blockchain expert</h3>
-                  <h3 id="h3exchange" className="secondH3">Use Ethereum to book your call</h3>
+                  <div style={{ display: 'table' }}>
+                    <div style={{ display: 'table-cell' }}>
+                      <h3 id="h3exchange" className="secondH3">Use Ethereum to book your call </h3>
+                    </div>
+                    <img id="ethimg" alt="ethimg" style={{ marginBottom: '12px' }} src={smalleth} />
+                  </div>
                   {!this.state.isAuthenticated ? (
                     <AwesomeButton
                       type="primary"

@@ -271,6 +271,12 @@ p{
 	}
 }
 
+@media (max-width: 498px){
+	#ethimg {
+		display: none;
+	}
+}
+
 #findBelow{
 	/*padding-right: 10%;*/
 }
