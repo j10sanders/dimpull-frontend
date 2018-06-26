@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'; //Have to use @material-ui's because drawer and header are updated for react 16
 import MenuIcon from '@material-ui/icons/Menu';
@@ -29,67 +28,8 @@ class Header extends Component {
     super(props);
     this.state = {
       open: false,
-      picture: null,
       over: false
     };
-  }
-
-  componentWillMount () {
-    this.getProfile();
-  }
-
-  componentDidMount () {
-    this.timeOutPic();
-  }
-
-  componentWillReceiveProps (nextProps, nextContext) {
-    if (nextProps.location.pathname === '/' && this.props.location.pathname === '/login') {
-      this.getProfile();
-    }
-    if (!this.state.picture) {
-      this.getProfile();
-    }
-  }
-
-  getProfile () {
-    if (!this.state.picture) {
-      const { isAuthenticated } = this.props.auth;
-      if (isAuthenticated()) {
-        this.setState({ isAuthenticated: true }, () => {
-          const { userProfile, getProfile } = this.props.auth;
-          if (!userProfile) {
-            getProfile((err, profile) => {
-              if (profile) {
-                this.setState({ picture: profile.picture });
-              } else {
-                this.getPicFromServer();
-              }
-            });
-          } else {
-            this.setState({ picture: userProfile.picture });
-          }
-        });
-      } else {
-        this.setState({ picture: null, isAuthenticated: false });
-      }
-    }
-  }
-
-  async getPicFromServer () {
-    const { getAccessToken } = this.props.auth;
-    if (this.state.isAuthenticated) {
-      const headers = { Authorization: `Bearer ${getAccessToken()}` };
-      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
-      if (response.data.pic) {
-        this.setState({ picture: response.data.pic });
-      }
-    }
-  }
-
-  timeOutPic () {
-    window.setTimeout(() => {
-      this.getProfile();
-    }, 2000);
   }
 
   handleClickOutside () {
@@ -113,7 +53,7 @@ class Header extends Component {
   render () {
     const fullList = (
       <div>
-        {!this.state.picture && <MenuItem
+        {!this.props.picture && <MenuItem
           containerElement={<Link to="/newProfile"  />}
           onClick={() => this.setState({ open: false })}
         >
@@ -124,7 +64,7 @@ class Header extends Component {
           containerElement={<Link to="/login" />}
           onClick={() => this.setState({ open: false })}
         >
-          {this.state.isAuthenticated ? `Log Out` : `Login` }
+          {this.props.isAuthenticated ? `Log Out` : `Login` }
         </MenuItem>
         <MenuItem
           containerElement={<Link to="/experts" />}
@@ -174,7 +114,7 @@ class Header extends Component {
             iconElementLeft={<Button onClick={this.toggleDrawer('left', true)} style={{color: 'white', marginTop: '4px'}}><MenuIcon style={{color: 'white'}} /></Button>}
             iconElementRight={
               <Link to={'/profile'} style={{ marginTop: '-12px', marginBottom: '-6px'}}>
-                {!this.state.picture
+                {!this.props.picture
                   ? <FlatButton
                     label={<img
                       src="https://res.cloudinary.com/dtvc9q04c/image/upload/v1519823675/orangemagnet-48.png"
@@ -184,9 +124,9 @@ class Header extends Component {
                     id="home"
                   />
                   : <div style={{ paddingTop: '5px', paddingRight: '15px' }}>
-                    {this.state.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
+                    {this.props.picture.startsWith('https://s.gravatar.com/avatar') ? <i className="far fa-user fa-2x" style={{ marginTop: '6px' }} /> :
                       <div onMouseOver={() => Header.onMouseEnter()}  onMouseOut={() => Header.onMouseLeave()}>
-                        <Avatar src={this.state.picture} style={{ border: 0, objectFit: 'cover' }} />
+                        <Avatar src={this.props.picture} style={{ border: 0, objectFit: 'cover' }} />
                         <i style={{ marginLeft: '12px', marginBottom: '-5px', fontSize: '22px' }} className="fas fa-angle-down" />
                       </div>
                     }
@@ -202,15 +142,13 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  auth: PropTypes.shape({
-    isAuthenticated: PropTypes.func,
-    getAccessToken: PropTypes.func,
-    login: PropTypes.func
-  })
+  picture: PropTypes.string,
+  isAuthenticated: PropTypes.bool
 };
 
 Header.defaultProps = {
-  auth: PropTypes.object
+  picture: '',
+  isAuthenticated: false
 };
 
 export default Header;

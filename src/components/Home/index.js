@@ -1,6 +1,5 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
-import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
@@ -17,51 +16,20 @@ class H extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      dps: null,
-      expert: false
+      dps: null
     };
   }
 
-  componentDidMount () {
-    this.checkExpert();
-    // this.getExperts();
-    this.timeout = this.timeoutCheckExpert();
-  }
+  // componentDidMount () {
+  //   this.getExperts();
+  // }
 
-  componentWillUnmount () {
-    // debugger;
-    // this.mounted = false;
-    // clearTimeout(this.timeout);
-  }
-
-  async getExperts () {
-    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`);
-    if (response.data) {
-      this.setState({ dps: response.data.slice(0, 4) });
-    }
-  }
-
-  timeoutCheckExpert () {
-    window.setTimeout(() => {
-      if (!this.state.expert) {
-        this.checkExpert();
-      }
-    }, 2000);
-  }
-
-  async checkExpert () {
-    console.log("checkExpert")
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    if (isAuthenticated()) {
-      this.setState({ isAuthenticated: true });
-      const headers = { Authorization: `Bearer ${getAccessToken()}` };
-      const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/isexpert`, { headers });
-      if (response.data.expert) {
-        this.setState({ expert: true });
-      }
-    }
-  }
+  // async getExperts () {
+  //   const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/home`);
+  //   if (response.data) {
+  //     this.setState({ dps: response.data.slice(0, 4) });
+  //   }
+  // }
 
   render () {
     let link = () => history.push('/newProfile');
@@ -69,7 +37,7 @@ class H extends React.Component {
     const style = {
       fontSize: '18px', marginTop: '30px', height: 'auto', lineHeight: '50px', display: 'flex', minWidth: '190px', float: 'left', marginRight: '4px'
     };
-    if (this.state.isAuthenticated && this.state.expert) {
+    if (this.props.isAuthenticated && this.props.isexpert) {
       link = () => history.push('/profile');
       label = 'Edit Your Profile';
     }
@@ -83,7 +51,7 @@ class H extends React.Component {
                   <h1 id="exchange">Talk Before You Trade</h1>
                   <h3 id="h3exchange">Have a conversation with a blockchain expert</h3>
                   <h3 id="h3exchange" className="secondH3">Use Ethereum to book your call </h3>
-                  {!this.state.isAuthenticated ? (
+                  {!this.props.isAuthenticated ? (
                     <AwesomeButton
                       type="primary"
                       action={link}
@@ -127,7 +95,7 @@ class H extends React.Component {
                       </Link>
                     ))}
                   </GridList>
-                ) :
+                ) : (
                   <div>
                     <div id="allFour">
                       <DefaultProfiles />
@@ -168,7 +136,7 @@ class H extends React.Component {
                       <AwesomeButton type="reddit" action={() => history.push('/experts')} style={{ fontSize: '18px', marginTop: '40px', height: 'auto', lineHeight: '50px', minWidth: '190px', width: '10%' }} >Find Your Expert</AwesomeButton>
                     </div>
                   </div>
-                }
+                )}
               </div>
 
             </div>
@@ -205,7 +173,7 @@ class H extends React.Component {
             </Paper>
             <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
           </div>
-          {this.state.expert ? (
+          {this.props.isexpert ? (
             <div>
               <h2 style={{ marginBottom: '20px' }}> How to get more calls: </h2>
               <p id="pRegister"> Share your profile link on your homepage, LinkedIn, and Twitter.  Find more tips in your profile settings page:
@@ -218,15 +186,14 @@ class H extends React.Component {
                 <p id="pRegister"> Register to become a dimpull expert. If we think you're a good fit, we'll add you to our roster of verified experts, 
                   so you can start connecting with crypto enthusiasts.
                 </p>
-                {!this.state.isAuthenticated && (
+                {!this.props.isAuthenticated && (
                   <AwesomeButton type="reddit" action={() => this.props.auth.login('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
                 )}
-                {this.state.isAuthenticated && (
+                {this.props.isAuthenticated && (
                   <AwesomeButton type="reddit" action={() => history.push('/newProfile')} style={{ fontSize: '18px', marginTop: '30px', marginBottom: '30px', height: 'auto', lineHeight: '45px' }} >Become a Dimpull Expert</AwesomeButton>
                 )}
               </div>
             )}
-            
         </div>
       </div>
     );
