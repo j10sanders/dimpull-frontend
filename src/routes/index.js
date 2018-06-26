@@ -40,6 +40,15 @@ class Routes extends Component {
 
   componentDidMount () {
     this.checkExpert();
+    this.timeoutCheckExpert();
+  }
+
+  timeoutCheckExpert () {
+    window.setTimeout(() => {
+      if (!this.state.expert) {
+        this.checkExpert();
+      }
+    }, 2000);
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
@@ -67,14 +76,14 @@ class Routes extends Component {
           this.setState({ picture: userProfile.picture });
         }
       } else {
-        this.setState({ picture: null, isAuthenticated: false });
+        this.setState({ picture: null });
       }
     }
   }
 
   async checkExpert () {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
+    const { isAuthenticated } = auth;
+    const { getAccessToken } = auth;
     if (isAuthenticated()) {
       this.setState({ isAuthenticated: true });
       const headers = { Authorization: `Bearer ${getAccessToken()}` };
@@ -90,6 +99,7 @@ class Routes extends Component {
 
   render () {
     const { isAuthenticated, expert, picture } = this.state;
+    console.log(picture)
     return (
       <Router history={history}>
         <div>
