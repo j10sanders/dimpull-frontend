@@ -225,7 +225,6 @@ class DP extends React.Component {
   }
 
   render () {
-    console.log(typeof(this.state.reviewRender))
     if (this.state.nonExistant) {
       return <div> {"That profile doesn't exist"} </div>;
     }

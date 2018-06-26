@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import Auth from './Auth/Auth';
 import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
-import Auth from './Auth/Auth';
+import './index.css';
 
-require('./index.css');
 const auth = new Auth();
-async function start () {
+const start = async () => {
   await auth.renewToken();
-  ReactDOM.render(<App />, document.getElementById('root'));
-}
+  ReactDOM.render(<App auth={auth} />, document.getElementById('root'));
+};
 
 start();
 // registerServiceWorker();

@@ -80,8 +80,7 @@ class Header extends Component {
         </MenuItem>
       </div>
     )
-
-
+    
     return (
       <MuiThemeProvider theme={theme}>
         <header>

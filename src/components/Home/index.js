@@ -113,7 +113,7 @@ const Home = props => (
               <p id="pHelp">Get one-on-one personalized advice</p>
             </div>
             <div className="col-sm-3">
-              <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/ETHExhange_Icon.png" alt="ether"id="imgWorks" />
+              <img src="https://res.cloudinary.com/dtvc9q04c/image/upload/c_scale,h_256/v1519824000/ETHExhange_Icon.png" alt="ether" id="imgWorks" />
               <h3 id="hHelp">Use the Blockchain</h3>
               <p id="pHelp">Our smart-contract holds Ether payments until the end of the call</p>
             </div>
@@ -151,13 +151,14 @@ Home.propTypes = {
   auth: PropTypes.shape({
     login: PropTypes.func
   }),
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  isexpert: PropTypes.bool
 };
 
 Home.defaultProps = {
   auth: {},
-  isAuthenticated: false
+  isAuthenticated: false,
+  isexpert: false
 };
 
-// const Home = withRouter(H);
 export default Home;

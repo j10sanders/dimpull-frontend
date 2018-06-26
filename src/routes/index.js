@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Router, Route, Switch} from 'react-router-dom';
 import asyncComponent from "../components/AsyncComponent";
-import Auth from '../Auth/Auth.js';
+import Auth from '../Auth/Auth';
 import history from '../history';
 import Callback from '../Callback/Callback';
 import Header from '../components/Header';
+import Home from "../components/Home";
 import ScrollToTop from './scrollToTop';
 const auth = new Auth();
-const AsyncHome = asyncComponent(() => import("../components/Home"));
 const AsyncNewProfile = asyncComponent(() => import("../components/Discussions/NewProfile"));
 const AsyncEditProfile = asyncComponent(() => import("../components/Discussions/EditProfile"));
 const AsyncAvailability = asyncComponent(() => import("../components/Discussions/Availability"));
@@ -38,6 +38,10 @@ class Routes extends Component {
     };
   }
 
+  componentDidMount () {
+    this.checkExpert();
+  }
+
   componentWillReceiveProps (nextProps, nextContext) {
     if (nextProps.location.pathname === '/' && this.props.location.pathname === '/login') {
       this.getProfile();
@@ -50,7 +54,7 @@ class Routes extends Component {
   getProfile () {
     if (!this.state.picture) {
       if (this.state.isAuthenticated) {
-        const { userProfile, getProfile } = auth;
+        const { userProfile, getProfile } = this.props.auth;
         if (!userProfile) {
           getProfile((err, profile) => {
             if (profile) {
@@ -68,23 +72,9 @@ class Routes extends Component {
     }
   }
 
-  componentDidMount () {
-    this.checkExpert();
-    this.timeoutCheckExpert();
-  }
-
-
-  timeoutCheckExpert () {
-    window.setTimeout(() => {
-      if (!this.state.expert) {
-        this.checkExpert();
-      }
-    }, 2000);
-  }
-
   async checkExpert () {
-    const { isAuthenticated } = auth;
-    const { getAccessToken } = auth;
+    const { isAuthenticated } = this.props.auth;
+    const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
       this.setState({ isAuthenticated: true });
       const headers = { Authorization: `Bearer ${getAccessToken()}` };
@@ -103,7 +93,7 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <div>
-          <Route render={(props) => <Header isAuthenticated={isAuthenticated} picture={picture} {...props} />} />
+          <Route render={() => <Header isAuthenticated={isAuthenticated} picture={picture} />} />
           <div
             className="container"
             style={{ 
@@ -113,8 +103,8 @@ class Routes extends Component {
           >
             <ScrollToTop>
               <Switch>
-                <Route exact path="/" render={(props) => <AsyncHome auth={auth} isAuthenticated={isAuthenticated} isexpert={expert} {...props} />} />
-                <Route exact path="/home" render={(props) => <AsyncHome auth={auth} isAuthenticated={isAuthenticated} isexpert={expert} {...props} />} />
+                <Route exact path="/" render={() => <Home auth={auth} isAuthenticated={isAuthenticated} isexpert={expert} />} />
+                <Route exact path="/home" render={() => <Home auth={auth} isAuthenticated={isAuthenticated} isexpert={expert} />} />
                 <Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
                 <Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
                 <Route exact path="/experts" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />

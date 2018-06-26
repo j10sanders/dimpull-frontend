@@ -25,7 +25,7 @@ function App (props) {
     <div id="othersection">
       <MuiThemeProvider muiTheme={muiTheme} style={styles}>
         <section id="section">
-          <Routes />
+          <Routes auth={props.auth} />
         </section>
       </MuiThemeProvider>
       <Footer />
