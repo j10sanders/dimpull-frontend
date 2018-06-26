@@ -67,7 +67,9 @@ class EditProfile extends React.Component {
       medium: '',
       title: 'Looks great!  Make sure to set your availability too.',
       submitFull: false, // so server knows if it's a full profile
-      tc: false
+      tc: false,
+      url: '',
+      phone_number: ''
     };
   }
 
@@ -585,6 +587,7 @@ class EditProfile extends React.Component {
                 <h2> Preview: </h2>
               </div>
               <ProfileCard
+                averageRating={null}
                 host={this.state.first_name ? `${this.state.first_name} ${this.state.last_name}` : ' '}
                 image={this.state.image ? this.state.image : 'https://res.cloudinary.com/dtvc9q04c/image/upload/v1523630798/grey.jpg'}
                 description={this.state.description ? this.state.description : ' '}

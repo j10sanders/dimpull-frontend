@@ -132,7 +132,11 @@ const Options = props => (
 );
 
 Options.propTypes = {
-  status: PropTypes.shape,
+  status: PropTypes.shape({
+    vipExpanded: PropTypes.bool,
+    refExpanded: PropTypes.bool,
+    callsExpanded: PropTypes.bool
+  }),
   newVipId: PropTypes.func,
   vipupdated: PropTypes.bool,
   vipExpanded: PropTypes.bool,
@@ -146,7 +150,11 @@ Options.propTypes = {
 };
 
 Options.defaultProps = {
-  status: {},
+  status: {
+    vipExpanded: false,
+    refExpanded: false,
+    callsExpanded: false
+  },
   newVipId: () => {},
   handleRequestClose: () => {},
   handleExpand: () => {},
