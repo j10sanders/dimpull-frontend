@@ -1,13 +1,13 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import axios from 'axios';
 import CircularProgress from 'material-ui/CircularProgress';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { AwesomeButton } from 'react-awesome-button';
 import { checkNumber, toPnf } from '../../utils/phone_number';
 import history from '../../history';
+import { register, registered, addReferent, newUrl, sendError } from '../../utils/apicalls';
 import './discussionprofile.css';
 
 const allCountries = require('all-countries');
@@ -53,21 +53,8 @@ class newProfile extends React.Component {
   }
 
   componentDidMount () {
-    // const { isAuthenticated } = this.props.auth;
-    // const { getAccessToken } = this.props.auth;
     this.getEmail();
     this.getProfile();
-    // let headers = {};
-    // if (isAuthenticated()) {
-    //   headers = { 'Authorization': `Bearer ${getAccessToken()}`}
-    // }
-    // axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/getprofile`, { headers })
-    //   .then((response) => {
-    //     this.setState({ expert: response.data.expert, tel: response.data.phone_number });
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //   });
     this.checkRegistered();
   }
 
@@ -117,21 +104,13 @@ class newProfile extends React.Component {
   }
 
   async checkRegistered () {
-    const { getAccessToken } = this.props.auth;
-    const headers = { Authorization: `Bearer ${getAccessToken()}` };
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
-        { headers }
-      );
+      const response = await registered();
       // check path to see if there is a ref code
       const pathName = this.props.location.pathname;
       if (pathName.substr(pathName.length - 10) !== 'newProfile' && pathName.substr(pathName.length - 11) !== 'newProfile/') {
         if (!response.data.dp) {
-          const referred = await axios.get(
-            `${process.env.REACT_APP_USERS_SERVICE_URL}/addReferent/${pathName.substr(pathName.length - 7)}`,
-            { headers }
-          );
+          const referred = await addReferent(pathName.substr(pathName.length - 7));
           if (referred.data === 'referral code accepted') {
             this.setState({ codeAccepted: true });
           } else if (referred.data === `referral code doesn't exist`) {
@@ -200,18 +179,12 @@ class newProfile extends React.Component {
     // e.preventDefault();
     this.setState({ waiting: true });
     const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
     if (isAuthenticated()) {
-      const headers = { Authorization: `Bearer ${getAccessToken()}` };
-      const user = await axios.post(
-        `${process.env.REACT_APP_USERS_SERVICE_URL}/api/register`,
-        {
-          // user_id: this.state.profile.sub,
-          phone_number: this.state.pnf,
-          first_name: this.state.first_name,
-          last_name: this.state.last_name,
-          auth_pic: this.state.profile.picture
-        }, { headers }
+      const user = await register(
+        this.state.pnf,
+        this.state.first_name,
+        this.state.last_name,
+        this.state.profile.picture
       );
       if (user) {
         if (user.data === 'Phone number already in use.') {
@@ -220,38 +193,19 @@ class newProfile extends React.Component {
           });
         } else {
           try {
-            const editUrl = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/new`,
-              {
-                otherProfile: this.state.otherProfile,
-                email: this.state.email,
-                message: message
-              }, { headers }
-            );
+            const editUrl = await newUrl(this.state.otherProfile, this.state.email, message);
             this.setState({ editUrl: editUrl.data });
           } catch (err) {
-            await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
-              {
-                err: err.message,
-                email: this.state.email
-              }
-            );
+            await sendError(this.state.email);
             history.push('/');
           }
         }
       }
       if (this.state.codeAccepted) {
         const pathName = this.props.location.pathname;
-        const referred = await axios.get(
-          `${process.env.REACT_APP_USERS_SERVICE_URL}/addReferent/${pathName.substr(pathName.length - 7)}`,
-          { headers }
-        );
+        const referred = await addReferent(pathName.substr(pathName.length - 7));
         if (referred.data !== 'applied') {
-          await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/senderror`,
-            {
-              err: 'referral failed',
-              email: this.state.email
-            }
-          );
+          await sendError(this.state.email);
         }
       }
       history.replace(`/editProfile/${this.state.editUrl}`);

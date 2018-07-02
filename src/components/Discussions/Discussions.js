@@ -1,10 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 import { List, ListItem } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import CircularProgress from 'material-ui/CircularProgress';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
+import { getDiscussions } from '../../utils/apicalls';
 // import ReactStars from 'react-stars';
 import './discussionprofile.css';
 
@@ -22,16 +22,8 @@ class Discussions extends React.Component {
   }
 
   async getDiscussions () {
-    const { isAuthenticated } = this.props.auth;
-    const { getAccessToken } = this.props.auth;
-    if (isAuthenticated()) {
-      const headers = { Authorization: `Bearer ${getAccessToken()}` };
-      const discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/dps`, { headers });
-      this.setState({ dps: discussions.data });
-    } else {
-      const discussions = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/api/discussions/dps`);
-      this.setState({ dps: discussions.data });
-    }
+    const discussions = await getDiscussions();
+    this.setState({ dps: discussions.data });
     this.setState({ waiting: false });
   }
 
@@ -80,7 +72,7 @@ class Discussions extends React.Component {
                         ${Number(dp.price).toFixed(0)}
                       </div>
                       {dp.timeslots !== 0
-                        ? <div style={{ paddingTop: '14px', fontWeight: 'bold', textAlign: 'center'}}>{`Book Now`}</div>
+                        ? <div style={{ paddingTop: '14px', fontWeight: 'bold', textAlign: 'center' }}>Book Now</div>
                         : <div style={{ paddingTop: '14px' }}>Request Times?</div>
                       }
                     </div>

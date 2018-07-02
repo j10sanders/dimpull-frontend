@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { withRouter } from 'react-router-dom';
@@ -17,6 +16,7 @@ import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import Divider from 'material-ui/Divider';
 import history from '../../history';
+import { getTimes, holdTimeSlot, requestTimes } from '../../utils/apicalls';
 import '../Profile/calendar.css'
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
@@ -41,27 +41,27 @@ class Avail extends React.Component {
   }
 
   componentDidMount () {
-    this.getTimes();
+    this.times();
   }
 
-  async getTimes () {
-    const response = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}${this.props.location.pathname}`)
+  async times () {
+    const response = await getTimes(this.props.location.pathname);
     if (response.data === 'No availability') {
       this.setState({ noAvailability: true });
       return;
     }
-    let events = []
-    let index = 0
+    let events = [];
+    let index = 0;
     for (let e of response.data) {
-      let start = new Date(e.start)
-      let end = new Date(e.end)
-      let s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
-      let e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
-      let event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
-      events.push(event)
-      index += 1
+      const start = new Date(e.start);
+      const end = new Date(e.end);
+      const s_userTimezoneOffset = start.getTimezoneOffset() * 60000;
+      const e_userTimezoneOffset = end.getTimezoneOffset() * 60000;
+      const event = {id: index, title: "Available to talk", allDay: false, start: new Date(start.getTime()- s_userTimezoneOffset), end: new Date(end.getTime() - e_userTimezoneOffset)}
+      events.push(event);
+      index += 1;
     }
-    this.setState({events: events, waiting: false})
+    this.setState({events: events, waiting: false});
   }
 
   formatTime(time) {
@@ -132,11 +132,7 @@ class Avail extends React.Component {
       this.setState({ errorTitle: `Sorry, the timeslot must start at least two hours from now.`}, () => this.handleOpenError());
     } else {
       const conversationID = this.props.location.pathname.split('/').pop().trim()
-      const result = await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/holdtimeslot/${conversationID}`,
-        {
-          start_time: new Date(startTime),
-        }
-      );
+      const result = await holdTimeSlot(conversationID, startTime)
       if (result.data === "added pending"){
         history.push({
           pathname: '/requestConversation',
@@ -195,11 +191,7 @@ class Avail extends React.Component {
   }
 
   async submitEmail () {
-    await axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/requestavailability`, {
-      email: this.state.email,
-      message: this.state.message,
-      host: this.props.location.state.host
-    });
+    await requestTimes(this.state.email, this.state.message, this.props.location.state.host);
     this.setState({ requestAvailability: false, requested: true })
   }
 

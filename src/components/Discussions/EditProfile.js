@@ -18,6 +18,7 @@ import history from '../../history';
 import './discussionprofile.css';
 import { expertAgreement } from '../../utils/agreements';
 import { checkNumber, toPnf } from '../../utils/phone_number';
+import { checkTerms } from '../../utils/apicalls';
 
 const Markdown = require('react-remarkable');
 const WAValidator = require('wallet-address-validator');
@@ -110,7 +111,7 @@ class EditProfile extends React.Component {
   async fillForms (headers) {
     const ipinfo = await axios.get("https://ipinfo.io");
     this.setState({ country: ipinfo.data.country });
-    const terms = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/checkTerms`, { headers });
+    const terms = await checkTerms();
     if (terms.data === 'terms') {
       this.setState({ tc: true, waiting: false });
     }

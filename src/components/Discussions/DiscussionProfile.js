@@ -64,7 +64,7 @@ class DP extends React.Component {
         this.setState({ wrongVip: true });
       }
     }
-    
+
     const url = requestUrl.match(/\/([^/]+)\/?$/)[1];
     this.setState({ url });
     if (!requestUrl.startsWith('/expert')) {
