@@ -447,9 +447,8 @@ class EditProfile extends React.Component {
                     </div>
                     <div className="text-center">
                       <div className="col-md-12">
-                        <Divider style={{ marginTop: '60px', height: '3px', backgroundColor: '#268bd2'}} />
+                        <Divider style={{ marginTop: '60px', height: '3px', backgroundColor: '#268bd2' }} />
                         <div id="editInputs">
-
                           <TextField
                             floatingLabelText="Who are you? (required)"
                             type="who"
@@ -501,7 +500,7 @@ class EditProfile extends React.Component {
                           />
                           <Subheader style={subStyle}>Suggestion: Provide questions that you’d like callers to ask you</Subheader>
                         </div>
-                        <Divider style={{ marginTop: '80px', height: '3px', backgroundColor: '#268bd2'}} />
+                        <Divider style={{ marginTop: '80px', height: '3px', backgroundColor: '#268bd2' }} />
                         <div id="editInputs">
                           <TextField
                             floatingLabelText="Ethereum Wallet Address"
@@ -612,7 +611,7 @@ class EditProfile extends React.Component {
                   <AwesomeButton type="primary" action={() => this.submit('save')} style={{ marginLeft: '10%', marginTop: '30px' }}>Haven't finished?  Save your edits for later</AwesomeButton>
                 </div>
               )}
-            </div>        
+            </div>
           </div>
           <Dialog
             title={this.state.title}

@@ -310,7 +310,11 @@ class DP extends React.Component {
             />
           </div>
         }
-        {this.state.waiting ? <div style={{ position: 'fixed', top: '20%', left: '50%' }}><CircularProgress size={80} thickness={5} /> </div>: (
+        {this.state.waiting ? (
+          <div style={{ position: 'fixed', top: '20%', left: '50%' }}>
+            <CircularProgress size={80} thickness={5} />
+          </div>
+        ) : (
           <ProfileCard
             host={this.state.host}
             description={this.state.description}

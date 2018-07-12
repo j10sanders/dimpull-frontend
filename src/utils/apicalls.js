@@ -89,3 +89,7 @@ export const checkTerms = async () => {
   const terms = await axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/checkTerms`, { headers });
   return terms;
 };
+
+// export const fromPathName = async (pathname) => {
+  
+// }

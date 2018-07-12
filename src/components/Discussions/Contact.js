@@ -116,10 +116,10 @@ class Contact extends React.Component {
 
   timeOutWeb3 () {
     window.setTimeout(() => {
-      if (!this.state.web3) {this.findWeb3()};
+      if (!this.state.web3) { this.findWeb3(); }
     }, 1000);
   }
-  
+
   vip () {
     this.setState({ transactionStatus: 'vip', fromAddress: 'vipcaller' }, () => this.isDisabled());
   }

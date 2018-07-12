@@ -8,6 +8,7 @@ import Callback from '../Callback/Callback';
 import Header from '../components/Header';
 import Home from "../components/Home";
 import ScrollToTop from './scrollToTop';
+import { getDiscussions } from '../utils/apicalls';
 const auth = new Auth();
 const AsyncNewProfile = asyncComponent(() => import("../components/Discussions/NewProfile"));
 const AsyncEditProfile = asyncComponent(() => import("../components/Discussions/EditProfile"));
@@ -34,13 +35,16 @@ class Routes extends Component {
     this.state = {
       expert: false,
       isAuthenticated: false,
-      picture: null
+      picture: null,
+      dps: [],
+      waiting: true
     };
   }
 
   componentDidMount () {
     this.checkExpert();
     this.timeoutCheckExpert();
+    this.getDiscussionProfiles();
   }
 
   timeoutCheckExpert () {
@@ -58,6 +62,12 @@ class Routes extends Component {
     if (!this.state.picture) {
       this.getProfile();
     }
+  }
+
+  async getDiscussionProfiles () {
+    const discussions = await getDiscussions();
+    this.setState({ dps: discussions.data });
+    this.setState({ waiting: false });
   }
 
   getProfile () {
@@ -98,7 +108,7 @@ class Routes extends Component {
   }
 
   render () {
-    const { isAuthenticated, expert, picture } = this.state;
+    const { isAuthenticated, expert, picture, dps, waiting } = this.state;
     console.log(picture)
     return (
       <Router history={history}>
@@ -117,7 +127,7 @@ class Routes extends Component {
                 <Route exact path="/home" render={() => <Home auth={auth} isAuthenticated={isAuthenticated} isexpert={expert} />} />
                 <Route exact path="/login" render={(props) => <AsyncLoginPage auth={auth} {...props} />} />
                 <Route exact path="/getNumber" render={(props) => <AsyncGetNumber auth={auth} {...props} />} />
-                <Route exact path="/experts" render={(props) => <AsyncDiscussions auth={auth} {...props} />} />
+                <Route exact path="/experts" render={(props) => <AsyncDiscussions auth={auth} {...props} dps={dps} waiting={waiting} />} />
                 <Route path="/expert" render={(props) => <AsyncDiscussionProfile auth={auth} {...props} />} />
                 <Route path="/requestConversation" render={(props) => <AsyncContact auth={auth} {...props} />} />
                 <Route path="/newProfile" render={(props) => <AsyncNewProfile auth={auth} {...props} />} />
